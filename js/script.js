@@ -63,3 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'all 0.4s ease-out';
         observer.observe(el);
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollArrow = document.querySelector('.scroll-arrow');
+        const contentSection = document.querySelector('.content-section');
+        
+        if (scrollArrow && contentSection) {
+            scrollArrow.addEventListener('click', function() {
+                console.log('Arrow clicked!');
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            });
+        } else {
+            console.error('Scroll arrow or content section not found.');
+        }
+    });
+    

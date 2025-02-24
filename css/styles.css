@@ -259,3 +259,39 @@ h3 {
     border-bottom: 2px solid var(--primary-red);
     padding-bottom: 0.5rem;
 }
+
+.collapsible-content {
+    max-height: 10em; /* Adjust as needed */
+    transition: max-height 0.4s ease-out;
+    overflow: hidden;
+    position: relative; /* Important for positioning the ::after element */
+}
+
+.collapsible-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px; /* Adjust as needed */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)); /* Explicit transparency */
+    pointer-events: none;
+}
+
+.collapsible.expanded .collapsible-content {
+    max-height: none; /* Or a very large value, like 2000px */
+}
+
+.collapsible.expanded .collapsible-content::after {
+    opacity: 0;
+}
+
+.show-more-btn {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    padding: 5px 0;
+    font-weight: bold;
+    margin-top: 10px;
+}

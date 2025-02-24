@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griffin Rutherford - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Updated path -->
+</head>
+<body>
+    <!-- Video Header -->
+    <div class="video-header">
+        <video id="hero-video" autoplay muted loop playsinline>
+            <source src="videos/hook-video.mp4" type="video/mp4">
+            <source src="videos/hook-video.webm" type="video/webm">
+        </video>
+        <h1 class="name-overlay">GRIFFIN RUTHERFORD</h1>
+    </div>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="main-content">
+            <!-- LinkedIn Section -->
+            <section class="linkedin-section">
+                <div class="profile-header">
+                    <div class="profile-photo-container">
+                        <div class="ig-post">
+                            <a href="https://www.instagram.com/p/C6FvCl7uZkx/?img_index=1" target="_blank" rel="noopener noreferrer">
+                                <img src="images/linkedin-headshot.png" alt="Professional headshot from Instagram">
+                            </a>
+                        </div>
+                        <h1>Griffin Rutherford</h1>
+                    </div>
+                    <h2>Graduate Computer Science Student @ Colorado School of Mines</h2>
+                    <p>Golden, Colorado, United States</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>About</h3>
+                    <p>Combined BS+MS Computer Science student passionate about mental/physical health tech. I strive to be as well-rounded as possible: an athlete, academic, and schmoozer! Founder of Coherascent - holistic well-being platform using PyTorch, React Native, and LLMs.</p>
+                </div>
+
+                <div class="experience-section">
+                    <h3>Experience</h3>
+                    <div class="experience-item">
+                        <h4>Founding Software Engineer · Coherascent</h4>
+                        <p>Oct 2024 - Present | Developing health-focused applications using machine learning and modern research in psychology/neuroscience.</p>
+                    </div>
+                    <div class="experience-item">
+                        <h4>Cybersecurity Intern · Jefferson County</h4>
+                        <p>Jun 2024 - Aug 2024 | Developed cybersecurity education materials and won "Best Booth" award at Tech Showcase.</p>
+                    </div>
+                </div>
+
+                <div class="education-section">
+                    <h3>Education</h3>
+                    <p>Colorado School of Mines<br>BS+MS Computer Science (2020-2025)<br>Focus: Machine Learning, Data Science</p>
+                </div>
+            </section>
+
+            <!-- Instagram Section -->
+            <section class="instagram-section">
+                <h2>Adventure Lifestyle</h2>
+                <div class="instagram-grid">
+                    <div class="ig-post">
+                        <a href="https://www.instagram.com/p/Cvgq7rvOr7U/?img_index=1" target="_blank" rel="noopener noreferrer">
+                            <img src="images/alpine-lake-selfie.png" alt="Alpine Lake trail selfie">
+                        </a>
+                    </div>
+                    <div class="ig-post">
+                        <a href="https://www.instagram.com/p/C60CAAMOgxm/?img_index=1" target="_blank" rel="noopener noreferrer">
+                            <img src="images/graduation-ceremony.png" alt="Bachelor's graduation ceremony">
+                        </a>
+                    </div>
+                    <div class="ig-post">
+                        <a href="https://www.instagram.com/p/CycTI1lOwTn/?img_index=1" target="_blank" rel="noopener noreferrer">
+                            <img src="images/aspen-sunset-poodle.png" alt="Aspen sunset with pet poodle">
+                        </a>
+                    </div>
+                    <div class="ig-post">
+                        <a href="https://www.instagram.com/p/Coieae0OkO-/" target="_blank" rel="noopener noreferrer">
+                            <img src="images/calculus-mountain.png" alt="Calculus 2 notebook on mountain top">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/griffinkwanrutherford/" target="_blank">LinkedIn Profile</a>
+                <a href="https://www.instagram.com/grifywify/" target="_blank">Instagram Adventures</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile detection and fallback
+        if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+            document.getElementById('hero-video').style.display = 'none';
+        }
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.experience-item, .ig-post').forEach((el) => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.4s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

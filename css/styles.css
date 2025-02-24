@@ -1,0 +1,221 @@
+:root {
+    --primary-red: #FF1A4D;
+    --primary-purple: #6C1AFF;
+    --dark-bg: #1A0A29;
+    --content-bg: #2D0A3D;
+    --accent-purple: #9D4DFF;
+    --accent-red: #FF4D88;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Video Header */
+.video-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    filter: brightness(0.8) contrast(1.2) hue-rotate(-10deg);
+}
+
+/* Name Overlay */
+.name-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(4rem, 10vw, 6rem);
+    color: rgba(255, 255, 255, 0.95);
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: floatText 1s ease-out forwards;
+}
+
+/* Content Section */
+.content-section {
+    position: relative;
+    top: 100vh;
+    background: var(--dark-bg);
+    z-index: 3;
+    padding: 2rem 1rem;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #F8F1FF;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* LinkedIn Section */
+.linkedin-section {
+    margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+    font-size: 2.2rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.profile-photo-container {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.linkedin-section .ig-post {
+    max-width: 300px;
+    margin: 0 auto;
+    aspect-ratio: unset;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.linkedin-section .ig-post img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.linkedin-section .ig-post:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 20px rgba(255, 26, 77, 0.3);
+}
+
+.experience-item {
+    background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
+    padding: 1.2rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--primary-purple);
+}
+
+/* Instagram Grid */
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.ig-post {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    aspect-ratio: 1/1;
+}
+
+.ig-post img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.ig-post:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 20px rgba(255, 26, 77, 0.3);
+}
+
+/* Social Links */
+.social-links {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.social-links a {
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    margin: 0 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary-red), var(--primary-purple));
+    color: white;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 26, 77, 0.4);
+}
+
+/* Animations */
+@keyframes floatText {
+    0% { transform: translate(-50%, -45%); opacity: 0; }
+    100% { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .name-overlay {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        letter-spacing: 0.2rem;
+    }
+
+    #hero-video {
+        display: none;
+    }
+
+    .video-header {
+        background: linear-gradient(45deg, var(--primary-purple), var(--primary-red));
+    }
+
+    .ig-post {
+        max-width: 200px;
+    }
+
+    .linkedin-section .ig-post {
+        max-width: 250px;
+    }
+}
+
+/* Section Headers */
+h2, h3 {
+    color: var(--accent-purple);
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 0.5rem;
+}

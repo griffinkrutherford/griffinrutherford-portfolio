@@ -19,7 +19,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100vh; /* Full height on all devices */
     overflow: hidden;
     z-index: 1;
 }
@@ -58,7 +58,7 @@
 /* Content Section */
 .content-section {
     position: relative;
-    top: 100vh;
+    top: 100vh; /* Starts one full screen below video on all devices */
     background: var(--dark-bg);
     z-index: 3;
     padding: 2rem 1rem;
@@ -185,11 +185,11 @@
 /* Mobile Optimization */
 @media (max-width: 768px) {
     .video-header {
-        height: 50vh; /* Shorter header on mobile */
+        height: 100vh; /* Full screen on mobile */
     }
 
     .content-section {
-        top: 50vh; /* Adjust content start */
+        top: 100vh; /* Ensure content starts below full video */
         padding: 1rem;
     }
 

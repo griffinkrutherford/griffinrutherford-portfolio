@@ -1,80 +1,66 @@
-// Ensure DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Scroll animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
     });
-
-    document.querySelectorAll('.experience-item, .ig-post').forEach((el) => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.4s ease-out';
-        observer.observe(el);
+  
+    // Apply initial animation styles and observe elements
+    const animatedElements = document.querySelectorAll('.experience-item, .ig-post, .show-more-btn');
+    animatedElements.forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'all 0.4s ease-out';
+      observer.observe(el);
     });
-
-    // Show More functionality for sections
+  
+    // Set up "Show More" functionality for each collapsible section
     document.querySelectorAll('.collapsible').forEach(collapsible => {
-        const preview = collapsible.querySelector('.preview');
-        const fullText = collapsible.querySelector('.full-text');
-        const button = collapsible.querySelector('.show-more-btn');
-
-        // Calculate heights
-        const previewHeight = preview.scrollHeight; // Total height of preview content in pixels
-        const maxPreviewHeight = parseFloat(getComputedStyle(preview).maxHeight); // 30em in pixels
-
-        // Show button and gradient if content exceeds preview height or full-text exists
-        if (previewHeight > maxPreviewHeight || (fullText && fullText.textContent.trim().length > 0)) {
-            button.style.display = 'block';
-            if (!collapsible.classList.contains('expanded')) {
-                preview.classList.add('needs-gradient'); // Add gradient when collapsed
-            }
-        } else {
-            button.style.display = 'none';
-            preview.classList.remove('needs-gradient'); // No gradient for short content
+      // Look for the preview area and the button within this section.
+      // (Ensure your HTML includes an element with class "preview" inside each collapsible.)
+      const preview = collapsible.querySelector('.preview');
+      const fullText = collapsible.querySelector('.full-text');
+      const button = collapsible.querySelector('.show-more-btn');
+  
+      if (!preview || !button) return; // Skip if essential elements are missing
+  
+      // Determine if the preview content exceeds its max height (set in CSS)
+      const previewHeight = preview.scrollHeight;
+      const maxPreviewHeight = parseFloat(getComputedStyle(preview).maxHeight);
+  
+      if (previewHeight > maxPreviewHeight || (fullText && fullText.textContent.trim().length > 0)) {
+        button.style.display = 'block';
+        if (!collapsible.classList.contains('expanded')) {
+          preview.classList.add('needs-gradient');
         }
-
-        button.addEventListener('click', () => {
-            collapsible.classList.toggle('expanded');
-            button.textContent = collapsible.classList.contains('expanded') ? 'Show Less' : 'Show More';
-            preview.classList.toggle('needs-gradient', !collapsible.classList.contains('expanded'));
-        });
+      } else {
+        button.style.display = 'none';
+        preview.classList.remove('needs-gradient');
+      }
+  
+      // Toggle expanded state and update button text
+      button.addEventListener('click', () => {
+        collapsible.classList.toggle('expanded');
+        button.textContent = collapsible.classList.contains('expanded')
+          ? 'Show Less ↑'
+          : 'Show More ↓';
+        preview.classList.toggle('needs-gradient', !collapsible.classList.contains('expanded'));
+      });
     });
-});
-
-    document.querySelectorAll('.show-more-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const parent = this.parentElement;
-            parent.classList.toggle('expanded');
-            this.textContent = parent.classList.contains('expanded') 
-                ? 'Show Less ↑' 
-                : 'Show More ↓';
-        });
-    });
-
-    // Update existing Intersection Observer to include buttons
-    document.querySelectorAll('.experience-item, .ig-post, .show-more-btn').forEach((el) => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.4s ease-out';
-        observer.observe(el);
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const scrollArrow = document.querySelector('.scroll-arrow');
-        const contentSection = document.querySelector('.content-section');
-        
-        if (scrollArrow && contentSection) {
-            scrollArrow.addEventListener('click', function() {
-                console.log('Arrow clicked!');
-                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-            });
-        } else {
-            console.error('Scroll arrow or content section not found.');
-        }
-    });
-    
+  
+    // Scroll arrow functionality: Scroll smoothly to the content section
+    const scrollArrow = document.querySelector('.scroll-arrow');
+    const contentSection = document.querySelector('.content-section');
+    if (scrollArrow && contentSection) {
+      scrollArrow.addEventListener('click', function() {
+        contentSection.scrollIntoView({ behavior: 'smooth' });
+      });
+    } else {
+      console.error('Scroll arrow or content section not found.');
+    }
+  });
+  

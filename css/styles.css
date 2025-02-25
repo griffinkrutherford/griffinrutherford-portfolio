@@ -296,22 +296,30 @@ h3 {
     margin-top: 10px;
 }
 
+/* Scroll Arrow Fix */
 .scroll-arrow {
-    position: absolute;
+    position: fixed; /* Changed from absolute to fixed */
     bottom: 40px;
     right: 40px;
-    width: 80px;         /* Circle width */
-    height: 80px;        /* Circle height */
-    background-color: #FF1A4D; /* White background */
-    border-radius: 50%;  /* Makes it a circle */
+    width: 60px;         /* Slightly smaller size */
+    height: 60px;
+    background-color: var(--primary-red);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;     /* Arrow size */
-    color: #fff;      /* Arrow color */
+    font-size: 2.5rem;   /* More appropriate size */
+    color: #fff;
     cursor: pointer;
-    z-index: 2;
+    z-index: 1000;       /* Higher z-index */
     animation: bounce 2s infinite;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.scroll-arrow:hover {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 

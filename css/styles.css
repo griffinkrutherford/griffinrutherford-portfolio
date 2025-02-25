@@ -334,3 +334,60 @@ h3 {
         transform: translateY(5px);
     }
 }
+
+.quick-links-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 4;
+  }
+  .quick-links-button {
+    background-color: var(--primary-red);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+  .quick-links-button .bar {
+    display: block;
+    width: 60%;
+    height: 4px;
+    background-color: #fff;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+  }
+  .quick-links-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--dark-bg);
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .quick-links-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .quick-links-nav li {
+    margin: 10px 0;
+  }
+  .quick-links-nav a {
+    color: #F8F1FF;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+  }
+  
+  .quick-links-menu.active .quick-links-nav {
+    display: block;
+  }
+

@@ -43,3 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const quickLinksMenu = document.querySelector('.quick-links-menu');
+    const quickLinksButton = document.querySelector('.quick-links-button');
+    if (quickLinksButton && quickLinksMenu) {
+      quickLinksButton.addEventListener('click', () => {
+        quickLinksMenu.classList.toggle('active');
+      });
+    }
+  });
+  

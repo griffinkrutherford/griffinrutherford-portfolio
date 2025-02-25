@@ -9,6 +9,28 @@
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
+
+<!-- Quick Links Menu -->
+<div class="quick-links-menu">
+    <button class="quick-links-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <nav class="quick-links-nav">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#more">More about me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#organizations">Organizations</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#courses">Courses</a></li>
+      </ul>
+    </nav>
+  </div>
+  
     <!-- Video Header -->
     <div class="video-header">
         <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="images/video-poster.jpg">
@@ -38,7 +60,7 @@
                 </div>
 
                 <div class="about-section">
-                    <h3>About</h3>
+                    <h3 id="about">About</h3>
                     <p>Combined BS+MS Computer Science student passionate about mental/physical health tech. I strive to be as well-rounded as possible: an athlete, academic, and schmoozer! Founder of Coherascent - holistic well-being platform using PyTorch, React Native, and LLMs.</p>
                 </div>
 
@@ -46,7 +68,7 @@
                 <div class="section-wrapper collapsible">
                     <div class="collapsible-content">
                         <div class="experience-section">
-                            <h3>Experience</h3>
+                            <h3 id="experience">Experience</h3>
                             <div class="experience-item">
                                 <h4>Founding Software Engineer · Coherascent</h4>
                                 <p>Oct 2024 - Present | Golden, Colorado, United States (Hybrid)<br>A tech startup that combines my passions for mental/physical health with software development. I am working on a holistic web and mobile application that aims to maximize the intersecting concepts of well-being, fitness, online content consumption, diet, and one's outlook on life. I am using PyTorch, React Native, Node.js, Xcode, and more to develop this project for multiple platforms. Additionally, this application is designed around modern research citing Carol Dweck, Lisa Feldman Barrett, Anna Lembke, and more. The name "Coherascent" is derived from a portmanteau of "Coherent Ascension". This phrase refers to the company's mission of meaningfully climbing out of common societal health struggles. This startup also aims to help people of all backgrounds and strives to be non-partisan in its approaches. We are incorporating advanced mathematics and machine learning to provide personalized recommendations and predictive analytics, enhancing user experience and engagement.</p>
@@ -76,7 +98,7 @@
                 <div class="section-wrapper collapsible">
                     <div class="collapsible-content">
                         <div class="education-section">
-                            <h3>Education</h3>
+                            <h3 id="education">Education</h3>
                             <div class="education-item">
                                 <p><strong>Colorado School of Mines</strong><br>Bachelor and Master's Degree, Computer Science<br>2020 - 2025<br>Courses with an emphasis on Data Science and Machine Learning. Partaking in the combined program: I am able to pursue my Bachelor's and Master's degrees in Computer Science at the same time.</p>
                             </div>
@@ -87,7 +109,7 @@
 
             <!-- Instagram Section -->
             <section class="instagram-section">
-                <h3>More about me</h3>
+                <h3 id="more">More about me</h3>
                 <h2>Life of Adventure</h2>
                 <div class="instagram-grid">
                     <div class="ig-post">
@@ -117,7 +139,7 @@
                 <div class="section-wrapper collapsible">
                     <div class="collapsible-content projects-content">
                         <div class="projects-section">
-                            <h3>Projects</h3>
+                            <h3 id="projects">Projects</h3>
                             <div class="experience-item">
                                 <h4>Gradient Descent Visualizer</h4>
                                 <p>Nov 2023 - Present | Associated with Colorado School of Mines<br>A hobbyist project that visualizes iterations of the gradient descent algorithm with single and multivariate real functions, in addition to complex functions with an imaginary component. This algorithm is essential in a wide range of applications including position solving, machine learning, and more. Gradient descent takes steps to approach the relative minimum of a function with the approach xᵢ₊₁ = xᵢ - α▽fᵢ. (The upside-down triangle ▽ represents taking the gradient of a function, which is a series of partial derivatives of that function.) I was introduced to gradient descent in school (Introduction to Scientific Computing and Introduction to Machine Learning) and in my summer 2023 CACI Internship, so I wanted to better understand this algorithm since I know it is so widely used. I also wanted to self-study some Complex Analysis for fun, which is the study of calculus on the complex plane: Differentiable functions with an imaginary component are called holomorphic, and differentiability is checked from all directions instead of just the left and right in the context of real numbers.</p>
@@ -147,7 +169,7 @@
                 <div class="section-wrapper collapsible">
                     <div class="collapsible-content">
                         <div class="organizations-section">
-                            <h3>Organizations</h3>
+                            <h3 id="orgizations">Organizations</h3>
                             <div class="experience-item">
                                 <h4>Mines Alpine Club</h4>
                                 <p>Vice President and Director of Hiking and Trail Running · Aug 2023 - Present<br>An official club aggregating outdoorsy interests: hiking, climbing, skiing, mountaineering, snowboarding, etc. Recognized by Colorado School of Mines in 2024. I share my passion for Colorado trails and snowboarding at Copper Mountain and Arapahoe Basin.</p>
@@ -162,7 +184,7 @@
                 </div>
 
                 <div class="skills-section">
-                    <h3>Skills</h3>
+                    <h3 id="skills">Skills</h3>
                     <p>Machine Learning · Object-Oriented Programming (OOP) · PyTorch · React Native · Node.js · Xcode · Large Language Models (LLM) · Stakeholder Engagement · Presentation Skills · Communication · Data Science · Advanced Mathematics · C++</p>
                 </div>
 
@@ -170,7 +192,7 @@
                 <div class="section-wrapper collapsible">
                     <div class="collapsible-content">
                         <div class="courses-section">
-                            <h3>Courses</h3>
+                            <h3 id="courses">Courses</h3>
                             <ul>
                                 <li>Advanced Computer Architecture (CSCI564)</li>
                                 <li>Advanced Data Science (CSCI503)</li>

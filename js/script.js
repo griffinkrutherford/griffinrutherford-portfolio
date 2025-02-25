@@ -18,37 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
       observer.observe(el);
     });
   
-    // Set up "Show More" functionality for each collapsible section
+    // Consolidated "Show More" functionality for collapsible sections:
     document.querySelectorAll('.collapsible').forEach(collapsible => {
-      // Look for the preview area and the button within this section.
-      // (Ensure your HTML includes an element with class "preview" inside each collapsible.)
-      const preview = collapsible.querySelector('.preview');
-      const fullText = collapsible.querySelector('.full-text');
       const button = collapsible.querySelector('.show-more-btn');
+      if (!button) return; // Skip if button not found
   
-      if (!preview || !button) return; // Skip if essential elements are missing
-  
-      // Determine if the preview content exceeds its max height (set in CSS)
-      const previewHeight = preview.scrollHeight;
-      const maxPreviewHeight = parseFloat(getComputedStyle(preview).maxHeight);
-  
-      if (previewHeight > maxPreviewHeight || (fullText && fullText.textContent.trim().length > 0)) {
-        button.style.display = 'block';
-        if (!collapsible.classList.contains('expanded')) {
-          preview.classList.add('needs-gradient');
-        }
-      } else {
-        button.style.display = 'none';
-        preview.classList.remove('needs-gradient');
-      }
-  
-      // Toggle expanded state and update button text
       button.addEventListener('click', () => {
         collapsible.classList.toggle('expanded');
         button.textContent = collapsible.classList.contains('expanded')
           ? 'Show Less ↑'
           : 'Show More ↓';
-        preview.classList.toggle('needs-gradient', !collapsible.classList.contains('expanded'));
       });
     });
   

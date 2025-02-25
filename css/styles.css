@@ -382,9 +382,14 @@ h3 {
   }
   .quick-links-nav a {
     color: #F8F1FF;
+    top: 40px;
+    right: 40px;
+    width: 60px;         /* Slightly smaller size */
+    height: 60px;
     text-decoration: none;
     font-weight: bold;
     font-family: Arial, sans-serif;
+    opacity: 0.9;
   }
   
   .quick-links-menu.active .quick-links-nav {

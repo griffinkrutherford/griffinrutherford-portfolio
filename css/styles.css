@@ -321,74 +321,186 @@ h3 {
     opacity: 1;
     transform: scale(1.1);
 }
-/* Keyframes for left-to-right scrolling */
-@keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(10px);
+    }
+    60% {
+        transform: translateY(5px);
+    }
+}
+
+.quick-links-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 4;
+  }
+  .quick-links-button {
+    background-color: var(--primary-red);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+  .quick-links-button .bar {
+    display: block;
+    width: 60%;
+    height: 4px;
+    background-color: #fff;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+  }
+  .quick-links-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--dark-bg);
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .quick-links-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .quick-links-nav li {
+    margin: 10px 0;
+  }
+  .quick-links-nav a {
+    color: #F8F1FF;
+    top: 40px;
+    right: 40px;
+    width: 60px;         /* Slightly smaller size */
+    height: 60px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    opacity: 0.9;
   }
   
-  /* Keyframes for right-to-left scrolling (adjusted for infinite left content) */
-  @keyframes scroll-right {
-    0% { transform: translateX(-66.66%); } /* Start with 2/3 off-screen to the right */
-    100% { transform: translateX(0); }     /* Move fully into view */
+  .quick-links-menu.active .quick-links-nav {
+    display: block;
   }
   
-  /* Animation classes for each row with slower speeds */
-  .row-left {
-    animation: scroll-left 40s linear infinite; /* Was 30s, now slowest of the fast */
+  .experience-section,
+  .projects-section,
+  .organizations-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    column-gap: 1rem;
   }
   
-  .row-right {
-    animation: scroll-right 45s linear infinite; /* Was 35s */
+
+/* Make the header (first child) span all columns */
+.experience-section > h3,
+.projects-section > h3,
+.organizations-section > h3 {
+  grid-column: 1 / -1;
+}
+
+.education-section {
+    display: block; /* Ensures items are full-width */
   }
   
-  .row-left-slow {
-    animation: scroll-left 50s linear infinite; /* Was 40s */
-  }
-  
-  .row-right-slow {
-    animation: scroll-right 55s linear infinite; /* Was 45s */
-  }
-  
-  .row-left-slower {
-    animation: scroll-left 60s linear infinite; /* Was 50s */
-  }
-  
-  .row-right-slower {
-    animation: scroll-right 65s linear infinite; /* Was 55s */
-  }
-  
-  .row-left-slowest {
-    animation: scroll-left 70s linear infinite; /* Was 60s, now slowest */
-  }
-  
-  /* General styling for marquee rows */
-  .courses-container {
-    overflow: hidden;
-    width: 100%;
-    position: relative;
+  .education-item {
+    background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--primary-purple);
     margin-bottom: 1rem;
   }
   
-  .courses-row {
-    display: flex;
-    width: max-content;
-  }
-  
-  .course-item {
-    background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
-    border: 1px solid var(--primary-purple);
+  .grid-image {
+    width: 20%;
+    height: auto;
     border-radius: 8px;
-    padding: 0.5rem;
-    margin-right: 0.5rem;
-    white-space: nowrap;
-    font-size: 0.9rem;
-    text-align: center;
-    color: #F8F1FF; /* Default text color */
+    object-fit: cover;
+    margin-bottom: 0.5rem;
   }
-  
-  /* Highlight styling for graduate, ML, data science, and challenging courses */
-  .course-item.highlight-course {
-    color: #FF4D88; /* Matches --accent-red */
-    border-color: #FF4D88; /* Optional: highlight border too */
-  }
+
+
+ /* Keyframes for left-to-right scrolling */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Keyframes for right-to-left scrolling (adjusted for infinite left content) */
+@keyframes scroll-right {
+  0% { transform: translateX(-66.66%); } /* Start with 2/3 off-screen to the right */
+  100% { transform: translateX(0); }     /* Move fully into view */
+}
+
+/* Animation classes for each row with slower speeds */
+.row-left {
+  animation: scroll-left 40s linear infinite; /* Was 30s, now slowest of the fast */
+}
+
+.row-right {
+  animation: scroll-right 45s linear infinite; /* Was 35s */
+}
+
+.row-left-slow {
+  animation: scroll-left 50s linear infinite; /* Was 40s */
+}
+
+.row-right-slow {
+  animation: scroll-right 55s linear infinite; /* Was 45s */
+}
+
+.row-left-slower {
+  animation: scroll-left 60s linear infinite; /* Was 50s */
+}
+
+.row-right-slower {
+  animation: scroll-right 65s linear infinite; /* Was 55s */
+}
+
+.row-left-slowest {
+  animation: scroll-left 70s linear infinite; /* Was 60s, now slowest */
+}
+
+/* General styling for marquee rows */
+.courses-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.courses-row {
+  display: flex;
+  width: max-content;
+}
+
+.course-item {
+  background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
+  border: 1px solid var(--primary-purple);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #F8F1FF; /* Default text color */
+}
+
+/* Highlight styling for graduate, ML, data science, and challenging courses */
+.course-item.highlight-course {
+  color: #FF4D88; /* Matches --accent-red */
+  border-color: #FF4D88; /* Optional: highlight border too */
+}

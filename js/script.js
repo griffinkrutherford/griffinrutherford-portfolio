@@ -20,9 +20,21 @@ document.addEventListener('DOMContentLoaded', function() {
   
     // Consolidated "Show More" functionality for collapsible sections:
     document.querySelectorAll('.collapsible').forEach(collapsible => {
+      const content = collapsible.querySelector('.collapsible-content');
       const button = collapsible.querySelector('.show-more-btn');
-      if (!button) return; // Skip if button not found
-  
+      if (!content || !button) return;
+      
+      // Convert 30em to pixels (using the root font size)
+      const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const threshold = 20 * rootFontSize; // 30em in pixels
+    
+      // If the content's scrollHeight is less than or equal to 20em, hide the button.
+      if (content.scrollHeight <= threshold) {
+        button.style.display = 'none';
+      } else {
+        button.style.display = 'block';
+      }
+    
       button.addEventListener('click', () => {
         collapsible.classList.toggle('expanded');
         button.textContent = collapsible.classList.contains('expanded')
@@ -30,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
           : 'Show More ↓';
       });
     });
+    
   
     // Scroll arrow functionality: Scroll smoothly to the content section
     const scrollArrow = document.querySelector('.scroll-arrow');

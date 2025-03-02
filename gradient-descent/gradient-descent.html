@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Descent Visualizer - Griffin Rutherford</title>
+    <!-- Use your portfolio's font (Russo One) -->
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <!-- Link to your portfolio styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Override body to remove fixed video header spacing */
+        body {
+            position: relative;
+            top: 0;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Container for the canvas and title */
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem 1rem;
+        }
+        canvas {
+            border: 1px solid var(--primary-purple);
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(108, 26, 255, 0.3);
+        }
+        h1 {
+            font-family: 'Russo One', sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+            margin-bottom: 1rem;
+        }
+        /* Home button styling */
+        .quick-links-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        .home-button {
+            background-color: var(--primary-red);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: var(--primary-purple);
+            box-shadow: 0 0 15px rgba(108, 26, 255, 0.5);
+        }
+        .home-button svg {
+            width: 60%;
+            height: 60%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Button -->
+    <div class="quick-links-menu">
+        <a href="../index.html" class="home-button">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <div id="container">
+        <h1>Gradient Descent Visualizer</h1>
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <script src="gradient-descent.js"></script>
+    <script>
+        // Placeholder for initialization code
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add your gradient descent visualization initialization here
+            console.log("Gradient Descent Visualizer loaded");
+        });
+    </script>
+</body>
+</html>

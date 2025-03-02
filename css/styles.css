@@ -296,18 +296,27 @@ h3 {
   margin-top: 10px;
 }
 
-/* Generalize red titles for all linked projects and experiences */
+/* Ensure all project-link titles in Projects, Experience, and Education are red */
 .projects-section .experience-item h4 .project-link,
-.experience-section .experience-item h4 .project-link {
-  color: #FF4D88;
-  text-decoration: none;
-  transition: all 0.3s ease;
+.experience-section .experience-item h4 .project-link,
+.education-section .education-item h4 .project-link {
+    color: #FF4D88; /* Explicitly set to match Show More and Projects */
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
+/* Hover effect remains the same */
 .projects-section .experience-item h4 .project-link:hover,
-.experience-section .experience-item h4 .project-link:hover {
-  color: var(--primary-purple);
-  text-shadow: 0 0 10px rgba(108, 26, 255, 0.7);
+.experience-section .experience-item h4 .project-link:hover,
+.education-section .education-item h4 .project-link:hover {
+    color: var(--primary-purple); /* #6C1AFF */
+    text-shadow: 0 0 10px rgba(108, 26, 255, 0.7);
+}
+
+/* Education logo sizing (unchanged) */
+.education-section .education-item .grid-image {
+    width: 60px;
+    height: auto;
 }
 
 /* Scroll Arrow Fix */
@@ -438,13 +447,20 @@ h3 {
     margin-bottom: 1rem;
   }
   
-  .grid-image {
-    width: 20%;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-    margin-bottom: 0.5rem;
-  }
+/* Existing .grid-image for reference (unchanged) */
+.grid-image {
+  width: 20%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+/* Specific styling for education logos */
+.education-section .education-item .grid-image {
+  width: 70px; /* Matches approximate size of 20% of 300px from other sections */
+  height: auto; /* Maintains aspect ratio */
+}
 
 
  /* Keyframes for left-to-right scrolling */

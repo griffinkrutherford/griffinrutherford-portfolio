@@ -287,13 +287,27 @@ h3 {
 }
 
 .show-more-btn {
-    background: none;
-    border: none;
-    color: #FF4D88;
-    cursor: pointer;
-    padding: 5px 0;
-    font-weight: bold;
-    margin-top: 10px;
+  background: none;
+  border: none;
+  color: #FF4D88;
+  cursor: pointer;
+  padding: 5px 0;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Generalize red titles for all linked projects and experiences */
+.projects-section .experience-item h4 .project-link,
+.experience-section .experience-item h4 .project-link {
+  color: #FF4D88;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.projects-section .experience-item h4 .project-link:hover,
+.experience-section .experience-item h4 .project-link:hover {
+  color: var(--primary-purple);
+  text-shadow: 0 0 10px rgba(108, 26, 255, 0.7);
 }
 
 /* Scroll Arrow Fix */
@@ -504,3 +518,4 @@ h3 {
   color: #FF4D88; /* Matches --accent-red */
   border-color: #FF4D88; /* Optional: highlight border too */
 }
+

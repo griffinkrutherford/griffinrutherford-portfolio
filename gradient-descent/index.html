@@ -6,72 +6,140 @@
     <title>Gradient Descent Visualizer - Griffin Rutherford</title>
     <!-- Use your portfolio's font (Russo One) -->
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <!-- Link to your portfolio styles -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <!-- Only use local styles -->
+    <link rel="stylesheet" href="css/visualizer.css">
+    <style>
+        /* Override body to remove fixed video header spacing */
+        body {
+            position: relative;
+            top: 0;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Container for the canvas and title */
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem 1rem;
+        }
+        canvas {
+            border: 1px solid var(--primary-purple);
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(108, 26, 255, 0.3);
+        }
+        h1 {
+            font-family: 'Russo One', sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+            margin-bottom: 1rem;
+        }
+        /* Home button styling */
+        .quick-links-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        .home-button {
+            background-color: var(--primary-red);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: var(--primary-purple);
+            box-shadow: 0 0 15px rgba(108, 26, 255, 0.5);
+        }
+        .home-button svg {
+            width: 60%;
+            height: 60%;
+        }
+        
+        /* Function tabs */
+        .function-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .function-tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .function-tab.active {
+            background-color: var(--primary-purple);
+        }
+        
+        /* Controls section */
+        #controls {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+        }
+    </style>
 </head>
 <body>
     <!-- Home Button -->
-    <a href=".." class="home-button">
-        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9 22V12H15V22" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </a>
+    <div class="quick-links-menu">
+        <a href=".." class="home-button">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
 
     <div id="container">
         <h1>Gradient Descent Visualizer</h1>
         
+        <!-- Function type tabs -->
         <div class="function-tabs">
-            <div class="function-tab active" data-tab="single">Single Variable</div>
-            <div class="function-tab" data-tab="multi">Multivariate</div>
-            <div class="function-tab" data-tab="complex">Complex</div>
+            <button class="function-tab active" data-tab="single">Single Variable</button>
+            <button class="function-tab" data-tab="multi">Multivariate</button>
+            <button class="function-tab" data-tab="complex">Complex</button>
         </div>
         
-        <div class="visualization-container">
-            <div id="canvas-container">
-                <canvas id="canvas" width="800" height="600"></canvas>
-            </div>
-            
-            <div id="controls"></div>
-        </div>
+        <canvas id="canvas" width="800" height="600"></canvas>
         
-        <div class="function-description">
-            <h3>About Gradient Descent</h3>
-            <p>Gradient descent is an optimization algorithm used to minimize a function by iteratively moving in the direction of steepest descent as defined by the negative of the gradient. The algorithm follows the formula: xᵢ₊₁ = xᵢ - α▽fᵢ, where α is the learning rate and ▽fᵢ is the gradient at the current position.</p>
-            <p>This visualizer demonstrates how gradient descent works for different types of functions. Adjust the learning rate and starting point to see how they affect the algorithm's convergence.</p>
-        </div>
+        <!-- Controls container -->
+        <div id="controls"></div>
     </div>
-    
-    <footer>
-        <p>Created by <a href="https://griffinrutherford.com">Griffin Rutherford</a> | Inspired by coursework in Scientific Computing and Machine Learning</p>
-    </footer>
 
-    <!-- Load modules -->
-    <script type="module" src="js/main.js"></script>
-    <script>
-        // Tab switching functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('.function-tab');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    
-                    // Get tab type
-                    const tabType = this.getAttribute('data-tab');
-                    
-                    // For now, only single variable is implemented
-                    if (tabType !== 'single') {
-                        alert('This feature is coming soon! Currently only Single Variable visualization is available.');
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- Load all scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/math-functions.js"></script>
+    <script src="js/gradient-descent.js"></script>
+    <script src="js/canvas-manager.js"></script>
+    <script src="js/control-panel.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

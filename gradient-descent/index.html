@@ -4,39 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gradient Descent Visualizer - Griffin Rutherford</title>
-    <!-- Use your portfolio's font (Russo One) -->
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <!-- Only use local styles -->
-    <link rel="stylesheet" href="css/visualizer.css">
     <style>
-        /* Override body to remove fixed video header spacing */
+        :root {
+            --dark-bg: #121212;
+            --primary-purple: #6C1AFF;
+            --primary-red: #FF1A6C;
+            --text-color: #FFFFFF;
+            --grid-color: #333333;
+            --axis-color: #666666;
+        }
+        
         body {
-            position: relative;
-            top: 0;
-            background: var(--dark-bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Russo One', sans-serif;
+            color: var(--text-color);
+            background-color: var(--dark-bg);
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        /* Container for the canvas and title */
+        
         #container {
-            text-align: center;
             width: 100%;
             max-width: 1200px;
             padding: 2rem 1rem;
+            text-align: center;
         }
-        canvas {
-            border: 1px solid var(--primary-purple);
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(108, 26, 255, 0.3);
-        }
+        
         h1 {
-            font-family: 'Russo One', sans-serif;
             font-size: clamp(2rem, 6vw, 3rem);
             color: var(--primary-red);
             text-transform: uppercase;
@@ -44,102 +42,2135 @@
             text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
             margin-bottom: 1rem;
         }
-        /* Home button styling */
-        .quick-links-menu {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        .home-button {
-            background-color: var(--primary-red);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .home-button:hover {
-            background-color: var(--primary-purple);
-            box-shadow: 0 0 15px rgba(108, 26, 255, 0.5);
-        }
-        .home-button svg {
-            width: 60%;
-            height: 60%;
+        
+        canvas {
+            border: 1px solid var(--primary-purple);
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(108, 26, 255, 0.3);
+            background-color: #000;
+            margin-bottom: 20px;
         }
         
-        /* Function tabs */
         .function-tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .function-tab {
             padding: 10px 20px;
-            margin: 0 5px;
+            margin: 5px;
             background-color: #333;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'Russo One', sans-serif;
+            text-transform: uppercase;
         }
         
         .function-tab.active {
             background-color: var(--primary-purple);
         }
         
-        /* Controls section */
-        #controls {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.2);
+        .control-panel {
+            background-color: rgba(30, 30, 30, 0.8);
             border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
             width: 100%;
             max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .control-group input[type="range"] {
+            height: 8px;
+            -webkit-appearance: none;
+            background: #333;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-purple);
+            cursor: pointer;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Russo One', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        button:hover {
+            background-color: #777;
+        }
+        
+        button.primary {
+            background-color: var(--primary-purple);
+        }
+        
+        button.primary:hover {
+            background-color: var(--primary-red);
+        }
+        
+        .status-display {
+            padding: 10px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            text-align: left;
+        }
+        
+        .home-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-red);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .home-button:hover {
+            background-color: var(--primary-purple);
+            box-shadow: 0 0 15px rgba(108, 26, 255, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .function-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .function-tab {
+                width: 100%;
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Home Button -->
-    <div class="quick-links-menu">
-        <a href=".." class="home-button">
-            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9 22V12H15V22" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
-    </div>
+    <a href=".." class="home-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12H15V22" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
 
     <div id="container">
         <h1>Gradient Descent Visualizer</h1>
         
-        <!-- Function type tabs -->
         <div class="function-tabs">
-            <button class="function-tab active" data-tab="single">Single Variable</button>
-            <button class="function-tab" data-tab="multi">Multivariate</button>
-            <button class="function-tab" data-tab="complex">Complex</button>
+            <button class="function-tab active" data-type="single">Single Variable</button>
+            <button class="function-tab" data-type="multi">Multivariate</button>
+            <button class="function-tab" data-type="complex">Complex</button>
         </div>
         
-        <canvas id="canvas" width="800" height="600"></canvas>
+        <canvas id="visualizer" width="800" height="600"></canvas>
         
-        <!-- Controls container -->
-        <div id="controls"></div>
+        <div id="controls" class="control-panel">
+            <div class="control-group">
+                <label for="function-select">Function:</label>
+                <select id="function-select">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="function-expression">Expression:</label>
+                <div id="function-expression" class="status-display">f(x) = x²</div>
+            </div>
+            
+            <div class="control-group">
+                <label for="learning-rate">Learning Rate (α): <span id="learning-rate-value">0.1</span></label>
+                <input type="range" id="learning-rate" min="0.01" max="1" step="0.01" value="0.1">
+            </div>
+            
+            <div id="starting-point-container" class="control-group">
+                <label for="starting-point-x">Starting Point:</label>
+                <input type="number" id="starting-point-x" value="2" step="0.1">
+                <input type="number" id="starting-point-y" value="2" step="0.1" style="display: none;">
+            </div>
+            
+            <div class="button-group">
+                <button id="reset-button">Reset</button>
+                <button id="step-button">Step</button>
+                <button id="run-button" class="primary">Run</button>
+            </div>
+            
+            <div class="control-group">
+                <label for="status">Status:</label>
+                <div id="status" class="status-display">Ready</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Load all scripts -->
-    <script src="js/utils.js"></script>
-    <script src="js/math-functions.js"></script>
-    <script src="js/gradient-descent.js"></script>
-    <script src="js/canvas-manager.js"></script>
-    <script src="js/control-panel.js"></script>
-    <script src="js/visualizer.js"></script>
-    <script src="js/app.js"></script>
+    <script>
+        // Simple error handling wrapper
+        function safeExecute(fn, fallback) {
+            try {
+                return fn();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('status').textContent = 'Error: ' + error.message;
+                return fallback;
+            }
+        }
+
+        // Utility functions
+        const Utils = {
+            // Linear interpolation
+            lerp: function(a, b, t) {
+                return a + (b - a) * t;
+            },
+            
+            // Map value from one range to another
+            map: function(value, fromLow, fromHigh, toLow, toHigh) {
+                return toLow + (toHigh - toLow) * ((value - fromLow) / (fromHigh - fromLow));
+            },
+            
+            // Clamp value between min and max
+            clamp: function(value, min, max) {
+                return Math.min(Math.max(value, min), max);
+            },
+            
+            // Complex number operations
+            Complex: function(real, imag) {
+                this.real = real || 0;
+                this.imag = imag || 0;
+                
+                this.add = function(other) {
+                    return new Utils.Complex(
+                        this.real + other.real,
+                        this.imag + other.imag
+                    );
+                };
+                
+                this.subtract = function(other) {
+                    return new Utils.Complex(
+                        this.real - other.real,
+                        this.imag - other.imag
+                    );
+                };
+                
+                this.multiply = function(other) {
+                    return new Utils.Complex(
+                        this.real * other.real - this.imag * other.imag,
+                        this.real * other.imag + this.imag * other.real
+                    );
+                };
+                
+                this.divide = function(other) {
+                    const denominator = other.real * other.real + other.imag * other.imag;
+                    return new Utils.Complex(
+                        (this.real * other.real + this.imag * other.imag) / denominator,
+                        (this.imag * other.real - this.real * other.imag) / denominator
+                    );
+                };
+                
+                this.abs = function() {
+                    return Math.sqrt(this.real * this.real + this.imag * this.imag);
+                };
+                
+                this.conjugate = function() {
+                    return new Utils.Complex(this.real, -this.imag);
+                };
+                
+                this.toString = function() {
+                    if (this.imag === 0) return this.real.toFixed(2);
+                    if (this.real === 0) return this.imag.toFixed(2) + 'i';
+                    return this.real.toFixed(2) + (this.imag < 0 ? ' - ' : ' + ') + 
+                           Math.abs(this.imag).toFixed(2) + 'i';
+                };
+            }
+        };
+
+        // Function definitions
+        const Functions = {
+            single: {
+                quadratic: {
+                    name: 'Quadratic',
+                    expression: 'f(x) = x²',
+                    func: function(x) {
+                        return x * x;
+                    },
+                    derivative: function(x) {
+                        return 2 * x;
+                    },
+                    domain: [-5, 5]
+                },
+                cubic: {
+                    name: 'Cubic',
+                    expression: 'f(x) = x³ - 2x² + 2',
+                    func: function(x) {
+                        return Math.pow(x, 3) - 2 * Math.pow(x, 2) + 2;
+                    },
+                    derivative: function(x) {
+                        return 3 * Math.pow(x, 2) - 4 * x;
+                    },
+                    domain: [-3, 5]
+                },
+                sine: {
+                    name: 'Sine',
+                    expression: 'f(x) = sin(x)',
+                    func: function(x) {
+                        return Math.sin(x);
+                    },
+                    derivative: function(x) {
+                        return Math.cos(x);
+                    },
+                    domain: [-Math.PI * 2, Math.PI * 2]
+                },
+                cosine: {
+                    name: 'Cosine',
+                    expression: 'f(x) = cos(x)',
+                    func: function(x) {
+                        return Math.cos(x);
+                    },
+                    derivative: function(x) {
+                        return -Math.sin(x);
+                    },
+                    domain: [-Math.PI * 2, Math.PI * 2]
+                },
+                logarithm: {
+                    name: 'Logarithm',
+                    expression: 'f(x) = ln(x + 3)',
+                    func: function(x) {
+                        return Math.log(x + 3);
+                    },
+                    derivative: function(x) {
+                        return 1 / (x + 3);
+                    },
+                    domain: [-2.9, 10]
+                }
+            },
+            multi: {
+                paraboloid: {
+                    name: 'Paraboloid',
+                    expression: 'f(x,y) = x² + y²',
+                    func: function(x, y) {
+                        return x * x + y * y;
+                    },
+                    gradient: function(x, y) {
+                        return { x: 2 * x, y: 2 * y };
+                    },
+                    domain: { x: [-5, 5], y: [-5, 5] }
+                },
+                saddle: {
+                    name: 'Saddle',
+                    expression: 'f(x,y) = x² - y²',
+                    func: function(x, y) {
+                        return x * x - y * y;
+                    },
+                    gradient: function(x, y) {
+                        return { x: 2 * x, y: -2 * y };
+                    },
+                    domain: { x: [-5, 5], y: [-5, 5] }
+                },
+                rosenbrock: {
+                    name: 'Rosenbrock',
+                    expression: 'f(x,y) = (1-x)² + 100(y-x²)²',
+                    func: function(x, y) {
+                        return Math.pow(1 - x, 2) + 100 * Math.pow(y - x * x, 2);
+                    },
+                    gradient: function(x, y) {
+                        return {
+                            x: -2 * (1 - x) - 400 * x * (y - x * x),
+                            y: 200 * (y - x * x)
+                        };
+                    },
+                    domain: { x: [-2, 2], y: [-1, 3] }
+                },
+                himmelblau: {
+                    name: 'Himmelblau',
+                    expression: 'f(x,y) = (x² + y - 11)² + (x + y² - 7)²',
+                    func: function(x, y) {
+                        return Math.pow(x * x + y - 11, 2) + Math.pow(x + y * y - 7, 2);
+                    },
+                    gradient: function(x, y) {
+                        const dx = 4 * x * (x * x + y - 11) + 2 * (x + y * y - 7);
+                        const dy = 2 * (x * x + y - 11) + 4 * y * (x + y * y - 7);
+                        return { x: dx, y: dy };
+                    },
+                    domain: { x: [-5, 5], y: [-5, 5] }
+                }
+            },
+            complex: {
+                square: {
+                    name: 'Square',
+                    expression: 'f(z) = z²',
+                    func: function(z) {
+                        return z.multiply(z);
+                    },
+                    derivative: function(z) {
+                        return new Utils.Complex(2 * z.real, 2 * z.imag);
+                    },
+                    domain: { real: [-2, 2], imag: [-2, 2] }
+                },
+                reciprocal: {
+                    name: 'Reciprocal',
+                    expression: 'f(z) = 1/z',
+                    func: function(z) {
+                        return new Utils.Complex(1, 0).divide(z);
+                    },
+                    derivative: function(z) {
+                        const denom = z.real * z.real + z.imag * z.imag;
+                        return new Utils.Complex(-1 / denom, 0);
+                    },
+                    domain: { real: [-2, 2], imag: [-2, 2] }
+                },
+                exponential: {
+                    name: 'Exponential',
+                    expression: 'f(z) = e^z',
+                    func: function(z) {
+                        const expReal = Math.exp(z.real);
+                        return new Utils.Complex(
+                            expReal * Math.cos(z.imag),
+                            expReal * Math.sin(z.imag)
+                        );
+                    },
+                    derivative: function(z) {
+                        // The derivative of e^z is e^z
+                        const expReal = Math.exp(z.real);
+                        return new Utils.Complex(
+                            expReal * Math.cos(z.imag),
+                            expReal * Math.sin(z.imag)
+                        );
+                    },
+                    domain: { real: [-2, 2], imag: [-2, 2] }
+                }
+            }
+        };
+
+        // Gradient Descent implementation
+        const GradientDescent = {
+            // Single variable gradient descent
+            single: function(options) {
+                this.learningRate = options.learningRate || 0.1;
+                this.maxIterations = options.maxIterations || 100;
+                this.convergenceThreshold = options.convergenceThreshold || 0.0001;
+                
+                this.currentFunction = null;
+                this.currentPosition = null;
+                this.currentValue = null;
+                this.currentGradient = null;
+                this.iteration = 0;
+                this.history = [];
+                
+                this.initialize = function(func, startingPoint) {
+                    this.currentFunction = func;
+                    this.currentPosition = startingPoint;
+                    this.currentValue = func.func(startingPoint);
+                    this.currentGradient = func.derivative(startingPoint);
+                    this.iteration = 0;
+                    this.history = [{
+                        position: startingPoint,
+                        value: this.currentValue,
+                        gradient: this.currentGradient
+                    }];
+                };
+                
+                this.step = function() {
+                    if (!this.currentFunction || this.iteration >= this.maxIterations) {
+                        return null;
+                    }
+                    
+                    // Calculate new position
+                    const newPosition = this.currentPosition - this.learningRate * this.currentGradient;
+                    
+                    // Calculate new value and gradient
+                    const newValue = this.currentFunction.func(newPosition);
+                    const newGradient = this.currentFunction.derivative(newPosition);
+                    
+                    // Check for convergence
+                    const change = Math.abs(newValue - this.currentValue);
+                    const converged = change < this.convergenceThreshold;
+                    
+                    // Update current state
+                    this.currentPosition = newPosition;
+                    this.currentValue = newValue;
+                    this.currentGradient = newGradient;
+                    this.iteration++;
+                    
+                    // Add to history
+                    this.history.push({
+                        position: newPosition,
+                        value: newValue,
+                        gradient: newGradient
+                    });
+                    
+                    // Return result
+                    return {
+                        position: newPosition,
+                        value: newValue,
+                        gradient: newGradient,
+                        iteration: this.iteration,
+                        converged: converged
+                    };
+                };
+                
+                this.reset = function() {
+                    this.currentFunction = null;
+                    this.currentPosition = null;
+                    this.currentValue = null;
+                    this.currentGradient = null;
+                    this.iteration = 0;
+                    this.history = [];
+                };
+                
+                this.setLearningRate = function(rate) {
+                    this.learningRate = rate;
+                };
+            },
+            
+            // Multivariate gradient descent
+            multi: function(options) {
+                this.learningRate = options.learningRate || 0.1;
+                this.maxIterations = options.maxIterations || 100;
+                this.convergenceThreshold = options.convergenceThreshold || 0.0001;
+                
+                this.currentFunction = null;
+                this.currentPosition = null;
+                this.currentValue = null;
+                this.currentGradient = null;
+                this.iteration = 0;
+                this.history = [];
+                
+                this.initialize = function(func, startingPoint) {
+                    this.currentFunction = func;
+                    this.currentPosition = startingPoint;
+                    this.currentValue = func.func(startingPoint.x, startingPoint.y);
+                    this.currentGradient = func.gradient(startingPoint.x, startingPoint.y);
+                    this.iteration = 0;
+                    this.history = [{
+                        position: { ...startingPoint },
+                        value: this.currentValue,
+                        gradient: { ...this.currentGradient }
+                    }];
+                };
+                
+                this.step = function() {
+                    if (!this.currentFunction || this.iteration >= this.maxIterations) {
+                        return null;
+                    }
+                    
+                    // Calculate new position
+                    const newPosition = {
+                        x: this.currentPosition.x - this.learningRate * this.currentGradient.x,
+                        y: this.currentPosition.y - this.learningRate * this.currentGradient.y
+                    };
+                    
+                    // Calculate new value and gradient
+                    const newValue = this.currentFunction.func(newPosition.x, newPosition.y);
+                    const newGradient = this.currentFunction.gradient(newPosition.x, newPosition.y);
+                    
+                    // Check for convergence
+                    const change = Math.abs(newValue - this.currentValue);
+                    const converged = change < this.convergenceThreshold;
+                    
+                    // Update current state
+                    this.currentPosition = newPosition;
+                    this.currentValue = newValue;
+                    this.currentGradient = newGradient;
+                    this.iteration++;
+                    
+                    // Add to history
+                    this.history.push({
+                        position: { ...newPosition },
+                        value: newValue,
+                        gradient: { ...newGradient }
+                    });
+                    
+                    // Return result
+                    return {
+                        position: newPosition,
+                        value: newValue,
+                        gradient: newGradient,
+                        iteration: this.iteration,
+                        converged: converged
+                    };
+                };
+                
+                this.reset = function() {
+                    this.currentFunction = null;
+                    this.currentPosition = null;
+                    this.currentValue = null;
+                    this.currentGradient = null;
+                    this.iteration = 0;
+                    this.history = [];
+                };
+                
+                this.setLearningRate = function(rate) {
+                    this.learningRate = rate;
+                };
+            },
+            
+            // Complex gradient descent
+            complex: function(options) {
+                this.learningRate = options.learningRate || 0.1;
+                this.maxIterations = options.maxIterations || 100;
+                this.convergenceThreshold = options.convergenceThreshold || 0.0001;
+                
+                this.currentFunction = null;
+                this.currentPosition = null;
+                this.currentValue = null;
+                this.currentGradient = null;
+                this.iteration = 0;
+                this.history = [];
+                
+                this.initialize = function(func, startingPoint) {
+                    this.currentFunction = func;
+                    this.currentPosition = startingPoint;
+                    const result = func.func(startingPoint);
+                    this.currentValue = result.abs();
+                    this.currentGradient = func.derivative(startingPoint);
+                    this.iteration = 0;
+                    this.history = [{
+                        position: new Utils.Complex(startingPoint.real, startingPoint.imag),
+                        value: this.currentValue,
+                        gradient: new Utils.Complex(this.currentGradient.real, this.currentGradient.imag)
+                    }];
+                };
+                
+                this.step = function() {
+                    if (!this.currentFunction || this.iteration >= this.maxIterations) {
+                        return null;
+                    }
+                    
+                    // Calculate new position
+                    const newPosition = new Utils.Complex(
+                        this.currentPosition.real - this.learningRate * this.currentGradient.real,
+                        this.currentPosition.imag - this.learningRate * this.currentGradient.imag
+                    );
+                    
+                    // Calculate new value and gradient
+                    const result = this.currentFunction.func(newPosition);
+                    const newValue = result.abs();
+                    const newGradient = this.currentFunction.derivative(newPosition);
+                    
+                    // Check for convergence
+                    const change = Math.abs(newValue - this.currentValue);
+                    const converged = change < this.convergenceThreshold;
+                    
+                    // Update current state
+                    this.currentPosition = newPosition;
+                    this.currentValue = newValue;
+                    this.currentGradient = newGradient;
+                    this.iteration++;
+                    
+                    // Add to history
+                    this.history.push({
+                        position: new Utils.Complex(newPosition.real, newPosition.imag),
+                        value: newValue,
+                        gradient: new Utils.Complex(newGradient.real, newGradient.imag)
+                    });
+                    
+                    // Return result
+                    return {
+                        position: newPosition,
+                        value: newValue,
+                        gradient: newGradient,
+                        iteration: this.iteration,
+                        converged: converged
+                    };
+                };
+                
+                this.reset = function() {
+                    this.currentFunction = null;
+                    this.currentPosition = null;
+                    this.currentValue = null;
+                    this.currentGradient = null;
+                    this.iteration = 0;
+                    this.history = [];
+                };
+                
+                this.setLearningRate = function(rate) {
+                    this.learningRate = rate;
+                };
+            }
+        };
+
+        // Canvas rendering
+        const Renderer = {
+            // Single variable renderer
+            single: function(canvas) {
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // View bounds
+                let xMin = -5;
+                let xMax = 5;
+                let yMin = -5;
+                let yMax = 5;
+                
+                // Convert from world to screen coordinates
+                const worldToScreenX = function(x) {
+                    return Utils.map(x, xMin, xMax, 0, width);
+                };
+                
+                const worldToScreenY = function(y) {
+                    return Utils.map(y, yMin, yMax, height, 0);
+                };
+                
+                // Clear canvas
+                this.clear = function() {
+                    ctx.clearRect(0, 0, width, height);
+                };
+                
+                // Set view bounds
+                this.setViewBounds = function(bounds) {
+                    xMin = bounds.xMin;
+                    xMax = bounds.xMax;
+                    yMin = bounds.yMin;
+                    yMax = bounds.yMax;
+                };
+                
+                // Auto-adjust view bounds based on function
+                this.autoAdjustViewBounds = function(func) {
+                    const domain = func.domain;
+                    xMin = domain[0];
+                    xMax = domain[1];
+                    
+                    // Sample function to find y range
+                    let minY = Infinity;
+                    let maxY = -Infinity;
+                    
+                    const samples = 100;
+                    for (let i = 0; i <= samples; i++) {
+                        const x = Utils.lerp(xMin, xMax, i / samples);
+                        const y = func.func(x);
+                        
+                        minY = Math.min(minY, y);
+                        maxY = Math.max(maxY, y);
+                    }
+                    
+                    // Add padding
+                    const padding = (maxY - minY) * 0.1;
+                    yMin = minY - padding;
+                    yMax = maxY + padding;
+                };
+                
+                // Draw grid
+                this.drawGrid = function() {
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.2)';
+                    ctx.lineWidth = 1;
+                    
+                    // Draw vertical grid lines
+                    for (let x = Math.floor(xMin); x <= Math.ceil(xMax); x++) {
+                        if (x === 0) continue; // Skip axes
+                        
+                        const screenX = worldToScreenX(x);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, 0);
+                        ctx.lineTo(screenX, height);
+                        ctx.stroke();
+                    }
+                    
+                    // Draw horizontal grid lines
+                    for (let y = Math.floor(yMin); y <= Math.ceil(yMax); y++) {
+                        if (y === 0) continue; // Skip axes
+                        
+                        const screenY = worldToScreenY(y);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(0, screenY);
+                        ctx.lineTo(width, screenY);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw axes
+                this.drawAxes = function() {
+                    ctx.strokeStyle = 'rgba(200, 200, 200, 0.8)';
+                    ctx.lineWidth = 2;
+                    
+                    // X-axis
+                    const yZero = worldToScreenY(0);
+                    if (yZero >= 0 && yZero <= height) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, yZero);
+                        ctx.lineTo(width, yZero);
+                        ctx.stroke();
+                    }
+                    
+                    // Y-axis
+                    const xZero = worldToScreenX(0);
+                    if (xZero >= 0 && xZero <= width) {
+                        ctx.beginPath();
+                        ctx.moveTo(xZero, 0);
+                        ctx.lineTo(xZero, height);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw function
+                this.drawFunction = function(func, options) {
+                    options = options || {};
+                    
+                    ctx.strokeStyle = options.color || '#4285F4';
+                    ctx.lineWidth = options.lineWidth || 2;
+                    
+                    ctx.beginPath();
+                    
+                    const samples = 200;
+                    for (let i = 0; i <= samples; i++) {
+                        const x = Utils.lerp(xMin, xMax, i / samples);
+                        const y = func.func(x);
+                        
+                        const screenX = worldToScreenX(x);
+                        const screenY = worldToScreenY(y);
+                        
+                        if (i === 0) {
+                            ctx.moveTo(screenX, screenY);
+                        } else {
+                            ctx.lineTo(screenX, screenY);
+                        }
+                    }
+                    
+                    ctx.stroke();
+                };
+                
+                // Draw gradient descent path
+                this.drawPath = function(path, options) {
+                    if (!path || path.length < 2) return;
+                    
+                    options = options || {};
+                    
+                    ctx.strokeStyle = options.color || 'rgba(244, 67, 54, 0.5)';
+                    ctx.lineWidth = options.lineWidth || 2;
+                    
+                    ctx.beginPath();
+                    
+                    for (let i = 0; i < path.length; i++) {
+                        const point = path[i];
+                        const x = point.position;
+                        const y = point.value;
+                        
+                        const screenX = worldToScreenX(x);
+                        const screenY = worldToScreenY(y);
+                        
+                        if (i === 0) {
+                            ctx.moveTo(screenX, screenY);
+                        } else {
+                            ctx.lineTo(screenX, screenY);
+                        }
+                    }
+                    
+                    ctx.stroke();
+                    
+                    // Draw points
+                    if (options.showPoints) {
+                        ctx.fillStyle = options.color || 'rgba(244, 67, 54, 0.5)';
+                        
+                        for (let i = 0; i < path.length; i++) {
+                            const point = path[i];
+                            const x = point.position;
+                            const y = point.value;
+                            
+                            const screenX = worldToScreenX(x);
+                            const screenY = worldToScreenY(y);
+                            
+                            ctx.beginPath();
+                            ctx.arc(screenX, screenY, options.pointRadius || 3, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                };
+                
+                // Draw current point
+                this.drawPoint = function(point, options) {
+                    if (!point) return;
+                    
+                    options = options || {};
+                    
+                    const x = point.position;
+                    const y = point.value;
+                    
+                    const screenX = worldToScreenX(x);
+                    const screenY = worldToScreenY(y);
+                    
+                    // Draw point
+                    ctx.fillStyle = options.color || '#F44336';
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, options.radius || 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw label
+                    if (options.label) {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(options.label, screenX + 10, screenY - 5);
+                    }
+                    
+                    // Draw gradient
+                    if (point.gradient && options.showGradient) {
+                        const gradientScale = options.gradientScale || 0.5;
+                        const gradientX = x + point.gradient * gradientScale;
+                        const gradientY = func.func(gradientX);
+                        
+                        const gradientScreenX = worldToScreenX(gradientX);
+                        const gradientScreenY = worldToScreenY(gradientY);
+                        
+                        ctx.strokeStyle = options.gradientColor || '#4CAF50';
+                        ctx.lineWidth = 2;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, screenY);
+                        ctx.lineTo(gradientScreenX, gradientScreenY);
+                        ctx.stroke();
+                        
+                        // Draw arrowhead
+                        const angle = Math.atan2(gradientScreenY - screenY, gradientScreenX - screenX);
+                        const arrowSize = 8;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(gradientScreenX, gradientScreenY);
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle - Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle - Math.PI / 6)
+                        );
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle + Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle + Math.PI / 6)
+                        );
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                };
+                
+                // Render scene
+                this.render = function(scene) {
+                    this.clear();
+                    this.drawGrid();
+                    this.drawAxes();
+                    
+                    if (scene.function) {
+                        this.drawFunction(scene.function, scene.functionOptions);
+                    }
+                    
+                    if (scene.path) {
+                        this.drawPath(scene.path, scene.pathOptions);
+                    }
+                    
+                    if (scene.currentPoint) {
+                        this.drawPoint(scene.currentPoint, {
+                            ...scene.pointOptions,
+                            showGradient: true,
+                            gradientScale: scene.gradientOptions.scale,
+                            gradientColor: scene.gradientOptions.color
+                        });
+                    }
+                };
+            },
+            
+            // Multivariate renderer
+            multi: function(canvas) {
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // View bounds
+                let xMin = -5;
+                let xMax = 5;
+                let yMin = -5;
+                let yMax = 5;
+                let zMin = 0;
+                let zMax = 50;
+                
+                // Convert from world to screen coordinates
+                const worldToScreenX = function(x) {
+                    return Utils.map(x, xMin, xMax, 0, width);
+                };
+                
+                const worldToScreenY = function(y) {
+                    return Utils.map(y, yMin, yMax, height, 0);
+                };
+                
+                // Clear canvas
+                this.clear = function() {
+                    ctx.clearRect(0, 0, width, height);
+                };
+                
+                // Set view bounds
+                this.setViewBounds = function(bounds) {
+                    xMin = bounds.xMin;
+                    xMax = bounds.xMax;
+                    yMin = bounds.yMin;
+                    yMax = bounds.yMax;
+                    zMin = bounds.zMin;
+                    zMax = bounds.zMax;
+                };
+                
+                // Auto-adjust view bounds based on function
+                this.autoAdjustViewBounds = function(func) {
+                    const domain = func.domain;
+                    xMin = domain.x[0];
+                    xMax = domain.x[1];
+                    yMin = domain.y[0];
+                    yMax = domain.y[1];
+                    
+                    // Sample function to find z range
+                    let minZ = Infinity;
+                    let maxZ = -Infinity;
+                    
+                    const samples = 20;
+                    for (let i = 0; i <= samples; i++) {
+                        for (let j = 0; j <= samples; j++) {
+                            const x = Utils.lerp(xMin, xMax, i / samples);
+                            const y = Utils.lerp(yMin, yMax, j / samples);
+                            const z = func.func(x, y);
+                            
+                            minZ = Math.min(minZ, z);
+                            maxZ = Math.max(maxZ, z);
+                        }
+                    }
+                    
+                    // Add padding
+                    const padding = (maxZ - minZ) * 0.1;
+                    zMin = minZ - padding;
+                    zMax = maxZ + padding;
+                };
+                
+                // Draw grid
+                this.drawGrid = function() {
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.2)';
+                    ctx.lineWidth = 1;
+                    
+                    // Draw vertical grid lines
+                    for (let x = Math.floor(xMin); x <= Math.ceil(xMax); x++) {
+                        if (x === 0) continue; // Skip axes
+                        
+                        const screenX = worldToScreenX(x);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, 0);
+                        ctx.lineTo(screenX, height);
+                        ctx.stroke();
+                    }
+                    
+                    // Draw horizontal grid lines
+                    for (let y = Math.floor(yMin); y <= Math.ceil(yMax); y++) {
+                        if (y === 0) continue; // Skip axes
+                        
+                        const screenY = worldToScreenY(y);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(0, screenY);
+                        ctx.lineTo(width, screenY);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw axes
+                this.drawAxes = function() {
+                    ctx.strokeStyle = 'rgba(200, 200, 200, 0.8)';
+                    ctx.lineWidth = 2;
+                    
+                    // X-axis
+                    const yZero = worldToScreenY(0);
+                    if (yZero >= 0 && yZero <= height) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, yZero);
+                        ctx.lineTo(width, yZero);
+                        ctx.stroke();
+                    }
+                    
+                    // Y-axis
+                    const xZero = worldToScreenX(0);
+                    if (xZero >= 0 && xZero <= width) {
+                        ctx.beginPath();
+                        ctx.moveTo(xZero, 0);
+                        ctx.lineTo(xZero, height);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw contour plot
+                this.drawContour = function(func, options) {
+                    options = options || {};
+                    
+                    const levels = options.levels || 20;
+                    const colors = options.colors || ['#0000FF', '#00FFFF', '#00FF00', '#FFFF00', '#FF0000'];
+                    
+                    // Create contour data
+                    const resolution = 100;
+                    const data = new Array(resolution);
+                    
+                    for (let i = 0; i < resolution; i++) {
+                        data[i] = new Array(resolution);
+                        
+                        for (let j = 0; j < resolution; j++) {
+                            const x = Utils.lerp(xMin, xMax, i / (resolution - 1));
+                            const y = Utils.lerp(yMin, yMax, j / (resolution - 1));
+                            
+                            data[i][j] = func.func(x, y);
+                        }
+                    }
+                    
+                    // Draw contour
+                    const imageData = ctx.createImageData(resolution, resolution);
+                    
+                    for (let i = 0; i < resolution; i++) {
+                        for (let j = 0; j < resolution; j++) {
+                            const value = data[i][j];
+                            const normalizedValue = Utils.clamp((value - zMin) / (zMax - zMin), 0, 1);
+                            
+                            // Interpolate color
+                            const colorIndex = normalizedValue * (colors.length - 1);
+                            const colorIndexLow = Math.floor(colorIndex);
+                            const colorIndexHigh = Math.ceil(colorIndex);
+                            const colorT = colorIndex - colorIndexLow;
+                            
+                            const colorLow = hexToRgb(colors[colorIndexLow]);
+                            const colorHigh = hexToRgb(colors[Math.min(colorIndexHigh, colors.length - 1)]);
+                            
+                            const r = Math.round(Utils.lerp(colorLow.r, colorHigh.r, colorT));
+                            const g = Math.round(Utils.lerp(colorLow.g, colorHigh.g, colorT));
+                            const b = Math.round(Utils.lerp(colorLow.b, colorHigh.b, colorT));
+                            
+                            const index = (j * resolution + i) * 4;
+                            imageData.data[index] = r;
+                            imageData.data[index + 1] = g;
+                            imageData.data[index + 2] = b;
+                            imageData.data[index + 3] = 255;
+                        }
+                    }
+                    
+                    // Create temporary canvas for scaling
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = resolution;
+                    tempCanvas.height = resolution;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.putImageData(imageData, 0, 0);
+                    
+                    // Draw scaled image to main canvas
+                    ctx.drawImage(tempCanvas, 0, 0, width, height);
+                    
+                    // Helper function to convert hex color to RGB
+                    function hexToRgb(hex) {
+                        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                        return result ? {
+                            r: parseInt(result[1], 16),
+                            g: parseInt(result[2], 16),
+                            b: parseInt(result[3], 16)
+                        } : { r: 0, g: 0, b: 0 };
+                    }
+                };
+                
+                // Draw gradient descent path
+                this.drawPath = function(path, options) {
+                    if (!path || path.length < 2) return;
+                    
+                    options = options || {};
+                    
+                    ctx.strokeStyle = options.color || 'rgba(244, 67, 54, 0.8)';
+                    ctx.lineWidth = options.lineWidth || 2;
+                    
+                    ctx.beginPath();
+                    
+                    for (let i = 0; i < path.length; i++) {
+                        const point = path[i];
+                        const x = point.position.x;
+                        const y = point.position.y;
+                        
+                        const screenX = worldToScreenX(x);
+                        const screenY = worldToScreenY(y);
+                        
+                        if (i === 0) {
+                            ctx.moveTo(screenX, screenY);
+                        } else {
+                            ctx.lineTo(screenX, screenY);
+                        }
+                    }
+                    
+                    ctx.stroke();
+                    
+                    // Draw points
+                    if (options.showPoints) {
+                        ctx.fillStyle = options.color || 'rgba(244, 67, 54, 0.8)';
+                        
+                        for (let i = 0; i < path.length; i++) {
+                            const point = path[i];
+                            const x = point.position.x;
+                            const y = point.position.y;
+                            
+                            const screenX = worldToScreenX(x);
+                            const screenY = worldToScreenY(y);
+                            
+                            ctx.beginPath();
+                            ctx.arc(screenX, screenY, options.pointRadius || 3, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                };
+                
+                // Draw current point
+                this.drawPoint = function(point, options) {
+                    if (!point) return;
+                    
+                    options = options || {};
+                    
+                    const x = point.position.x;
+                    const y = point.position.y;
+                    
+                    const screenX = worldToScreenX(x);
+                    const screenY = worldToScreenY(y);
+                    
+                    // Draw point
+                    ctx.fillStyle = options.color || '#F44336';
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, options.radius || 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw label
+                    if (options.label) {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(options.label, screenX + 10, screenY - 5);
+                    }
+                    
+                    // Draw gradient
+                    if (point.gradient && options.showGradient) {
+                        const gradientScale = options.gradientScale || 0.2;
+                        const gradientX = x - point.gradient.x * gradientScale;
+                        const gradientY = y - point.gradient.y * gradientScale;
+                        
+                        const gradientScreenX = worldToScreenX(gradientX);
+                        const gradientScreenY = worldToScreenY(gradientY);
+                        
+                        ctx.strokeStyle = options.gradientColor || '#4CAF50';
+                        ctx.lineWidth = 2;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, screenY);
+                        ctx.lineTo(gradientScreenX, gradientScreenY);
+                        ctx.stroke();
+                        
+                        // Draw arrowhead
+                        const angle = Math.atan2(gradientScreenY - screenY, gradientScreenX - screenX);
+                        const arrowSize = 8;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(gradientScreenX, gradientScreenY);
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle - Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle - Math.PI / 6)
+                        );
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle + Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle + Math.PI / 6)
+                        );
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                };
+                
+                // Render scene
+                this.render = function(scene) {
+                    this.clear();
+                    
+                    if (scene.function) {
+                        this.drawContour(scene.function, scene.contourOptions);
+                    }
+                    
+                    this.drawGrid();
+                    this.drawAxes();
+                    
+                    if (scene.path) {
+                        this.drawPath(scene.path, scene.pathOptions);
+                    }
+                    
+                    if (scene.currentPoint) {
+                        this.drawPoint(scene.currentPoint, {
+                            ...scene.pointOptions,
+                            showGradient: true,
+                            gradientScale: scene.gradientOptions.scale,
+                            gradientColor: scene.gradientOptions.color
+                        });
+                    }
+                };
+            },
+            
+            // Complex renderer
+            complex: function(canvas) {
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // View bounds
+                let realMin = -2;
+                let realMax = 2;
+                let imagMin = -2;
+                let imagMax = 2;
+                
+                // Convert from world to screen coordinates
+                const worldToScreenX = function(real) {
+                    return Utils.map(real, realMin, realMax, 0, width);
+                };
+                
+                const worldToScreenY = function(imag) {
+                    return Utils.map(imag, imagMin, imagMax, height, 0);
+                };
+                
+                // Clear canvas
+                this.clear = function() {
+                    ctx.clearRect(0, 0, width, height);
+                };
+                
+                // Set view bounds
+                this.setViewBounds = function(bounds) {
+                    realMin = bounds.realMin;
+                    realMax = bounds.realMax;
+                    imagMin = bounds.imagMin;
+                    imagMax = bounds.imagMax;
+                };
+                
+                // Auto-adjust view bounds based on function
+                this.autoAdjustViewBounds = function(func) {
+                    const domain = func.domain;
+                    realMin = domain.real[0];
+                    realMax = domain.real[1];
+                    imagMin = domain.imag[0];
+                    imagMax = domain.imag[1];
+                };
+                
+                // Draw grid
+                this.drawGrid = function() {
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.2)';
+                    ctx.lineWidth = 1;
+                    
+                    // Draw vertical grid lines
+                    for (let real = Math.floor(realMin); real <= Math.ceil(realMax); real++) {
+                        if (real === 0) continue; // Skip axes
+                        
+                        const screenX = worldToScreenX(real);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, 0);
+                        ctx.lineTo(screenX, height);
+                        ctx.stroke();
+                    }
+                    
+                    // Draw horizontal grid lines
+                    for (let imag = Math.floor(imagMin); imag <= Math.ceil(imagMax); imag++) {
+                        if (imag === 0) continue; // Skip axes
+                        
+                        const screenY = worldToScreenY(imag);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(0, screenY);
+                        ctx.lineTo(width, screenY);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw axes
+                this.drawAxes = function() {
+                    ctx.strokeStyle = 'rgba(200, 200, 200, 0.8)';
+                    ctx.lineWidth = 2;
+                    
+                    // Real axis
+                    const imagZero = worldToScreenY(0);
+                    if (imagZero >= 0 && imagZero <= height) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, imagZero);
+                        ctx.lineTo(width, imagZero);
+                        ctx.stroke();
+                    }
+                    
+                    // Imaginary axis
+                    const realZero = worldToScreenX(0);
+                    if (realZero >= 0 && realZero <= width) {
+                        ctx.beginPath();
+                        ctx.moveTo(realZero, 0);
+                        ctx.lineTo(realZero, height);
+                        ctx.stroke();
+                    }
+                };
+                
+                // Draw domain coloring
+                this.drawDomainColoring = function(func, options) {
+                    options = options || {};
+                    
+                    const resolution = options.resolution || 200;
+                    const coloringMethod = options.coloringMethod || 'phase';
+                    
+                    // Create domain coloring data
+                    const imageData = ctx.createImageData(resolution, resolution);
+                    
+                    for (let i = 0; i < resolution; i++) {
+                        for (let j = 0; j < resolution; j++) {
+                            const real = Utils.lerp(realMin, realMax, i / (resolution - 1));
+                            const imag = Utils.lerp(imagMin, imagMax, j / (resolution - 1));
+                            
+                            const z = new Utils.Complex(real, imag);
+                            const result = func.func(z);
+                            
+                            // Calculate color based on coloring method
+                            let r, g, b;
+                            
+                            if (coloringMethod === 'phase') {
+                                // Phase coloring (hue based on argument)
+                                const phase = Math.atan2(result.imag, result.real);
+                                const hue = ((phase / Math.PI) + 1) * 180; // Map [-π, π] to [0, 360]
+                                
+                                const rgb = hsvToRgb(hue, 1, 1);
+                                r = rgb.r;
+                                g = rgb.g;
+                                b = rgb.b;
+                            } else if (coloringMethod === 'modulus') {
+                                // Modulus coloring (brightness based on magnitude)
+                                const modulus = result.abs();
+                                const brightness = 1 - 1 / (1 + modulus); // Map [0, ∞) to [0, 1]
+                                
+                                r = g = b = Math.floor(brightness * 255);
+                            } else {
+                                // Combined coloring (hue from phase, brightness from modulus)
+                                const phase = Math.atan2(result.imag, result.real);
+                                const hue = ((phase / Math.PI) + 1) * 180; // Map [-π, π] to [0, 360]
+                                
+                                const modulus = result.abs();
+                                const value = 1 - 1 / (1 + modulus); // Map [0, ∞) to [0, 1]
+                                
+                                const rgb = hsvToRgb(hue, 1, value);
+                                r = rgb.r;
+                                g = rgb.g;
+                                b = rgb.b;
+                            }
+                            
+                            const index = (j * resolution + i) * 4;
+                            imageData.data[index] = r;
+                            imageData.data[index + 1] = g;
+                            imageData.data[index + 2] = b;
+                            imageData.data[index + 3] = 255;
+                        }
+                    }
+                    
+                    // Create temporary canvas for scaling
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = resolution;
+                    tempCanvas.height = resolution;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.putImageData(imageData, 0, 0);
+                    
+                    // Draw scaled image to main canvas
+                    ctx.drawImage(tempCanvas, 0, 0, width, height);
+                    
+                    // Helper function to convert HSV to RGB
+                    function hsvToRgb(h, s, v) {
+                        let r, g, b;
+                        
+                        const i = Math.floor(h / 60) % 6;
+                        const f = h / 60 - i;
+                        const p = v * (1 - s);
+                        const q = v * (1 - f * s);
+                        const t = v * (1 - (1 - f) * s);
+                        
+                        switch (i) {
+                            case 0: r = v; g = t; b = p; break;
+                            case 1: r = q; g = v; b = p; break;
+                            case 2: r = p; g = v; b = t; break;
+                            case 3: r = p; g = q; b = v; break;
+                            case 4: r = t; g = p; b = v; break;
+                            case 5: r = v; g = p; b = q; break;
+                        }
+                        
+                        return {
+                            r: Math.floor(r * 255),
+                            g: Math.floor(g * 255),
+                            b: Math.floor(b * 255)
+                        };
+                    }
+                };
+                
+                // Draw gradient descent path
+                this.drawPath = function(path, options) {
+                    if (!path || path.length < 2) return;
+                    
+                    options = options || {};
+                    
+                    ctx.strokeStyle = options.color || 'rgba(244, 67, 54, 0.8)';
+                    ctx.lineWidth = options.lineWidth || 2;
+                    
+                    ctx.beginPath();
+                    
+                    for (let i = 0; i < path.length; i++) {
+                        const point = path[i];
+                        const real = point.position.real;
+                        const imag = point.position.imag;
+                        
+                        const screenX = worldToScreenX(real);
+                        const screenY = worldToScreenY(imag);
+                        
+                        if (i === 0) {
+                            ctx.moveTo(screenX, screenY);
+                        } else {
+                            ctx.lineTo(screenX, screenY);
+                        }
+                    }
+                    
+                    ctx.stroke();
+                    
+                    // Draw points
+                    if (options.showPoints) {
+                        ctx.fillStyle = options.color || 'rgba(244, 67, 54, 0.8)';
+                        
+                        for (let i = 0; i < path.length; i++) {
+                            const point = path[i];
+                            const real = point.position.real;
+                            const imag = point.position.imag;
+                            
+                            const screenX = worldToScreenX(real);
+                            const screenY = worldToScreenY(imag);
+                            
+                            ctx.beginPath();
+                            ctx.arc(screenX, screenY, options.pointRadius || 3, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                };
+                
+                // Draw current point
+                this.drawPoint = function(point, options) {
+                    if (!point) return;
+                    
+                    options = options || {};
+                    
+                    const real = point.position.real;
+                    const imag = point.position.imag;
+                    
+                    const screenX = worldToScreenX(real);
+                    const screenY = worldToScreenY(imag);
+                    
+                    // Draw point
+                    ctx.fillStyle = options.color || '#F44336';
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, options.radius || 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw label
+                    if (options.label) {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(options.label, screenX + 10, screenY - 5);
+                    }
+                    
+                    // Draw gradient
+                    if (point.gradient && options.showGradient) {
+                        const gradientScale = options.gradientScale || 0.2;
+                        const gradientReal = real - point.gradient.real * gradientScale;
+                        const gradientImag = imag - point.gradient.imag * gradientScale;
+                        
+                        const gradientScreenX = worldToScreenX(gradientReal);
+                        const gradientScreenY = worldToScreenY(gradientImag);
+                        
+                        ctx.strokeStyle = options.gradientColor || '#4CAF50';
+                        ctx.lineWidth = 2;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(screenX, screenY);
+                        ctx.lineTo(gradientScreenX, gradientScreenY);
+                        ctx.stroke();
+                        
+                        // Draw arrowhead
+                        const angle = Math.atan2(gradientScreenY - screenY, gradientScreenX - screenX);
+                        const arrowSize = 8;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(gradientScreenX, gradientScreenY);
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle - Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle - Math.PI / 6)
+                        );
+                        ctx.lineTo(
+                            gradientScreenX - arrowSize * Math.cos(angle + Math.PI / 6),
+                            gradientScreenY - arrowSize * Math.sin(angle + Math.PI / 6)
+                        );
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                };
+                
+                // Render scene
+                this.render = function(scene) {
+                    this.clear();
+                    
+                    if (scene.function) {
+                        this.drawDomainColoring(scene.function, {
+                            resolution: scene.functionOptions.resolution,
+                            coloringMethod: scene.functionOptions.coloringMethod
+                        });
+                    }
+                    
+                    this.drawGrid();
+                    this.drawAxes();
+                    
+                    if (scene.path) {
+                        this.drawPath(scene.path, scene.pathOptions);
+                    }
+                    
+                    if (scene.currentPoint) {
+                        this.drawPoint(scene.currentPoint, {
+                            ...scene.pointOptions,
+                            showGradient: true,
+                            gradientScale: scene.gradientOptions.scale,
+                            gradientColor: scene.gradientOptions.color
+                        });
+                    }
+                };
+            }
+        };
+
+        // Main application
+        const App = {
+            // Current function type
+            currentType: 'single',
+            
+            // Canvas and renderer
+            canvas: document.getElementById('visualizer'),
+            renderers: {},
+            
+            // Gradient descent algorithms
+            gradientDescent: {},
+            
+            // Animation properties
+            animationId: null,
+            animationDelay: 100,
+            lastStepTime: 0,
+            isRunning: false,
+            
+            // Initialize application
+            init: function() {
+                // Create renderers
+                this.renderers = {
+                    single: new Renderer.single(this.canvas),
+                    multi: new Renderer.multi(this.canvas),
+                    complex: new Renderer.complex(this.canvas)
+                };
+                
+                // Create gradient descent algorithms
+                this.gradientDescent = {
+                    single: new GradientDescent.single({
+                        learningRate: 0.1,
+                        maxIterations: 100,
+                        convergenceThreshold: 0.0001
+                    }),
+                    multi: new GradientDescent.multi({
+                        learningRate: 0.1,
+                        maxIterations: 100,
+                        convergenceThreshold: 0.0001
+                    }),
+                    complex: new GradientDescent.complex({
+                        learningRate: 0.1,
+                        maxIterations: 100,
+                        convergenceThreshold: 0.0001
+                    })
+                };
+                
+                // Set up event listeners
+                this.setupEventListeners();
+                
+                // Initialize UI
+                this.initializeUI();
+                
+                // Render initial scene
+                this.render();
+            },
+            
+            // Set up event listeners
+            setupEventListeners: function() {
+                // Function type tabs
+                const tabs = document.querySelectorAll('.function-tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const type = tab.getAttribute('data-type');
+                        this.switchType(type);
+                    });
+                });
+                
+                // Function selection
+                const functionSelect = document.getElementById('function-select');
+                functionSelect.addEventListener('change', () => {
+                    this.selectFunction(functionSelect.value);
+                });
+                
+                // Learning rate
+                const learningRateInput = document.getElementById('learning-rate');
+                const learningRateValue = document.getElementById('learning-rate-value');
+                
+                learningRateInput.addEventListener('input', () => {
+                    const rate = parseFloat(learningRateInput.value);
+                    learningRateValue.textContent = rate.toFixed(2);
+                    
+                    this.gradientDescent[this.currentType].setLearningRate(rate);
+                });
+                
+                // Starting point
+                const startingPointX = document.getElementById('starting-point-x');
+                const startingPointY = document.getElementById('starting-point-y');
+                
+                startingPointX.addEventListener('change', () => {
+                    this.reset();
+                });
+                
+                startingPointY.addEventListener('change', () => {
+                    this.reset();
+                });
+                
+                // Reset button
+                const resetButton = document.getElementById('reset-button');
+                resetButton.addEventListener('click', () => {
+                    this.reset();
+                });
+                
+                // Step button
+                const stepButton = document.getElementById('step-button');
+                stepButton.addEventListener('click', () => {
+                    this.step();
+                });
+                
+                // Run button
+                const runButton = document.getElementById('run-button');
+                runButton.addEventListener('click', () => {
+                    this.toggleRun();
+                });
+            },
+            
+            // Initialize UI
+            initializeUI: function() {
+                // Populate function select
+                this.populateFunctionSelect();
+                
+                // Set default function
+                this.selectFunction(Object.keys(Functions[this.currentType])[0]);
+            },
+            
+            // Populate function select
+            populateFunctionSelect: function() {
+                const functionSelect = document.getElementById('function-select');
+                functionSelect.innerHTML = '';
+                
+                const functions = Functions[this.currentType];
+                
+                for (const key in functions) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = functions[key].name;
+                    functionSelect.appendChild(option);
+                }
+            },
+            
+            // Switch function type
+            switchType: function(type) {
+                // Update current type
+                this.currentType = type;
+                
+                // Update UI
+                const tabs = document.querySelectorAll('.function-tab');
+                tabs.forEach(tab => {
+                    if (tab.getAttribute('data-type') === type) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // Update starting point inputs
+                const startingPointX = document.getElementById('starting-point-x');
+                const startingPointY = document.getElementById('starting-point-y');
+                
+                if (type === 'single') {
+                    startingPointX.placeholder = 'x';
+                    startingPointY.style.display = 'none';
+                } else if (type === 'multi') {
+                    startingPointX.placeholder = 'x';
+                    startingPointY.placeholder = 'y';
+                    startingPointY.style.display = 'block';
+                } else if (type === 'complex') {
+                    startingPointX.placeholder = 'Real';
+                    startingPointY.placeholder = 'Imaginary';
+                    startingPointY.style.display = 'block';
+                }
+                
+                // Reset gradient descent
+                this.reset();
+                
+                // Populate function select
+                this.populateFunctionSelect();
+                
+                // Select first function
+                this.selectFunction(Object.keys(Functions[this.currentType])[0]);
+            },
+            
+            // Select function
+            selectFunction: function(key) {
+                // Get function
+                const func = Functions[this.currentType][key];
+                
+                // Update UI
+                const functionSelect = document.getElementById('function-select');
+                functionSelect.value = key;
+                
+                const functionExpression = document.getElementById('function-expression');
+                functionExpression.textContent = func.expression;
+                
+                // Auto-adjust view bounds
+                this.renderers[this.currentType].autoAdjustViewBounds(func);
+                
+                // Reset gradient descent
+                this.reset();
+                
+                // Render scene
+                this.render();
+            },
+            
+            // Reset gradient descent
+            reset: function() {
+                // Stop animation
+                this.stopAnimation();
+                
+                // Reset gradient descent
+                this.gradientDescent[this.currentType].reset();
+                
+                // Update status
+                this.updateStatus('Ready');
+                
+                // Update run button
+                const runButton = document.getElementById('run-button');
+                runButton.textContent = 'Run';
+                this.isRunning = false;
+                
+                // Render scene
+                this.render();
+            },
+            
+            // Perform a single step of gradient descent
+            step: function() {
+                // Get current function
+                const functionSelect = document.getElementById('function-select');
+                const func = Functions[this.currentType][functionSelect.value];
+                
+                // Get starting point
+                const startingPointX = document.getElementById('starting-point-x');
+                const startingPointY = document.getElementById('starting-point-y');
+                
+                // Initialize gradient descent if needed
+                if (this.gradientDescent[this.currentType].currentPosition === null) {
+                    if (this.currentType === 'single') {
+                        this.gradientDescent[this.currentType].initialize(
+                            func,
+                            parseFloat(startingPointX.value)
+                        );
+                    } else if (this.currentType === 'multi') {
+                        this.gradientDescent[this.currentType].initialize(
+                            func,
+                            {
+                                x: parseFloat(startingPointX.value),
+                                y: parseFloat(startingPointY.value)
+                            }
+                        );
+                    } else if (this.currentType === 'complex') {
+                        this.gradientDescent[this.currentType].initialize(
+                            func,
+                            new Utils.Complex(
+                                parseFloat(startingPointX.value),
+                                parseFloat(startingPointY.value)
+                            )
+                        );
+                    }
+                    
+                    // Render initial state
+                    this.render();
+                    return;
+                }
+                
+                // Perform a step
+                const result = this.gradientDescent[this.currentType].step();
+                
+                // If no result, we've reached the end
+                if (!result) {
+                    this.stopAnimation();
+                    this.updateStatus('Finished', 'Reached maximum iterations');
+                    return;
+                }
+                
+                // Update status
+                if (result.converged) {
+                    this.stopAnimation();
+                    
+                    if (this.currentType === 'single') {
+                        this.updateStatus('Converged', `at x = ${result.position.toFixed(4)}, f(x) = ${result.value.toFixed(4)}`);
+                    } else if (this.currentType === 'multi') {
+                        this.updateStatus('Converged', `at (${result.position.x.toFixed(4)}, ${result.position.y.toFixed(4)}), f(x,y) = ${result.value.toFixed(4)}`);
+                    } else if (this.currentType === 'complex') {
+                        this.updateStatus('Converged', `at ${result.position.toString()}, |f(z)| = ${result.value.toFixed(4)}`);
+                    }
+                } else {
+                    if (this.currentType === 'single') {
+                        this.updateStatus('Step', `${result.iteration}: x = ${result.position.toFixed(4)}, f(x) = ${result.value.toFixed(4)}`);
+                    } else if (this.currentType === 'multi') {
+                        this.updateStatus('Step', `${result.iteration}: (${result.position.x.toFixed(4)}, ${result.position.y.toFixed(4)}), f(x,y) = ${result.value.toFixed(4)}`);
+                    } else if (this.currentType === 'complex') {
+                        this.updateStatus('Step', `${result.iteration}: ${result.position.toString()}, |f(z)| = ${result.value.toFixed(4)}`);
+                    }
+                }
+                
+                // Render updated state
+                this.render();
+                
+                return result;
+            },
+            
+            // Toggle run/pause
+            toggleRun: function() {
+                this.isRunning = !this.isRunning;
+                
+                const runButton = document.getElementById('run-button');
+                runButton.textContent = this.isRunning ? 'Pause' : 'Run';
+                
+                if (this.isRunning) {
+                    this.startAnimation();
+                    this.updateStatus('Running');
+                } else {
+                    this.stopAnimation();
+                    this.updateStatus('Paused');
+                }
+            },
+            
+            // Start animation
+            startAnimation: function() {
+                if (this.animationId !== null) return;
+                
+                this.lastStepTime = performance.now();
+                this.animate();
+            },
+            
+            // Stop animation
+            stopAnimation: function() {
+                if (this.animationId === null) return;
+                
+                cancelAnimationFrame(this.animationId);
+                this.animationId = null;
+            },
+            
+            // Animation loop
+            animate: function() {
+                this.animationId = requestAnimationFrame(() => {
+                    const currentTime = performance.now();
+                    const elapsed = currentTime - this.lastStepTime;
+                    
+                    // If enough time has passed, perform a step
+                    if (elapsed >= this.animationDelay) {
+                        this.lastStepTime = currentTime;
+                        const result = this.step();
+                        
+                        // If step returned null or converged, stop animation
+                        if (!result || result.converged) {
+                            this.stopAnimation();
+                            this.isRunning = false;
+                            
+                            const runButton = document.getElementById('run-button');
+                            runButton.textContent = 'Run';
+                            
+                            return;
+                        }
+                    }
+                    
+                    // Continue animation if still running
+                    if (this.isRunning) {
+                        this.animate();
+                    }
+                });
+            },
+            
+            // Update status display
+            updateStatus: function(status, details = '') {
+                const statusDisplay = document.getElementById('status');
+                statusDisplay.textContent = status + (details ? ': ' + details : '');
+            },
+            
+            // Render scene
+            render: function() {
+                // Get current function
+                const functionSelect = document.getElementById('function-select');
+                const func = Functions[this.currentType][functionSelect.value];
+                
+                // Get gradient descent state
+                const gd = this.gradientDescent[this.currentType];
+                
+                // Create scene object
+                let scene;
+                
+                if (this.currentType === 'single') {
+                    scene = {
+                        function: func,
+                        path: gd.history,
+                        currentPoint: gd.currentPosition !== null ? {
+                            position: gd.currentPosition,
+                            value: gd.currentValue,
+                            gradient: gd.currentGradient
+                        } : null,
+                        functionOptions: {
+                            color: '#4285F4',
+                            lineWidth: 2
+                        },
+                        pathOptions: {
+                            color: 'rgba(244, 67, 54, 0.5)',
+                            lineWidth: 2,
+                            showPoints: true,
+                            pointRadius: 3
+                        },
+                        pointOptions: {
+                            radius: 6,
+                            color: '#F44336',
+                            label: gd.currentPosition !== null ? `x = ${gd.currentPosition.toFixed(2)}` : ''
+                        },
+                        gradientOptions: {
+                            scale: 0.5,
+                            color: '#4CAF50'
+                        }
+                    };
+                } else if (this.currentType === 'multi') {
+                    scene = {
+                        function: func,
+                        path: gd.history,
+                        currentPoint: gd.currentPosition !== null ? {
+                            position: gd.currentPosition,
+                            value: gd.currentValue,
+                            gradient: gd.currentGradient
+                        } : null,
+                        contourOptions: {
+                            levels: 20,
+                            colors: ['#0000FF', '#00FFFF', '#00FF00', '#FFFF00', '#FF0000']
+                        },
+                        pathOptions: {
+                            color: 'rgba(244, 67, 54, 0.8)',
+                            lineWidth: 2,
+                            showPoints: true,
+                            pointRadius: 3
+                        },
+                        pointOptions: {
+                            radius: 6,
+                            color: '#F44336',
+                            label: gd.currentPosition !== null ? `(${gd.currentPosition.x.toFixed(2)}, ${gd.currentPosition.y.toFixed(2)})` : ''
+                        },
+                        gradientOptions: {
+                            scale: 0.2,
+                            color: '#4CAF50'
+                        }
+                    };
+                } else if (this.currentType === 'complex') {
+                    scene = {
+                        function: func,
+                        path: gd.history,
+                        currentPoint: gd.currentPosition !== null ? {
+                            position: gd.currentPosition,
+                            value: gd.currentValue,
+                            gradient: gd.currentGradient
+                        } : null,
+                        functionOptions: {
+                            coloringMethod: 'phase',
+                            resolution: 300
+                        },
+                        pathOptions: {
+                            color: 'rgba(244, 67, 54, 0.8)',
+                            lineWidth: 2,
+                            showPoints: true,
+                            pointRadius: 3
+                        },
+                        pointOptions: {
+                            radius: 6,
+                            color: '#F44336',
+                            label: gd.currentPosition !== null ? gd.currentPosition.toString() : ''
+                        },
+                        gradientOptions: {
+                            scale: 0.2,
+                            color: '#4CAF50'
+                        }
+                    };
+                }
+                
+                // Render scene
+                this.renderers[this.currentType].render(scene);
+            }
+        };
+
+        // Initialize application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            safeExecute(() => {
+                App.init();
+            });
+        });
+
+        // Initialize immediately since we're at the end of the document
+        safeExecute(() => {
+            App.init();
+        });
+    </script>
 </body>
 </html>

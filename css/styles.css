@@ -296,20 +296,26 @@ h3 {
   margin-top: 10px;
 }
 
-/* Ensure all project-link titles in Projects, Experience, and Education are red */
+/* Target both nested and direct child links */
 .projects-section .experience-item h4 .project-link,
+.projects-section .experience-item h4 a.project-link,
 .experience-section .experience-item h4 .project-link,
-.education-section .education-item h4 .project-link {
-    color: #FF4D88; /* Explicitly set to match Show More and Projects */
+.experience-section .experience-item h4 a.project-link,
+.education-section .education-item h4 .project-link,
+.education-section .education-item h4 a.project-link {
+    color: #FF4D88;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
-/* Hover effect remains the same */
+/* Same for hover states */
 .projects-section .experience-item h4 .project-link:hover,
+.projects-section .experience-item h4 a.project-link:hover,
 .experience-section .experience-item h4 .project-link:hover,
-.education-section .education-item h4 .project-link:hover {
-    color: var(--primary-purple); /* #6C1AFF */
+.experience-section .experience-item h4 a.project-link:hover,
+.education-section .education-item h4 .project-link:hover,
+.education-section .education-item h4 a.project-link:hover {
+    color: var(--primary-purple);
     text-shadow: 0 0 10px rgba(108, 26, 255, 0.7);
 }
 
@@ -317,6 +323,23 @@ h3 {
 .education-section .education-item .grid-image {
     width: 60px;
     height: auto;
+}
+
+.experience-section .experience-item a.project-link h4 {
+  color: #FF4D88;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* And similarly for hover */
+.experience-section .experience-item a.project-link:hover h4 {
+  color: var(--primary-purple);
+  text-shadow: 0 0 10px rgba(108, 26, 255, 0.7);
+}
+
+/* Remove underlines from all project links */
+.project-link {
+  text-decoration: none;
 }
 
 /* Scroll Arrow Fix */

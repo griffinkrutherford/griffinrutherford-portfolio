@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coherascent Trial - CBT Habit Tracker</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #22f8ed;
+            --primary-dark: #00c2b8;
+            --primary-light: #7ffff6;
+            --secondary-color: #000000;
+            --text-color: #333333;
+            --text-light: #666666;
+            --background-color: #f5f5f5;
+            --white: #ffffff;
+            --gray: #eeeeee;
+            --gray-dark: #cccccc;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --danger: #f44336;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .trial-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--secondary-color);
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .trial-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .trial-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .app-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .preview-image {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .preview-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .preview-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .feature-list {
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .feature-icon i {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+
+        .feature-text h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+        }
+
+        .feature-text p {
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cbt-section {
+            background-color: var(--white);
+            padding: 50px 0;
+            margin: 50px 0;
+        }
+
+        .cbt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .cbt-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .cbt-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cbt-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .cbt-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .cbt-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 50px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link i {
+            margin-right: 5px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .trial-header h1 {
+                font-size: 2rem;
+            }
+
+            .trial-header p {
+                font-size: 1rem;
+            }
+
+            .preview-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="trial-header">
+        <div class="container">
+            <h1>Coherascent Trial Application</h1>
+            <p>Experience our CBT-based habit tracker with streak functionality</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="app-preview">
+            <div class="preview-image">
+                <img src="../images/logo.png" alt="Coherascent App Preview">
+            </div>
+            <div class="preview-content">
+                <h2>Transform Your Well-being Through Consistent Habits</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>CBT-Based Habit Tracking</h3>
+                            <p>Apply cognitive behavioral therapy principles to build lasting positive habits</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Streak Functionality</h3>
+                            <p>Maintain motivation with visual streak tracking and milestone achievements</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Data Visualization</h3>
+                            <p>Gain insights through comprehensive progress charts and mood correlation</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="app/" class="cta-button">Try the Demo</a>
+            </div>
+        </div>
+
+        <section class="cbt-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 40px;">CBT Principles in Action</h2>
+                <div class="cbt-grid">
+                    <div class="cbt-card">
+                        <div class="cbt-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Cognitive Restructuring</h3>
+                        <p>Identify negative thought patterns, challenge them, and develop more balanced thinking through guided thought records.</p>
+                    </div>
+                    <div class="cbt-card">
+                        <div class="cbt-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <h3>Behavioral Activation</h3>
+                        <p>Schedule and track pleasant activities to improve mood and build positive reinforcement cycles in your daily routine.</p>
+                    </div>
+                    <div class="cbt-card">
+                        <div class="cbt-icon">
+                            <i class="fas fa-om"></i>
+                        </div>
+                        <h3>Mindfulness Practice</h3>
+                        <p>Develop present-moment awareness through guided mindfulness exercises and track their impact on your stress levels.</p>
+                    </div>
+                    <div class="cbt-card">
+                        <div class="cbt-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Emotional Regulation</h3>
+                        <p>Monitor your mood patterns and learn effective strategies to manage emotions through consistent practice.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <a href="../" class="back-link"><i class="fas fa-arrow-left"></i> Back to Coherascent Home</a>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

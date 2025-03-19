@@ -1,0 +1,7147 @@
+{
+  "userHabits": [
+    {
+      "id": 1,
+      "userId": 1,
+      "habitDefinitionId": 1,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 8,
+      "longestStreak": 16,
+      "totalCompletions": 76,
+      "lastCompletedDate": "2025-04-13"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "habitDefinitionId": 2,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 21,
+      "longestStreak": 62,
+      "totalCompletions": 88,
+      "lastCompletedDate": "2025-04-13"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "habitDefinitionId": 3,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 4,
+      "longestStreak": 16,
+      "totalCompletions": 78,
+      "lastCompletedDate": "2025-04-13"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "habitDefinitionId": 4,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 9,
+      "longestStreak": 23,
+      "totalCompletions": 81,
+      "lastCompletedDate": "2025-04-13"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "habitDefinitionId": 5,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 0,
+      "longestStreak": 9,
+      "totalCompletions": 66,
+      "lastCompletedDate": "2025-04-09"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "habitDefinitionId": 6,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 0,
+      "longestStreak": 11,
+      "totalCompletions": 71,
+      "lastCompletedDate": "2025-04-11"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "habitDefinitionId": 7,
+      "startDate": "2025-01-15",
+      "active": true,
+      "currentStreak": 9,
+      "longestStreak": 20,
+      "totalCompletions": 77,
+      "lastCompletedDate": "2025-04-13"
+    }
+  ],
+  "habitEntries": [
+    {
+      "id": 1,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-15",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-15",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-15",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-15",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-15",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-15",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-15",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-16",
+      "completed": true,
+      "duration": 478,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-16",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 15,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-17",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 17,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 18,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-17",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 19,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-17",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 20,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-17",
+      "completed": true,
+      "duration": 421,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 21,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-17",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 22,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-18",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 23,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-18",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 24,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-18",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 25,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-18",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 26,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-18",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 27,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-18",
+      "completed": true,
+      "duration": 573,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 28,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-18",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 29,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-19",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 30,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-19",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 31,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-19",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 32,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-19",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 33,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-19",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 34,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-19",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 35,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-19",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 36,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-20",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 37,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-20",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 38,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-20",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 39,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-20",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 40,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-20",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 41,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-20",
+      "completed": true,
+      "duration": 506,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 42,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-20",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 43,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-21",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 44,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 45,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 46,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 47,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 48,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 442,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 49,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-21",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 50,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 51,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 52,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 53,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 54,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 55,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-22",
+      "completed": true,
+      "duration": 438,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 56,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-22",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 57,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 58,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-23",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 59,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-23",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 60,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-23",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 61,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 62,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-23",
+      "completed": true,
+      "duration": 544,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 63,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 64,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-24",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 65,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-24",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 66,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-24",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 67,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-24",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 68,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-24",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 69,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-24",
+      "completed": true,
+      "duration": 540,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 70,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-24",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 71,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 72,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 73,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 74,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 75,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 76,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-25",
+      "completed": true,
+      "duration": 444,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 77,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-25",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 78,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-26",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 79,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-26",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 80,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 81,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-26",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 82,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 83,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-26",
+      "completed": true,
+      "duration": 424,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 84,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 85,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-27",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 86,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-27",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 87,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-27",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 88,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-27",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 89,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-27",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 90,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-27",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 91,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-27",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 92,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 93,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 94,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 95,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 96,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 97,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 392,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 98,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-28",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 99,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 100,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 101,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 102,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 103,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 104,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 551,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 105,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-29",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 106,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 107,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 108,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 109,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 110,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 111,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-30",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 112,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-30",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 113,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 114,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 115,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 116,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 117,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 118,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-01-31",
+      "completed": true,
+      "duration": 531,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 119,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-01-31",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 120,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 121,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 122,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 123,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 124,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-01",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 125,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 451,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 126,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-01",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 127,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-02",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 128,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-02",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 129,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-02",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 130,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-02",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 131,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-02",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 132,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-02",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 133,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-02",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 134,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 135,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 136,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 137,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 138,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 139,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 529,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 140,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-03",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 141,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 142,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 143,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 144,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 145,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 146,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 465,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 147,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-04",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 148,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 149,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 150,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 151,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-05",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 152,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 153,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 417,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 154,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-05",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 155,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 156,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 157,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 158,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 159,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 160,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 527,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 161,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-06",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 162,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 163,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 164,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 165,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 166,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-07",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 167,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 428,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 168,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-07",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 169,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 170,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 171,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 172,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 173,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 174,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 480,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 175,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-08",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 176,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-09",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 177,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-09",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 178,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-09",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 179,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-09",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 180,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-09",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 181,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-09",
+      "completed": true,
+      "duration": 480,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 182,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-09",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 183,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-10",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 184,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-10",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 185,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-10",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 186,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-10",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 187,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-10",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 188,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-10",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 189,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-10",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 190,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 191,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 192,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 193,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 194,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-11",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 195,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 539,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 196,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-11",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 197,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 198,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 199,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 200,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 201,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 202,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 449,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 203,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-12",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 204,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 205,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 206,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 207,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 208,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 209,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-13",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 210,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-13",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 211,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 212,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 213,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 214,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 215,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 216,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 486,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 217,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-14",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 218,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 219,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 220,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 221,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 222,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-15",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 223,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 413,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 224,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-15",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 225,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 226,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 227,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-16",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 228,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 229,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 230,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 445,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 231,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-16",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 232,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 233,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 234,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 235,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 236,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 237,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-17",
+      "completed": true,
+      "duration": 570,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 238,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 239,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 240,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 241,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 242,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 243,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 244,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 454,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 245,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-18",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 246,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-19",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 247,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-19",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 248,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-19",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 249,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-19",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 250,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-19",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 251,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-19",
+      "completed": true,
+      "duration": 532,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 252,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-19",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 253,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 254,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 255,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 256,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 257,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 258,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 441,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 259,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-20",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 260,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-21",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 261,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-21",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 262,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-21",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 263,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-21",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 264,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-21",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 265,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-21",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 266,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-21",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 267,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 268,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 269,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 270,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 271,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 272,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-22",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 273,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-22",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 274,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 275,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 276,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 277,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 278,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 279,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-23",
+      "completed": true,
+      "duration": 478,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 280,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 281,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 282,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 283,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 284,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-24",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 285,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 286,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 515,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 287,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-24",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 288,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 289,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 290,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 291,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 292,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 293,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 512,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 294,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-25",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 295,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-26",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 296,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-26",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 297,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-26",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 298,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-26",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 299,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 300,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 301,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-26",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 302,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 303,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 304,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 305,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 306,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-27",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 307,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 484,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 308,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-27",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 309,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-02-28",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 310,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 311,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 312,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 313,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 314,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 497,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 315,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-02-28",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 316,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 317,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 318,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 319,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 320,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 321,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 469,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 322,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-01",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 323,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-02",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 324,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 325,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 326,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 327,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 328,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 545,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 329,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-02",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 330,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 331,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 332,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 333,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 334,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 335,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 564,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 336,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-03",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 337,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 338,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 339,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 340,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 341,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 342,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 530,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 343,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-04",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 344,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 345,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 346,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 347,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 348,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 349,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-05",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 350,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-05",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 351,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 352,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 353,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 354,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 355,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 356,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 508,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 357,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-06",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 358,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 359,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 360,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 361,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 362,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 363,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 415,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 364,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-07",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 365,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-08",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 366,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-08",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 367,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-08",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 368,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-08",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 369,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-08",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 370,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-08",
+      "completed": true,
+      "duration": 540,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 371,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-08",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 372,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 373,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 374,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 375,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 376,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 377,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 445,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 378,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 379,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 380,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 381,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 382,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 383,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 384,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 448,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 385,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-09",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 386,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 387,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 388,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 389,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 390,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 391,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-10",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 392,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-10",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 393,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 394,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 395,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 396,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 397,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 398,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 492,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 399,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-11",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 400,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 401,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 402,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 403,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 404,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 405,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 471,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 406,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-12",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 407,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 408,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 409,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 410,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 411,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 412,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 440,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 413,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-13",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 414,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 415,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 416,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 417,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 418,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 419,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 535,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 420,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-14",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 421,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 422,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 423,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 424,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 425,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 426,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-15",
+      "completed": true,
+      "duration": 496,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 427,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-15",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 428,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-16",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 429,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 430,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 431,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 432,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 433,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 526,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 434,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-16",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 435,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-17",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 436,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Gratitude Journal today"
+    },
+    {
+      "id": 437,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 438,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-17",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 439,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-17",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 440,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-17",
+      "completed": true,
+      "duration": 543,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 441,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-17",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 442,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-18",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 443,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-18",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 444,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-18",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 445,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-18",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 446,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-18",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 447,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-18",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 448,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-18",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 449,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 450,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 451,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 21,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 452,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-19",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 453,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 454,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 565,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 455,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-19",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 456,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 457,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 458,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 459,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 460,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 461,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 414,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 462,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-20",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 463,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 464,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 465,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 466,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 467,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-21",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 468,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 520,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 469,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-21",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 470,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 471,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 472,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 473,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 474,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 475,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 521,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 476,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-22",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 477,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-23",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 478,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Gratitude Journal today"
+    },
+    {
+      "id": 479,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 480,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-23",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 481,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 482,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-23",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 483,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-23",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 484,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 485,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 486,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 487,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 488,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 489,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 481,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 490,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-24",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 491,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-25",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 492,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-25",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 493,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-25",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 494,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-25",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 495,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-25",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 496,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-25",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 497,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-25",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 498,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-26",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 499,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-26",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 500,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-26",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 501,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 502,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-26",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 503,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-26",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 504,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-26",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 505,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 506,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 507,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 508,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 509,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 510,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 448,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 511,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-27",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 512,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 513,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 514,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 22,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 515,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 516,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 517,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 529,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 518,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-28",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 519,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 520,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 521,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 522,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 523,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-29",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 524,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 437,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 525,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-29",
+      "completed": true,
+      "duration": 15,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 526,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-30",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 527,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-30",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 528,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-30",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 529,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-30",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 530,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-30",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 531,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-30",
+      "completed": true,
+      "duration": 473,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 532,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-30",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 533,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 534,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 535,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 536,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 537,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 538,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-03-31",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 539,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-03-31",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 540,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 541,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 542,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 543,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 544,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-01",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 545,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 428,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 546,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-01",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 547,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 548,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 549,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 550,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 551,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-02",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 552,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 467,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 553,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-02",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 554,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 555,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 556,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 557,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 558,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-03",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 559,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 491,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 560,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-03",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 561,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-04",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 562,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-04",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 563,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-04",
+      "completed": true,
+      "duration": 19,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 564,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-04",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Meditation today"
+    },
+    {
+      "id": 565,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-04",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 566,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-04",
+      "completed": true,
+      "duration": 453,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 567,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-04",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Mindful Eating today"
+    },
+    {
+      "id": 568,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-05",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Thought Record today"
+    },
+    {
+      "id": 569,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 570,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 571,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 572,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 573,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 560,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 574,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-05",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 575,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 8,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 576,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 577,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 578,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 579,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 580,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 406,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 581,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-06",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 582,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 583,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 584,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 585,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 586,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 14,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 587,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 442,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 588,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-07",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 589,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 590,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 6,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 591,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 24,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 592,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 593,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 594,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 399,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 595,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-08",
+      "completed": true,
+      "duration": 18,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 596,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 597,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 598,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-09",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Physical Exercise today"
+    },
+    {
+      "id": 599,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 600,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Worry Time today"
+    },
+    {
+      "id": 601,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 552,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 602,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-09",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 603,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 604,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 605,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 606,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 607,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-10",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 608,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 549,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 609,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-10",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 610,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 9,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 611,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 612,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 20,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 613,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 614,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-11",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 615,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 572,
+      "notes": "Completed Sleep Hygiene today"
+    },
+    {
+      "id": 616,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-11",
+      "completed": true,
+      "duration": 13,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 617,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-12",
+      "completed": true,
+      "duration": 11,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 618,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-12",
+      "completed": true,
+      "duration": 5,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 619,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-12",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 620,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-12",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 621,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-12",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 622,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-12",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 623,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-12",
+      "completed": true,
+      "duration": 16,
+      "notes": "Completed Mindful Eating today"
+    },
+    {
+      "id": 624,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-04-13",
+      "completed": true,
+      "duration": 10,
+      "notes": "Completed Thought Record today"
+    },
+    {
+      "id": 625,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-04-13",
+      "completed": true,
+      "duration": 4,
+      "notes": "Completed Gratitude Journal today"
+    },
+    {
+      "id": 626,
+      "userId": 1,
+      "habitId": 3,
+      "date": "2025-04-13",
+      "completed": true,
+      "duration": 23,
+      "notes": "Completed Physical Exercise today"
+    },
+    {
+      "id": 627,
+      "userId": 1,
+      "habitId": 4,
+      "date": "2025-04-13",
+      "completed": true,
+      "duration": 12,
+      "notes": "Completed Meditation today"
+    },
+    {
+      "id": 628,
+      "userId": 1,
+      "habitId": 5,
+      "date": "2025-04-13",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Worry Time today"
+    },
+    {
+      "id": 629,
+      "userId": 1,
+      "habitId": 6,
+      "date": "2025-04-13",
+      "completed": false,
+      "duration": 0,
+      "notes": "Missed Sleep Hygiene today"
+    },
+    {
+      "id": 630,
+      "userId": 1,
+      "habitId": 7,
+      "date": "2025-04-13",
+      "completed": true,
+      "duration": 17,
+      "notes": "Completed Mindful Eating today"
+    }
+  ],
+  "moodEntries": [
+    {
+      "id": 1,
+      "userId": 1,
+      "date": "2025-01-15",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "date": "2025-01-16",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "date": "2025-01-17",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "date": "2025-01-18",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "date": "2025-01-19",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "date": "2025-01-20",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "date": "2025-01-21",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "date": "2025-01-22",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "date": "2025-01-23",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "date": "2025-01-24",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "date": "2025-01-25",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "date": "2025-01-26",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "date": "2025-01-27",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "date": "2025-01-28",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 15,
+      "userId": 1,
+      "date": "2025-01-29",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "date": "2025-01-30",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 17,
+      "userId": 1,
+      "date": "2025-01-31",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 18,
+      "userId": 1,
+      "date": "2025-02-01",
+      "value": 3,
+      "notes": "Average day"
+    },
+    {
+      "id": 19,
+      "userId": 1,
+      "date": "2025-02-02",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 20,
+      "userId": 1,
+      "date": "2025-02-03",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 21,
+      "userId": 1,
+      "date": "2025-02-04",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 22,
+      "userId": 1,
+      "date": "2025-02-05",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 23,
+      "userId": 1,
+      "date": "2025-02-06",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 24,
+      "userId": 1,
+      "date": "2025-02-07",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 25,
+      "userId": 1,
+      "date": "2025-02-08",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 26,
+      "userId": 1,
+      "date": "2025-02-09",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 27,
+      "userId": 1,
+      "date": "2025-02-10",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 28,
+      "userId": 1,
+      "date": "2025-02-11",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 29,
+      "userId": 1,
+      "date": "2025-02-12",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 30,
+      "userId": 1,
+      "date": "2025-02-13",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 31,
+      "userId": 1,
+      "date": "2025-02-14",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 32,
+      "userId": 1,
+      "date": "2025-02-15",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 33,
+      "userId": 1,
+      "date": "2025-02-16",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 34,
+      "userId": 1,
+      "date": "2025-02-17",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 35,
+      "userId": 1,
+      "date": "2025-02-18",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 36,
+      "userId": 1,
+      "date": "2025-02-19",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 37,
+      "userId": 1,
+      "date": "2025-02-20",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 38,
+      "userId": 1,
+      "date": "2025-02-21",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 39,
+      "userId": 1,
+      "date": "2025-02-22",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 40,
+      "userId": 1,
+      "date": "2025-02-23",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 41,
+      "userId": 1,
+      "date": "2025-02-24",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 42,
+      "userId": 1,
+      "date": "2025-02-25",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 43,
+      "userId": 1,
+      "date": "2025-02-26",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 44,
+      "userId": 1,
+      "date": "2025-02-27",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 45,
+      "userId": 1,
+      "date": "2025-02-28",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 46,
+      "userId": 1,
+      "date": "2025-03-01",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 47,
+      "userId": 1,
+      "date": "2025-03-02",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 48,
+      "userId": 1,
+      "date": "2025-03-03",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 49,
+      "userId": 1,
+      "date": "2025-03-04",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 50,
+      "userId": 1,
+      "date": "2025-03-05",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 51,
+      "userId": 1,
+      "date": "2025-03-06",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 52,
+      "userId": 1,
+      "date": "2025-03-07",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 53,
+      "userId": 1,
+      "date": "2025-03-08",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 54,
+      "userId": 1,
+      "date": "2025-03-09",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 55,
+      "userId": 1,
+      "date": "2025-03-09",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 56,
+      "userId": 1,
+      "date": "2025-03-10",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 57,
+      "userId": 1,
+      "date": "2025-03-11",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 58,
+      "userId": 1,
+      "date": "2025-03-12",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 59,
+      "userId": 1,
+      "date": "2025-03-13",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 60,
+      "userId": 1,
+      "date": "2025-03-14",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 61,
+      "userId": 1,
+      "date": "2025-03-15",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 62,
+      "userId": 1,
+      "date": "2025-03-16",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 63,
+      "userId": 1,
+      "date": "2025-03-17",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 64,
+      "userId": 1,
+      "date": "2025-03-18",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 65,
+      "userId": 1,
+      "date": "2025-03-19",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 66,
+      "userId": 1,
+      "date": "2025-03-20",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 67,
+      "userId": 1,
+      "date": "2025-03-21",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 68,
+      "userId": 1,
+      "date": "2025-03-22",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 69,
+      "userId": 1,
+      "date": "2025-03-23",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 70,
+      "userId": 1,
+      "date": "2025-03-24",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 71,
+      "userId": 1,
+      "date": "2025-03-25",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 72,
+      "userId": 1,
+      "date": "2025-03-26",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 73,
+      "userId": 1,
+      "date": "2025-03-27",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 74,
+      "userId": 1,
+      "date": "2025-03-28",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 75,
+      "userId": 1,
+      "date": "2025-03-29",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 76,
+      "userId": 1,
+      "date": "2025-03-30",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 77,
+      "userId": 1,
+      "date": "2025-03-31",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 78,
+      "userId": 1,
+      "date": "2025-04-01",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 79,
+      "userId": 1,
+      "date": "2025-04-02",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 80,
+      "userId": 1,
+      "date": "2025-04-03",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 81,
+      "userId": 1,
+      "date": "2025-04-04",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 82,
+      "userId": 1,
+      "date": "2025-04-05",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 83,
+      "userId": 1,
+      "date": "2025-04-06",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 84,
+      "userId": 1,
+      "date": "2025-04-07",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 85,
+      "userId": 1,
+      "date": "2025-04-08",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 86,
+      "userId": 1,
+      "date": "2025-04-09",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 87,
+      "userId": 1,
+      "date": "2025-04-10",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 88,
+      "userId": 1,
+      "date": "2025-04-11",
+      "value": 5,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 89,
+      "userId": 1,
+      "date": "2025-04-12",
+      "value": 4,
+      "notes": "Feeling positive today"
+    },
+    {
+      "id": 90,
+      "userId": 1,
+      "date": "2025-04-13",
+      "value": 5,
+      "notes": "Feeling positive today"
+    }
+  ],
+  "thoughtRecords": [
+    {
+      "id": 1,
+      "userId": 1,
+      "date": "2025-01-15",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "date": "2025-01-16",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "date": "2025-01-18",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "date": "2025-01-20",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "date": "2025-01-22",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "date": "2025-01-24",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "date": "2025-01-25",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "date": "2025-01-26",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "date": "2025-01-27",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "date": "2025-01-28",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "date": "2025-01-29",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "date": "2025-01-30",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "date": "2025-01-31",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "date": "2025-02-01",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 15,
+      "userId": 1,
+      "date": "2025-02-03",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "date": "2025-02-04",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 17,
+      "userId": 1,
+      "date": "2025-02-05",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 18,
+      "userId": 1,
+      "date": "2025-02-06",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 19,
+      "userId": 1,
+      "date": "2025-02-07",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 20,
+      "userId": 1,
+      "date": "2025-02-08",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 21,
+      "userId": 1,
+      "date": "2025-02-09",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 22,
+      "userId": 1,
+      "date": "2025-02-10",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 23,
+      "userId": 1,
+      "date": "2025-02-11",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 24,
+      "userId": 1,
+      "date": "2025-02-12",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 25,
+      "userId": 1,
+      "date": "2025-02-13",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 26,
+      "userId": 1,
+      "date": "2025-02-14",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 27,
+      "userId": 1,
+      "date": "2025-02-15",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 28,
+      "userId": 1,
+      "date": "2025-02-16",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 29,
+      "userId": 1,
+      "date": "2025-02-17",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 30,
+      "userId": 1,
+      "date": "2025-02-18",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 31,
+      "userId": 1,
+      "date": "2025-02-20",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 32,
+      "userId": 1,
+      "date": "2025-02-21",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 33,
+      "userId": 1,
+      "date": "2025-02-22",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 34,
+      "userId": 1,
+      "date": "2025-02-23",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 35,
+      "userId": 1,
+      "date": "2025-02-24",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 36,
+      "userId": 1,
+      "date": "2025-02-25",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 37,
+      "userId": 1,
+      "date": "2025-02-26",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 38,
+      "userId": 1,
+      "date": "2025-02-27",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 39,
+      "userId": 1,
+      "date": "2025-03-01",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 40,
+      "userId": 1,
+      "date": "2025-03-03",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 41,
+      "userId": 1,
+      "date": "2025-03-04",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 42,
+      "userId": 1,
+      "date": "2025-03-05",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 43,
+      "userId": 1,
+      "date": "2025-03-06",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 44,
+      "userId": 1,
+      "date": "2025-03-07",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 45,
+      "userId": 1,
+      "date": "2025-03-09",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 46,
+      "userId": 1,
+      "date": "2025-03-09",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 47,
+      "userId": 1,
+      "date": "2025-03-10",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 48,
+      "userId": 1,
+      "date": "2025-03-11",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 49,
+      "userId": 1,
+      "date": "2025-03-12",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 50,
+      "userId": 1,
+      "date": "2025-03-13",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 51,
+      "userId": 1,
+      "date": "2025-03-14",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 52,
+      "userId": 1,
+      "date": "2025-03-15",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 53,
+      "userId": 1,
+      "date": "2025-03-17",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 54,
+      "userId": 1,
+      "date": "2025-03-19",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 55,
+      "userId": 1,
+      "date": "2025-03-20",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 56,
+      "userId": 1,
+      "date": "2025-03-21",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 57,
+      "userId": 1,
+      "date": "2025-03-22",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 58,
+      "userId": 1,
+      "date": "2025-03-23",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 59,
+      "userId": 1,
+      "date": "2025-03-24",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 60,
+      "userId": 1,
+      "date": "2025-03-26",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 61,
+      "userId": 1,
+      "date": "2025-03-27",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 62,
+      "userId": 1,
+      "date": "2025-03-28",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 63,
+      "userId": 1,
+      "date": "2025-03-29",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 64,
+      "userId": 1,
+      "date": "2025-03-31",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 65,
+      "userId": 1,
+      "date": "2025-04-01",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 66,
+      "userId": 1,
+      "date": "2025-04-02",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 67,
+      "userId": 1,
+      "date": "2025-04-03",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I'll never be able to keep up with these habits.",
+      "distortion": "All-or-nothing thinking",
+      "reframe": "I don't have to be perfect. Even small progress is still progress.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 68,
+      "userId": 1,
+      "date": "2025-04-04",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 69,
+      "userId": 1,
+      "date": "2025-04-06",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 70,
+      "userId": 1,
+      "date": "2025-04-07",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 71,
+      "userId": 1,
+      "date": "2025-04-08",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 72,
+      "userId": 1,
+      "date": "2025-04-09",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "Everyone else finds this easier than I do.",
+      "distortion": "Mind reading",
+      "reframe": "I don't know how others feel. Many people struggle with consistency.",
+      "outcomeFeeling": 5
+    },
+    {
+      "id": 73,
+      "userId": 1,
+      "date": "2025-04-10",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "This isn't working fast enough.",
+      "distortion": "Impatience",
+      "reframe": "Meaningful change takes time. I'm building habits that will last.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 74,
+      "userId": 1,
+      "date": "2025-04-11",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I should be doing better by now.",
+      "distortion": "Should statements",
+      "reframe": "I'm doing my best with the resources I have right now.",
+      "outcomeFeeling": 3
+    },
+    {
+      "id": 75,
+      "userId": 1,
+      "date": "2025-04-12",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 4
+    },
+    {
+      "id": 76,
+      "userId": 1,
+      "date": "2025-04-13",
+      "situation": "While trying to maintain my daily habits",
+      "negativeThought": "I missed a day, so I've ruined my progress.",
+      "distortion": "Catastrophizing",
+      "reframe": "Missing one day doesn't erase my previous efforts. I can start again today.",
+      "outcomeFeeling": 5
+    }
+  ]
+}

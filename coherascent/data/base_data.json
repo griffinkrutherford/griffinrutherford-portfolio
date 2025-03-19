@@ -1,0 +1,87 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Demo User",
+      "email": "demo@coherascent.com",
+      "joinDate": "2025-01-15T00:00:00.000Z",
+      "preferences": {
+        "reminderTime": "19:00",
+        "weeklyReportDay": "Sunday",
+        "categories": ["mental", "physical", "mindfulness"]
+      }
+    }
+  ],
+  "habitDefinitions": [
+    {
+      "id": 1,
+      "category": "mental",
+      "name": "Thought Record",
+      "description": "Identify and reframe negative thoughts using CBT techniques",
+      "frequency": "daily",
+      "recommendedDuration": 10,
+      "difficulty": "medium",
+      "cbtPrinciple": "cognitive_restructuring"
+    },
+    {
+      "id": 2,
+      "category": "mental",
+      "name": "Gratitude Journal",
+      "description": "Write down three things you're grateful for today",
+      "frequency": "daily",
+      "recommendedDuration": 5,
+      "difficulty": "easy",
+      "cbtPrinciple": "positive_psychology"
+    },
+    {
+      "id": 3,
+      "category": "physical",
+      "name": "Physical Exercise",
+      "description": "Any form of physical activity for at least 20 minutes",
+      "frequency": "daily",
+      "recommendedDuration": 20,
+      "difficulty": "medium",
+      "cbtPrinciple": "behavioral_activation"
+    },
+    {
+      "id": 4,
+      "category": "mindfulness",
+      "name": "Meditation",
+      "description": "Guided or unguided meditation practice",
+      "frequency": "daily",
+      "recommendedDuration": 10,
+      "difficulty": "medium",
+      "cbtPrinciple": "mindfulness"
+    },
+    {
+      "id": 5,
+      "category": "mental",
+      "name": "Worry Time",
+      "description": "Schedule specific time to address worries, then let them go",
+      "frequency": "daily",
+      "recommendedDuration": 15,
+      "difficulty": "hard",
+      "cbtPrinciple": "worry_management"
+    },
+    {
+      "id": 6,
+      "category": "physical",
+      "name": "Sleep Hygiene",
+      "description": "Maintain consistent sleep schedule and bedtime routine",
+      "frequency": "daily",
+      "recommendedDuration": 480,
+      "difficulty": "medium",
+      "cbtPrinciple": "behavioral_regulation"
+    },
+    {
+      "id": 7,
+      "category": "mindfulness",
+      "name": "Mindful Eating",
+      "description": "Practice being present and mindful during one meal",
+      "frequency": "daily",
+      "recommendedDuration": 15,
+      "difficulty": "medium",
+      "cbtPrinciple": "mindfulness"
+    }
+  ]
+}

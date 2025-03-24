@@ -252,7 +252,6 @@
             <div class="button-group">
                 <button id="reset-button">Reset</button>
                 <button id="step-button">Step</button>
-                <button id="run-button" class="primary">Run</button>
             </div>
             
             <div class="control-group">
@@ -1793,12 +1792,7 @@
                 stepButton.addEventListener('click', () => {
                     this.step();
                 });
-                
-                // Run button
-                const runButton = document.getElementById('run-button');
-                runButton.addEventListener('click', () => {
-                    this.toggleRun();
-                });
+            
             },
             
             // Initialize UI

@@ -252,6 +252,7 @@
             <div class="button-group">
                 <button id="reset-button">Reset</button>
                 <button id="step-button">Step</button>
+                <button id="run-button" class="primary">Run</button>
             </div>
             
             <div class="control-group">
@@ -1792,7 +1793,12 @@
                 stepButton.addEventListener('click', () => {
                     this.step();
                 });
-            
+                
+                // Run button
+                const runButton = document.getElementById('run-button');
+                runButton.addEventListener('click', () => {
+                    this.toggleRun();
+                });
             },
             
             // Initialize UI
@@ -1940,7 +1946,12 @@
                     
                     // Render initial state
                     this.render();
-                    return;
+                    
+                    // For single variable, we need to force a step even during initialization
+                    // when running animation to fix the issue with Run button
+                    if (!this.isRunning || this.currentType !== 'single') {
+                        return;
+                    }
                 }
                 
                 // Perform a step
@@ -1950,12 +1961,16 @@
                 if (!result) {
                     this.stopAnimation();
                     this.updateStatus('Finished', 'Reached maximum iterations');
-                    return;
+                    return null;
                 }
                 
                 // Update status
                 if (result.converged) {
                     this.stopAnimation();
+                    this.isRunning = false;
+                    
+                    const runButton = document.getElementById('run-button');
+                    runButton.textContent = 'Run';
                     
                     if (this.currentType === 'single') {
                         this.updateStatus('Converged', `at x = ${result.position.toFixed(4)}, f(x) = ${result.value.toFixed(4)}`);
@@ -1988,6 +2003,48 @@
                 runButton.textContent = this.isRunning ? 'Pause' : 'Run';
                 
                 if (this.isRunning) {
+                    // Initialize if needed before starting animation
+                    if (this.gradientDescent[this.currentType].currentPosition === null) {
+                        // Get current function
+                        const functionSelect = document.getElementById('function-select');
+                        const func = Functions[this.currentType][functionSelect.value];
+                        
+                        // Get starting point
+                        const startingPointX = document.getElementById('starting-point-x');
+                        const startingPointY = document.getElementById('starting-point-y');
+                        
+                        // Initialize gradient descent
+                        if (this.currentType === 'single') {
+                            this.gradientDescent[this.currentType].initialize(
+                                func,
+                                parseFloat(startingPointX.value)
+                            );
+                            
+                            // For single variable, immediately take a step after initialization
+                            // This is the key fix for the single variable Run button issue
+                            this.gradientDescent[this.currentType].step();
+                        } else if (this.currentType === 'multi') {
+                            this.gradientDescent[this.currentType].initialize(
+                                func,
+                                {
+                                    x: parseFloat(startingPointX.value),
+                                    y: parseFloat(startingPointY.value)
+                                }
+                            );
+                        } else if (this.currentType === 'complex') {
+                            this.gradientDescent[this.currentType].initialize(
+                                func,
+                                new Utils.Complex(
+                                    parseFloat(startingPointX.value),
+                                    parseFloat(startingPointY.value)
+                                )
+                            );
+                        }
+                        
+                        // Render initial state
+                        this.render();
+                    }
+                    
                     this.startAnimation();
                     this.updateStatus('Running');
                 } else {
@@ -1998,7 +2055,11 @@
             
             // Start animation
             startAnimation: function() {
-                if (this.animationId !== null) return;
+                if (this.animationId !== null) {
+                    // Cancel any existing animation frame before starting a new one
+                    cancelAnimationFrame(this.animationId);
+                    this.animationId = null;
+                }
                 
                 this.lastStepTime = performance.now();
                 this.animate();
@@ -2014,32 +2075,30 @@
             
             // Animation loop
             animate: function() {
-                this.animationId = requestAnimationFrame(() => {
-                    const currentTime = performance.now();
-                    const elapsed = currentTime - this.lastStepTime;
+                const currentTime = performance.now();
+                const elapsed = currentTime - this.lastStepTime;
+                
+                // If enough time has passed, perform a step
+                if (elapsed >= this.animationDelay) {
+                    this.lastStepTime = currentTime;
+                    const result = this.step();
                     
-                    // If enough time has passed, perform a step
-                    if (elapsed >= this.animationDelay) {
-                        this.lastStepTime = currentTime;
-                        const result = this.step();
+                    // If step returned null or converged, stop animation
+                    if (!result || result.converged) {
+                        this.stopAnimation();
+                        this.isRunning = false;
                         
-                        // If step returned null or converged, stop animation
-                        if (!result || result.converged) {
-                            this.stopAnimation();
-                            this.isRunning = false;
-                            
-                            const runButton = document.getElementById('run-button');
-                            runButton.textContent = 'Run';
-                            
-                            return;
-                        }
+                        const runButton = document.getElementById('run-button');
+                        runButton.textContent = 'Run';
+                        
+                        return;
                     }
-                    
-                    // Continue animation if still running
-                    if (this.isRunning) {
-                        this.animate();
-                    }
-                });
+                }
+                
+                // Continue animation if still running
+                if (this.isRunning) {
+                    this.animationId = requestAnimationFrame(() => this.animate());
+                }
             },
             
             // Update status display
@@ -2159,11 +2218,6 @@
             safeExecute(() => {
                 App.init();
             });
-        });
-
-        // Initialize immediately since we're at the end of the document
-        safeExecute(() => {
-            App.init();
         });
     </script>
 </body>

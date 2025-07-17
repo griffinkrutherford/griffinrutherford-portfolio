@@ -176,6 +176,12 @@
     box-shadow: 0 5px 15px rgba(255, 26, 77, 0.4);
 }
 
+.social-links a i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
 /* Animations */
 @keyframes floatText {
     0% { transform: translate(-50%, -45%); opacity: 0; }
@@ -443,6 +449,11 @@ h3 {
   
   .quick-links-nav a:hover {
     color: var(--primary-red);
+  }
+  
+  .quick-links-nav a i {
+    margin-right: 8px;
+    font-size: 1.1rem;
   }
   
   .quick-links-nav .social-divider {

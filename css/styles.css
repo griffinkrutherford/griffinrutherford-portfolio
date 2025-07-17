@@ -399,6 +399,12 @@ h3 {
     justify-content: center;
     align-items: center;
     padding: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .quick-links-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
   }
   .quick-links-button .bar {
     display: block;
@@ -428,14 +434,21 @@ h3 {
   }
   .quick-links-nav a {
     color: #F8F1FF;
-    top: 40px;
-    right: 40px;
-    width: 60px;         /* Slightly smaller size */
-    height: 60px;
     text-decoration: none;
     font-weight: bold;
     font-family: Arial, sans-serif;
     opacity: 0.9;
+    transition: color 0.3s ease;
+  }
+  
+  .quick-links-nav a:hover {
+    color: var(--primary-red);
+  }
+  
+  .quick-links-nav .social-divider {
+    height: 1px;
+    background-color: var(--primary-red);
+    margin: 15px 0;
   }
   
   .quick-links-menu.active .quick-links-nav {
@@ -448,6 +461,41 @@ h3 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     column-gap: 1rem;
+  }
+  
+  /* Skills Section */
+  .skills-section {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid var(--primary-red);
+  }
+  
+  .skills-section h3 {
+    color: var(--primary-red);
+    margin-bottom: 20px;
+  }
+  
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .skill-category h4 {
+    color: var(--primary-red);
+    margin-bottom: 10px;
+  }
+  
+  .skill-category ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .skill-category li {
+    padding: 5px 0;
+    color: #F8F1FF;
   }
   
 

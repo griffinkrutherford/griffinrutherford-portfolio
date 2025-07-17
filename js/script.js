@@ -60,9 +60,27 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('DOMContentLoaded', function() {
     const quickLinksMenu = document.querySelector('.quick-links-menu');
     const quickLinksButton = document.querySelector('.quick-links-button');
+    const quickLinksNav = document.querySelector('.quick-links-nav');
+    
     if (quickLinksButton && quickLinksMenu) {
-      quickLinksButton.addEventListener('click', () => {
+      quickLinksButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         quickLinksMenu.classList.toggle('active');
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!quickLinksMenu.contains(e.target)) {
+          quickLinksMenu.classList.remove('active');
+        }
+      });
+      
+      // Close menu when clicking on a link
+      const navLinks = quickLinksNav.querySelectorAll('a[href^="#"]');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          quickLinksMenu.classList.remove('active');
+        });
       });
     }
   });

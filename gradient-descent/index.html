@@ -243,6 +243,11 @@
                 <input type="range" id="learning-rate" min="0.01" max="1" step="0.01" value="0.1">
             </div>
             
+            <div class="control-group">
+                <label for="animation-speed">Animation Speed: <span id="animation-speed-value">Medium</span></label>
+                <input type="range" id="animation-speed" min="0" max="4" step="1" value="2">
+            </div>
+            
             <div id="starting-point-container" class="control-group">
                 <label for="starting-point-x">Starting Point:</label>
                 <input type="number" id="starting-point-x" value="2" step="0.1">
@@ -895,32 +900,32 @@
                     
                     options = options || {};
                     
-                    ctx.strokeStyle = options.color || 'rgba(244, 67, 54, 0.5)';
-                    ctx.lineWidth = options.lineWidth || 2;
-                    
-                    ctx.beginPath();
-                    
-                    for (let i = 0; i < path.length; i++) {
-                        const point = path[i];
-                        const x = point.position;
-                        const y = point.value;
+                    // Draw path with gradient effect
+                    for (let i = 1; i < path.length; i++) {
+                        const startPoint = path[i - 1];
+                        const endPoint = path[i];
                         
-                        const screenX = worldToScreenX(x);
-                        const screenY = worldToScreenY(y);
+                        const startX = worldToScreenX(startPoint.position);
+                        const startY = worldToScreenY(startPoint.value);
+                        const endX = worldToScreenX(endPoint.position);
+                        const endY = worldToScreenY(endPoint.value);
                         
-                        if (i === 0) {
-                            ctx.moveTo(screenX, screenY);
-                        } else {
-                            ctx.lineTo(screenX, screenY);
-                        }
+                        // Calculate opacity based on position in path
+                        const opacity = options.fadeTrail ? (i / path.length) : 1;
+                        const baseColor = options.color || 'rgba(244, 67, 54, 0.5)';
+                        
+                        // Extract RGB values from color
+                        ctx.strokeStyle = baseColor.replace(/[\d.]+\)$/g, opacity + ')');
+                        ctx.lineWidth = options.lineWidth || 2;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(startX, startY);
+                        ctx.lineTo(endX, endY);
+                        ctx.stroke();
                     }
                     
-                    ctx.stroke();
-                    
-                    // Draw points
+                    // Draw points with growing animation
                     if (options.showPoints) {
-                        ctx.fillStyle = options.color || 'rgba(244, 67, 54, 0.5)';
-                        
                         for (let i = 0; i < path.length; i++) {
                             const point = path[i];
                             const x = point.position;
@@ -929,8 +934,16 @@
                             const screenX = worldToScreenX(x);
                             const screenY = worldToScreenY(y);
                             
+                            // Animate point size based on recency
+                            const recencyFactor = i / path.length;
+                            const baseRadius = options.pointRadius || 3;
+                            const radius = baseRadius * (0.5 + 0.5 * recencyFactor);
+                            
+                            const opacity = options.fadeTrail ? recencyFactor : 1;
+                            ctx.fillStyle = (options.color || 'rgba(244, 67, 54, 0.5)').replace(/[\d.]+\)$/g, opacity + ')');
+                            
                             ctx.beginPath();
-                            ctx.arc(screenX, screenY, options.pointRadius || 3, 0, Math.PI * 2);
+                            ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
                             ctx.fill();
                         }
                     }
@@ -948,42 +961,94 @@
                     const screenX = worldToScreenX(x);
                     const screenY = worldToScreenY(y);
                     
-                    // Draw point
+                    // Draw pulsing effect
+                    if (options.pulseScale) {
+                        ctx.fillStyle = options.color || '#F44336';
+                        ctx.globalAlpha = 0.3;
+                        ctx.beginPath();
+                        ctx.arc(screenX, screenY, (options.radius || 6) * options.pulseScale * 1.5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.globalAlpha = 1.0;
+                    }
+                    
+                    // Draw point with glow effect
+                    const gradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, (options.radius || 6) * 2);
+                    gradient.addColorStop(0, options.color || '#F44336');
+                    gradient.addColorStop(0.5, options.color || '#F44336');
+                    gradient.addColorStop(1, 'rgba(244, 67, 54, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, (options.radius || 6) * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw solid center
                     ctx.fillStyle = options.color || '#F44336';
                     ctx.beginPath();
                     ctx.arc(screenX, screenY, options.radius || 6, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    // Draw label
+                    // Draw label with background
                     if (options.label) {
-                        ctx.fillStyle = '#FFFFFF';
                         ctx.font = '12px Arial';
+                        const textMetrics = ctx.measureText(options.label);
+                        const textWidth = textMetrics.width;
+                        const textHeight = 16;
+                        const padding = 4;
+                        
+                        // Draw background
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                        ctx.fillRect(
+                            screenX + 10,
+                            screenY - textHeight - 5,
+                            textWidth + padding * 2,
+                            textHeight + padding
+                        );
+                        
+                        // Draw text
+                        ctx.fillStyle = '#FFFFFF';
                         ctx.textAlign = 'left';
                         ctx.textBaseline = 'bottom';
-                        ctx.fillText(options.label, screenX + 10, screenY - 5);
+                        ctx.fillText(options.label, screenX + 10 + padding, screenY - 5);
                     }
                     
-                    // Draw gradient
+                    // Draw gradient arrow with animation
                     if (point.gradient && options.showGradient) {
                         const gradientScale = options.gradientScale || 0.5;
-                        const gradientX = x + point.gradient * gradientScale;
+                        const animatedScale = options.pulseScale ? gradientScale * options.pulseScale : gradientScale;
+                        const gradientX = x - point.gradient * animatedScale;
                         const gradientY = func.func(gradientX);
                         
                         const gradientScreenX = worldToScreenX(gradientX);
                         const gradientScreenY = worldToScreenY(gradientY);
                         
+                        // Calculate gradient magnitude for opacity
+                        const gradientMagnitude = Math.abs(point.gradient);
+                        const opacity = Math.min(1, gradientMagnitude * 10); // Fade out as gradient approaches 0
+                        
+                        // Draw gradient line with glow
+                        ctx.save();
+                        ctx.globalAlpha = opacity;
+                        ctx.shadowColor = options.gradientColor || '#4CAF50';
+                        ctx.shadowBlur = 10 * opacity;
+                        
                         ctx.strokeStyle = options.gradientColor || '#4CAF50';
-                        ctx.lineWidth = 2;
+                        ctx.lineWidth = 3;
                         
                         ctx.beginPath();
                         ctx.moveTo(screenX, screenY);
                         ctx.lineTo(gradientScreenX, gradientScreenY);
                         ctx.stroke();
                         
-                        // Draw arrowhead
-                        const angle = Math.atan2(gradientScreenY - screenY, gradientScreenX - screenX);
-                        const arrowSize = 8;
+                        ctx.restore();
                         
+                        // Draw animated arrowhead
+                        const angle = Math.atan2(gradientScreenY - screenY, gradientScreenX - screenX);
+                        const arrowSize = 10 * (options.pulseScale || 1);
+                        
+                        ctx.save();
+                        ctx.globalAlpha = opacity;
+                        ctx.fillStyle = options.gradientColor || '#4CAF50';
                         ctx.beginPath();
                         ctx.moveTo(gradientScreenX, gradientScreenY);
                         ctx.lineTo(
@@ -996,6 +1061,7 @@
                         );
                         ctx.closePath();
                         ctx.fill();
+                        ctx.restore();
                     }
                 };
                 
@@ -1703,6 +1769,10 @@
             animationDelay: 100,
             lastStepTime: 0,
             isRunning: false,
+            animatedTrail: [],
+            animationParams: {
+                pulseScale: 1
+            },
             
             // Initialize application
             init: function() {
@@ -1738,6 +1808,9 @@
                 // Initialize UI
                 this.initializeUI();
                 
+                // Start continuous render loop
+                this.startRenderLoop();
+                
                 // Render initial scene
                 this.render();
             },
@@ -1768,6 +1841,18 @@
                     learningRateValue.textContent = rate.toFixed(2);
                     
                     this.gradientDescent[this.currentType].setLearningRate(rate);
+                });
+                
+                // Animation speed
+                const animationSpeedInput = document.getElementById('animation-speed');
+                const animationSpeedValue = document.getElementById('animation-speed-value');
+                const speedLabels = ['Very Slow', 'Slow', 'Medium', 'Fast', 'Very Fast'];
+                const speedDelays = [500, 200, 100, 50, 20];
+                
+                animationSpeedInput.addEventListener('input', () => {
+                    const speed = parseInt(animationSpeedInput.value);
+                    animationSpeedValue.textContent = speedLabels[speed];
+                    this.animationDelay = speedDelays[speed];
                 });
                 
                 // Starting point
@@ -1947,11 +2032,7 @@
                     // Render initial state
                     this.render();
                     
-                    // For single variable, we need to force a step even during initialization
-                    // when running animation to fix the issue with Run button
-                    if (!this.isRunning || this.currentType !== 'single') {
-                        return;
-                    }
+                    // Don't return here - continue to perform a step
                 }
                 
                 // Perform a step
@@ -1959,19 +2040,13 @@
                 
                 // If no result, we've reached the end
                 if (!result) {
-                    this.stopAnimation();
                     this.updateStatus('Finished', 'Reached maximum iterations');
                     return null;
                 }
                 
                 // Update status
                 if (result.converged) {
-                    this.stopAnimation();
-                    this.isRunning = false;
-                    
-                    const runButton = document.getElementById('run-button');
-                    runButton.textContent = 'Run';
-                    
+                    // Don't stop animation here - let the animate() function handle it
                     if (this.currentType === 'single') {
                         this.updateStatus('Converged', `at x = ${result.position.toFixed(4)}, f(x) = ${result.value.toFixed(4)}`);
                     } else if (this.currentType === 'multi') {
@@ -1989,8 +2064,8 @@
                     }
                 }
                 
-                // Render updated state
-                this.render();
+                // Render updated state with animation
+                this.renderWithAnimation();
                 
                 return result;
             },
@@ -2003,48 +2078,6 @@
                 runButton.textContent = this.isRunning ? 'Pause' : 'Run';
                 
                 if (this.isRunning) {
-                    // Initialize if needed before starting animation
-                    if (this.gradientDescent[this.currentType].currentPosition === null) {
-                        // Get current function
-                        const functionSelect = document.getElementById('function-select');
-                        const func = Functions[this.currentType][functionSelect.value];
-                        
-                        // Get starting point
-                        const startingPointX = document.getElementById('starting-point-x');
-                        const startingPointY = document.getElementById('starting-point-y');
-                        
-                        // Initialize gradient descent
-                        if (this.currentType === 'single') {
-                            this.gradientDescent[this.currentType].initialize(
-                                func,
-                                parseFloat(startingPointX.value)
-                            );
-                            
-                            // For single variable, immediately take a step after initialization
-                            // This is the key fix for the single variable Run button issue
-                            this.gradientDescent[this.currentType].step();
-                        } else if (this.currentType === 'multi') {
-                            this.gradientDescent[this.currentType].initialize(
-                                func,
-                                {
-                                    x: parseFloat(startingPointX.value),
-                                    y: parseFloat(startingPointY.value)
-                                }
-                            );
-                        } else if (this.currentType === 'complex') {
-                            this.gradientDescent[this.currentType].initialize(
-                                func,
-                                new Utils.Complex(
-                                    parseFloat(startingPointX.value),
-                                    parseFloat(startingPointY.value)
-                                )
-                            );
-                        }
-                        
-                        // Render initial state
-                        this.render();
-                    }
-                    
                     this.startAnimation();
                     this.updateStatus('Running');
                 } else {
@@ -2061,8 +2094,8 @@
                     this.animationId = null;
                 }
                 
-                this.lastStepTime = performance.now();
-                this.animate();
+                this.lastStepTime = performance.now() - this.animationDelay; // Start immediately
+                this.animationId = requestAnimationFrame(() => this.animate());
             },
             
             // Stop animation
@@ -2075,6 +2108,13 @@
             
             // Animation loop
             animate: function() {
+                if (!this.isRunning) {
+                    return;
+                }
+                
+                // Always schedule the next frame first to ensure continuous animation
+                this.animationId = requestAnimationFrame(() => this.animate());
+                
                 const currentTime = performance.now();
                 const elapsed = currentTime - this.lastStepTime;
                 
@@ -2090,15 +2130,80 @@
                         
                         const runButton = document.getElementById('run-button');
                         runButton.textContent = 'Run';
+                    }
+                    
+                    // Auto-stop when gradient is very small (near extremum)
+                    if (result && !result.converged) {
+                        const gradientMagnitude = this.currentType === 'single' 
+                            ? Math.abs(result.gradient)
+                            : this.currentType === 'multi'
+                            ? Math.sqrt(result.gradient.x * result.gradient.x + result.gradient.y * result.gradient.y)
+                            : result.gradient.abs();
+                            
+                        const threshold = 0.001; // Threshold for considering we're at an extremum
                         
-                        return;
+                        if (gradientMagnitude < threshold) {
+                            this.stopAnimation();
+                            this.isRunning = false;
+                            
+                            const runButton = document.getElementById('run-button');
+                            runButton.textContent = 'Run';
+                            
+                            // Update status to show we've reached an extremum
+                            if (this.currentType === 'single') {
+                                this.updateStatus('Near Extremum', `at x = ${result.position.toFixed(4)}, f(x) = ${result.value.toFixed(4)}, gradient ≈ 0`);
+                            } else if (this.currentType === 'multi') {
+                                this.updateStatus('Near Extremum', `at (${result.position.x.toFixed(4)}, ${result.position.y.toFixed(4)}), f(x,y) = ${result.value.toFixed(4)}, ∇f ≈ 0`);
+                            } else if (this.currentType === 'complex') {
+                                this.updateStatus('Near Extremum', `at ${result.position.toString()}, |f(z)| = ${result.value.toFixed(4)}, gradient ≈ 0`);
+                            }
+                        }
                     }
                 }
+            },
+            
+            // Render with animation
+            renderWithAnimation: function() {
+                const gd = this.gradientDescent[this.currentType];
                 
-                // Continue animation if still running
-                if (this.isRunning) {
-                    this.animationId = requestAnimationFrame(() => this.animate());
+                // Add pulsing effect to current point
+                const pulseTime = performance.now() / 1000;
+                const pulseScale = 1 + 0.2 * Math.sin(pulseTime * 5);
+                
+                // Add trail effect
+                if (gd.history.length > 1) {
+                    const recentHistory = gd.history.slice(-20); // Last 20 points
+                    this.animatedTrail = recentHistory.map((point, i) => ({
+                        ...point,
+                        opacity: (i + 1) / recentHistory.length
+                    }));
                 }
+                
+                // Store animation parameters
+                this.animationParams = {
+                    pulseScale,
+                    trailOpacity: Math.min(1, gd.history.length / 10)
+                };
+                
+                this.render();
+            },
+            
+            // Continuous render loop for smooth animations
+            startRenderLoop: function() {
+                const renderFrame = () => {
+                    if (this.isRunning && this.gradientDescent[this.currentType].currentPosition !== null) {
+                        // Update animation parameters
+                        const pulseTime = performance.now() / 1000;
+                        this.animationParams.pulseScale = 1 + 0.2 * Math.sin(pulseTime * 5);
+                        
+                        // Re-render with updated animation
+                        this.render();
+                    }
+                    
+                    requestAnimationFrame(renderFrame);
+                };
+                
+                renderFrame();
             },
             
             // Update status display
@@ -2136,12 +2241,14 @@
                             color: 'rgba(244, 67, 54, 0.5)',
                             lineWidth: 2,
                             showPoints: true,
-                            pointRadius: 3
+                            pointRadius: 3,
+                            fadeTrail: true
                         },
                         pointOptions: {
                             radius: 6,
                             color: '#F44336',
-                            label: gd.currentPosition !== null ? `x = ${gd.currentPosition.toFixed(2)}` : ''
+                            label: gd.currentPosition !== null ? `x = ${gd.currentPosition.toFixed(2)}` : '',
+                            pulseScale: this.animationParams.pulseScale || 1
                         },
                         gradientOptions: {
                             scale: 0.5,

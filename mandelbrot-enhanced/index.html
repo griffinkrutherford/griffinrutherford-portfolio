@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Enhanced Mandelbrot Explorer - Griffin Rutherford</title>
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <style>
@@ -30,6 +32,10 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            margin: 0;
+            padding: 0;
+            touch-action: none; /* Prevent default touch behaviors */
         }
         
         #header {
@@ -61,6 +67,7 @@
             display: flex;
             position: relative;
             overflow: hidden;
+            min-height: 0; /* Fix flexbox issue on mobile */
         }
         
         #canvas {
@@ -69,6 +76,10 @@
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
+            width: 100%;
+            height: 100%;
+            display: block;
+            touch-action: none; /* Important for touch gestures */
         }
         
         #canvas:active {
@@ -296,8 +307,15 @@
         
         /* Mobile responsiveness */
         @media (max-width: 768px) {
+            body {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+            
             #header {
                 padding: 0.5rem;
+                flex-shrink: 0;
             }
             
             h1 {
@@ -315,13 +333,18 @@
                 right: 0;
                 left: 0;
                 top: auto;
-                max-height: 60vh;
+                max-height: 50vh;
+                max-height: 50dvh;
                 width: 100%;
                 border-radius: 16px 16px 0 0;
                 transform: translateY(calc(100% - 50px));
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 padding: 15px;
+                padding-top: 25px;
                 box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             #controls.expanded {
@@ -374,11 +397,12 @@
             
             #performance {
                 top: auto;
-                bottom: 60px;
+                bottom: 70px;
                 left: 10px;
                 font-size: 0.7rem;
                 padding: 8px 12px;
                 background: rgba(30, 30, 30, 0.8);
+                z-index: 999;
             }
             
             .home-button {
@@ -406,11 +430,21 @@
         /* Extra small devices */
         @media (max-width: 480px) {
             #controls {
-                max-height: 70vh;
+                max-height: 60vh;
+                max-height: 60dvh;
             }
             
             .theme-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Portrait orientation specific fixes */
+        @media (orientation: portrait) {
+            #container {
+                width: 100vw;
+                height: calc(100vh - 80px);
+                height: calc(100dvh - 80px);
             }
         }
         
@@ -572,11 +606,14 @@
                 this.animSpeed = 1;
                 
                 // Mobile optimization
-                this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                               (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+                this.isPortrait = window.innerHeight > window.innerWidth;
                 this.isLowEnd = this.detectLowEndDevice();
                 this.adaptiveQuality = true;
                 this.lastRenderTime = 0;
                 this.targetFPS = this.isMobile ? 30 : 60;
+                this.pixelRatio = window.devicePixelRatio || 1;
                 
                 // Touch gesture handling
                 this.touches = new Map();
@@ -638,9 +675,14 @@
             }
             
             applyMobileOptimizations() {
-                // Reduce default quality on mobile
-                this.quality = this.isLowEnd ? 0.5 : 0.75;
-                this.maxIterations = this.isLowEnd ? 100 : 150;
+                // Adjust quality based on device capabilities and orientation
+                const baseQuality = this.isLowEnd ? 0.5 : 0.75;
+                
+                // Further reduce quality for portrait mode to maintain performance
+                this.quality = this.isPortrait ? baseQuality * 0.8 : baseQuality;
+                
+                // Adjust max iterations
+                this.maxIterations = this.isLowEnd ? 100 : (this.isPortrait ? 120 : 150);
                 
                 // Update UI defaults
                 document.getElementById('quality').value = this.quality.toString();
@@ -650,6 +692,10 @@
                 // Simplify default smoothing
                 this.smoothing = this.isLowEnd ? 'none' : 'linear';
                 document.getElementById('smoothing').value = this.smoothing;
+                
+                // Set canvas CSS for better mobile rendering
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
                 
                 // Resize canvas
                 this.resize();
@@ -750,9 +796,19 @@
                         vec2 coord = v_position * 0.5 + 0.5;
                         coord = coord * u_resolution;
                         
-                        // Convert to complex plane coordinates
+                        // Convert to complex plane coordinates with proper aspect ratio handling
                         float aspectRatio = u_resolution.x / u_resolution.y;
-                        vec2 c = u_center + (coord / u_resolution - 0.5) * vec2(aspectRatio, 1.0) * 4.0 / u_zoom;
+                        vec2 normalizedCoord = coord / u_resolution - 0.5;
+                        
+                        // Maintain consistent view regardless of screen orientation
+                        vec2 c;
+                        if (aspectRatio > 1.0) {
+                            // Landscape
+                            c = u_center + normalizedCoord * vec2(aspectRatio, 1.0) * 4.0 / u_zoom;
+                        } else {
+                            // Portrait - adjust scaling to maintain view
+                            c = u_center + normalizedCoord * vec2(1.0, 1.0 / aspectRatio) * 4.0 / u_zoom;
+                        }
                         
                         // Mandelbrot iteration
                         vec2 z = vec2(0.0);
@@ -883,8 +939,22 @@
                 // Keyboard events
                 window.addEventListener('keydown', this.handleKeyDown.bind(this));
                 
-                // Window resize
-                window.addEventListener('resize', this.resize.bind(this));
+                // Window resize and orientation change
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    if (this.isMobile) {
+                        this.applyMobileOptimizations();
+                    }
+                });
+                
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(() => {
+                        this.resize();
+                        if (this.isMobile) {
+                            this.applyMobileOptimizations();
+                        }
+                    }, 100);
+                });
                 
                 // Control panel events
                 document.getElementById('iterations').addEventListener('input', (e) => {
@@ -942,33 +1012,50 @@
                     }
                 });
                 
-                // Mobile controls toggle
+                // Mobile controls toggle with improved touch handling
                 const controls = document.getElementById('controls');
-                if (window.innerWidth <= 768) {
-                    // Add touch handler for swipe gesture
+                if (window.innerWidth <= 768 || this.isMobile) {
                     let touchStartY = 0;
+                    let isSwiping = false;
+                    
+                    // Prevent scrolling when controls are expanded
                     controls.addEventListener('touchstart', (e) => {
                         touchStartY = e.touches[0].clientY;
-                    });
+                        isSwiping = false;
+                    }, { passive: true });
                     
                     controls.addEventListener('touchmove', (e) => {
+                        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                            return; // Allow normal interaction with form elements
+                        }
+                        
                         const touchY = e.touches[0].clientY;
                         const diff = touchStartY - touchY;
                         
-                        if (Math.abs(diff) > 50) {
+                        if (Math.abs(diff) > 30 && !isSwiping) {
+                            isSwiping = true;
                             if (diff > 0 && !controls.classList.contains('expanded')) {
                                 controls.classList.add('expanded');
+                                e.preventDefault();
                             } else if (diff < 0 && controls.classList.contains('expanded')) {
                                 controls.classList.remove('expanded');
+                                e.preventDefault();
                             }
                         }
-                    });
+                    }, { passive: false });
                     
                     // Click on drag handle area
                     controls.addEventListener('click', (e) => {
                         const rect = controls.getBoundingClientRect();
                         if (e.clientY < rect.top + 50) {
                             controls.classList.toggle('expanded');
+                        }
+                    });
+                    
+                    // Close controls when clicking outside
+                    this.canvas.addEventListener('touchstart', () => {
+                        if (controls.classList.contains('expanded')) {
+                            controls.classList.remove('expanded');
                         }
                     });
                 }
@@ -1035,15 +1122,29 @@
                 
                 const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
                 
-                // Zoom towards mouse position
-                const aspectRatio = this.canvas.width / this.canvas.height;
-                const worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.zoom;
-                const worldY = this.centerY - (y - 0.5) * 4.0 / this.zoom;
+                // Zoom towards mouse position with proper aspect ratio handling
+                const aspectRatio = rect.width / rect.height;
+                let worldX, worldY;
+                
+                if (aspectRatio > 1.0) {
+                    // Landscape
+                    worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                    worldY = this.centerY - (y - 0.5) * 4.0 / this.zoom;
+                } else {
+                    // Portrait
+                    worldX = this.centerX + (x - 0.5) * 4.0 / this.zoom;
+                    worldY = this.centerY - (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                }
                 
                 this.zoom *= zoomFactor;
                 
-                this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
-                this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
+                if (aspectRatio > 1.0) {
+                    this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                    this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
+                } else {
+                    this.centerX = worldX - (x - 0.5) * 4.0 / this.zoom;
+                    this.centerY = worldY + (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                }
                 
                 this.updateCoordinates();
             }
@@ -1053,9 +1154,17 @@
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = (e.clientY - rect.top) / rect.height;
                 
-                const aspectRatio = this.canvas.width / this.canvas.height;
-                this.centerX += (x - 0.5) * aspectRatio * 4.0 / this.zoom;
-                this.centerY -= (y - 0.5) * 4.0 / this.zoom;
+                const aspectRatio = rect.width / rect.height;
+                
+                if (aspectRatio > 1.0) {
+                    // Landscape
+                    this.centerX += (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                    this.centerY -= (y - 0.5) * 4.0 / this.zoom;
+                } else {
+                    // Portrait
+                    this.centerX += (x - 0.5) * 4.0 / this.zoom;
+                    this.centerY -= (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                }
                 
                 this.zoom *= e.shiftKey ? 0.5 : 2;
                 
@@ -1105,14 +1214,17 @@
                     const dx = e.touches[0].clientX - this.lastX;
                     const dy = e.touches[0].clientY - this.lastY;
                     
-                    const scale = 4.0 / (this.zoom * this.canvas.width);
-                    this.centerX -= dx * scale;
+                    // Use canvas actual dimensions for proper scaling
+                    const rect = this.canvas.getBoundingClientRect();
+                    const scale = 4.0 / (this.zoom * rect.width);
+                    this.centerX -= dx * scale * (rect.width / rect.height);
                     this.centerY += dy * scale;
                     
                     this.lastX = e.touches[0].clientX;
                     this.lastY = e.touches[0].clientY;
                     
                     this.updateCoordinates();
+                    this.setInteracting(true);
                 } else if (e.touches.length === 2) {
                     // Handle pinch zoom
                     const touch1 = e.touches[0];
@@ -1133,13 +1245,23 @@
                         const x = (centerX - rect.left) / rect.width;
                         const y = (centerY - rect.top) / rect.height;
                         
-                        // Adjust center based on zoom
-                        const aspectRatio = this.canvas.width / this.canvas.height;
-                        const worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.pinchStartZoom;
-                        const worldY = this.centerY - (y - 0.5) * 4.0 / this.pinchStartZoom;
+                        // Adjust center based on zoom with proper aspect ratio
+                        const aspectRatio = rect.width / rect.height;
+                        let worldX, worldY;
                         
-                        this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
-                        this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
+                        if (aspectRatio > 1.0) {
+                            // Landscape
+                            worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.pinchStartZoom;
+                            worldY = this.centerY - (y - 0.5) * 4.0 / this.pinchStartZoom;
+                            this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                            this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
+                        } else {
+                            // Portrait
+                            worldX = this.centerX + (x - 0.5) * 4.0 / this.pinchStartZoom;
+                            worldY = this.centerY - (y - 0.5) * 4.0 / aspectRatio / this.pinchStartZoom;
+                            this.centerX = worldX - (x - 0.5) * 4.0 / this.zoom;
+                            this.centerY = worldY + (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                        }
                         
                         this.updateCoordinates();
                         this.setInteracting(true);
@@ -1193,9 +1315,24 @@
             
             resize() {
                 const rect = this.canvas.getBoundingClientRect();
-                this.canvas.width = rect.width * this.quality;
-                this.canvas.height = rect.height * this.quality;
+                
+                // Account for device pixel ratio on high-DPI screens
+                const dpr = this.isMobile ? Math.min(this.pixelRatio, 2) : this.pixelRatio;
+                const effectiveQuality = this.quality * (this.isMobile ? 1 : dpr);
+                
+                // Ensure canvas size is appropriate for the viewport
+                const width = Math.floor(rect.width * effectiveQuality);
+                const height = Math.floor(rect.height * effectiveQuality);
+                
+                // Limit maximum canvas size on mobile to prevent memory issues
+                const maxSize = this.isMobile ? 2048 : 4096;
+                this.canvas.width = Math.min(width, maxSize);
+                this.canvas.height = Math.min(height, maxSize);
+                
                 this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Update orientation flag
+                this.isPortrait = window.innerHeight > window.innerWidth;
             }
             
             updateCoordinates() {
@@ -1310,13 +1447,16 @@
                 
                 // Only adjust every 30 frames to avoid constant changes
                 if (this.frameCount % 30 === 0) {
-                    if (renderTime > targetFrameTime * 1.2 && this.quality > 0.25) {
+                    const maxQuality = this.isPortrait ? 0.75 : 1;
+                    const minQuality = this.isLowEnd ? 0.25 : 0.35;
+                    
+                    if (renderTime > targetFrameTime * 1.2 && this.quality > minQuality) {
                         // Reduce quality if performance is poor
-                        this.quality = Math.max(0.25, this.quality * 0.8);
+                        this.quality = Math.max(minQuality, this.quality * 0.8);
                         this.resize();
-                    } else if (renderTime < targetFrameTime * 0.5 && this.quality < 1) {
+                    } else if (renderTime < targetFrameTime * 0.5 && this.quality < maxQuality) {
                         // Increase quality if performance is good
-                        this.quality = Math.min(1, this.quality * 1.1);
+                        this.quality = Math.min(maxQuality, this.quality * 1.1);
                         this.resize();
                     }
                 }

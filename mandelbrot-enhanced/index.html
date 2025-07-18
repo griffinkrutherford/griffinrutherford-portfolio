@@ -296,16 +296,32 @@
         
         /* Mobile responsiveness */
         @media (max-width: 768px) {
+            #header {
+                padding: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
+                letter-spacing: 0.1rem;
+            }
+            
+            .subtitle {
+                font-size: 0.7rem;
+            }
+            
             #controls {
                 position: fixed;
                 bottom: 0;
                 right: 0;
                 left: 0;
                 top: auto;
-                max-height: 50vh;
-                border-radius: 8px 8px 0 0;
-                transform: translateY(calc(100% - 40px));
-                transition: transform 0.3s ease;
+                max-height: 60vh;
+                width: 100%;
+                border-radius: 16px 16px 0 0;
+                transform: translateY(calc(100% - 50px));
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 15px;
+                box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
             }
             
             #controls.expanded {
@@ -313,21 +329,95 @@
             }
             
             #controls::before {
-                content: '⌃ Controls ⌃';
+                content: '';
                 position: absolute;
-                top: 10px;
+                top: 8px;
                 left: 50%;
                 transform: translateX(-50%);
-                color: var(--primary-purple);
+                width: 40px;
+                height: 4px;
+                background: var(--primary-purple);
+                border-radius: 2px;
+            }
+            
+            .control-group {
+                margin-bottom: 15px;
+            }
+            
+            .control-group h3 {
                 font-size: 0.9rem;
+                margin-bottom: 8px;
+            }
+            
+            label {
+                font-size: 0.8rem;
+            }
+            
+            select, button {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+            
+            .theme-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .theme-btn {
+                padding: 6px;
+                font-size: 0.7rem;
             }
             
             #info {
                 display: none;
             }
             
-            h1 {
-                font-size: 1.5rem;
+            #performance {
+                top: auto;
+                bottom: 60px;
+                left: 10px;
+                font-size: 0.7rem;
+                padding: 8px 12px;
+                background: rgba(30, 30, 30, 0.8);
+            }
+            
+            .home-button {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            .home-button svg {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .coordinates {
+                font-size: 0.7rem;
+                padding: 8px;
+            }
+            
+            .coordinate-label {
+                width: 50px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            #controls {
+                max-height: 70vh;
+            }
+            
+            .theme-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Handle notch/safe areas on modern phones */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            #controls {
+                padding-bottom: calc(15px + env(safe-area-inset-bottom));
             }
         }
     </style>
@@ -456,7 +546,15 @@
         class MandelbrotRenderer {
             constructor(canvas) {
                 this.canvas = canvas;
-                this.gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+                this.gl = canvas.getContext('webgl2', {
+                    antialias: false,
+                    preserveDrawingBuffer: true,
+                    powerPreference: 'high-performance'
+                }) || canvas.getContext('webgl', {
+                    antialias: false,
+                    preserveDrawingBuffer: true,
+                    powerPreference: 'high-performance'
+                });
                 if (!this.gl) {
                     throw new Error('WebGL not supported');
                 }
@@ -473,6 +571,18 @@
                 this.animateColors = false;
                 this.animSpeed = 1;
                 
+                // Mobile optimization
+                this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                this.isLowEnd = this.detectLowEndDevice();
+                this.adaptiveQuality = true;
+                this.lastRenderTime = 0;
+                this.targetFPS = this.isMobile ? 30 : 60;
+                
+                // Touch gesture handling
+                this.touches = new Map();
+                this.pinchStartDistance = 0;
+                this.pinchStartZoom = 1;
+                
                 // Animation parameters
                 this.time = 0;
                 this.zoomAnimation = 0;
@@ -481,6 +591,11 @@
                 this.isDragging = false;
                 this.lastX = 0;
                 this.lastY = 0;
+                
+                // Interaction throttling
+                this.isInteracting = false;
+                this.interactionTimeout = null;
+                this.skipFrames = 0;
                 
                 // Performance tracking
                 this.frameCount = 0;
@@ -493,8 +608,51 @@
                 this.initBuffers();
                 this.setupEventListeners();
                 
+                // Apply mobile optimizations
+                if (this.isMobile) {
+                    this.applyMobileOptimizations();
+                }
+                
                 // Start render loop
                 this.animate();
+            }
+            
+            detectLowEndDevice() {
+                // Check for low-end device indicators
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                if (!gl) return true;
+                
+                // Check max texture size
+                const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+                
+                // Get renderer info
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '';
+                
+                // Detect low-end GPUs
+                const lowEndGPUs = ['Mali-400', 'Adreno 3', 'PowerVR SGX'];
+                const isLowEndGPU = lowEndGPUs.some(gpu => renderer.includes(gpu));
+                
+                return maxTextureSize < 4096 || isLowEndGPU || navigator.hardwareConcurrency <= 2;
+            }
+            
+            applyMobileOptimizations() {
+                // Reduce default quality on mobile
+                this.quality = this.isLowEnd ? 0.5 : 0.75;
+                this.maxIterations = this.isLowEnd ? 100 : 150;
+                
+                // Update UI defaults
+                document.getElementById('quality').value = this.quality.toString();
+                document.getElementById('iterations').value = this.maxIterations.toString();
+                document.getElementById('iterationsValue').textContent = this.maxIterations.toString();
+                
+                // Simplify default smoothing
+                this.smoothing = this.isLowEnd ? 'none' : 'linear';
+                document.getElementById('smoothing').value = this.smoothing;
+                
+                // Resize canvas
+                this.resize();
             }
             
             initWebGL() {
@@ -601,7 +759,7 @@
                         int iter;
                         float escapeRadius = 4.0;
                         
-                        for (int i = 0; i < 2000; i++) {
+                        for (int i = 0; i < 1000; i++) {
                             if (i >= u_maxIterations) break;
                             
                             float x2 = z.x * z.x;
@@ -718,9 +876,9 @@
                 this.canvas.addEventListener('dblclick', this.handleDoubleClick.bind(this));
                 
                 // Touch events
-                this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
-                this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
-                this.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
+                this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
+                this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
+                this.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
                 
                 // Keyboard events
                 window.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -786,11 +944,34 @@
                 
                 // Mobile controls toggle
                 const controls = document.getElementById('controls');
-                controls.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768 && e.target === controls) {
-                        controls.classList.toggle('expanded');
-                    }
-                });
+                if (window.innerWidth <= 768) {
+                    // Add touch handler for swipe gesture
+                    let touchStartY = 0;
+                    controls.addEventListener('touchstart', (e) => {
+                        touchStartY = e.touches[0].clientY;
+                    });
+                    
+                    controls.addEventListener('touchmove', (e) => {
+                        const touchY = e.touches[0].clientY;
+                        const diff = touchStartY - touchY;
+                        
+                        if (Math.abs(diff) > 50) {
+                            if (diff > 0 && !controls.classList.contains('expanded')) {
+                                controls.classList.add('expanded');
+                            } else if (diff < 0 && controls.classList.contains('expanded')) {
+                                controls.classList.remove('expanded');
+                            }
+                        }
+                    });
+                    
+                    // Click on drag handle area
+                    controls.addEventListener('click', (e) => {
+                        const rect = controls.getBoundingClientRect();
+                        if (e.clientY < rect.top + 50) {
+                            controls.classList.toggle('expanded');
+                        }
+                    });
+                }
             }
             
             handleMouseDown(e) {
@@ -814,11 +995,35 @@
                 this.lastY = e.clientY;
                 
                 this.updateCoordinates();
+                this.setInteracting(true);
             }
             
             handleMouseUp() {
                 this.isDragging = false;
                 this.canvas.style.cursor = 'grab';
+                this.setInteracting(false);
+            }
+            
+            setInteracting(value) {
+                this.isInteracting = value;
+                
+                if (value && this.isMobile) {
+                    // Skip frames during interaction on mobile
+                    this.skipFrames = this.isLowEnd ? 2 : 1;
+                }
+                
+                // Clear any existing timeout
+                if (this.interactionTimeout) {
+                    clearTimeout(this.interactionTimeout);
+                }
+                
+                // Set timeout to resume normal rendering
+                if (value) {
+                    this.interactionTimeout = setTimeout(() => {
+                        this.isInteracting = false;
+                        this.skipFrames = 0;
+                    }, 100);
+                }
             }
             
             handleWheel(e) {
@@ -858,15 +1063,43 @@
             }
             
             handleTouchStart(e) {
+                e.preventDefault();
+                
+                // Store all touches
+                for (let touch of e.touches) {
+                    this.touches.set(touch.identifier, {
+                        x: touch.clientX,
+                        y: touch.clientY
+                    });
+                }
+                
                 if (e.touches.length === 1) {
                     this.isDragging = true;
                     this.lastX = e.touches[0].clientX;
                     this.lastY = e.touches[0].clientY;
+                } else if (e.touches.length === 2) {
+                    // Start pinch gesture
+                    this.isDragging = false;
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    this.pinchStartDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    this.pinchStartZoom = this.zoom;
                 }
             }
             
             handleTouchMove(e) {
                 e.preventDefault();
+                
+                // Update touch positions
+                for (let touch of e.touches) {
+                    this.touches.set(touch.identifier, {
+                        x: touch.clientX,
+                        y: touch.clientY
+                    });
+                }
                 
                 if (e.touches.length === 1 && this.isDragging) {
                     const dx = e.touches[0].clientX - this.lastX;
@@ -880,11 +1113,51 @@
                     this.lastY = e.touches[0].clientY;
                     
                     this.updateCoordinates();
+                } else if (e.touches.length === 2) {
+                    // Handle pinch zoom
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    const currentDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    
+                    if (this.pinchStartDistance > 0) {
+                        const scale = currentDistance / this.pinchStartDistance;
+                        this.zoom = Math.max(0.1, Math.min(1e10, this.pinchStartZoom * scale));
+                        
+                        // Zoom towards center of pinch
+                        const centerX = (touch1.clientX + touch2.clientX) / 2;
+                        const centerY = (touch1.clientY + touch2.clientY) / 2;
+                        const rect = this.canvas.getBoundingClientRect();
+                        const x = (centerX - rect.left) / rect.width;
+                        const y = (centerY - rect.top) / rect.height;
+                        
+                        // Adjust center based on zoom
+                        const aspectRatio = this.canvas.width / this.canvas.height;
+                        const worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.pinchStartZoom;
+                        const worldY = this.centerY - (y - 0.5) * 4.0 / this.pinchStartZoom;
+                        
+                        this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                        this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
+                        
+                        this.updateCoordinates();
+                        this.setInteracting(true);
+                    }
                 }
             }
             
-            handleTouchEnd() {
-                this.isDragging = false;
+            handleTouchEnd(e) {
+                // Remove ended touches
+                for (let touch of e.changedTouches) {
+                    this.touches.delete(touch.identifier);
+                }
+                
+                if (e.touches.length === 0) {
+                    this.isDragging = false;
+                    this.pinchStartDistance = 0;
+                    this.setInteracting(false);
+                }
             }
             
             handleKeyDown(e) {
@@ -1014,8 +1287,39 @@
             
             animate() {
                 this.time += 0.016 * this.animSpeed; // ~60fps
+                
+                // Skip frames during interaction on mobile
+                if (this.skipFrames > 0 && this.frameCount % (this.skipFrames + 1) !== 0) {
+                    this.frameCount++;
+                    requestAnimationFrame(() => this.animate());
+                    return;
+                }
+                
+                // Adaptive quality based on performance
+                if (this.adaptiveQuality && this.isMobile) {
+                    this.adjustQualityBasedOnPerformance();
+                }
+                
                 this.render();
                 requestAnimationFrame(() => this.animate());
+            }
+            
+            adjustQualityBasedOnPerformance() {
+                const renderTime = performance.now() - this.renderStartTime;
+                const targetFrameTime = 1000 / this.targetFPS;
+                
+                // Only adjust every 30 frames to avoid constant changes
+                if (this.frameCount % 30 === 0) {
+                    if (renderTime > targetFrameTime * 1.2 && this.quality > 0.25) {
+                        // Reduce quality if performance is poor
+                        this.quality = Math.max(0.25, this.quality * 0.8);
+                        this.resize();
+                    } else if (renderTime < targetFrameTime * 0.5 && this.quality < 1) {
+                        // Increase quality if performance is good
+                        this.quality = Math.min(1, this.quality * 1.1);
+                        this.resize();
+                    }
+                }
             }
             
             saveImage() {

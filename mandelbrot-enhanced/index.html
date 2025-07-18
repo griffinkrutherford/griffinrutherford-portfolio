@@ -305,6 +305,26 @@
             color: var(--primary-green);
         }
         
+        .touch-hint {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(108, 26, 255, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 998;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .touch-hint.show {
+            opacity: 1;
+        }
+        
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             body {
@@ -480,6 +500,9 @@
     <div id="container">
         <canvas id="canvas"></canvas>
         
+        <!-- Touch hint for mobile users -->
+        <div id="touchHint" class="touch-hint">Use two fingers to zoom</div>
+        
         <!-- Controls Panel -->
         <div id="controls">
             <div class="control-group">
@@ -642,6 +665,13 @@
                 this.pinchStartDistance = 0;
                 this.pinchStartZoom = 1;
                 
+                // Touch sensitivity and smoothing
+                this.touchSensitivity = 0.5; // Reduce sensitivity for mobile
+                this.touchVelocityX = 0;
+                this.touchVelocityY = 0;
+                this.touchSmoothingFactor = 0.85;
+                this.lastTouchTime = 0;
+                
                 // Animation parameters
                 this.time = 0;
                 this.zoomAnimation = 0;
@@ -675,6 +705,15 @@
                 
                 // Start render loop with a small delay on mobile
                 if (this.isMobile) {
+                    // Show touch hint briefly
+                    setTimeout(() => {
+                        const hint = document.getElementById('touchHint');
+                        if (hint) {
+                            hint.classList.add('show');
+                            setTimeout(() => hint.classList.remove('show'), 3000);
+                        }
+                    }, 500);
+                    
                     setTimeout(() => this.animate(), 100);
                 } else {
                     this.animate();
@@ -1017,6 +1056,27 @@
                     document.getElementById('iterationsValue').textContent = this.maxIterations;
                 });
                 
+                // Add touch sensitivity control for mobile
+                if (this.isMobile) {
+                    // Create sensitivity control
+                    const sensitivityControl = document.createElement('div');
+                    sensitivityControl.className = 'control-group';
+                    sensitivityControl.innerHTML = `
+                        <label for="touchSensitivity">Touch Sensitivity: <span class="range-value" id="touchSensitivityValue">0.5</span></label>
+                        <input type="range" id="touchSensitivity" min="0.1" max="1.0" value="0.5" step="0.1">
+                    `;
+                    
+                    // Insert after the first control group
+                    const firstControlGroup = document.querySelector('.control-group');
+                    firstControlGroup.parentNode.insertBefore(sensitivityControl, firstControlGroup.nextSibling);
+                    
+                    // Add event listener
+                    document.getElementById('touchSensitivity').addEventListener('input', (e) => {
+                        this.touchSensitivity = parseFloat(e.target.value);
+                        document.getElementById('touchSensitivityValue').textContent = this.touchSensitivity.toFixed(1);
+                    });
+                }
+                
                 document.getElementById('quality').addEventListener('change', (e) => {
                     this.quality = parseFloat(e.target.value);
                     this.resize();
@@ -1169,7 +1229,9 @@
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = (e.clientY - rect.top) / rect.height;
                 
-                const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+                // Reduce zoom speed on mobile for more control
+                const baseZoomFactor = this.isMobile ? 0.05 : 0.1;
+                const zoomFactor = e.deltaY > 0 ? (1 - baseZoomFactor) : (1 + baseZoomFactor);
                 
                 // Zoom towards mouse position with proper aspect ratio handling
                 const aspectRatio = rect.width / rect.height;
@@ -1223,6 +1285,11 @@
             handleTouchStart(e) {
                 e.preventDefault();
                 
+                // Reset velocities on new touch
+                this.touchVelocityX = 0;
+                this.touchVelocityY = 0;
+                this.lastTouchTime = performance.now();
+                
                 // Store all touches
                 for (let touch of e.touches) {
                     this.touches.set(touch.identifier, {
@@ -1251,6 +1318,10 @@
             handleTouchMove(e) {
                 e.preventDefault();
                 
+                const currentTime = performance.now();
+                const deltaTime = Math.max(1, currentTime - this.lastTouchTime);
+                this.lastTouchTime = currentTime;
+                
                 // Update touch positions
                 for (let touch of e.touches) {
                     this.touches.set(touch.identifier, {
@@ -1263,11 +1334,27 @@
                     const dx = e.touches[0].clientX - this.lastX;
                     const dy = e.touches[0].clientY - this.lastY;
                     
+                    // Apply touch sensitivity scaling
+                    const scaledDx = dx * this.touchSensitivity;
+                    const scaledDy = dy * this.touchSensitivity;
+                    
+                    // Calculate velocity for smoothing
+                    const velocityX = scaledDx / deltaTime * 16; // Normalize to ~60fps
+                    const velocityY = scaledDy / deltaTime * 16;
+                    
+                    // Apply smoothing to velocity
+                    this.touchVelocityX = this.touchVelocityX * this.touchSmoothingFactor + 
+                                         velocityX * (1 - this.touchSmoothingFactor);
+                    this.touchVelocityY = this.touchVelocityY * this.touchSmoothingFactor + 
+                                         velocityY * (1 - this.touchSmoothingFactor);
+                    
                     // Use canvas actual dimensions for proper scaling
                     const rect = this.canvas.getBoundingClientRect();
                     const scale = 4.0 / (this.zoom * rect.width);
-                    this.centerX -= dx * scale * (rect.width / rect.height);
-                    this.centerY += dy * scale;
+                    
+                    // Apply smoothed movement
+                    this.centerX -= this.touchVelocityX * scale * (rect.width / rect.height);
+                    this.centerY += this.touchVelocityY * scale;
                     
                     this.lastX = e.touches[0].clientX;
                     this.lastY = e.touches[0].clientY;
@@ -1285,7 +1372,9 @@
                     
                     if (this.pinchStartDistance > 0) {
                         const scale = currentDistance / this.pinchStartDistance;
-                        this.zoom = Math.max(0.1, Math.min(1e10, this.pinchStartZoom * scale));
+                        // Apply damping to pinch zoom for more control
+                        const dampedScale = 1 + (scale - 1) * 0.5;
+                        this.zoom = Math.max(0.1, Math.min(1e10, this.pinchStartZoom * dampedScale));
                         
                         // Zoom towards center of pinch
                         const centerX = (touch1.clientX + touch2.clientX) / 2;
@@ -1328,7 +1417,47 @@
                     this.isDragging = false;
                     this.pinchStartDistance = 0;
                     this.setInteracting(false);
+                    
+                    // Apply inertia scrolling
+                    this.applyTouchInertia();
+                    
+                    // Reset velocities
+                    this.touchVelocityX = 0;
+                    this.touchVelocityY = 0;
                 }
+            }
+            
+            applyTouchInertia() {
+                // Only apply inertia if there's significant velocity
+                const minVelocity = 0.5;
+                if (Math.abs(this.touchVelocityX) < minVelocity && 
+                    Math.abs(this.touchVelocityY) < minVelocity) {
+                    return;
+                }
+                
+                const rect = this.canvas.getBoundingClientRect();
+                const scale = 4.0 / (this.zoom * rect.width);
+                const friction = 0.95;
+                
+                const animate = () => {
+                    // Apply friction
+                    this.touchVelocityX *= friction;
+                    this.touchVelocityY *= friction;
+                    
+                    // Apply movement
+                    this.centerX -= this.touchVelocityX * scale * (rect.width / rect.height) * 0.016;
+                    this.centerY += this.touchVelocityY * scale * 0.016;
+                    
+                    this.updateCoordinates();
+                    
+                    // Continue animation if velocity is still significant
+                    if (Math.abs(this.touchVelocityX) > minVelocity || 
+                        Math.abs(this.touchVelocityY) > minVelocity) {
+                        requestAnimationFrame(animate);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
             }
             
             handleKeyDown(e) {

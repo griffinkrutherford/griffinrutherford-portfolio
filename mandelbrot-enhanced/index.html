@@ -580,18 +580,40 @@
         class MandelbrotRenderer {
             constructor(canvas) {
                 this.canvas = canvas;
-                this.gl = canvas.getContext('webgl2', {
+                
+                // Get WebGL context with mobile-friendly settings
+                const contextAttributes = {
                     antialias: false,
                     preserveDrawingBuffer: true,
-                    powerPreference: 'high-performance'
-                }) || canvas.getContext('webgl', {
-                    antialias: false,
-                    preserveDrawingBuffer: true,
-                    powerPreference: 'high-performance'
-                });
+                    powerPreference: 'default', // Don't force high-performance on mobile
+                    alpha: false,
+                    depth: false,
+                    stencil: false,
+                    desynchronized: true // Reduces latency
+                };
+                
+                this.gl = canvas.getContext('webgl2', contextAttributes) || 
+                         canvas.getContext('webgl', contextAttributes) ||
+                         canvas.getContext('experimental-webgl', contextAttributes);
+                         
                 if (!this.gl) {
                     throw new Error('WebGL not supported');
                 }
+                
+                // Handle context loss
+                this.canvas.addEventListener('webglcontextlost', (e) => {
+                    e.preventDefault();
+                    this.contextLost = true;
+                    console.log('WebGL context lost');
+                });
+                
+                this.canvas.addEventListener('webglcontextrestored', () => {
+                    this.contextLost = false;
+                    console.log('WebGL context restored');
+                    this.initWebGL();
+                    this.initShaders();
+                    this.initBuffers();
+                });
                 
                 // Mandelbrot parameters
                 this.centerX = -0.5;
@@ -632,7 +654,8 @@
                 // Interaction throttling
                 this.isInteracting = false;
                 this.interactionTimeout = null;
-                this.skipFrames = 0;
+                this.renderPending = false;
+                this.lastFrameTime = 0;
                 
                 // Performance tracking
                 this.frameCount = 0;
@@ -650,8 +673,12 @@
                     this.applyMobileOptimizations();
                 }
                 
-                // Start render loop
-                this.animate();
+                // Start render loop with a small delay on mobile
+                if (this.isMobile) {
+                    setTimeout(() => this.animate(), 100);
+                } else {
+                    this.animate();
+                }
             }
             
             detectLowEndDevice() {
@@ -675,27 +702,34 @@
             }
             
             applyMobileOptimizations() {
-                // Adjust quality based on device capabilities and orientation
-                const baseQuality = this.isLowEnd ? 0.5 : 0.75;
+                // More conservative quality settings for mobile
+                const baseQuality = this.isLowEnd ? 0.4 : 0.6;
                 
-                // Further reduce quality for portrait mode to maintain performance
-                this.quality = this.isPortrait ? baseQuality * 0.8 : baseQuality;
+                // Set quality based on orientation
+                this.quality = this.isPortrait ? baseQuality * 0.9 : baseQuality;
                 
-                // Adjust max iterations
-                this.maxIterations = this.isLowEnd ? 100 : (this.isPortrait ? 120 : 150);
+                // Reduce max iterations for better performance
+                this.maxIterations = this.isLowEnd ? 80 : (this.isPortrait ? 100 : 120);
                 
                 // Update UI defaults
                 document.getElementById('quality').value = this.quality.toString();
                 document.getElementById('iterations').value = this.maxIterations.toString();
                 document.getElementById('iterationsValue').textContent = this.maxIterations.toString();
                 
-                // Simplify default smoothing
-                this.smoothing = this.isLowEnd ? 'none' : 'linear';
+                // Disable smoothing on low-end devices
+                this.smoothing = this.isLowEnd ? 'none' : 'none';
                 document.getElementById('smoothing').value = this.smoothing;
+                
+                // Disable animations on mobile by default
+                this.animateZoom = false;
+                this.animateColors = false;
+                document.getElementById('animateZoom').checked = false;
+                document.getElementById('animateColors').checked = false;
                 
                 // Set canvas CSS for better mobile rendering
                 this.canvas.style.width = '100%';
                 this.canvas.style.height = '100%';
+                this.canvas.style.imageRendering = 'auto'; // Let browser optimize
                 
                 // Resize canvas
                 this.resize();
@@ -704,9 +738,20 @@
             initWebGL() {
                 const gl = this.gl;
                 
-                // Enable extensions for better quality
-                const ext = gl.getExtension('OES_texture_float');
-                const extLinear = gl.getExtension('OES_texture_float_linear');
+                // Enable extensions if available
+                try {
+                    const ext = gl.getExtension('OES_texture_float');
+                    const extLinear = gl.getExtension('OES_texture_float_linear');
+                    const extPrecision = gl.getExtension('OES_standard_derivatives');
+                } catch (e) {
+                    console.log('Some WebGL extensions not available');
+                }
+                
+                // Set WebGL state
+                gl.disable(gl.DEPTH_TEST);
+                gl.disable(gl.BLEND);
+                gl.disable(gl.CULL_FACE);
+                gl.disable(gl.SCISSOR_TEST);
                 
                 // Set viewport
                 this.resize();
@@ -727,7 +772,11 @@
                 `;
                 
                 const fragmentShaderSource = `
-                    precision highp float;
+                    #ifdef GL_FRAGMENT_PRECISION_HIGH
+                        precision highp float;
+                    #else
+                        precision mediump float;
+                    #endif
                     
                     varying vec2 v_position;
                     
@@ -810,13 +859,19 @@
                             c = u_center + normalizedCoord * vec2(1.0, 1.0 / aspectRatio) * 4.0 / u_zoom;
                         }
                         
-                        // Mandelbrot iteration
+                        // Mandelbrot iteration with mobile-friendly loop
                         vec2 z = vec2(0.0);
-                        int iter;
+                        int iter = u_maxIterations;
                         float escapeRadius = 4.0;
                         
-                        for (int i = 0; i < 1000; i++) {
-                            if (i >= u_maxIterations) break;
+                        // Use a fixed upper bound for mobile compatibility
+                        const int MAX_ITER = 500;
+                        
+                        for (int i = 0; i < MAX_ITER; i++) {
+                            if (i >= u_maxIterations) {
+                                iter = u_maxIterations;
+                                break;
+                            }
                             
                             float x2 = z.x * z.x;
                             float y2 = z.y * z.y;
@@ -829,7 +884,7 @@
                             z = vec2(x2 - y2 + c.x, 2.0 * z.x * z.y + c.y);
                         }
                         
-                        // Color calculation
+                        // Color calculation with explicit alpha
                         if (iter >= u_maxIterations - 1) {
                             gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
                         } else {
@@ -1094,11 +1149,6 @@
             setInteracting(value) {
                 this.isInteracting = value;
                 
-                if (value && this.isMobile) {
-                    // Skip frames during interaction on mobile
-                    this.skipFrames = this.isLowEnd ? 2 : 1;
-                }
-                
                 // Clear any existing timeout
                 if (this.interactionTimeout) {
                     clearTimeout(this.interactionTimeout);
@@ -1108,7 +1158,6 @@
                 if (value) {
                     this.interactionTimeout = setTimeout(() => {
                         this.isInteracting = false;
-                        this.skipFrames = 0;
                     }, 100);
                 }
             }
@@ -1316,20 +1365,25 @@
             resize() {
                 const rect = this.canvas.getBoundingClientRect();
                 
-                // Account for device pixel ratio on high-DPI screens
-                const dpr = this.isMobile ? Math.min(this.pixelRatio, 2) : this.pixelRatio;
-                const effectiveQuality = this.quality * (this.isMobile ? 1 : dpr);
+                // More conservative DPR handling for mobile
+                const dpr = this.isMobile ? 1 : Math.min(this.pixelRatio, 2);
+                const effectiveQuality = this.quality * dpr;
                 
-                // Ensure canvas size is appropriate for the viewport
+                // Calculate new dimensions
                 const width = Math.floor(rect.width * effectiveQuality);
                 const height = Math.floor(rect.height * effectiveQuality);
                 
-                // Limit maximum canvas size on mobile to prevent memory issues
-                const maxSize = this.isMobile ? 2048 : 4096;
-                this.canvas.width = Math.min(width, maxSize);
-                this.canvas.height = Math.min(height, maxSize);
+                // More aggressive size limits for mobile
+                const maxSize = this.isMobile ? (this.isLowEnd ? 1024 : 1536) : 4096;
+                const newWidth = Math.min(width, maxSize);
+                const newHeight = Math.min(height, maxSize);
                 
-                this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+                // Only resize if dimensions actually changed
+                if (this.canvas.width !== newWidth || this.canvas.height !== newHeight) {
+                    this.canvas.width = newWidth;
+                    this.canvas.height = newHeight;
+                    this.gl.viewport(0, 0, newWidth, newHeight);
+                }
                 
                 // Update orientation flag
                 this.isPortrait = window.innerHeight > window.innerWidth;
@@ -1366,44 +1420,61 @@
             }
             
             render() {
+                // Skip render if context is lost
+                if (this.contextLost) return;
+                
                 this.renderStartTime = performance.now();
                 
                 const gl = this.gl;
                 
-                // Clear
-                gl.clear(gl.COLOR_BUFFER_BIT);
-                
-                // Use shader program
-                gl.useProgram(this.program);
-                
-                // Set uniforms
-                gl.uniform2f(this.uniforms.resolution, this.canvas.width, this.canvas.height);
-                gl.uniform2f(this.uniforms.center, this.centerX, this.centerY);
-                
-                // Apply zoom animation if enabled
-                let currentZoom = this.zoom;
-                if (this.animateZoom) {
-                    this.zoomAnimation += 0.01 * this.animSpeed;
-                    currentZoom = this.zoom * (1 + 0.1 * Math.sin(this.zoomAnimation));
+                try {
+                    // Ensure WebGL state is correct
+                    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    // Clear with explicit color
+                    gl.clearColor(0, 0, 0, 1);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+                    
+                    // Use shader program
+                    gl.useProgram(this.program);
+                    
+                    // Set uniforms
+                    gl.uniform2f(this.uniforms.resolution, this.canvas.width, this.canvas.height);
+                    gl.uniform2f(this.uniforms.center, this.centerX, this.centerY);
+                    
+                    // Apply zoom animation if enabled
+                    let currentZoom = this.zoom;
+                    if (this.animateZoom) {
+                        this.zoomAnimation += 0.01 * this.animSpeed;
+                        currentZoom = this.zoom * (1 + 0.1 * Math.sin(this.zoomAnimation));
+                    }
+                    
+                    gl.uniform1f(this.uniforms.zoom, currentZoom);
+                    gl.uniform1i(this.uniforms.maxIterations, this.maxIterations);
+                    gl.uniform1f(this.uniforms.time, this.time);
+                    gl.uniform1i(this.uniforms.theme, this.getThemeIndex());
+                    gl.uniform1i(this.uniforms.smoothing, this.getSmoothingIndex());
+                    gl.uniform1i(this.uniforms.animateColors, this.animateColors ? 1 : 0);
+                    
+                    // Bind position buffer
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
+                    gl.enableVertexAttribArray(this.positionAttribute);
+                    gl.vertexAttribPointer(this.positionAttribute, 2, gl.FLOAT, false, 0, 0);
+                    
+                    // Draw
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                    
+                    // Force WebGL to finish rendering
+                    if (this.isMobile) {
+                        gl.finish();
+                    }
+                    
+                    // Update performance metrics
+                    this.updatePerformance();
+                } catch (e) {
+                    console.error('Render error:', e);
                 }
-                
-                gl.uniform1f(this.uniforms.zoom, currentZoom);
-                gl.uniform1i(this.uniforms.maxIterations, this.maxIterations);
-                gl.uniform1f(this.uniforms.time, this.time);
-                gl.uniform1i(this.uniforms.theme, this.getThemeIndex());
-                gl.uniform1i(this.uniforms.smoothing, this.getSmoothingIndex());
-                gl.uniform1i(this.uniforms.animateColors, this.animateColors ? 1 : 0);
-                
-                // Bind position buffer
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-                gl.enableVertexAttribArray(this.positionAttribute);
-                gl.vertexAttribPointer(this.positionAttribute, 2, gl.FLOAT, false, 0, 0);
-                
-                // Draw
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-                
-                // Update performance metrics
-                this.updatePerformance();
             }
             
             updatePerformance() {
@@ -1423,21 +1494,26 @@
             }
             
             animate() {
-                this.time += 0.016 * this.animSpeed; // ~60fps
+                // Use a more stable animation loop
+                const currentTime = performance.now();
+                const deltaTime = currentTime - this.lastFrameTime;
                 
-                // Skip frames during interaction on mobile
-                if (this.skipFrames > 0 && this.frameCount % (this.skipFrames + 1) !== 0) {
-                    this.frameCount++;
-                    requestAnimationFrame(() => this.animate());
-                    return;
+                // Target frame time (16.67ms for 60fps, 33.33ms for 30fps)
+                const targetFrameTime = 1000 / this.targetFPS;
+                
+                // Only render if enough time has passed or if we're not on mobile
+                if (!this.isMobile || deltaTime >= targetFrameTime * 0.9) {
+                    this.lastFrameTime = currentTime;
+                    this.time += (deltaTime / 1000) * this.animSpeed;
+                    
+                    // Skip adaptive quality during interactions to prevent flickering
+                    if (!this.isInteracting && this.adaptiveQuality && this.isMobile) {
+                        this.adjustQualityBasedOnPerformance();
+                    }
+                    
+                    this.render();
                 }
                 
-                // Adaptive quality based on performance
-                if (this.adaptiveQuality && this.isMobile) {
-                    this.adjustQualityBasedOnPerformance();
-                }
-                
-                this.render();
                 requestAnimationFrame(() => this.animate());
             }
             
@@ -1445,18 +1521,19 @@
                 const renderTime = performance.now() - this.renderStartTime;
                 const targetFrameTime = 1000 / this.targetFPS;
                 
-                // Only adjust every 30 frames to avoid constant changes
-                if (this.frameCount % 30 === 0) {
-                    const maxQuality = this.isPortrait ? 0.75 : 1;
-                    const minQuality = this.isLowEnd ? 0.25 : 0.35;
+                // Only adjust every 60 frames to avoid constant changes
+                if (this.frameCount % 60 === 0) {
+                    const maxQuality = this.isPortrait ? 0.6 : 0.8;
+                    const minQuality = this.isLowEnd ? 0.3 : 0.4;
                     
-                    if (renderTime > targetFrameTime * 1.2 && this.quality > minQuality) {
+                    // More conservative quality adjustments
+                    if (renderTime > targetFrameTime * 1.5 && this.quality > minQuality) {
                         // Reduce quality if performance is poor
-                        this.quality = Math.max(minQuality, this.quality * 0.8);
+                        this.quality = Math.max(minQuality, this.quality * 0.9);
                         this.resize();
-                    } else if (renderTime < targetFrameTime * 0.5 && this.quality < maxQuality) {
+                    } else if (renderTime < targetFrameTime * 0.3 && this.quality < maxQuality) {
                         // Increase quality if performance is good
-                        this.quality = Math.min(maxQuality, this.quality * 1.1);
+                        this.quality = Math.min(maxQuality, this.quality * 1.05);
                         this.resize();
                     }
                 }

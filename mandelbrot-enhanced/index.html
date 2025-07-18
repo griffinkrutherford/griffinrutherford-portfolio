@@ -353,25 +353,34 @@
                 right: 0;
                 left: 0;
                 top: auto;
-                max-height: 50vh;
-                max-height: 50dvh;
+                max-height: 70vh;
+                max-height: 70dvh;
                 width: 100%;
                 border-radius: 16px 16px 0 0;
-                transform: translateY(calc(100% - 50px));
+                transform: translateY(calc(100% - 90px));
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                padding: 15px;
-                padding-top: 25px;
+                padding: 0;
                 box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
                 z-index: 1000;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
             }
             
             #controls.expanded {
                 transform: translateY(0);
             }
             
-            #controls::before {
+            .controls-header {
+                background: rgba(40, 40, 40, 0.95);
+                padding: 20px 15px 15px;
+                border-bottom: 1px solid rgba(108, 26, 255, 0.3);
+                cursor: pointer;
+                position: relative;
+                flex-shrink: 0;
+            }
+            
+            .controls-header::before {
                 content: '';
                 position: absolute;
                 top: 8px;
@@ -381,6 +390,42 @@
                 height: 4px;
                 background: var(--primary-purple);
                 border-radius: 2px;
+            }
+            
+            .controls-header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 5px;
+            }
+            
+            .controls-title {
+                font-size: 0.9rem;
+                color: var(--primary-purple);
+                font-weight: bold;
+            }
+            
+            .controls-info {
+                font-size: 0.7rem;
+                color: #999;
+            }
+            
+            .expand-icon {
+                width: 24px;
+                height: 24px;
+                color: var(--primary-purple);
+                transition: transform 0.3s ease;
+            }
+            
+            #controls.expanded .expand-icon {
+                transform: rotate(180deg);
+            }
+            
+            .controls-content {
+                padding: 15px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                flex: 1;
             }
             
             .control-group {
@@ -417,7 +462,7 @@
             
             #performance {
                 top: auto;
-                bottom: 70px;
+                bottom: 100px;
                 left: 10px;
                 font-size: 0.7rem;
                 padding: 8px 12px;
@@ -505,7 +550,19 @@
         
         <!-- Controls Panel -->
         <div id="controls">
-            <div class="control-group">
+            <div class="controls-header">
+                <div class="controls-header-content">
+                    <div>
+                        <div class="controls-title">Controls</div>
+                        <div class="controls-info">Tap to expand</div>
+                    </div>
+                    <svg class="expand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="controls-content">
+                <div class="control-group">
                 <h3>Visualization</h3>
                 <label for="iterations">Max Iterations: <span class="range-value" id="iterationsValue">200</span></label>
                 <input type="range" id="iterations" min="50" max="2000" value="200" step="50">
@@ -576,6 +633,7 @@
                         <span class="coordinate-value" id="zoomLevel">1</span>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         
@@ -745,14 +803,14 @@
             }
             
             applyMobileOptimizations() {
-                // More conservative quality settings for mobile
-                const baseQuality = this.isLowEnd ? 0.4 : 0.6;
+                // Improved quality settings for mobile
+                const baseQuality = this.isLowEnd ? 0.6 : 0.8;
                 
                 // Set quality based on orientation
                 this.quality = this.isPortrait ? baseQuality * 0.9 : baseQuality;
                 
-                // Reduce max iterations for better performance
-                this.maxIterations = this.isLowEnd ? 80 : (this.isPortrait ? 100 : 120);
+                // Balanced iterations for quality and performance
+                this.maxIterations = this.isLowEnd ? 100 : (this.isPortrait ? 150 : 200);
                 
                 // Update UI defaults
                 document.getElementById('quality').value = this.quality.toString();
@@ -1134,18 +1192,37 @@
                 // Mobile controls toggle with improved touch handling
                 const controls = document.getElementById('controls');
                 if (window.innerWidth <= 768 || this.isMobile) {
+                    const header = controls.querySelector('.controls-header');
+                    const controlsInfo = controls.querySelector('.controls-info');
                     let touchStartY = 0;
                     let isSwiping = false;
                     
-                    // Prevent scrolling when controls are expanded
+                    // Update info text based on state
+                    const updateInfoText = () => {
+                        if (controls.classList.contains('expanded')) {
+                            controlsInfo.textContent = 'Swipe down to collapse';
+                        } else {
+                            controlsInfo.textContent = `Quality: ${(this.quality * 100).toFixed(0)}% | Iterations: ${this.maxIterations}`;
+                        }
+                    };
+                    
+                    // Click on header to toggle
+                    header.addEventListener('click', () => {
+                        controls.classList.toggle('expanded');
+                        updateInfoText();
+                    });
+                    
+                    // Swipe gestures on controls
                     controls.addEventListener('touchstart', (e) => {
                         touchStartY = e.touches[0].clientY;
                         isSwiping = false;
                     }, { passive: true });
                     
                     controls.addEventListener('touchmove', (e) => {
-                        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-                            return; // Allow normal interaction with form elements
+                        // Don't interfere with scrolling in expanded state
+                        if (controls.classList.contains('expanded') && 
+                            e.target.closest('.controls-content')) {
+                            return;
                         }
                         
                         const touchY = e.touches[0].clientY;
@@ -1155,28 +1232,39 @@
                             isSwiping = true;
                             if (diff > 0 && !controls.classList.contains('expanded')) {
                                 controls.classList.add('expanded');
+                                updateInfoText();
                                 e.preventDefault();
                             } else if (diff < 0 && controls.classList.contains('expanded')) {
                                 controls.classList.remove('expanded');
+                                updateInfoText();
                                 e.preventDefault();
                             }
                         }
                     }, { passive: false });
                     
-                    // Click on drag handle area
-                    controls.addEventListener('click', (e) => {
-                        const rect = controls.getBoundingClientRect();
-                        if (e.clientY < rect.top + 50) {
-                            controls.classList.toggle('expanded');
-                        }
-                    });
-                    
                     // Close controls when clicking outside
                     this.canvas.addEventListener('touchstart', () => {
                         if (controls.classList.contains('expanded')) {
                             controls.classList.remove('expanded');
+                            updateInfoText();
                         }
                     });
+                    
+                    // Update controls when values change
+                    document.getElementById('quality').addEventListener('change', () => {
+                        if (!controls.classList.contains('expanded')) {
+                            updateInfoText();
+                        }
+                    });
+                    
+                    document.getElementById('iterations').addEventListener('input', () => {
+                        if (!controls.classList.contains('expanded')) {
+                            updateInfoText();
+                        }
+                    });
+                    
+                    // Initial info text
+                    updateInfoText();
                 }
             }
             
@@ -1544,8 +1632,8 @@
                 const width = Math.floor(rect.width * effectiveQuality);
                 const height = Math.floor(rect.height * effectiveQuality);
                 
-                // More aggressive size limits for mobile
-                const maxSize = this.isMobile ? (this.isLowEnd ? 1024 : 1536) : 4096;
+                // Balanced size limits for mobile quality vs performance
+                const maxSize = this.isMobile ? (this.isLowEnd ? 1536 : 2048) : 4096;
                 const newWidth = Math.min(width, maxSize);
                 const newHeight = Math.min(height, maxSize);
                 
@@ -1694,8 +1782,8 @@
                 
                 // Only adjust every 60 frames to avoid constant changes
                 if (this.frameCount % 60 === 0) {
-                    const maxQuality = this.isPortrait ? 0.6 : 0.8;
-                    const minQuality = this.isLowEnd ? 0.3 : 0.4;
+                    const maxQuality = this.isPortrait ? 0.8 : 0.9;
+                    const minQuality = this.isLowEnd ? 0.5 : 0.6;
                     
                     // More conservative quality adjustments
                     if (renderTime > targetFrameTime * 1.5 && this.quality > minQuality) {

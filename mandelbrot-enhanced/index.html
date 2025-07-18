@@ -664,6 +664,10 @@
                 this.touches = new Map();
                 this.pinchStartDistance = 0;
                 this.pinchStartZoom = 1;
+                this.pinchCenterX = 0;
+                this.pinchCenterY = 0;
+                this.pinchWorldX = 0;
+                this.pinchWorldY = 0;
                 
                 // Touch sensitivity and smoothing
                 this.touchSensitivity = 0.5; // Reduce sensitivity for mobile
@@ -1307,11 +1311,33 @@
                     this.isDragging = false;
                     const touch1 = e.touches[0];
                     const touch2 = e.touches[1];
+                    
+                    // Calculate initial pinch distance
                     this.pinchStartDistance = Math.hypot(
                         touch2.clientX - touch1.clientX,
                         touch2.clientY - touch1.clientY
                     );
                     this.pinchStartZoom = this.zoom;
+                    
+                    // Store the initial pinch center in screen coordinates
+                    this.pinchCenterX = (touch1.clientX + touch2.clientX) / 2;
+                    this.pinchCenterY = (touch1.clientY + touch2.clientY) / 2;
+                    
+                    // Calculate and store the world coordinates at the pinch center
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = (this.pinchCenterX - rect.left) / rect.width;
+                    const y = (this.pinchCenterY - rect.top) / rect.height;
+                    const aspectRatio = rect.width / rect.height;
+                    
+                    if (aspectRatio > 1.0) {
+                        // Landscape
+                        this.pinchWorldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                        this.pinchWorldY = this.centerY - (y - 0.5) * 4.0 / this.zoom;
+                    } else {
+                        // Portrait
+                        this.pinchWorldX = this.centerX + (x - 0.5) * 4.0 / this.zoom;
+                        this.pinchWorldY = this.centerY - (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                    }
                 }
             }
             
@@ -1372,36 +1398,37 @@
                     
                     if (this.pinchStartDistance > 0) {
                         const scale = currentDistance / this.pinchStartDistance;
-                        // Apply damping to pinch zoom for more control
-                        const dampedScale = 1 + (scale - 1) * 0.5;
-                        this.zoom = Math.max(0.1, Math.min(1e10, this.pinchStartZoom * dampedScale));
                         
-                        // Zoom towards center of pinch
-                        const centerX = (touch1.clientX + touch2.clientX) / 2;
-                        const centerY = (touch1.clientY + touch2.clientY) / 2;
-                        const rect = this.canvas.getBoundingClientRect();
-                        const x = (centerX - rect.left) / rect.width;
-                        const y = (centerY - rect.top) / rect.height;
-                        
-                        // Adjust center based on zoom with proper aspect ratio
-                        const aspectRatio = rect.width / rect.height;
-                        let worldX, worldY;
-                        
-                        if (aspectRatio > 1.0) {
-                            // Landscape
-                            worldX = this.centerX + (x - 0.5) * aspectRatio * 4.0 / this.pinchStartZoom;
-                            worldY = this.centerY - (y - 0.5) * 4.0 / this.pinchStartZoom;
-                            this.centerX = worldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
-                            this.centerY = worldY + (y - 0.5) * 4.0 / this.zoom;
-                        } else {
-                            // Portrait
-                            worldX = this.centerX + (x - 0.5) * 4.0 / this.pinchStartZoom;
-                            worldY = this.centerY - (y - 0.5) * 4.0 / aspectRatio / this.pinchStartZoom;
-                            this.centerX = worldX - (x - 0.5) * 4.0 / this.zoom;
-                            this.centerY = worldY + (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                        // Only update if scale changed significantly (reduces jitter)
+                        if (Math.abs(scale - 1.0) > 0.01) {
+                            // Apply damping to pinch zoom for more control
+                            const dampedScale = 1 + (scale - 1) * 0.3; // Reduced from 0.5 to 0.3 for even more control
+                            const newZoom = Math.max(0.1, Math.min(1e10, this.pinchStartZoom * dampedScale));
+                            
+                            // Only update if zoom actually changed
+                            if (Math.abs(newZoom - this.zoom) > 0.001) {
+                                this.zoom = newZoom;
+                                
+                                // Keep the world point under the pinch center fixed
+                                const rect = this.canvas.getBoundingClientRect();
+                                const x = (this.pinchCenterX - rect.left) / rect.width;
+                                const y = (this.pinchCenterY - rect.top) / rect.height;
+                                const aspectRatio = rect.width / rect.height;
+                                
+                                if (aspectRatio > 1.0) {
+                                    // Landscape
+                                    this.centerX = this.pinchWorldX - (x - 0.5) * aspectRatio * 4.0 / this.zoom;
+                                    this.centerY = this.pinchWorldY + (y - 0.5) * 4.0 / this.zoom;
+                                } else {
+                                    // Portrait
+                                    this.centerX = this.pinchWorldX - (x - 0.5) * 4.0 / this.zoom;
+                                    this.centerY = this.pinchWorldY + (y - 0.5) * 4.0 / aspectRatio / this.zoom;
+                                }
+                                
+                                this.updateCoordinates();
+                            }
                         }
                         
-                        this.updateCoordinates();
                         this.setInteracting(true);
                     }
                 }
@@ -1418,10 +1445,25 @@
                     this.pinchStartDistance = 0;
                     this.setInteracting(false);
                     
-                    // Apply inertia scrolling
-                    this.applyTouchInertia();
+                    // Apply inertia scrolling only if we were panning, not zooming
+                    if (this.touchVelocityX !== 0 || this.touchVelocityY !== 0) {
+                        this.applyTouchInertia();
+                    }
                     
-                    // Reset velocities
+                    // Reset velocities and pinch data
+                    this.touchVelocityX = 0;
+                    this.touchVelocityY = 0;
+                    this.pinchCenterX = 0;
+                    this.pinchCenterY = 0;
+                    this.pinchWorldX = 0;
+                    this.pinchWorldY = 0;
+                } else if (e.touches.length === 1 && this.pinchStartDistance > 0) {
+                    // User lifted one finger from pinch, switch to pan mode
+                    this.pinchStartDistance = 0;
+                    this.isDragging = true;
+                    this.lastX = e.touches[0].clientX;
+                    this.lastY = e.touches[0].clientY;
+                    // Reset velocities to prevent unwanted movement
                     this.touchVelocityX = 0;
                     this.touchVelocityY = 0;
                 }

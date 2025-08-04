@@ -326,6 +326,17 @@
         }
         
         /* Mobile responsiveness */
+        /* Desktop-specific styles */
+        .controls-header {
+            display: none;
+        }
+        
+        @media (min-width: 769px) {
+            #controls {
+                padding-top: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
             body {
                 position: fixed;
@@ -372,6 +383,7 @@
             }
             
             .controls-header {
+                display: block;
                 background: rgba(40, 40, 40, 0.95);
                 padding: 20px 15px 15px;
                 border-bottom: 1px solid rgba(108, 26, 255, 0.3);

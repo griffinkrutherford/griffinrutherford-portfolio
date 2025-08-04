@@ -465,6 +465,74 @@ h3 {
   .quick-links-menu.active .quick-links-nav {
     display: block;
   }
+
+  /* Submenu styles */
+  .quick-links-nav .has-submenu {
+    position: relative;
+  }
+
+  .quick-links-nav .submenu {
+    display: none;
+    position: absolute;
+    right: 100%;
+    top: 0;
+    background: var(--dark-bg);
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 200px;
+    margin-right: 10px;
+    list-style: none;
+  }
+
+  .quick-links-nav .has-submenu:hover .submenu {
+    display: block;
+  }
+
+  .quick-links-nav .submenu li {
+    margin: 8px 0;
+  }
+
+  .quick-links-nav .submenu a {
+    color: #F8F1FF;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 5px 0;
+  }
+
+  .quick-links-nav .submenu a:hover {
+    color: var(--primary-purple);
+  }
+
+  /* Add arrow indicator for submenu */
+  .quick-links-nav .has-submenu > a::after {
+    content: " ◀";
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  /* Mobile submenu adjustments */
+  @media (max-width: 768px) {
+    .quick-links-nav .submenu {
+      position: static;
+      margin-left: 20px;
+      margin-top: 10px;
+      border: none;
+      border-left: 3px solid var(--primary-purple);
+      padding-left: 15px;
+    }
+
+    .quick-links-nav .has-submenu > a::after {
+      content: " ▼";
+    }
+
+    .quick-links-nav .has-submenu.active .submenu {
+      display: block;
+    }
+  }
   
   .experience-section,
   .projects-section,

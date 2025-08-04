@@ -82,6 +82,16 @@ document.addEventListener('DOMContentLoaded', function() {
           quickLinksMenu.classList.remove('active');
         });
       });
+
+      // Handle submenu toggle on mobile
+      const submenuParent = quickLinksNav.querySelector('.has-submenu');
+      if (submenuParent && window.innerWidth <= 768) {
+        const parentLink = submenuParent.querySelector('> a');
+        parentLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          submenuParent.classList.toggle('active');
+        });
+      }
     }
   });
   

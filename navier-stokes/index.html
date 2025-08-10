@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Colorful Fluid — LBM (fast, themed)</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  /* ---- Your site palette ---- */
+  :root{
+    --primary-red:#FF1A4D;
+    --primary-purple:#6C1AFF;
+    --dark-bg:#1A0A29;
+    --content-bg:#2D0A3D;
+    --accent-purple:#9D4DFF;
+    --accent-red:#FF4D88; /* fixed from 'git' */
+
+    /* local tokens derived from yours */
+    --bg:var(--dark-bg);
+    --panel:var(--content-bg);
+    --text:#F8F1FF;
+    --muted:#C8B6E8;
+    --edge:rgba(255,255,255,.08);
+    --glow:0 0 20px rgba(157,77,255,.25), 0 0 40px rgba(255,26,77,.15);
+    --grad:linear-gradient(135deg,var(--primary-red),var(--primary-purple));
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;
+    color:var(--text);
+    background:radial-gradient(1200px 600px at 10% 10%, rgba(157,77,255,.12), transparent 60%),
+               radial-gradient(1000px 600px at 90% 20%, rgba(255,26,77,.12), transparent 60%),
+               linear-gradient(180deg, #14071f, var(--dark-bg) 40%);
+  }
+
+  /* Layout */
+  .wrap{display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:16px; height:100%; padding:14px}
+  #view{width:100%; height:100%; border-radius:20px; background:#000;
+        box-shadow:0 12px 32px rgba(0,0,0,.5), inset 0 0 0 1px var(--edge)}
+  .panel{height:100%; overflow:auto; padding:16px; border-radius:20px;
+         background:linear-gradient(160deg, color-mix(in oklab, var(--content-bg) 92%, #000 8%), #1c0f29 85%);
+         box-shadow:0 12px 32px rgba(0,0,0,.5), inset 0 0 0 1px var(--edge)}
+
+  /* Headings */
+  h1{font:700 22px/1 'Russo One', ui-sans-serif; letter-spacing:.04em; margin:0 0 8px; color:var(--accent-purple)}
+  h2{font-size:13px; margin:16px 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:.15em}
+  .sub{font-size:12px; color:var(--muted)}
+
+  /* Controls */
+  .row{display:flex; align-items:center; gap:10px; margin:10px 0}
+  .row>label{flex:1; color:var(--muted)}
+  input[type="range"]{flex:1.2; accent-color:var(--primary-purple)}
+  select,input[type="color"],button{background:#210a32; color:var(--text); border:1px solid var(--edge);
+    padding:9px 12px; border-radius:14px; cursor:pointer; font-weight:700;
+    box-shadow:inset 0 -2px 0 rgba(255,255,255,.05), var(--glow); transition:transform .08s ease}
+  button:hover{transform:translateY(-1px)}
+  .btns{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+  .btns button{background:var(--grad); border:1px solid rgba(255,255,255,.08)}
+
+  /* Toggle switch themed */
+  .switch{position:relative; width:48px; height:26px; background:#20072f; border:1px solid var(--edge); border-radius:999px}
+  .switch input{appearance:none; position:absolute; inset:0; width:100%; height:100%; cursor:pointer}
+  .switch i{position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:999px;
+            background:linear-gradient(180deg,#eadcff,#b694ff); box-shadow:var(--glow); transition:.2s}
+  .switch input:checked + i{left:24px; background:linear-gradient(180deg,#ff77a0,#d44bff)}
+
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .kbd{font-family:ui-monospace,monospace; background:#210a32; border:1px solid var(--edge); padding:2px 6px; border-radius:6px}
+
+  /* HUD */
+  #hud{position:fixed; left:14px; top:14px; padding:6px 10px; border-radius:12px; background:rgba(32,10,50,.55);
+       color:var(--text); font:12px ui-monospace,monospace; pointer-events:none; border:1px solid var(--edge);
+       box-shadow:var(--glow)}
+
+  canvas{touch-action:none}
+  .footer{font-size:11px; color:var(--muted); opacity:.9; margin-top:8px}
+
+  /* Small screens: stack panel under canvas */
+  @media (max-width: 900px){ .wrap{grid-template-columns: 1fr; grid-template-rows: 1fr auto} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <canvas id="view" aria-label="Colorful Fluid Simulation"></canvas>
+  <aside class="panel">
+    <h1>Colorful Fluid — LBM (fast)</h1>
+    <div class="sub">Drag to inject dye & momentum. Hold <span class="kbd">Shift</span> to paint obstacles. Scroll = brush size.</div>
+
+    <h2>Quick Controls</h2>
+    <div class="btns">
+      <button id="reset">Reset</button>
+      <button id="clearDye">Clear Dye</button>
+      <button id="clearVel">Clear Velocity</button>
+      <button id="burst">Random Burst</button>
+      <button id="pause">Pause</button>
+    </div>
+
+    <h2>Grid & Physics</h2>
+    <div class="grid">
+      <div class="row"><label>Grid <span id="gridLbl" style="opacity:.7"></span></label><input type="range" id="grid" min="96" max="256" step="32" value="160"></div>
+      <div class="row"><label>Viscosity ν (via τ) <span id="tauLbl" style="opacity:.7"></span></label><input type="range" id="tau" min="60" max="200" value="95"></div>
+      <div class="row"><label>Dye Dissipation <span id="fadeLbl" style="opacity:.7"></span></label><input type="range" id="fade" min="0" max="100" value="4"></div>
+      <div class="row"><label>Flow Exaggeration <span id="flowLbl" style="opacity:.7"></span></label><input type="range" id="flowX" min="50" max="300" value="140"></div>
+      <div class="row"><label>Force Strength <span id="forceLbl" style="opacity:.7"></span></label><input type="range" id="force" min="10" max="6000" value="1800"></div>
+      <div class="row"><label>Brush Size <span id="brushLbl" style="opacity:.7"></span></label><input type="range" id="brush" min="2" max="80" value="24"></div>
+    </div>
+
+    <h2>Toggles</h2>
+    <div class="grid">
+      <div class="row"><label>Wrap Boundaries</label><span class="switch"><input id="wrap" type="checkbox" checked><i></i></span></div>
+      <div class="row"><label>Show Velocity</label><span class="switch"><input id="showVel" type="checkbox"><i></i></span></div>
+      <div class="row"><label>Obstacles (Shift to paint)</label><span class="switch"><input id="obsOn" type="checkbox" checked><i></i></span></div>
+      <div class="row"><label>Continuous Emit</label><span class="switch"><input id="emitOn" type="checkbox" checked><i></i></span></div>
+    </div>
+
+    <h2>Colors</h2>
+    <div class="row"><label>Mode</label>
+      <select id="colorMode">
+        <option value="rainbow">Rainbow</option>
+        <option value="mono">Single Color</option>
+        <option value="heat">Speed Heatmap</option>
+      </select>
+    </div>
+    <div class="row"><label>Dye Color</label><input type="color" id="dyeColor" value="#66ccff"></div>
+    <div class="row"><label>Background</label><input type="color" id="bgColor" value="#10061a"></div>
+
+    <h2>Emitters</h2>
+    <div class="grid">
+      <div class="row"><label>Rate <span id="emitLbl" style="opacity:.7"></span></label><input type="range" id="emitRate" min="1" max="200" value="40"></div>
+      <div class="row"><label>Radius <span id="emitRadLbl" style="opacity:.7"></span></label><input type="range" id="emitRad" min="2" max="60" value="18"></div>
+    </div>
+
+    <h2>Presets</h2>
+    <div class="btns">
+      <button data-preset="ink">Smooth Ink</button>
+      <button data-preset="smoke">Smoke</button>
+      <button data-preset="swirl">Swirl</button>
+      <button data-preset="fast">Fast</button>
+    </div>
+
+    <div class="footer">D2Q9 Lattice Boltzmann (BGK) + single-draw upscale. Preallocated buffers for zero-GC frames. ⚡</div>
+  </aside>
+</div>
+
+<div id="hud">FPS: <span id="fps">—</span> | LBM</div>
+
+<script>
+(() => {
+  // ===== Utilities
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const hsv2rgb=(h,s,v)=>{ let i=Math.floor(h*6), f=h*6-i, p=v*(1-s), q=v*(1-f*s), t=v*(1-(1-f)*s);
+    let r=0,g=0,b=0; switch(i%6){case 0:r=v;g=t;b=p;break;case 1:r=q;g=v;b=p;break;case 2:r=p;g=v;b=t;break;case 3:r=p;g=q;b=v;break;case 4:r=t;g=p;b=v;break;case 5:r=v;g=p;b=q;break} return [r,g,b]; };
+  const hex2rgb = (hex)=>{ const n=parseInt(hex.slice(1),16); return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]; };
+  const $ = id => document.getElementById(id);
+
+  // ===== DOM & UI
+  const cvs = $('view'), hudFps = $('fps');
+  let DPR = Math.min(2, window.devicePixelRatio||1);
+  function resizeCanvas(){ const r=cvs.getBoundingClientRect(); cvs.width=Math.max(2, (r.width*DPR)|0); cvs.height=Math.max(2,(r.height*DPR)|0); }
+  window.addEventListener('resize', resizeCanvas);
+
+  const ui = {
+    grid:$('grid'), tau:$('tau'), fade:$('fade'), force:$('force'), brush:$('brush'), flowX:$('flowX'),
+    wrap:$('wrap'), showVel:$('showVel'), obsOn:$('obsOn'), emitOn:$('emitOn'),
+    colorMode:$('colorMode'), dyeColor:$('dyeColor'), bgColor:$('bgColor'),
+    emitRate:$('emitRate'), emitRad:$('emitRad')
+  };
+  const labels = { gridLbl:$('gridLbl'), tauLbl:$('tauLbl'), fadeLbl:$('fadeLbl'), forceLbl:$('forceLbl'), brushLbl:$('brushLbl'), emitLbl:$('emitLbl'), emitRadLbl:$('emitRadLbl'), flowLbl:$('flowLbl') };
+  const buttons = { reset:$('reset'), clearDye:$('clearDye'), clearVel:$('clearVel'), burst:$('burst'), pause:$('pause') };
+
+  function refreshLabels(){
+    labels.gridLbl.textContent = ui.grid.value+'×'+ui.grid.value;
+    labels.tauLbl.textContent = 'τ='+(ui.tau.value/100).toFixed(2);
+    labels.fadeLbl.textContent = (ui.fade.value/100).toFixed(2);
+    labels.flowLbl.textContent = '×'+(ui.flowX.value/100).toFixed(2);
+    labels.forceLbl.textContent = ui.force.value;
+    labels.brushLbl.textContent = ui.brush.value+'px';
+    labels.emitLbl.textContent = ui.emitRate.value+'/s';
+    labels.emitRadLbl.textContent = ui.emitRad.value+'px';
+  }
+
+  // ===== LBM Config
+  let N = parseInt(ui.grid.value,10)|0;
+  let paused=false;
+  let bgColor = ui.bgColor.value;
+  const cfg = {
+    tau: parseFloat(ui.tau.value)/100,  // relaxation time (viscosity ~ (tau-0.5)/3)
+    fade: parseFloat(ui.fade.value)/100,
+    force: parseFloat(ui.force.value),
+    flowX: parseFloat(ui.flowX.value)/100, // advect exaggeration factor
+    brush: parseInt(ui.brush.value,10),
+    wrap: ui.wrap.checked,
+    showVel: ui.showVel.checked,
+    obstaclesOn: ui.obsOn.checked,
+    emitOn: ui.emitOn.checked,
+    emitRate: parseInt(ui.emitRate.value,10),
+    emitRad: parseInt(ui.emitRad.value,10),
+    colorMode: ui.colorMode.value,
+    dyeRGB: hex2rgb(ui.dyeColor.value)
+  };
+
+  // ===== LBM (D2Q9) data
+  const ex = new Int8Array([0, 1, 0,-1, 0, 1,-1,-1, 1]);
+  const ey = new Int8Array([0, 0, 1, 0,-1, 1, 1,-1,-1]);
+  const w  = new Float32Array([4/9, 1/9,1/9,1/9,1/9, 1/36,1/36,1/36,1/36]);
+  const inv = new Uint8Array([0,3,4,1,2,7,8,5,6]);
+  let F, Ftmp, rho, ux, uy, dyeR, dyeG, dyeB, obst, fx, fy;
+  // preallocated temp for advection (no per-frame allocations)
+  let tR, tG, tB;
+
+  function alloc(){
+    const size = N*N;
+    F    = new Float32Array(size*9);
+    Ftmp = new Float32Array(size*9);
+    rho  = new Float32Array(size);
+    ux   = new Float32Array(size);
+    uy   = new Float32Array(size);
+    dyeR = new Float32Array(size);
+    dyeG = new Float32Array(size);
+    dyeB = new Float32Array(size);
+    obst = new Uint8Array(size);
+    fx   = new Float32Array(size);
+    fy   = new Float32Array(size);
+    tR   = new Float32Array(size);
+    tG   = new Float32Array(size);
+    tB   = new Float32Array(size);
+    for(let i=0;i<size;i++){
+      rho[i]=1; ux[i]=0; uy[i]=0;
+      const base=i*9; F[base]=4/9;
+      for(let d=1;d<9;d++) F[base+d]=w[d];
+    }
+  }
+  const IX=(x,y)=>x+y*N;
+
+  // ===== Collision (BGK) + Guo forcing
+  function collide(){
+    const omega = 1.0/cfg.tau;
+    const size = N*N;
+    for(let i=0;i<size;i++){
+      const base=i*9; const r=rho[i]; const u=ux[i]; const v=uy[i]; const u2=u*u+v*v;
+      const Fx = fx[i]; const Fy = fy[i];
+      for(let d=0; d<9; d++){
+        const eu = 3*(ex[d]*u + ey[d]*v);
+        const feq = w[d]*r*(1 + eu + 0.5*eu*eu - 1.5*u2);
+        const edotu = ex[d]*u + ey[d]*v;
+        const Fd = (1 - 0.5*omega) * w[d] * (
+          3*(ex[d]-u)*Fx + 3*(ey[d]-v)*Fy + 9*edotu*(ex[d]*Fx + ey[d]*Fy)
+        );
+        Ftmp[base+d] = F[base+d] + omega*(feq - F[base+d]) + Fd;
+      }
+    }
+    // consume forces after applying the impulse
+    fx.fill(0); fy.fill(0);
+  }
+
+  // ===== Streaming (with wrap or bounce-back)
+  function stream(){
+    const wrap = cfg.wrap;
+    F.fill(0);
+    for(let y=0;y<N;y++){
+      for(let x=0;x<N;x++){
+        const i = IX(x,y); const base = i*9;
+        if(obst[i]){ for(let d=0;d<9;d++){ const di = inv[d]; F[base+d] += Ftmp[base+di]; } continue; }
+        for(let d=0;d<9;d++){
+          let xn = x + ex[d], yn = y + ey[d];
+          if(wrap){ if(xn<0) xn+=N; else if(xn>=N) xn-=N; if(yn<0) yn+=N; else if(yn>=N) yn-=N; }
+          else{
+            if(xn<0){ xn=0; if(d){ F[base+inv[d]] += Ftmp[base+d]; continue; } }
+            if(xn>=N){ xn=N-1; if(d){ F[base+inv[d]] += Ftmp[base+d]; continue; } }
+            if(yn<0){ yn=0; if(d){ F[base+inv[d]] += Ftmp[base+d]; continue; } }
+            if(yn>=N){ yn=N-1; if(d){ F[base+inv[d]] += Ftmp[base+d]; continue; } }
+          }
+          const j = IX(xn,yn); F[j*9 + d] += Ftmp[base+d];
+        }
+      }
+    }
+  }
+
+  // ===== Macros (rho, u) from distributions
+  function macro(){
+    const size=N*N;
+    for(let i=0;i<size;i++){
+      const base=i*9;
+      const f0=F[base], f1=F[base+1], f2=F[base+2], f3=F[base+3], f4=F[base+4], f5=F[base+5], f6=F[base+6], f7=F[base+7], f8=F[base+8];
+      const r = f0+f1+f2+f3+f4+f5+f6+f7+f8;
+      let u = (f1 - f3 + f5 - f6 - f7 + f8);
+      let v = (f2 - f4 + f5 + f6 - f7 - f8);
+      // avoid divide-by-zero and clamp crazy speeds (visual stability)
+      const invr = r>1e-6 ? 1/r : 0; u*=invr; v*=invr;
+      const sp = Math.hypot(u,v);
+      if(sp>2){ const s=2/sp; u*=s; v*=s; }
+      rho[i]=r; ux[i]=u; uy[i]=v; if(obst[i]){ ux[i]=uy[i]=0; }
+    }
+  }
+
+  // ===== Dye advection (semi-Lagrangian, preallocated temps)
+  function advectDye(){
+    const flow = cfg.flowX; // exaggeration factor for visuals
+    const size = N*N; const wrap = cfg.wrap;
+    for(let y=0;y<N;y++){
+      const yN=y*N;
+      for(let x=0;x<N;x++){
+        const i=yN+x; let xp = x - ux[i]*flow; let yp = y - uy[i]*flow;
+        if(wrap){ xp=(xp%N+N)%N; yp=(yp%N+N)%N; } else { xp=clamp(xp,0.5,N-1.5); yp=clamp(yp,0.5,N-1.5); }
+        const x0=xp|0, y0=yp|0, tx=xp-x0, ty=yp-y0;
+        const i00=y0*N+x0, i10=y0*N+((x0+1)%N), i01=((y0+1)%N)*N+x0, i11=((y0+1)%N)*N+((x0+1)%N);
+        const a=(1-tx)*(1-ty), b=tx*(1-ty), c=(1-tx)*ty, d=tx*ty;
+        tR[i]=a*dyeR[i00]+b*dyeR[i10]+c*dyeR[i01]+d*dyeR[i11];
+        tG[i]=a*dyeG[i00]+b*dyeG[i10]+c*dyeG[i01]+d*dyeG[i11];
+        tB[i]=a*dyeB[i00]+b*dyeB[i10]+c*dyeB[i01]+d*dyeB[i11];
+      }
+    }
+    // swap references
+    [dyeR,tR] = [tR,dyeR];
+    [dyeG,tG] = [tG,dyeG];
+    [dyeB,tB] = [tB,dyeB];
+    if(cfg.fade>0){ const k=Math.max(0,1-cfg.fade*0.02); for(let i=0;i<size;i++){ dyeR[i]*=k; dyeG[i]*=k; dyeB[i]*=k; } }
+  }
+
+  // ===== Interaction / Emitters
+  let pointer={x:0,y:0,dx:0,dy:0,down:false,paintingObs:false};
+  function screenToGrid(px,py){ const r=cvs.getBoundingClientRect(); return { x:(px-r.left)*DPR/cvs.width*N, y:(py-r.top)*DPR/cvs.height*N }; }
+  function splat(gx,gy,dx,dy){
+    const rad=Math.max(2, cfg.brush*N/Math.min(cvs.width,cvs.height)*DPR); const rr=rad*rad; const [cr,cg,cb]=cfg.dyeRGB;
+    const x0=Math.max(1,(gx-rad)|0), x1=Math.min(N-2,(gx+rad)|0); const y0=Math.max(1,(gy-rad)|0), y1=Math.min(N-2,(gy+rad)|0);
+    const FxVal = dx * cfg.force / (N*N);
+    const FyVal = dy * cfg.force / (N*N);
+    for(let y=y0;y<=y1;y++){
+      const yN=y*N;
+      for(let x=x0;x<=x1;x++){
+        const dx2=x-gx, dy2=y-gy; const d2=dx2*dx2+dy2*dy2; if(d2>rr) continue; const fall=Math.exp(-d2/(0.5*rr)); const i=yN+x;
+        fx[i] += FxVal * fall; fy[i] += FyVal * fall; // push fluid via force field
+        if(cfg.colorMode==='rainbow'){ const h=((x+y*0.37+performance.now()*0.0002)%N)/N; const c=hsv2rgb(h,.9,.9); dyeR[i]+=c[0]*fall; dyeG[i]+=c[1]*fall; dyeB[i]+=c[2]*fall; }
+        else { dyeR[i]+=cr*fall; dyeG[i]+=cg*fall; dyeB[i]+=cb*fall; }
+      }
+    }
+  }
+  function paintObstacle(gx,gy,erase=false){ if(!cfg.obstaclesOn) return; const rad=Math.max(2, cfg.brush*N/Math.min(cvs.width,cvs.height)*DPR); const rr=rad*rad; const x0=Math.max(1,(gx-rad)|0), x1=Math.min(N-2,(gx+rad)|0); const y0=Math.max(1,(gy-rad)|0), y1=Math.min(N-2,(gy+rad)|0); for(let y=y0;y<=y1;y++){ const yN=y*N; for(let x=x0;x<=x1;x++){ const d2=(x-gx)*(x-gx)+(y-gy)*(y-gy); if(d2>rr) continue; const i=yN+x; obst[i]=erase?0:1; ux[i]=uy[i]=0; dyeR[i]=dyeG[i]=dyeB[i]=0; } } }
+
+  cvs.addEventListener('pointerdown',(e)=>{ cvs.setPointerCapture(e.pointerId); const {x,y}=screenToGrid(e.clientX,e.clientY); pointer={x,y,dx:0,dy:0,down:true,paintingObs:e.shiftKey}; (pointer.paintingObs? paintObstacle: splat)(x,y,0,0); });
+  cvs.addEventListener('pointermove',(e)=>{ const p=screenToGrid(e.clientX,e.clientY); const dx=p.x-pointer.x, dy=p.y-pointer.y; if(pointer.down){ (pointer.paintingObs? paintObstacle: splat)(p.x,p.y,dx,dy); } pointer.x=p.x; pointer.y=p.y; pointer.dx=dx; pointer.dy=dy; });
+  cvs.addEventListener('pointerup',()=>{ pointer.down=false; });
+  cvs.addEventListener('wheel',(e)=>{ e.preventDefault(); ui.brush.value = clamp(parseInt(ui.brush.value,10) + (e.deltaY>0? -2: 2), 2, 80); onUI(); }, {passive:false});
+
+  const emitters=[]; function addEmitter(x,y,r){ emitters.push({x,y,r}); }
+  function updateEmitters(){ if(!cfg.emitOn) return; const rpf=cfg.emitRate/60; let t=performance.now()*0.001; for(const em of emitters){ const J=()=> (Math.random()*2-1)*0.5*em.r; for(let k=0;k<rpf;k++){ const gx=clamp(em.x+J(),2,N-3), gy=clamp(em.y+J(),2,N-3); const a=t*1.2 + Math.random()*Math.PI*2; const sp=3+Math.random()*2; splat(gx,gy,Math.cos(a)*sp,Math.sin(a)*sp); } } }
+
+  // ===== Render (single draw: write N×N once, upscale)
+  const ctx = cvs.getContext('2d',{alpha:false});
+  const small = document.createElement('canvas'); const sctx = small.getContext('2d',{alpha:false});
+  let img=null, px=null;
+  function ensureImage(){ if(!img || img.width!==N || img.height!==N){ small.width=N; small.height=N; img = sctx.createImageData(N,N); px = img.data; } }
+  function render(){
+    ensureImage(); const mode=cfg.colorMode; const [mr,mg,mb]=cfg.dyeRGB; let p=0;
+    for(let i=0;i<ux.length;i++,p+=4){ let r=dyeR[i], g=dyeG[i], b=dyeB[i];
+      if(mode==='mono'){ const k=Math.min(1,r+g+b); r=k*mr; g=k*mg; b=k*mb; }
+      else if(mode==='heat'){ const s = Math.min(1, Math.hypot(ux[i],uy[i])*3.5); const c=hsv2rgb(0.66 - 0.66*s, 1, Math.min(1, s*1.2)); r=c[0]; g=c[1]; b=c[2]; }
+      else { const s = Math.min(1, r+g+b); const h = ((r*0.25 + g*0.55 + b*0.8) + 0.25*Math.hypot(ux[i],uy[i])) % 1; const c=hsv2rgb(h,.85,s); r=c[0]; g=c[1]; b=c[2]; }
+      px[p]=(r*255)|0; px[p+1]=(g*255)|0; px[p+2]=(b*255)|0; px[p+3]=255; }
+    sctx.putImageData(img,0,0);
+
+    const [br,bg,bk]=hex2rgb(bgColor); ctx.fillStyle=`rgb(${(br*255)|0},${(bg*255)|0},${(bk*255)|0})`;
+    ctx.fillRect(0,0,cvs.width,cvs.height); ctx.imageSmoothingEnabled=true; ctx.drawImage(small,0,0,cvs.width,cvs.height);
+
+    if(cfg.showVel){ ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1; const step=Math.max(2,(N/24)|0), cw=cvs.width/N, ch=cvs.height/N;
+      for(let y=step;y<N;y+=step){ for(let x=step;x<N;x+=step){ const i=IX(x,y), sx=x*cw, sy=y*ch, u=ux[i], v=uy[i]; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+u*12, sy+v*12); ctx.stroke(); } } }
+  }
+
+  // ===== Step
+  function step(){ collide(); stream(); macro(); advectDye(); }
+
+  // ===== UI
+  function onUI(){
+    N = parseInt(ui.grid.value,10)|0;
+    cfg.tau  = parseFloat(ui.tau.value)/100;
+    cfg.fade = parseFloat(ui.fade.value)/100;
+    cfg.force= parseFloat(ui.force.value);
+    cfg.flowX= parseFloat(ui.flowX.value)/100;
+    cfg.brush= parseInt(ui.brush.value,10);
+    cfg.wrap = ui.wrap.checked;
+    cfg.showVel = ui.showVel.checked;
+    cfg.obstaclesOn = ui.obsOn.checked;
+    cfg.emitOn = ui.emitOn.checked;
+    cfg.emitRate = parseInt(ui.emitRate.value,10);
+    cfg.emitRad = parseInt(ui.emitRad.value,10);
+    cfg.colorMode = ui.colorMode.value;
+    cfg.dyeRGB = hex2rgb(ui.dyeColor.value);
+    bgColor = ui.bgColor.value;
+    refreshLabels();
+  }
+  Object.values(ui).forEach(el=> el.addEventListener('input', onUI));
+
+  const presets={
+    ink(){ ui.tau.value=115; ui.fade.value=3; ui.flowX.value=140; ui.force.value=1200; ui.colorMode.value='mono'; ui.dyeColor.value='#1020ff'; onUI(); },
+    smoke(){ ui.tau.value=140; ui.fade.value=9; ui.flowX.value=120; ui.force.value=900; ui.colorMode.value='mono'; ui.dyeColor.value='#aaaaaa'; onUI(); },
+    swirl(){ ui.tau.value=105; ui.fade.value=2; ui.flowX.value=160; ui.force.value=1800; ui.colorMode.value='rainbow'; onUI(); },
+    fast(){ ui.grid.value=128; ui.tau.value=90; ui.fade.value=2; ui.flowX.value=180; ui.force.value=2200; ui.colorMode.value='rainbow'; onUI(); resizeAll(); }
+  };
+  document.querySelectorAll('[data-preset]').forEach(b=> b.addEventListener('click', ()=> presets[b.dataset.preset]?.()));
+
+  buttons.reset.addEventListener('click', ()=>{ resizeAll(true); });
+  buttons.clearDye.addEventListener('click', ()=>{ dyeR.fill(0); dyeG.fill(0); dyeB.fill(0); });
+  buttons.clearVel.addEventListener('click', ()=>{ ux.fill(0); uy.fill(0); });
+  buttons.burst.addEventListener('click', ()=>{ for(let k=0;k<10;k++){ const gx=(Math.random()*N*0.6+N*0.2)|0, gy=(Math.random()*N*0.6+N*0.2)|0; const a=Math.random()*Math.PI*2; splat(gx,gy,Math.cos(a)*3,Math.sin(a)*3);} });
+  buttons.pause.addEventListener('click', ()=>{ paused=!paused; buttons.pause.textContent = paused? 'Resume':'Pause'; });
+
+  function resizeAll(resetEmitters=false){ onUI(); alloc(); if(resetEmitters){ emitters.length=0; addEmitter((N*0.25)|0,(N*0.5)|0, Math.min(N,40)); addEmitter((N*0.75)|0,(N*0.5)|0, Math.min(N,40)); } ensureImage(); resizeCanvas(); refreshLabels(); }
+
+  function init(){ resizeCanvas(); refreshLabels(); resizeAll(true); }
+  init();
+
+  // ===== Loop + FPS
+  let last=performance.now(), fpsS=0;
+  function loop(t){ const dt=(t-last)/1000; last=t; if(!paused){ updateEmitters(); step(); } render(); const fps = 1/Math.max(1e-6, dt); fpsS = fpsS ? fpsS*0.9 + fps*0.1 : fps; hudFps.textContent = fpsS.toFixed(0); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

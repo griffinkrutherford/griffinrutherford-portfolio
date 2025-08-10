@@ -577,9 +577,11 @@
                 <div class="control-group">
                 <h3>Visualization</h3>
                 <label for="iterations">Max Iterations: <span class="range-value" id="iterationsValue">200</span></label>
-                <input type="range" id="iterations" min="50" max="2000" value="200" step="50">
+                <div style="font-size: 0.75rem; color: #999; margin-bottom: 5px;">Higher values reveal more fractal detail at boundaries but render slower</div>
+                <input type="range" id="iterations" min="50" max="5000" value="200" step="50">
                 
                 <label for="quality">Render Quality:</label>
+                <div style="font-size: 0.75rem; color: #999; margin-bottom: 5px;">Controls pixel resolution (number of pixels)</div>
                 <select id="quality">
                     <option value="0.5">Low (Fast)</option>
                     <option value="1" selected>Normal</option>
@@ -627,6 +629,14 @@
                 <button id="resetView">Reset View</button>
                 <button id="saveImage">Save Image</button>
                 <button id="fullscreen">Fullscreen</button>
+            </div>
+            
+            <div class="control-group">
+                <h3>Demo Locations (Best with High Iterations)</h3>
+                <button class="demo-location" data-x="-0.7436438870371587" data-y="0.13182590420666193" data-zoom="50000">Spiral Detail</button>
+                <button class="demo-location" data-x="-0.74364085" data-y="0.13182733" data-zoom="500000">Deep Zoom</button>
+                <button class="demo-location" data-x="-1.25066" data-y="0.02012" data-zoom="10000">Mini Mandelbrot</button>
+                <button class="demo-location" data-x="-0.5" data-y="0" data-zoom="1">Full View</button>
             </div>
             
             <div class="control-group">
@@ -713,6 +723,7 @@
                 this.centerY = 0;
                 this.zoom = 1;
                 this.maxIterations = 200;
+                this.userSetIterations = false;
                 this.quality = 1;
                 this.smoothing = 'linear';
                 this.currentTheme = 'classic';
@@ -822,7 +833,10 @@
                 this.quality = this.isPortrait ? baseQuality * 0.9 : baseQuality;
                 
                 // Balanced iterations for quality and performance
-                this.maxIterations = this.isLowEnd ? 100 : (this.isPortrait ? 150 : 200);
+                // Don't override user settings on quality adjustment
+                if (!this.userSetIterations) {
+                    this.maxIterations = this.isLowEnd ? 100 : (this.isPortrait ? 150 : 200);
+                }
                 
                 // Update UI defaults
                 document.getElementById('quality').value = this.quality.toString();
@@ -972,50 +986,84 @@
                             c = u_center + normalizedCoord * vec2(1.0, 1.0 / aspectRatio) * 4.0 / u_zoom;
                         }
                         
-                        // Mandelbrot iteration with mobile-friendly loop
+                        // Mandelbrot iteration with dynamic bounds for true detail scaling
                         vec2 z = vec2(0.0);
                         int iter = u_maxIterations;
                         float escapeRadius = 4.0;
                         
-                        // Use a fixed upper bound for mobile compatibility
-                        const int MAX_ITER = 500;
+                        // Dynamic iteration with multiple loop levels for better performance scaling
+                        // This approach ensures higher iteration counts actually compute more detail
                         
-                        for (int i = 0; i < MAX_ITER; i++) {
-                            if (i >= u_maxIterations) {
-                                iter = u_maxIterations;
-                                break;
+                        if (u_maxIterations <= 200) {
+                            // Fast path for low iterations
+                            for (int i = 0; i < 200; i++) {
+                                if (i >= u_maxIterations) break;
+                                
+                                float x2 = z.x * z.x;
+                                float y2 = z.y * z.y;
+                                
+                                if (x2 + y2 > escapeRadius) {
+                                    iter = i;
+                                    break;
+                                }
+                                
+                                z = vec2(x2 - y2 + c.x, 2.0 * z.x * z.y + c.y);
                             }
-                            
-                            float x2 = z.x * z.x;
-                            float y2 = z.y * z.y;
-                            
-                            if (x2 + y2 > escapeRadius) {
-                                iter = i;
-                                break;
+                        } else if (u_maxIterations <= 1000) {
+                            // Medium path for moderate iterations
+                            for (int i = 0; i < 1000; i++) {
+                                if (i >= u_maxIterations) break;
+                                
+                                float x2 = z.x * z.x;
+                                float y2 = z.y * z.y;
+                                
+                                if (x2 + y2 > escapeRadius) {
+                                    iter = i;
+                                    break;
+                                }
+                                
+                                z = vec2(x2 - y2 + c.x, 2.0 * z.x * z.y + c.y);
                             }
-                            
-                            z = vec2(x2 - y2 + c.x, 2.0 * z.x * z.y + c.y);
+                        } else {
+                            // High detail path for maximum iterations
+                            for (int i = 0; i < 5000; i++) {
+                                if (i >= u_maxIterations) break;
+                                
+                                float x2 = z.x * z.x;
+                                float y2 = z.y * z.y;
+                                
+                                if (x2 + y2 > escapeRadius) {
+                                    iter = i;
+                                    break;
+                                }
+                                
+                                z = vec2(x2 - y2 + c.x, 2.0 * z.x * z.y + c.y);
+                            }
                         }
                         
                         // Color calculation with explicit alpha
-                        if (iter >= u_maxIterations - 1) {
+                        // Points that didn't escape are in the Mandelbrot set (render black)
+                        if (iter >= u_maxIterations) {
                             gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
                         } else {
+                            // Points that escaped - color based on iteration count
                             float t = float(iter) / float(u_maxIterations);
                             
-                            // Apply smoothing
+                            // Apply smoothing for better color transitions
                             if (u_smoothing > 0) {
-                                float log_zn = log(z.x * z.x + z.y * z.y) / 2.0;
-                                float nu = log(log_zn / log(2.0)) / log(2.0);
-                                t = float(iter) + 1.0 - nu;
-                                t = t / float(u_maxIterations);
-                                
-                                if (u_smoothing > 1) {
-                                    t = smoothstep(0.0, 1.0, t);
-                                }
-                                
-                                if (u_smoothing > 2) {
-                                    t = t * t * (3.0 - 2.0 * t);
+                                float z_magnitude_sq = z.x * z.x + z.y * z.y;
+                                if (z_magnitude_sq > 0.0) {
+                                    float log_zn = log(z_magnitude_sq) / 2.0;
+                                    float nu = log(log_zn / log(2.0)) / log(2.0);
+                                    t = (float(iter) + 1.0 - nu) / float(u_maxIterations);
+                                    
+                                    if (u_smoothing > 1) {
+                                        t = smoothstep(0.0, 1.0, t);
+                                    }
+                                    
+                                    if (u_smoothing > 2) {
+                                        t = t * t * (3.0 - 2.0 * t);
+                                    }
                                 }
                             }
                             
@@ -1127,7 +1175,9 @@
                 // Control panel events
                 document.getElementById('iterations').addEventListener('input', (e) => {
                     this.maxIterations = parseInt(e.target.value);
+                    this.userSetIterations = true;
                     document.getElementById('iterationsValue').textContent = this.maxIterations;
+                    this.scheduleRender();
                 });
                 
                 // Add touch sensitivity control for mobile
@@ -1189,6 +1239,17 @@
                     this.updateCoordinates();
                 });
                 
+                // Demo location buttons
+                document.querySelectorAll('.demo-location').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        this.centerX = parseFloat(e.target.dataset.x);
+                        this.centerY = parseFloat(e.target.dataset.y);
+                        this.zoom = parseFloat(e.target.dataset.zoom);
+                        this.resize();
+                        this.updateCoordinates();
+                    });
+                });
+                
                 document.getElementById('saveImage').addEventListener('click', () => {
                     this.saveImage();
                 });
@@ -1214,7 +1275,10 @@
                         if (controls.classList.contains('expanded')) {
                             controlsInfo.textContent = 'Swipe down to collapse';
                         } else {
-                            controlsInfo.textContent = `Quality: ${(this.quality * 100).toFixed(0)}% | Iterations: ${this.maxIterations}`;
+                            const qualityPercent = (this.quality * 100).toFixed(0);
+                            const detailLevel = this.maxIterations <= 200 ? 'Low' : 
+                                              this.maxIterations <= 1000 ? 'Med' : 'High';
+                            controlsInfo.textContent = `Quality: ${qualityPercent}% | Detail: ${detailLevel} (${this.maxIterations})`;
                         }
                     };
                     
@@ -1361,6 +1425,8 @@
                     this.centerY = worldY + (y - 0.5) * 4.0 / aspectRatio / this.zoom;
                 }
                 
+                // Resize canvas to update resolution based on new zoom level
+                this.resize();
                 this.updateCoordinates();
             }
             
@@ -1383,6 +1449,8 @@
                 
                 this.zoom *= e.shiftKey ? 0.5 : 2;
                 
+                // Resize canvas to update resolution based on new zoom level
+                this.resize();
                 this.updateCoordinates();
             }
             
@@ -1509,6 +1577,9 @@
                             if (Math.abs(newZoom - this.zoom) > 0.001) {
                                 this.zoom = newZoom;
                                 
+                                // Resize canvas to update resolution
+                                this.resize();
+                                
                                 // Keep the world point under the pinch center fixed
                                 const rect = this.canvas.getBoundingClientRect();
                                 const x = (this.pinchCenterX - rect.left) / rect.width;
@@ -1621,9 +1692,11 @@
                     case '+':
                     case '=':
                         this.zoom *= 1.2;
+                        this.resize();
                         break;
                     case '-':
                         this.zoom *= 0.8;
+                        this.resize();
                         break;
                     default:
                         return;
@@ -1638,7 +1711,15 @@
                 
                 // More conservative DPR handling for mobile
                 const dpr = this.isMobile ? 1 : Math.min(this.pixelRatio, 2);
-                const effectiveQuality = this.quality * dpr;
+                
+                // Dynamic quality boost based on zoom level
+                let zoomBoost = 1;
+                if (this.zoom > 100) {
+                    // Increase resolution as we zoom in
+                    zoomBoost = 1 + Math.min(Math.log10(this.zoom / 100) * 0.3, 1);
+                }
+                
+                const effectiveQuality = this.quality * dpr * zoomBoost;
                 
                 // Calculate new dimensions
                 const width = Math.floor(rect.width * effectiveQuality);

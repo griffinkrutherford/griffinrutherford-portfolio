@@ -1281,3 +1281,85 @@ h3 {
     z-index: 5;
 }
 
+/* 90s Mode Rainbow Button */
+.nineties-button-container {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+.rainbow-nineties-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, 
+        #ff0000 0%, 
+        #ff7f00 14%, 
+        #ffff00 28%, 
+        #00ff00 42%, 
+        #0000ff 56%, 
+        #4b0082 70%, 
+        #9400d3 84%, 
+        #ff0000 100%);
+    background-size: 200% 100%;
+    animation: rainbow-slide 3s linear infinite;
+    box-shadow: 0 3px 10px rgba(255, 0, 255, 0.4), 
+                0 0 20px rgba(255, 0, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rainbow-nineties-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 0, 255, 0.6), 
+                0 0 40px rgba(255, 0, 255, 0.4);
+}
+
+.rainbow-text {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes rainbow-slide {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* Pulsing glow effect */
+.rainbow-nineties-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        #ff0000, #ff7f00, #ffff00, #00ff00, 
+        #0000ff, #4b0082, #9400d3, #ff0000);
+    border-radius: 15px;
+    opacity: 0.7;
+    z-index: -1;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+

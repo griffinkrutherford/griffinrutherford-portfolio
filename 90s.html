@@ -44,6 +44,18 @@
             </div>
         </div>
 
+        <!-- Dial-up Sound Toggle -->
+        <div style="position: fixed; bottom: 20px; right: 20px; background: #C0C0C0; border: 2px outset #808080; padding: 10px; z-index: 1000;">
+            <div style="background: #000080; color: #FFF; padding: 3px; margin: -10px -10px 5px -10px; font-size: 12px;">
+                <b>Settings</b>
+            </div>
+            <label style="display: flex; align-items: center; cursor: pointer; font-family: 'MS Sans Serif', sans-serif;">
+                <input type="checkbox" id="dialup-toggle" checked style="margin-right: 5px;">
+                <span>Dial-up Sound FX</span>
+            </label>
+            <div style="font-size: 10px; color: #666; margin-top: 3px;">Uncheck for broadband ;-)</div>
+        </div>
+
         <!-- Visitor Counter -->
         <div class="visitor-counter">
             <div class="counter-label">You are visitor number:</div>
@@ -417,9 +429,21 @@
             "Welcome! You've Got Mail!"
         ];
 
-        let hasPlayedDialup = sessionStorage.getItem('dialupPlayed');
+        // Check if dial-up is enabled (default: true)
+        let dialupEnabled = localStorage.getItem('dialupEnabled') !== 'false';
+        
+        // Set toggle state
+        const toggle = document.getElementById('dialup-toggle');
+        if (toggle) {
+            toggle.checked = dialupEnabled;
+            toggle.addEventListener('change', (e) => {
+                dialupEnabled = e.target.checked;
+                localStorage.setItem('dialupEnabled', dialupEnabled ? 'true' : 'false');
+            });
+        }
         
         function showDialupScreen() {
+            if (!dialupEnabled) return;
             const screen = document.getElementById('dialup-screen');
             const log = document.getElementById('dialup-log');
             const status = document.getElementById('dialup-status');
@@ -481,15 +505,14 @@
             }
             
             screen.style.display = 'none';
-            sessionStorage.setItem('dialupPlayed', 'true');
         }
         
-        // Show dial-up screen on first visit this session
-        if (!hasPlayedDialup) {
-            window.addEventListener('load', () => {
+        // Show dial-up screen on every page load if enabled
+        window.addEventListener('load', () => {
+            if (dialupEnabled) {
                 setTimeout(showDialupScreen, 500);
-            });
-        }
+            }
+        })
 
         // Animate the visitor counter
         setInterval(() => {

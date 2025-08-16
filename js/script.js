@@ -56,6 +56,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // 90s Mode Toggle Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const ninetiesToggle = document.getElementById('nineties-toggle');
+    
+    if (ninetiesToggle) {
+      ninetiesToggle.addEventListener('click', function() {
+        // Redirect to 90s page
+        window.location.href = '90s.html';
+      });
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', function() {
     const quickLinksMenu = document.querySelector('.quick-links-menu');

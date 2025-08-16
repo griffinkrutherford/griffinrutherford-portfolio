@@ -153,31 +153,51 @@ document.addEventListener('DOMContentLoaded', function() {
       targetPath: []
     };
     
-    const ghostSpawn = { x: 12, y: 7 };
-    
-    const ghosts = [
-      { x: 11, y: 7, pixelX: 11 * cellSize, pixelY: 7 * cellSize, 
-        color: '#FF0000', direction: 'up', name: 'Blinky', 
-        mode: 'chase', speed: 0.12, targetPath: [], scatter: {x: 23, y: 1} },
-      { x: 12, y: 7, pixelX: 12 * cellSize, pixelY: 7 * cellSize,
-        color: '#FFB8FF', direction: 'down', name: 'Pinky', 
-        mode: 'scatter', speed: 0.11, targetPath: [], scatter: {x: 1, y: 1} },
-      { x: 13, y: 7, pixelX: 13 * cellSize, pixelY: 7 * cellSize,
-        color: '#00FFFF', direction: 'left', name: 'Inky', 
-        mode: 'scatter', speed: 0.10, targetPath: [], scatter: {x: 23, y: 13} },
-      { x: 12, y: 8, pixelX: 12 * cellSize, pixelY: 8 * cellSize,
-        color: '#FFB852', direction: 'right', name: 'Clyde', 
-        mode: 'scatter', speed: 0.09, targetPath: [], scatter: {x: 1, y: 13} }
+    // Spread ghost spawns across the maze to avoid early collision
+    const ghostSpawns = [
+      { x: 12, y: 7 },   // Blinky - center ghost house
+      { x: 2, y: 2 },    // Pinky - top left corner
+      { x: 22, y: 2 },   // Inky - top right corner  
+      { x: 12, y: 4 }    // Clyde - upper middle
     ];
     
-    let modeTimer = 0;
+    const ghosts = [
+      { x: ghostSpawns[0].x, y: ghostSpawns[0].y, 
+        pixelX: ghostSpawns[0].x * cellSize, pixelY: ghostSpawns[0].y * cellSize, 
+        color: '#FF0000', direction: 'up', name: 'Blinky', 
+        mode: 'scatter', speed: 0.12, targetPath: [], scatter: {x: 23, y: 1},
+        spawn: ghostSpawns[0] },
+      { x: ghostSpawns[1].x, y: ghostSpawns[1].y, 
+        pixelX: ghostSpawns[1].x * cellSize, pixelY: ghostSpawns[1].y * cellSize,
+        color: '#FFB8FF', direction: 'right', name: 'Pinky', 
+        mode: 'scatter', speed: 0.11, targetPath: [], scatter: {x: 1, y: 1},
+        spawn: ghostSpawns[1] },
+      { x: ghostSpawns[2].x, y: ghostSpawns[2].y, 
+        pixelX: ghostSpawns[2].x * cellSize, pixelY: ghostSpawns[2].y * cellSize,
+        color: '#00FFFF', direction: 'left', name: 'Inky', 
+        mode: 'scatter', speed: 0.10, targetPath: [], scatter: {x: 23, y: 13},
+        spawn: ghostSpawns[2] },
+      { x: ghostSpawns[3].x, y: ghostSpawns[3].y, 
+        pixelX: ghostSpawns[3].x * cellSize, pixelY: ghostSpawns[3].y * cellSize,
+        color: '#FFB852', direction: 'down', name: 'Clyde', 
+        mode: 'scatter', speed: 0.09, targetPath: [], scatter: {x: 1, y: 13},
+        spawn: ghostSpawns[3] }
+    ];
+    
+    let modeTimer = 200; // Start with scatter mode
     let chaseMode = false;
+    let startDelay = 120; // Give player 2 seconds to start
     
     // Movement patterns for ghosts
     const directions = ['up', 'down', 'left', 'right'];
     
     // A* Pathfinding Algorithm
-    function findPath(startX, startY, targetX, targetY, maxLength = 30) {
+    function findPath(startX, startY, targetX, targetY, maxLength = 20) {
+      // Validate inputs
+      if (!isFinite(startX) || !isFinite(startY) || !isFinite(targetX) || !isFinite(targetY)) {
+        return [];
+      }
+      
       const openSet = [];
       const closedSet = [];
       const path = [];
@@ -199,16 +219,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.abs(x1 - x2) + Math.abs(y1 - y2);
       }
       
-      // Check if position is valid
+      // Check if position is valid for pathfinding
       function isValidPos(x, y) {
-        return x >= 0 && x < 25 && y >= 0 && y < 15 && maze[y] && maze[y][x] !== 1;
+        if (y < 0 || y >= 15) return false;
+        if (x < 0 || x >= 25) return false;
+        return maze[y] && maze[y][x] !== 1;
       }
       
       const startNode = new Node(Math.floor(startX), Math.floor(startY), 0, 
                                   heuristic(startX, startY, targetX, targetY), null);
       openSet.push(startNode);
       
-      while (openSet.length > 0 && path.length < maxLength) {
+      let iterations = 0;
+      const maxIterations = 100; // Prevent infinite loops
+      
+      while (openSet.length > 0 && path.length < maxLength && iterations < maxIterations) {
+        iterations++;
+        
         // Find node with lowest f cost
         let currentIndex = 0;
         for (let i = 1; i < openSet.length; i++) {
@@ -406,11 +433,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function canMove(x, y) {
-      if (x < 0 || x >= 25 || y < 0 || y >= 15) return false;
-      return maze[y] && maze[y][x] !== 1;
+      // Allow movement in tunnels
+      if (y >= 0 && y < 15) {
+        if (x < 0 || x >= 25) return true; // Allow tunnel movement
+        if (maze[y] && maze[y][x] !== undefined) {
+          return maze[y][x] !== 1;
+        }
+      }
+      return false;
     }
     
     function smoothMove(entity) {
+      // Ensure entity has a valid direction
+      if (!entity.direction || !directions.includes(entity.direction)) {
+        const validDirs = directions.filter(dir => {
+          let testX = Math.round(entity.x);
+          let testY = Math.round(entity.y);
+          switch(dir) {
+            case 'up': testY--; break;
+            case 'down': testY++; break;
+            case 'left': testX--; break;
+            case 'right': testX++; break;
+          }
+          return canMove(testX, testY);
+        });
+        
+        if (validDirs.length > 0) {
+          entity.direction = validDirs[0];
+        } else {
+          return false; // Can't move at all
+        }
+      }
+      
       // Calculate target position based on direction
       let targetX = entity.x;
       let targetY = entity.y;
@@ -480,7 +534,17 @@ document.addEventListener('DOMContentLoaded', function() {
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
       
+      // Also reset ghosts to their spawn positions
+      ghosts.forEach((ghost) => {
+        ghost.x = ghost.spawn.x;
+        ghost.y = ghost.spawn.y;
+        ghost.pixelX = ghost.spawn.x * cellSize;
+        ghost.pixelY = ghost.spawn.y * cellSize;
+        ghost.targetPath = [];
+      });
+      
       respawnTimer = 30;
+      startDelay = 60; // Give player time to orient
     }
     
     function findNearestPellet() {
@@ -504,7 +568,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function getDirectionFromPath(entity) {
-      if (!entity.targetPath || entity.targetPath.length < 2) return entity.direction;
+      if (!entity.targetPath || entity.targetPath.length < 2) {
+        // Fallback to random valid direction
+        const validDirs = directions.filter(dir => {
+          let testX = Math.round(entity.x);
+          let testY = Math.round(entity.y);
+          switch(dir) {
+            case 'up': testY--; break;
+            case 'down': testY++; break;
+            case 'left': testX--; break;
+            case 'right': testX++; break;
+          }
+          return canMove(testX, testY);
+        });
+        
+        if (validDirs.length > 0 && !validDirs.includes(entity.direction)) {
+          return validDirs[Math.floor(Math.random() * validDirs.length)];
+        }
+        return entity.direction;
+      }
       
       const target = entity.targetPath[1]; // Next node in path
       const dx = target.x - Math.round(entity.x);
@@ -525,42 +607,75 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // Update pathfinding every few frames when at grid position
+      // Update pathfinding periodically
       const gridX = Math.round(pacman.x);
       const gridY = Math.round(pacman.y);
-      const atGridPosition = Math.abs(pacman.x - gridX) < 0.1 && Math.abs(pacman.y - gridY) < 0.1;
+      const atGridPosition = Math.abs(pacman.x - gridX) < 0.2 && Math.abs(pacman.y - gridY) < 0.2;
       
-      if (atGridPosition && (!pacman.targetPath || pacman.targetPath.length === 0 || Math.random() < 0.1)) {
+      // Recalculate path occasionally or when no path
+      if (frameCounter % 30 === 0 || !pacman.targetPath || pacman.targetPath.length === 0) {
         const pellet = findNearestPellet();
         if (pellet) {
-          pacman.targetPath = findPath(pacman.x, pacman.y, pellet.x, pellet.y);
+          const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
+          if (newPath && newPath.length > 0) {
+            pacman.targetPath = newPath;
+          } else {
+            // If pathfinding fails, just pick a random valid direction
+            const validDirs = directions.filter(dir => {
+              let tx = gridX, ty = gridY;
+              switch(dir) {
+                case 'up': ty--; break;
+                case 'down': ty++; break;
+                case 'left': tx--; break;
+                case 'right': tx++; break;
+              }
+              return canMove(tx, ty);
+            });
+            if (validDirs.length > 0) {
+              pacman.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
+            }
+          }
         }
       }
       
-      // Follow path
-      if (pacman.targetPath && pacman.targetPath.length > 0) {
-        // Remove reached nodes
-        if (pacman.targetPath.length > 0 && 
-            Math.abs(pacman.x - pacman.targetPath[0].x) < 0.5 && 
-            Math.abs(pacman.y - pacman.targetPath[0].y) < 0.5) {
-          pacman.targetPath.shift();
+      // Clean up reached nodes
+      while (pacman.targetPath && pacman.targetPath.length > 0 && 
+             Math.abs(pacman.x - pacman.targetPath[0].x) < 0.5 && 
+             Math.abs(pacman.y - pacman.targetPath[0].y) < 0.5) {
+        pacman.targetPath.shift();
+      }
+      
+      // Update direction at grid positions
+      if (atGridPosition) {
+        const newDir = getDirectionFromPath(pacman);
+        
+        // Try to change direction
+        let testX = gridX, testY = gridY;
+        switch(newDir) {
+          case 'up': testY--; break;
+          case 'down': testY++; break;
+          case 'left': testX--; break;
+          case 'right': testX++; break;
         }
         
-        // Get direction from path
-        if (atGridPosition) {
-          const newDir = getDirectionFromPath(pacman);
-          if (newDir !== pacman.direction) {
-            // Check if can turn
-            let testX = gridX, testY = gridY;
-            switch(newDir) {
-              case 'up': testY--; break;
-              case 'down': testY++; break;
-              case 'left': testX--; break;
-              case 'right': testX++; break;
+        if (canMove(testX, testY)) {
+          pacman.direction = newDir;
+        } else {
+          // If can't follow path, find any valid direction
+          const validDirs = directions.filter(dir => {
+            let tx = gridX, ty = gridY;
+            switch(dir) {
+              case 'up': ty--; break;
+              case 'down': ty++; break;
+              case 'left': tx--; break;
+              case 'right': tx++; break;
             }
-            if (canMove(testX, testY)) {
-              pacman.direction = newDir;
-            }
+            return canMove(tx, ty);
+          });
+          
+          if (validDirs.length > 0) {
+            pacman.direction = validDirs.includes(pacman.direction) ? 
+                               pacman.direction : validDirs[0];
           }
         }
       }
@@ -591,12 +706,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateGhosts() {
+      // Wait for start delay
+      if (startDelay > 0) {
+        startDelay--;
+        return; // Don't move ghosts yet
+      }
+      
       // Update ghost mode
       if (modeTimer > 0) {
         modeTimer--;
       } else {
         chaseMode = !chaseMode;
-        modeTimer = chaseMode ? 400 : 200; // Chase longer than scatter
+        modeTimer = chaseMode ? 300 : 200; // Chase longer than scatter
       }
       
       ghosts.forEach((ghost, index) => {
@@ -604,8 +725,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const gridY = Math.round(ghost.y);
         const atGridPosition = Math.abs(ghost.x - gridX) < 0.1 && Math.abs(ghost.y - gridY) < 0.1;
         
-        // Update pathfinding at grid positions
-        if (atGridPosition && (!ghost.targetPath || ghost.targetPath.length === 0 || Math.random() < 0.2)) {
+        // Update pathfinding periodically
+        if (atGridPosition && (frameCounter % 60 === index * 15 || !ghost.targetPath || ghost.targetPath.length === 0)) {
           let targetX, targetY;
           
           if (chaseMode) {
@@ -615,14 +736,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetX = pacman.x;
                 targetY = pacman.y;
                 break;
-              case 'Pinky': // Target ahead of Pac-Man
+              case 'Pinky': // Target ahead of Pac-Man (but less aggressive early)
                 targetX = pacman.x;
                 targetY = pacman.y;
+                const lookAhead = frameCounter < 600 ? 2 : 4; // Less aggressive at start
                 switch(pacman.direction) {
-                  case 'up': targetY -= 4; break;
-                  case 'down': targetY += 4; break;
-                  case 'left': targetX -= 4; break;
-                  case 'right': targetX += 4; break;
+                  case 'up': targetY -= lookAhead; break;
+                  case 'down': targetY += lookAhead; break;
+                  case 'left': targetX -= lookAhead; break;
+                  case 'right': targetX += lookAhead; break;
                 }
                 break;
               case 'Inky': // Complex targeting
@@ -647,10 +769,16 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           
           // Clamp targets to maze bounds
-          targetX = Math.max(0, Math.min(24, targetX));
-          targetY = Math.max(0, Math.min(14, targetY));
+          targetX = Math.max(0, Math.min(24, Math.round(targetX)));
+          targetY = Math.max(0, Math.min(14, Math.round(targetY)));
           
-          ghost.targetPath = findPath(ghost.x, ghost.y, targetX, targetY, 15);
+          const newPath = findPath(Math.round(ghost.x), Math.round(ghost.y), targetX, targetY, 15);
+          if (newPath && newPath.length > 0) {
+            ghost.targetPath = newPath;
+          } else {
+            // Fallback to random movement if pathfinding fails
+            ghost.targetPath = [];
+          }
         }
         
         // Follow path
@@ -680,7 +808,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Move ghost
-        smoothMove(ghost);
+        if (!smoothMove(ghost)) {
+          // If can't move, try a new random direction
+          const validDirs = directions.filter(dir => {
+            let testX = Math.round(ghost.x);
+            let testY = Math.round(ghost.y);
+            switch(dir) {
+              case 'up': testY--; break;
+              case 'down': testY++; break;
+              case 'left': testX--; break;
+              case 'right': testX++; break;
+            }
+            return canMove(testX, testY);
+          });
+          
+          if (validDirs.length > 0) {
+            ghost.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
+            ghost.targetPath = []; // Clear path to force recalculation
+          }
+        }
       });
     }
     

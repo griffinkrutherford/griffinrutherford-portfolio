@@ -657,13 +657,13 @@ document.addEventListener('DOMContentLoaded', function() {
           Math.pow(pacman.pixelY - ghost.pixelY, 2)
         );
         if (dist < cellSize * 0.8) {
-          respawnPacman();
+          handleCollision();
           break;
         }
       }
     }
     
-    function respawnPacman() {
+    function handleCollision() {
       // Respawn Pac-Man at center
       pacman.x = 12; // Center of maze
       pacman.y = 7;  // Center position
@@ -673,8 +673,38 @@ document.addEventListener('DOMContentLoaded', function() {
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
       
-      // Don't reset ghosts, just give player breathing room (in milliseconds)
-      respawnTimer = 1000; // 1 second
+      // Reset all ghosts to their corner scatter positions
+      ghosts.forEach((ghost) => {
+        ghost.x = ghost.scatter.x;
+        ghost.y = ghost.scatter.y;
+        ghost.pixelX = ghost.scatter.x * cellSize;
+        ghost.pixelY = ghost.scatter.y * cellSize;
+        ghost.targetPath = [];
+        ghost.mode = 'scatter';
+        
+        // Clear any current direction and let them find new paths
+        const validDirs = ['up', 'down', 'left', 'right'].filter(dir => {
+          let testX = ghost.x, testY = ghost.y;
+          switch(dir) {
+            case 'up': testY--; break;
+            case 'down': testY++; break;
+            case 'left': testX--; break;
+            case 'right': testX++; break;
+          }
+          return canMove(testX, testY, true);
+        });
+        
+        if (validDirs.length > 0) {
+          ghost.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
+        }
+      });
+      
+      // Give player breathing room (in milliseconds)
+      respawnTimer = 1500; // 1.5 seconds
+      
+      // Force scatter mode for a bit after collision
+      chaseMode = false;
+      modeTimer = 4000; // 4 seconds of scatter mode
     }
     
     function isPositionSafe(x, y, dangerRadius = 3) {

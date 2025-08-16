@@ -472,7 +472,8 @@ h3 {
   }
 
   .quick-links-nav .submenu {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     position: absolute;
     right: 100%;
     top: 0;
@@ -480,13 +481,30 @@ h3 {
     border: 2px solid var(--primary-purple);
     border-radius: 8px;
     padding: 10px;
-    min-width: 200px;
+    min-width: 220px;
     margin-right: 10px;
     list-style: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
   }
 
-  .quick-links-nav .has-submenu:hover .submenu {
-    display: block;
+  .quick-links-nav .has-submenu:hover .submenu,
+  .quick-links-nav .submenu:hover {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.2s;
+  }
+  
+  /* Create invisible bridge to help with mouse movement */
+  .quick-links-nav .has-submenu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    z-index: 999;
   }
 
   .quick-links-nav .submenu li {
@@ -523,6 +541,10 @@ h3 {
       border: none;
       border-left: 3px solid var(--primary-purple);
       padding-left: 15px;
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      display: none;
     }
 
     .quick-links-nav .has-submenu > a::after {
@@ -1281,22 +1303,44 @@ h3 {
     z-index: 5;
 }
 
-/* 90s Mode Rainbow Button */
+/* 90s Mode Rainbow Button with Pac-Man */
 .nineties-button-container {
     text-align: center;
-    margin-top: 20px;
-    padding: 10px 0;
+    margin-top: 30px;
+    padding: 20px 0;
 }
 
-.rainbow-nineties-btn {
+.pacman-button-wrapper {
     display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    position: relative;
+    width: 300px;
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5),
+                0 0 60px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(255, 255, 0, 0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+#pacman-maze {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+.rainbow-nineties-btn-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
     font-weight: bold;
     text-decoration: none;
     border-radius: 15px;
-    position: relative;
-    overflow: hidden;
     background: linear-gradient(90deg, 
         #ff0000 0%, 
         #ff7f00 14%, 
@@ -1308,15 +1352,14 @@ h3 {
         #ff0000 100%);
     background-size: 200% 100%;
     animation: rainbow-slide 3s linear infinite;
-    box-shadow: 0 3px 10px rgba(255, 0, 255, 0.4), 
-                0 0 20px rgba(255, 0, 255, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    z-index: 3;
+    pointer-events: all;
 }
 
-.rainbow-nineties-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(255, 0, 255, 0.6), 
-                0 0 40px rgba(255, 0, 255, 0.4);
+.rainbow-nineties-btn-overlay:hover {
+    transform: translateX(-50%) scale(1.1);
 }
 
 .rainbow-text {
@@ -1335,22 +1378,6 @@ h3 {
     }
 }
 
-/* Pulsing glow effect */
-.rainbow-nineties-btn::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, 
-        #ff0000, #ff7f00, #ffff00, #00ff00, 
-        #0000ff, #4b0082, #9400d3, #ff0000);
-    border-radius: 15px;
-    opacity: 0.7;
-    z-index: -1;
-    animation: pulse-glow 2s ease-in-out infinite;
-}
 
 @keyframes pulse-glow {
     0%, 100% {

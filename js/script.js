@@ -153,6 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let pelletsRemaining = 0;
     let levelComplete = false;
     
+    // Frame rate independent timing
+    let lastFrameTime = 0;
+    let deltaTime = 0;
+    const targetFPS = 60;
+    const frameTime = 1000 / targetFPS; // 16.67ms for 60fps
+    
     // Classic Pac-Man maze layout (25x15 for 500x300 canvas)
     // 1 = wall, 0 = empty path, 2 = pellet, 3 = power pellet
     const mazeTemplate = [
@@ -207,9 +213,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ghost.mode = 'scatter';
       });
       
-      // Reset game state
-      startDelay = 120;
-      modeTimer = 200;
+      // Reset game state (in milliseconds)
+      startDelay = 2000; // 2 seconds
+      modeTimer = 3000; // 3 seconds
       chaseMode = false;
       levelComplete = false;
     }
@@ -225,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
       nextDirection: 'left',
       mouthOpen: true,
       animationCounter: 0,
-      speed: 0.15,  // Smooth sub-pixel movement
+      speed: 0.08,  // Slower, frame-rate independent movement
       targetPath: [],
       lastPositions: []
     };
@@ -242,22 +248,22 @@ document.addEventListener('DOMContentLoaded', function() {
       { x: ghostSpawns[0].x, y: ghostSpawns[0].y, 
         pixelX: ghostSpawns[0].x * cellSize, pixelY: ghostSpawns[0].y * cellSize, 
         color: '#FF0000', direction: 'up', name: 'Blinky', 
-        mode: 'scatter', speed: 0.12, targetPath: [], scatter: {x: 23, y: 1},
+        mode: 'scatter', speed: 0.06, targetPath: [], scatter: {x: 23, y: 1},
         spawn: ghostSpawns[0] },
       { x: ghostSpawns[1].x, y: ghostSpawns[1].y, 
         pixelX: ghostSpawns[1].x * cellSize, pixelY: ghostSpawns[1].y * cellSize,
         color: '#FFB8FF', direction: 'right', name: 'Pinky', 
-        mode: 'scatter', speed: 0.11, targetPath: [], scatter: {x: 1, y: 1},
+        mode: 'scatter', speed: 0.055, targetPath: [], scatter: {x: 1, y: 1},
         spawn: ghostSpawns[1] },
       { x: ghostSpawns[2].x, y: ghostSpawns[2].y, 
         pixelX: ghostSpawns[2].x * cellSize, pixelY: ghostSpawns[2].y * cellSize,
         color: '#00FFFF', direction: 'left', name: 'Inky', 
-        mode: 'scatter', speed: 0.10, targetPath: [], scatter: {x: 23, y: 13},
+        mode: 'scatter', speed: 0.05, targetPath: [], scatter: {x: 23, y: 13},
         spawn: ghostSpawns[2] },
       { x: ghostSpawns[3].x, y: ghostSpawns[3].y, 
         pixelX: ghostSpawns[3].x * cellSize, pixelY: ghostSpawns[3].y * cellSize,
         color: '#FFB852', direction: 'down', name: 'Clyde', 
-        mode: 'scatter', speed: 0.09, targetPath: [], scatter: {x: 1, y: 13},
+        mode: 'scatter', speed: 0.045, targetPath: [], scatter: {x: 1, y: 13},
         spawn: ghostSpawns[3] }
     ];
     
@@ -425,12 +431,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function drawPacman() {
-      const x = pacman.pixelX * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetX;
-      const y = pacman.pixelY * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetY;
-      const radius = window.pacmanCellSize/2 - 2;
+      // Convert grid position to screen coordinates and center in cell
+      const gridX = pacman.x * window.pacmanCellSize + window.pacmanOffsetX + window.pacmanCellSize/2;
+      const gridY = pacman.y * window.pacmanCellSize + window.pacmanOffsetY + window.pacmanCellSize/2;
+      const radius = Math.max(4, window.pacmanCellSize/2 - 3);
       
       ctx.save();
-      ctx.translate(x, y);
+      ctx.translate(gridX, gridY);
       
       // Draw Pac-Man body
       ctx.fillStyle = '#FFFF00';
@@ -475,54 +482,57 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function drawGhosts() {
       ghosts.forEach(ghost => {
-        const x = ghost.pixelX * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetX;
-        const y = ghost.pixelY * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetY;
-        const radius = window.pacmanCellSize/2 - 2;
+        // Convert grid position to screen coordinates and center in cell
+        const gridX = ghost.x * window.pacmanCellSize + window.pacmanOffsetX + window.pacmanCellSize/2;
+        const gridY = ghost.y * window.pacmanCellSize + window.pacmanOffsetY + window.pacmanCellSize/2;
+        const radius = Math.max(4, window.pacmanCellSize/2 - 3);
         
         ctx.save();
         
         // Ghost body
         ctx.fillStyle = ghost.color;
         ctx.beginPath();
-        ctx.arc(x, y - radius/3, radius, Math.PI, 0, false);
-        ctx.lineTo(x + radius, y + radius/2);
+        ctx.arc(gridX, gridY - radius/3, radius, Math.PI, 0, false);
+        ctx.lineTo(gridX + radius, gridY + radius/2);
         
         // Wavy bottom with more waves
         const waveCount = 4;
         const waveWidth = (radius * 2) / waveCount;
         for (let i = 0; i < waveCount; i++) {
-          const waveX = x + radius - (i * waveWidth);
-          const waveY = y + radius/2 + (i % 2 ? 3 : 0);
+          const waveX = gridX + radius - (i * waveWidth);
+          const waveY = gridY + radius/2 + (i % 2 ? Math.max(1, radius/8) : 0);
           ctx.lineTo(waveX - waveWidth/2, waveY);
         }
-        ctx.lineTo(x - radius, y + radius/2);
+        ctx.lineTo(gridX - radius, gridY + radius/2);
         ctx.closePath();
         ctx.fill();
         
-        // Eyes
-        const eyeRadius = 3;
-        const eyeY = y - radius/3;
+        // Eyes (scale with cell size)
+        const eyeRadius = Math.max(2, radius/4);
+        const eyeY = gridY - radius/3;
         
         // White of eyes
         ctx.fillStyle = 'white';
         ctx.beginPath();
-        ctx.arc(x - radius/3, eyeY, eyeRadius, 0, Math.PI * 2);
-        ctx.arc(x + radius/3, eyeY, eyeRadius, 0, Math.PI * 2);
+        ctx.arc(gridX - radius/3, eyeY, eyeRadius, 0, Math.PI * 2);
+        ctx.arc(gridX + radius/3, eyeY, eyeRadius, 0, Math.PI * 2);
         ctx.fill();
         
         // Pupils that look in direction of movement
         ctx.fillStyle = '#000066';
         let pupilOffsetX = 0, pupilOffsetY = 0;
+        const pupilOffset = Math.max(1, radius/8);
         switch(ghost.direction) {
-          case 'left': pupilOffsetX = -1; break;
-          case 'right': pupilOffsetX = 1; break;
-          case 'up': pupilOffsetY = -1; break;
-          case 'down': pupilOffsetY = 1; break;
+          case 'left': pupilOffsetX = -pupilOffset; break;
+          case 'right': pupilOffsetX = pupilOffset; break;
+          case 'up': pupilOffsetY = -pupilOffset; break;
+          case 'down': pupilOffsetY = pupilOffset; break;
         }
         
+        const pupilRadius = Math.max(1, radius/6);
         ctx.beginPath();
-        ctx.arc(x - radius/3 + pupilOffsetX, eyeY + pupilOffsetY, 2, 0, Math.PI * 2);
-        ctx.arc(x + radius/3 + pupilOffsetX, eyeY + pupilOffsetY, 2, 0, Math.PI * 2);
+        ctx.arc(gridX - radius/3 + pupilOffsetX, eyeY + pupilOffsetY, pupilRadius, 0, Math.PI * 2);
+        ctx.arc(gridX + radius/3 + pupilOffsetX, eyeY + pupilOffsetY, pupilRadius, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
@@ -574,10 +584,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Calculate next position based on direction
+      // Calculate next position based on direction using delta time for frame-rate independence
       let nextPixelX = entity.pixelX;
       let nextPixelY = entity.pixelY;
-      const speed = entity.speed * cellSize; // Keep using original cellSize for consistent movement
+      const speed = entity.speed * cellSize * (deltaTime / frameTime); // Frame-rate independent movement
       
       switch(entity.direction) {
         case 'up': nextPixelY -= speed; break;
@@ -663,8 +673,8 @@ document.addEventListener('DOMContentLoaded', function() {
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
       
-      // Don't reset ghosts, just give player breathing room
-      respawnTimer = 30;
+      // Don't reset ghosts, just give player breathing room (in milliseconds)
+      respawnTimer = 1000; // 1 second
     }
     
     function isPositionSafe(x, y, dangerRadius = 3) {
@@ -847,7 +857,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updatePacman() {
       if (!gameActive || respawnTimer > 0) {
-        if (respawnTimer > 0) respawnTimer--;
+        if (respawnTimer > 0) {
+          respawnTimer -= deltaTime;
+          if (respawnTimer < 0) respawnTimer = 0;
+        }
         return;
       }
       
@@ -875,8 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
         pacman.targetPath.shift();
       }
       
-      // Recalculate strategy when path is empty or periodically
-      if (!pacman.targetPath || pacman.targetPath.length === 0 || frameCounter % 30 === 0) {
+      // Recalculate strategy when path is empty or periodically (every 500ms)
+      if (!pacman.targetPath || pacman.targetPath.length === 0 || (frameCounter * deltaTime) % 500 < deltaTime) {
         if (inDanger && closestGhostDist < 3) {
           // Emergency escape mode
           const escapeDir = findEscapeDirection();
@@ -979,10 +992,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Animate mouth
-      pacman.animationCounter++;
-      if (pacman.animationCounter % 3 === 0) {
+      // Animate mouth (frame-rate independent)
+      pacman.animationCounter += deltaTime;
+      const mouthAnimationSpeed = 150; // ms per animation cycle
+      if (pacman.animationCounter >= mouthAnimationSpeed) {
         pacman.mouthOpen = !pacman.mouthOpen;
+        pacman.animationCounter = 0;
       }
       
       // Eat pellets
@@ -997,7 +1012,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pelletsRemaining--;
         // Power pellet - ghosts should flee
         chaseMode = false;
-        modeTimer = 200;
+        modeTimer = 3000; // 3 seconds of scatter mode
         pacman.targetPath = []; // Force new path calculation
       }
       
@@ -1013,18 +1028,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateGhosts() {
-      // Wait for start delay
+      // Wait for start delay (frame-rate independent)
       if (startDelay > 0) {
-        startDelay--;
+        startDelay -= deltaTime;
+        if (startDelay < 0) startDelay = 0;
         return; // Don't move ghosts yet
       }
       
-      // Update ghost mode
+      // Update ghost mode (frame-rate independent)
       if (modeTimer > 0) {
-        modeTimer--;
+        modeTimer -= deltaTime;
       } else {
         chaseMode = !chaseMode;
-        modeTimer = chaseMode ? 300 : 200; // Chase longer than scatter
+        modeTimer = chaseMode ? 5000 : 3000; // Chase 5s, scatter 3s (in milliseconds)
         // Clear all ghost paths when mode changes
         ghosts.forEach(ghost => {
           ghost.targetPath = [];
@@ -1044,8 +1060,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Update pathfinding when path is empty or periodically (staggered timing for each ghost)
-        if (!ghost.targetPath || ghost.targetPath.length === 0 || 
-            (frameCounter % 45 === (index * 12) % 45)) {
+        // Each ghost recalculates every 750ms, with 200ms stagger between ghosts
+        const recalcInterval = 750;
+        const staggerDelay = index * 200;
+        const ghostTimer = (frameCounter * deltaTime + staggerDelay) % recalcInterval;
+        if (!ghost.targetPath || ghost.targetPath.length === 0 || ghostTimer < deltaTime) {
           let targetX, targetY;
           
           if (chaseMode) {
@@ -1211,17 +1230,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let frameCounter = 0;
     
-    function gameLoop() {
+    function gameLoop(currentTime) {
+      // Calculate delta time for frame-rate independence
+      if (lastFrameTime === 0) lastFrameTime = currentTime;
+      deltaTime = currentTime - lastFrameTime;
+      lastFrameTime = currentTime;
+      
+      // Cap delta time to prevent large jumps (if tab was inactive)
+      deltaTime = Math.min(deltaTime, frameTime * 3);
+      
       // Clear and draw
       drawMaze();
       drawGhosts();
       
-      // Flash effect when respawning
-      if (respawnTimer <= 0 || respawnTimer % 6 < 3) {
+      // Flash effect when respawning (frame-rate independent)
+      const flashSpeed = 200; // ms per flash
+      if (respawnTimer <= 0 || Math.floor(currentTime / flashSpeed) % 2 === 0) {
         drawPacman();
       }
       
-      // Update at 60 FPS for smooth movement
+      // Update game logic
       updatePacman();
       updateGhosts();
       

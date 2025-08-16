@@ -117,10 +117,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Game state
     let gameActive = true;
     let respawnTimer = 0;
+    let pelletsRemaining = 0;
+    let levelComplete = false;
     
     // Classic Pac-Man maze layout (25x15 for 500x300 canvas)
     // 1 = wall, 0 = empty path, 2 = pellet, 3 = power pellet
-    const maze = [
+    const mazeTemplate = [
       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       [0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0],
       [0,1,3,2,2,2,2,2,2,2,2,1,0,1,2,2,2,2,2,2,2,2,3,1,0],
@@ -137,6 +139,47 @@ document.addEventListener('DOMContentLoaded', function() {
       [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ];
+    
+    // Create a working copy of the maze
+    let maze = mazeTemplate.map(row => [...row]);
+    
+    function resetMaze() {
+      // Reset maze to original state
+      maze = mazeTemplate.map(row => [...row]);
+      
+      // Count pellets
+      pelletsRemaining = 0;
+      for (let y = 0; y < 15; y++) {
+        for (let x = 0; x < 25; x++) {
+          if (maze[y][x] === 2 || maze[y][x] === 3) {
+            pelletsRemaining++;
+          }
+        }
+      }
+      
+      // Reset entities to spawn positions
+      pacman.x = pacmanSpawn.x;
+      pacman.y = pacmanSpawn.y;
+      pacman.pixelX = pacmanSpawn.x * cellSize;
+      pacman.pixelY = pacmanSpawn.y * cellSize;
+      pacman.direction = 'left';
+      pacman.targetPath = [];
+      
+      ghosts.forEach((ghost) => {
+        ghost.x = ghost.spawn.x;
+        ghost.y = ghost.spawn.y;
+        ghost.pixelX = ghost.spawn.x * cellSize;
+        ghost.pixelY = ghost.spawn.y * cellSize;
+        ghost.targetPath = [];
+        ghost.mode = 'scatter';
+      });
+      
+      // Reset game state
+      startDelay = 120;
+      modeTimer = 200;
+      chaseMode = false;
+      levelComplete = false;
+    }
     
     // Game entities with spawn positions and smooth movement
     const pacmanSpawn = { x: 12, y: 10 };
@@ -526,25 +569,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function respawnPacman() {
-      pacman.x = pacmanSpawn.x;
-      pacman.y = pacmanSpawn.y;
-      pacman.pixelX = pacmanSpawn.x * cellSize;
-      pacman.pixelY = pacmanSpawn.y * cellSize;
+      // Respawn Pac-Man at center
+      pacman.x = 12; // Center of maze
+      pacman.y = 7;  // Center position
+      pacman.pixelX = 12 * cellSize;
+      pacman.pixelY = 7 * cellSize;
       pacman.direction = 'left';
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
       
-      // Also reset ghosts to their spawn positions
-      ghosts.forEach((ghost) => {
-        ghost.x = ghost.spawn.x;
-        ghost.y = ghost.spawn.y;
-        ghost.pixelX = ghost.spawn.x * cellSize;
-        ghost.pixelY = ghost.spawn.y * cellSize;
-        ghost.targetPath = [];
-      });
-      
+      // Don't reset ghosts, just give player breathing room
       respawnTimer = 30;
-      startDelay = 60; // Give player time to orient
     }
     
     function isPositionSafe(x, y, dangerRadius = 3) {
@@ -558,50 +593,44 @@ document.addEventListener('DOMContentLoaded', function() {
       return true;
     }
     
-    function findSafestPellet() {
-      let safePellets = [];
-      let unsafePellets = [];
+    function findBestPellet() {
+      let allPellets = [];
       
-      // Categorize pellets by safety
+      // Find all remaining pellets
       for (let y = 0; y < 15; y++) {
         for (let x = 0; x < 25; x++) {
           if (maze[y] && (maze[y][x] === 2 || maze[y][x] === 3)) {
             const dist = Math.abs(pacman.x - x) + Math.abs(pacman.y - y);
-            const pelletInfo = {x, y, dist, isPower: maze[y][x] === 3};
+            const isSafe = isPositionSafe(x, y);
+            const isPower = maze[y][x] === 3;
             
-            if (isPositionSafe(x, y)) {
-              safePellets.push(pelletInfo);
-            } else {
-              unsafePellets.push(pelletInfo);
+            // Calculate score for this pellet
+            let score = 1000 - dist; // Closer is better
+            if (isSafe) score += 500; // Safety bonus
+            if (isPower) score += 300; // Power pellet bonus
+            
+            // Check ghost proximity to this pellet
+            let minGhostDist = Infinity;
+            for (let ghost of ghosts) {
+              const ghostDist = Math.abs(ghost.x - x) + Math.abs(ghost.y - y);
+              if (ghostDist < minGhostDist) minGhostDist = ghostDist;
             }
+            
+            // Prefer pellets that ghosts are far from
+            score += minGhostDist * 10;
+            
+            allPellets.push({x, y, dist, score, isPower, isSafe});
           }
         }
       }
       
-      // Prioritize safe pellets, especially power pellets
-      if (safePellets.length > 0) {
-        // Sort by distance and prioritize power pellets
-        safePellets.sort((a, b) => {
-          if (a.isPower && !b.isPower) return -1;
-          if (!a.isPower && b.isPower) return 1;
-          return a.dist - b.dist;
-        });
-        return safePellets[0];
-      }
+      if (allPellets.length === 0) return null;
       
-      // If no safe pellets, go for power pellets first to turn the tables
-      if (unsafePellets.length > 0) {
-        const powerPellets = unsafePellets.filter(p => p.isPower);
-        if (powerPellets.length > 0) {
-          powerPellets.sort((a, b) => a.dist - b.dist);
-          return powerPellets[0];
-        }
-        // Otherwise get the least dangerous pellet
-        unsafePellets.sort((a, b) => a.dist - b.dist);
-        return unsafePellets[0];
-      }
+      // Sort by score (higher is better)
+      allPellets.sort((a, b) => b.score - a.score);
       
-      return null;
+      // Return best pellet
+      return allPellets[0];
     }
     
     function findEscapeDirection() {
@@ -725,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // If in immediate danger, balance escape with progress
         if (inDanger) {
           const escapeDir = findEscapeDirection();
-          const pellet = findSafestPellet();
+          const pellet = findBestPellet();
           
           // Try to move toward a safe pellet while escaping
           if (pellet && escapeDir) {
@@ -761,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         } else {
           // Not in immediate danger, go for pellets
-          const pellet = findSafestPellet();
+          const pellet = findBestPellet();
           if (pellet) {
             const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
             if (newPath && newPath.length > 0) {
@@ -881,12 +910,22 @@ document.addEventListener('DOMContentLoaded', function() {
       const currentGridY = Math.round(pacman.y);
       if (maze[currentGridY] && maze[currentGridY][currentGridX] === 2) {
         maze[currentGridY][currentGridX] = 0;
+        pelletsRemaining--;
         pacman.targetPath = []; // Recalculate path
       } else if (maze[currentGridY] && maze[currentGridY][currentGridX] === 3) {
         maze[currentGridY][currentGridX] = 0;
+        pelletsRemaining--;
         // Power pellet - ghosts should flee
         chaseMode = false;
         modeTimer = 200;
+      }
+      
+      // Check if level complete
+      if (pelletsRemaining <= 0 && !levelComplete) {
+        levelComplete = true;
+        setTimeout(() => {
+          resetMaze();
+        }, 2000); // Wait 2 seconds before resetting
       }
       
       checkCollision();
@@ -919,14 +958,15 @@ document.addEventListener('DOMContentLoaded', function() {
           if (chaseMode) {
             // Each ghost has different targeting behavior
             switch(ghost.name) {
-              case 'Blinky': // Direct chase
-                targetX = pacman.x;
-                targetY = pacman.y;
+              case 'Blinky': // Aggressive direct chase
+                targetX = Math.round(pacman.x);
+                targetY = Math.round(pacman.y);
                 break;
-              case 'Pinky': // Target ahead of Pac-Man (but less aggressive early)
-                targetX = pacman.x;
-                targetY = pacman.y;
-                const lookAhead = frameCounter < 600 ? 2 : 4; // Less aggressive at start
+                
+              case 'Pinky': // Ambush - target ahead of Pac-Man
+                targetX = Math.round(pacman.x);
+                targetY = Math.round(pacman.y);
+                const lookAhead = 4;
                 switch(pacman.direction) {
                   case 'up': targetY -= lookAhead; break;
                   case 'down': targetY += lookAhead; break;
@@ -934,16 +974,23 @@ document.addEventListener('DOMContentLoaded', function() {
                   case 'right': targetX += lookAhead; break;
                 }
                 break;
-              case 'Inky': // Complex targeting
-                targetX = pacman.x + (Math.random() - 0.5) * 8;
-                targetY = pacman.y + (Math.random() - 0.5) * 8;
+                
+              case 'Inky': // Patrol behavior - targets area around Pac-Man
+                const blinky = ghosts[0]; // Reference to Blinky
+                const midX = (Math.round(pacman.x) + Math.round(blinky.x)) / 2;
+                const midY = (Math.round(pacman.y) + Math.round(blinky.y)) / 2;
+                targetX = Math.round(midX);
+                targetY = Math.round(midY);
                 break;
-              case 'Clyde': // Shy - chase when far, flee when close
-                const dist = Math.abs(ghost.x - pacman.x) + Math.abs(ghost.y - pacman.y);
-                if (dist > 8) {
-                  targetX = pacman.x;
-                  targetY = pacman.y;
+                
+              case 'Clyde': // Shy ghost - runs away when close
+                const distToPacman = Math.abs(ghost.x - pacman.x) + Math.abs(ghost.y - pacman.y);
+                if (distToPacman > 8) {
+                  // Chase when far away
+                  targetX = Math.round(pacman.x);
+                  targetY = Math.round(pacman.y);
                 } else {
+                  // Flee to corner when close
                   targetX = ghost.scatter.x;
                   targetY = ghost.scatter.y;
                 }
@@ -1057,6 +1104,9 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'secret.html';
       }
     });
+    
+    // Initialize the game
+    resetMaze();
     
     // Start the game
     gameLoop();

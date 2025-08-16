@@ -547,15 +547,12 @@ document.addEventListener('DOMContentLoaded', function() {
       startDelay = 60; // Give player time to orient
     }
     
-    function isPositionSafe(x, y, dangerRadius = 4) {
+    function isPositionSafe(x, y, dangerRadius = 3) {
       // Check if position is safe from ghosts
       for (let ghost of ghosts) {
         const dist = Math.abs(x - ghost.x) + Math.abs(y - ghost.y);
         if (dist < dangerRadius) {
-          // Check if ghost is moving toward this position
-          if (ghost.mode === 'chase' || dist < dangerRadius / 2) {
-            return false;
-          }
+          return false;
         }
       }
       return true;
@@ -723,47 +720,86 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // If in immediate danger, prioritize escape
-      if (inDanger && atGridPosition) {
-        const escapeDir = findEscapeDirection();
-        if (escapeDir) {
-          pacman.direction = escapeDir;
-          pacman.targetPath = []; // Clear path to recalculate after escaping
-        }
-      } else {
-        // Recalculate path occasionally or when no path
-        if (frameCounter % 20 === 0 || !pacman.targetPath || pacman.targetPath.length === 0) {
+      // Recalculate strategy periodically
+      if (frameCounter % 15 === 0 || !pacman.targetPath || pacman.targetPath.length === 0) {
+        // If in immediate danger, balance escape with progress
+        if (inDanger) {
+          const escapeDir = findEscapeDirection();
+          const pellet = findSafestPellet();
+          
+          // Try to move toward a safe pellet while escaping
+          if (pellet && escapeDir) {
+            // Check if escape direction also moves us toward a pellet
+            let testX = gridX, testY = gridY;
+            switch(escapeDir) {
+              case 'up': testY--; break;
+              case 'down': testY++; break;
+              case 'left': testX--; break;
+              case 'right': testX++; break;
+            }
+            
+            const currentPelletDist = Math.abs(gridX - pellet.x) + Math.abs(gridY - pellet.y);
+            const newPelletDist = Math.abs(testX - pellet.x) + Math.abs(testY - pellet.y);
+            
+            // Use escape direction if it's safe or also moves toward pellet
+            if (newPelletDist <= currentPelletDist || closestGhostDist < 2) {
+              pacman.direction = escapeDir;
+              pacman.targetPath = [];
+            } else {
+              // Try to path to safe pellet
+              const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 15);
+              if (newPath && newPath.length > 0) {
+                pacman.targetPath = newPath;
+              } else {
+                pacman.direction = escapeDir;
+                pacman.targetPath = [];
+              }
+            }
+          } else if (escapeDir) {
+            pacman.direction = escapeDir;
+            pacman.targetPath = [];
+          }
+        } else {
+          // Not in immediate danger, go for pellets
           const pellet = findSafestPellet();
           if (pellet) {
-            // Use A* only if pellet is safe or we have no choice
-            if (isPositionSafe(pellet.x, pellet.y) || closestGhostDist > 5) {
-              const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
-              if (newPath && newPath.length > 0) {
-                // Check if the path leads us into danger
-                let pathSafe = true;
-                for (let i = 0; i < Math.min(3, newPath.length); i++) {
-                  if (!isPositionSafe(newPath[i].x, newPath[i].y, 3)) {
-                    pathSafe = false;
-                    break;
+            const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
+            if (newPath && newPath.length > 0) {
+              pacman.targetPath = newPath;
+            } else {
+              // Can't find path, just move in best direction
+              const validDirs = directions.filter(dir => {
+                let tx = gridX, ty = gridY;
+                switch(dir) {
+                  case 'up': ty--; break;
+                  case 'down': ty++; break;
+                  case 'left': tx--; break;
+                  case 'right': tx++; break;
+                }
+                return canMove(tx, ty);
+              });
+              
+              if (validDirs.length > 0) {
+                // Pick direction that moves toward pellet
+                let bestDir = validDirs[0];
+                let bestDist = Infinity;
+                
+                for (let dir of validDirs) {
+                  let tx = gridX, ty = gridY;
+                  switch(dir) {
+                    case 'up': ty--; break;
+                    case 'down': ty++; break;
+                    case 'left': tx--; break;
+                    case 'right': tx++; break;
+                  }
+                  const dist = Math.abs(tx - pellet.x) + Math.abs(ty - pellet.y);
+                  if (dist < bestDist) {
+                    bestDist = dist;
+                    bestDir = dir;
                   }
                 }
                 
-                if (pathSafe) {
-                  pacman.targetPath = newPath;
-                } else {
-                  // Path is dangerous, escape instead
-                  const escapeDir = findEscapeDirection();
-                  if (escapeDir) {
-                    pacman.direction = escapeDir;
-                    pacman.targetPath = [];
-                  }
-                }
-              }
-            } else {
-              // Pellet is not safe, move away from ghosts
-              const escapeDir = findEscapeDirection();
-              if (escapeDir) {
-                pacman.direction = escapeDir;
+                pacman.direction = bestDir;
                 pacman.targetPath = [];
               }
             }
@@ -814,7 +850,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Move Pac-Man
-      smoothMove(pacman);
+      if (!smoothMove(pacman)) {
+        // If stuck, force a new direction
+        const validDirs = directions.filter(dir => {
+          let tx = Math.round(pacman.x), ty = Math.round(pacman.y);
+          switch(dir) {
+            case 'up': ty--; break;
+            case 'down': ty++; break;
+            case 'left': tx--; break;
+            case 'right': tx++; break;
+          }
+          return canMove(tx, ty);
+        });
+        
+        if (validDirs.length > 0) {
+          // Pick any valid direction to keep moving
+          pacman.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
+          pacman.targetPath = [];
+        }
+      }
       
       // Animate mouth
       pacman.animationCounter++;

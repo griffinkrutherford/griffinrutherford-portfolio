@@ -54,6 +54,7 @@
                 <span>Dial-up Sound FX</span>
             </label>
             <div style="font-size: 10px; color: #666; margin-top: 3px;">Uncheck for broadband ;-)</div>
+            <button onclick="testDialupSound()" style="margin-top: 5px; padding: 2px 5px; font-size: 11px; width: 100%;">Test Sound</button>
         </div>
 
         <!-- Visitor Counter -->
@@ -385,10 +386,10 @@
     </div>
 
     <!-- AOL Dial-up Sound -->
-    <audio id="dialup-sound" preload="auto">
+    <audio id="dialup-sound" preload="auto" controls style="display: none;">
         <source src="audio/aol-dialup.mp3" type="audio/mpeg">
         <source src="audio/aol-dialup.wav" type="audio/wav">
-        <!-- Fallback for browsers that don't support audio -->
+        Your browser does not support the audio element.
     </audio>
 
     <!-- Dial-up Connection Screen -->
@@ -429,6 +430,21 @@
             "Welcome! You've Got Mail!"
         ];
 
+        // Test sound function
+        function testDialupSound() {
+            const audio = document.getElementById('dialup-sound');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().then(() => {
+                    alert('Sound is working! :-D');
+                }).catch(e => {
+                    alert('Sound error: ' + e.message + '\\nMake sure aol-dialup.mp3 is in the /audio/ folder');
+                });
+            } else {
+                alert('Audio element not found!');
+            }
+        }
+        
         // Check if dial-up is enabled (default: true)
         let dialupEnabled = localStorage.getItem('dialupEnabled') !== 'false';
         
@@ -455,7 +471,24 @@
             // Try to play the audio (might be blocked by browser)
             if (audio) {
                 audio.volume = 0.3; // Not too loud!
-                audio.play().catch(e => console.log('Audio autoplay blocked:', e));
+                console.log('Attempting to play audio:', audio.src);
+                audio.play().then(() => {
+                    console.log('Audio playing successfully!');
+                }).catch(e => {
+                    console.error('Audio playback failed:', e);
+                    // Try to add a user interaction button if autoplay fails
+                    const status = document.getElementById('dialup-status');
+                    if (status && e.name === 'NotAllowedError') {
+                        status.innerHTML = 'Click anywhere to enable sound...';
+                        document.getElementById('dialup-screen').addEventListener('click', function playOnClick() {
+                            audio.play();
+                            status.textContent = 'Dialing AOL...';
+                            document.getElementById('dialup-screen').removeEventListener('click', playOnClick);
+                        }, { once: true });
+                    }
+                });
+            } else {
+                console.error('Audio element not found!');
             }
             
             let messageIndex = 0;

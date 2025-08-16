@@ -547,24 +547,122 @@ document.addEventListener('DOMContentLoaded', function() {
       startDelay = 60; // Give player time to orient
     }
     
-    function findNearestPellet() {
-      let nearestPellet = null;
-      let nearestDist = Infinity;
+    function isPositionSafe(x, y, dangerRadius = 4) {
+      // Check if position is safe from ghosts
+      for (let ghost of ghosts) {
+        const dist = Math.abs(x - ghost.x) + Math.abs(y - ghost.y);
+        if (dist < dangerRadius) {
+          // Check if ghost is moving toward this position
+          if (ghost.mode === 'chase' || dist < dangerRadius / 2) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+    
+    function findSafestPellet() {
+      let safePellets = [];
+      let unsafePellets = [];
       
-      // Find all pellets
+      // Categorize pellets by safety
       for (let y = 0; y < 15; y++) {
         for (let x = 0; x < 25; x++) {
           if (maze[y] && (maze[y][x] === 2 || maze[y][x] === 3)) {
             const dist = Math.abs(pacman.x - x) + Math.abs(pacman.y - y);
-            if (dist < nearestDist) {
-              nearestDist = dist;
-              nearestPellet = {x, y};
+            const pelletInfo = {x, y, dist, isPower: maze[y][x] === 3};
+            
+            if (isPositionSafe(x, y)) {
+              safePellets.push(pelletInfo);
+            } else {
+              unsafePellets.push(pelletInfo);
             }
           }
         }
       }
       
-      return nearestPellet;
+      // Prioritize safe pellets, especially power pellets
+      if (safePellets.length > 0) {
+        // Sort by distance and prioritize power pellets
+        safePellets.sort((a, b) => {
+          if (a.isPower && !b.isPower) return -1;
+          if (!a.isPower && b.isPower) return 1;
+          return a.dist - b.dist;
+        });
+        return safePellets[0];
+      }
+      
+      // If no safe pellets, go for power pellets first to turn the tables
+      if (unsafePellets.length > 0) {
+        const powerPellets = unsafePellets.filter(p => p.isPower);
+        if (powerPellets.length > 0) {
+          powerPellets.sort((a, b) => a.dist - b.dist);
+          return powerPellets[0];
+        }
+        // Otherwise get the least dangerous pellet
+        unsafePellets.sort((a, b) => a.dist - b.dist);
+        return unsafePellets[0];
+      }
+      
+      return null;
+    }
+    
+    function findEscapeDirection() {
+      // Find the safest direction to escape from ghosts
+      const gridX = Math.round(pacman.x);
+      const gridY = Math.round(pacman.y);
+      
+      let bestDir = null;
+      let bestSafety = -Infinity;
+      
+      for (let dir of directions) {
+        let testX = gridX, testY = gridY;
+        switch(dir) {
+          case 'up': testY--; break;
+          case 'down': testY++; break;
+          case 'left': testX--; break;
+          case 'right': testX++; break;
+        }
+        
+        if (!canMove(testX, testY)) continue;
+        
+        // Calculate safety score (sum of distances to all ghosts)
+        let safety = 0;
+        for (let ghost of ghosts) {
+          const dist = Math.abs(testX - ghost.x) + Math.abs(testY - ghost.y);
+          
+          // Heavily penalize moving toward a ghost
+          const futureGhostDist = Math.abs(testX - ghost.x) + Math.abs(testY - ghost.y);
+          const currentGhostDist = Math.abs(gridX - ghost.x) + Math.abs(gridY - ghost.y);
+          
+          if (futureGhostDist < currentGhostDist && dist < 3) {
+            safety -= 100; // Don't move toward nearby ghosts
+          } else {
+            safety += dist * dist; // Square the distance for more weight on farther ghosts
+          }
+        }
+        
+        // Bonus for directions with more escape routes
+        let escapeRoutes = 0;
+        for (let nextDir of directions) {
+          let nextX = testX, nextY = testY;
+          switch(nextDir) {
+            case 'up': nextY--; break;
+            case 'down': nextY++; break;
+            case 'left': nextX--; break;
+            case 'right': nextX++; break;
+          }
+          if (canMove(nextX, nextY)) escapeRoutes++;
+        }
+        safety += escapeRoutes * 5;
+        
+        if (safety > bestSafety) {
+          bestSafety = safety;
+          bestDir = dir;
+        }
+      }
+      
+      return bestDir;
     }
     
     function getDirectionFromPath(entity) {
@@ -612,27 +710,62 @@ document.addEventListener('DOMContentLoaded', function() {
       const gridY = Math.round(pacman.y);
       const atGridPosition = Math.abs(pacman.x - gridX) < 0.2 && Math.abs(pacman.y - gridY) < 0.2;
       
-      // Recalculate path occasionally or when no path
-      if (frameCounter % 30 === 0 || !pacman.targetPath || pacman.targetPath.length === 0) {
-        const pellet = findNearestPellet();
-        if (pellet) {
-          const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
-          if (newPath && newPath.length > 0) {
-            pacman.targetPath = newPath;
-          } else {
-            // If pathfinding fails, just pick a random valid direction
-            const validDirs = directions.filter(dir => {
-              let tx = gridX, ty = gridY;
-              switch(dir) {
-                case 'up': ty--; break;
-                case 'down': ty++; break;
-                case 'left': tx--; break;
-                case 'right': tx++; break;
+      // Check for immediate danger
+      let inDanger = false;
+      let closestGhostDist = Infinity;
+      for (let ghost of ghosts) {
+        const dist = Math.abs(pacman.x - ghost.x) + Math.abs(pacman.y - ghost.y);
+        if (dist < closestGhostDist) {
+          closestGhostDist = dist;
+        }
+        if (dist < 3) {
+          inDanger = true;
+        }
+      }
+      
+      // If in immediate danger, prioritize escape
+      if (inDanger && atGridPosition) {
+        const escapeDir = findEscapeDirection();
+        if (escapeDir) {
+          pacman.direction = escapeDir;
+          pacman.targetPath = []; // Clear path to recalculate after escaping
+        }
+      } else {
+        // Recalculate path occasionally or when no path
+        if (frameCounter % 20 === 0 || !pacman.targetPath || pacman.targetPath.length === 0) {
+          const pellet = findSafestPellet();
+          if (pellet) {
+            // Use A* only if pellet is safe or we have no choice
+            if (isPositionSafe(pellet.x, pellet.y) || closestGhostDist > 5) {
+              const newPath = findPath(gridX, gridY, pellet.x, pellet.y, 20);
+              if (newPath && newPath.length > 0) {
+                // Check if the path leads us into danger
+                let pathSafe = true;
+                for (let i = 0; i < Math.min(3, newPath.length); i++) {
+                  if (!isPositionSafe(newPath[i].x, newPath[i].y, 3)) {
+                    pathSafe = false;
+                    break;
+                  }
+                }
+                
+                if (pathSafe) {
+                  pacman.targetPath = newPath;
+                } else {
+                  // Path is dangerous, escape instead
+                  const escapeDir = findEscapeDirection();
+                  if (escapeDir) {
+                    pacman.direction = escapeDir;
+                    pacman.targetPath = [];
+                  }
+                }
               }
-              return canMove(tx, ty);
-            });
-            if (validDirs.length > 0) {
-              pacman.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
+            } else {
+              // Pellet is not safe, move away from ghosts
+              const escapeDir = findEscapeDirection();
+              if (escapeDir) {
+                pacman.direction = escapeDir;
+                pacman.targetPath = [];
+              }
             }
           }
         }

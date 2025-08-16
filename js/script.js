@@ -110,9 +110,42 @@ document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('pacman-maze');
   if (canvas) {
     const ctx = canvas.getContext('2d');
-    const cellSize = 20; // Larger cells for bigger sprites
-    const cols = Math.floor(canvas.width / cellSize);
-    const rows = Math.floor(canvas.height / cellSize);
+    
+    // Function to resize canvas responsively
+    function resizeCanvas() {
+      const container = canvas.parentElement;
+      const containerRect = container.getBoundingClientRect();
+      const containerWidth = containerRect.width;
+      const containerHeight = containerRect.height;
+      
+      // Set canvas size to match container
+      canvas.width = containerWidth;
+      canvas.height = containerHeight;
+      
+      // Calculate cell size based on canvas dimensions
+      // Maintain the 25x15 grid ratio
+      const targetCols = 25;
+      const targetRows = 15;
+      const cellSizeX = canvas.width / targetCols;
+      const cellSizeY = canvas.height / targetRows;
+      
+      // Use the smaller cell size to maintain aspect ratio
+      window.pacmanCellSize = Math.min(cellSizeX, cellSizeY);
+      
+      // Center the game if there's extra space
+      window.pacmanOffsetX = (canvas.width - (targetCols * window.pacmanCellSize)) / 2;
+      window.pacmanOffsetY = (canvas.height - (targetRows * window.pacmanCellSize)) / 2;
+    }
+    
+    // Initial resize
+    resizeCanvas();
+    
+    // Resize on window resize
+    window.addEventListener('resize', resizeCanvas);
+    
+    const cellSize = window.pacmanCellSize;
+    const cols = 25; // Fixed grid size
+    const rows = 15;
     
     // Game state
     let gameActive = true;
@@ -360,29 +393,31 @@ document.addEventListener('DOMContentLoaded', function() {
       for (let row = 0; row < maze.length; row++) {
         for (let col = 0; col < maze[row].length; col++) {
           const cell = maze[row][col];
-          const x = col * cellSize;
-          const y = row * cellSize;
+          const x = col * window.pacmanCellSize + window.pacmanOffsetX;
+          const y = row * window.pacmanCellSize + window.pacmanOffsetY;
           
           if (cell === 1) {
             // Draw wall with better graphics
             ctx.fillStyle = '#1919A6';
-            ctx.fillRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+            ctx.fillRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
             
             // Add highlights
             ctx.strokeStyle = '#2929FF';
             ctx.lineWidth = 1;
-            ctx.strokeRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+            ctx.strokeRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
           } else if (cell === 2) {
-            // Draw pellet
+            // Draw pellet (scale with cell size)
             ctx.fillStyle = '#FFB897';
             ctx.beginPath();
-            ctx.arc(x + cellSize/2, y + cellSize/2, 3, 0, Math.PI * 2);
+            const pelletSize = Math.max(2, window.pacmanCellSize * 0.15);
+            ctx.arc(x + window.pacmanCellSize/2, y + window.pacmanCellSize/2, pelletSize, 0, Math.PI * 2);
             ctx.fill();
           } else if (cell === 3) {
-            // Draw power pellet (larger)
+            // Draw power pellet (larger, scale with cell size)
             ctx.fillStyle = '#FFB897';
             ctx.beginPath();
-            ctx.arc(x + cellSize/2, y + cellSize/2, 6, 0, Math.PI * 2);
+            const powerPelletSize = Math.max(4, window.pacmanCellSize * 0.3);
+            ctx.arc(x + window.pacmanCellSize/2, y + window.pacmanCellSize/2, powerPelletSize, 0, Math.PI * 2);
             ctx.fill();
           }
         }
@@ -390,9 +425,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function drawPacman() {
-      const x = pacman.pixelX + cellSize/2;
-      const y = pacman.pixelY + cellSize/2;
-      const radius = cellSize/2 - 2;
+      const x = pacman.pixelX * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetX;
+      const y = pacman.pixelY * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetY;
+      const radius = window.pacmanCellSize/2 - 2;
       
       ctx.save();
       ctx.translate(x, y);
@@ -440,9 +475,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function drawGhosts() {
       ghosts.forEach(ghost => {
-        const x = ghost.pixelX + cellSize/2;
-        const y = ghost.pixelY + cellSize/2;
-        const radius = cellSize/2 - 2;
+        const x = ghost.pixelX * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetX;
+        const y = ghost.pixelY * window.pacmanCellSize / cellSize + window.pacmanCellSize/2 + window.pacmanOffsetY;
+        const radius = window.pacmanCellSize/2 - 2;
         
         ctx.save();
         
@@ -542,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Calculate next position based on direction
       let nextPixelX = entity.pixelX;
       let nextPixelY = entity.pixelY;
-      const speed = entity.speed * cellSize;
+      const speed = entity.speed * cellSize; // Keep using original cellSize for consistent movement
       
       switch(entity.direction) {
         case 'up': nextPixelY -= speed; break;
@@ -1202,12 +1237,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      const pacmanX = pacman.x * cellSize;
-      const pacmanY = pacman.y * cellSize;
+      const pacmanX = pacman.x * window.pacmanCellSize + window.pacmanOffsetX;
+      const pacmanY = pacman.y * window.pacmanCellSize + window.pacmanOffsetY;
       
-      // Check if click is on Pac-Man
-      if (x >= pacmanX && x <= pacmanX + cellSize &&
-          y >= pacmanY && y <= pacmanY + cellSize) {
+      // Check if click is on Pac-Man (with some padding for easier clicking)
+      const clickRadius = window.pacmanCellSize;
+      if (x >= pacmanX && x <= pacmanX + clickRadius &&
+          y >= pacmanY && y <= pacmanY + clickRadius) {
         e.preventDefault();
         e.stopPropagation(); // Prevent the link from triggering
         window.location.href = 'secret.html';

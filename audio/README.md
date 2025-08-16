@@ -2,16 +2,31 @@
 
 To add the iconic AOL dial-up sound to your 90s website:
 
-## Option 1: Download from YouTube
-1. Use a YouTube to MP3 converter service
-2. Convert this video: https://www.youtube.com/watch?v=D1UY7eDRXrs
-3. Save as `aol-dialup.mp3` in this directory
+## Quick Method - Download from YouTube
+1. Go to a YouTube to MP3 converter like:
+   - https://ytmp3.cc
+   - https://y2mate.com
+   - https://www.320ytmp3.com
 
-## Option 2: Find a royalty-free version
-1. Search for "56k modem dial-up sound" on freesound.org
-2. Download in MP3 or WAV format
-3. Rename to `aol-dialup.mp3` or `aol-dialup.wav`
-4. Place in this audio directory
+2. Paste this YouTube URL: https://www.youtube.com/watch?v=D1UY7eDRXrs
+
+3. Click Convert/Download and save as `aol-dialup.mp3`
+
+4. Move the downloaded file to this `/audio/` directory in your portfolio
+
+5. That's it! The sound will auto-play when people visit your 90s site
+
+## Alternative: Terminal Method (if you have youtube-dl or yt-dlp)
+```bash
+# Install yt-dlp if you don't have it
+brew install yt-dlp
+
+# Download the audio
+yt-dlp -x --audio-format mp3 -o "aol-dialup.mp3" https://www.youtube.com/watch?v=D1UY7eDRXrs
+
+# Move to audio folder
+mv aol-dialup.mp3 /Users/griffinrutherford/Documents/portfolio/audio/
+```
 
 ## File Requirements
 - Filename: `aol-dialup.mp3` or `aol-dialup.wav`

@@ -484,7 +484,7 @@ h3 {
     min-width: 220px;
     margin-right: 10px;
     list-style: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease 0.8s, visibility 0.4s ease 0.8s;
     pointer-events: none;
   }
 
@@ -493,16 +493,27 @@ h3 {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    transition-delay: 0.2s;
+    transition: opacity 0.2s ease 0s, visibility 0.2s ease 0s;
   }
   
-  /* Create invisible bridge to help with mouse movement */
+  /* Create larger invisible bridge to help with mouse movement */
   .quick-links-nav .has-submenu::before {
     content: '';
     position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: calc(100% + 40px);
+    z-index: 999;
+  }
+  
+  /* Keep submenu open when moving between items */
+  .quick-links-nav .has-submenu::after {
+    content: '';
+    position: absolute;
     top: 0;
-    right: 0;
-    width: 30px;
+    right: 100%;
+    width: 20px;
     height: 100%;
     z-index: 999;
   }
@@ -1303,7 +1314,7 @@ h3 {
     z-index: 5;
 }
 
-/* 90s Mode Rainbow Button with Pac-Man */
+/* 90s Mode Button with Pac-Man */
 .nineties-button-container {
     text-align: center;
     margin-top: 30px;
@@ -1313,70 +1324,77 @@ h3 {
 .pacman-button-wrapper {
     display: inline-block;
     position: relative;
-    width: 300px;
-    height: 150px;
-    border-radius: 20px;
+    width: 500px;
+    height: 300px;
+    border-radius: 15px;
     overflow: hidden;
     background: #000;
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5),
-                0 0 60px rgba(0, 255, 255, 0.3),
-                inset 0 0 20px rgba(255, 255, 0, 0.2);
-    animation: pulse-glow 2s ease-in-out infinite;
+    border: 3px solid #0000FF;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pacman-button-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 0, 255, 0.7),
+                0 0 15px rgba(255, 255, 0, 0.3);
 }
 
 #pacman-maze {
     display: block;
-    cursor: pointer;
     position: relative;
     z-index: 2;
+    pointer-events: none; /* Allow clicks to pass through except on Pac-Man */
 }
 
-.rainbow-nineties-btn-overlay {
+.nineties-text-overlay {
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
+    color: #FFFF00;
+    font-size: 1.5rem;
     font-weight: bold;
-    text-decoration: none;
-    border-radius: 15px;
-    background: linear-gradient(90deg, 
-        #ff0000 0%, 
-        #ff7f00 14%, 
-        #ffff00 28%, 
-        #00ff00 42%, 
-        #0000ff 56%, 
-        #4b0082 70%, 
-        #9400d3 84%, 
-        #ff0000 100%);
-    background-size: 200% 100%;
-    animation: rainbow-slide 3s linear infinite;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
+    text-shadow: 2px 2px 0 #FF00FF,
+                 3px 3px 0 #0000FF,
+                 0 0 10px rgba(255, 255, 0, 0.5);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
     z-index: 3;
-    pointer-events: all;
+    pointer-events: none;
 }
 
-.rainbow-nineties-btn-overlay:hover {
-    transform: translateX(-50%) scale(1.1);
+.game-info {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+    z-index: 3;
+    pointer-events: none;
 }
 
-.rainbow-text {
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    position: relative;
-    z-index: 1;
+.lives-display, .score-display {
+    color: #FFFFFF;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #000;
 }
 
-@keyframes rainbow-slide {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 200% 50%;
-    }
+.lives-display {
+    color: #FF69B4;
 }
+
+.score-display {
+    color: #00FF00;
+}
+
 
 
 @keyframes pulse-glow {

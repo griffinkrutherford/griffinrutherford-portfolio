@@ -135,6 +135,18 @@ document.addEventListener('DOMContentLoaded', function() {
       // Center the game if there's extra space
       window.pacmanOffsetX = (canvas.width - (targetCols * window.pacmanCellSize)) / 2;
       window.pacmanOffsetY = (canvas.height - (targetRows * window.pacmanCellSize)) / 2;
+      
+      // Update entity pixel positions when cell size changes (if entities exist)
+      if (typeof pacman !== 'undefined') {
+        pacman.pixelX = pacman.x * window.pacmanCellSize;
+        pacman.pixelY = pacman.y * window.pacmanCellSize;
+      }
+      if (typeof ghosts !== 'undefined') {
+        ghosts.forEach(ghost => {
+          ghost.pixelX = ghost.x * window.pacmanCellSize;
+          ghost.pixelY = ghost.y * window.pacmanCellSize;
+        });
+      }
     }
     
     // Initial resize
@@ -143,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Resize on window resize
     window.addEventListener('resize', resizeCanvas);
     
-    const cellSize = window.pacmanCellSize;
     const cols = 25; // Fixed grid size
     const rows = 15;
     
@@ -199,16 +210,16 @@ document.addEventListener('DOMContentLoaded', function() {
       // Reset entities to spawn positions
       pacman.x = pacmanSpawn.x;
       pacman.y = pacmanSpawn.y;
-      pacman.pixelX = pacmanSpawn.x * cellSize;
-      pacman.pixelY = pacmanSpawn.y * cellSize;
+      pacman.pixelX = pacmanSpawn.x * window.pacmanCellSize;
+      pacman.pixelY = pacmanSpawn.y * window.pacmanCellSize;
       pacman.direction = 'left';
       pacman.targetPath = [];
       
       ghosts.forEach((ghost) => {
         ghost.x = ghost.spawn.x;
         ghost.y = ghost.spawn.y;
-        ghost.pixelX = ghost.spawn.x * cellSize;
-        ghost.pixelY = ghost.spawn.y * cellSize;
+        ghost.pixelX = ghost.spawn.x * window.pacmanCellSize;
+        ghost.pixelY = ghost.spawn.y * window.pacmanCellSize;
         ghost.targetPath = [];
         ghost.mode = 'scatter';
       });
@@ -225,8 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let pacman = {
       x: pacmanSpawn.x,
       y: pacmanSpawn.y,
-      pixelX: pacmanSpawn.x * cellSize,
-      pixelY: pacmanSpawn.y * cellSize,
+      pixelX: pacmanSpawn.x * window.pacmanCellSize,
+      pixelY: pacmanSpawn.y * window.pacmanCellSize,
       direction: 'left',
       nextDirection: 'left',
       mouthOpen: true,
@@ -246,22 +257,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const ghosts = [
       { x: ghostSpawns[0].x, y: ghostSpawns[0].y, 
-        pixelX: ghostSpawns[0].x * cellSize, pixelY: ghostSpawns[0].y * cellSize, 
+        pixelX: ghostSpawns[0].x * window.pacmanCellSize, pixelY: ghostSpawns[0].y * window.pacmanCellSize, 
         color: '#FF0000', direction: 'up', name: 'Blinky', 
         mode: 'scatter', speed: 0.06, targetPath: [], scatter: {x: 22, y: 2},
         spawn: ghostSpawns[0] },
       { x: ghostSpawns[1].x, y: ghostSpawns[1].y, 
-        pixelX: ghostSpawns[1].x * cellSize, pixelY: ghostSpawns[1].y * cellSize,
+        pixelX: ghostSpawns[1].x * window.pacmanCellSize, pixelY: ghostSpawns[1].y * window.pacmanCellSize,
         color: '#FFB8FF', direction: 'right', name: 'Pinky', 
         mode: 'scatter', speed: 0.055, targetPath: [], scatter: {x: 2, y: 2},
         spawn: ghostSpawns[1] },
       { x: ghostSpawns[2].x, y: ghostSpawns[2].y, 
-        pixelX: ghostSpawns[2].x * cellSize, pixelY: ghostSpawns[2].y * cellSize,
+        pixelX: ghostSpawns[2].x * window.pacmanCellSize, pixelY: ghostSpawns[2].y * window.pacmanCellSize,
         color: '#00FFFF', direction: 'left', name: 'Inky', 
         mode: 'scatter', speed: 0.05, targetPath: [], scatter: {x: 22, y: 12},
         spawn: ghostSpawns[2] },
       { x: ghostSpawns[3].x, y: ghostSpawns[3].y, 
-        pixelX: ghostSpawns[3].x * cellSize, pixelY: ghostSpawns[3].y * cellSize,
+        pixelX: ghostSpawns[3].x * window.pacmanCellSize, pixelY: ghostSpawns[3].y * window.pacmanCellSize,
         color: '#FFB852', direction: 'down', name: 'Clyde', 
         mode: 'scatter', speed: 0.045, targetPath: [], scatter: {x: 2, y: 12},
         spawn: ghostSpawns[3] }
@@ -587,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Calculate next position based on direction using delta time for frame-rate independence
       let nextPixelX = entity.pixelX;
       let nextPixelY = entity.pixelY;
-      const speed = entity.speed * cellSize * (deltaTime / frameTime); // Frame-rate independent movement
+      const speed = entity.speed * window.pacmanCellSize * (deltaTime / frameTime); // Frame-rate independent movement
       
       switch(entity.direction) {
         case 'up': nextPixelY -= speed; break;
@@ -597,25 +608,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Convert to grid coordinates to check collision
-      const nextGridX = Math.round(nextPixelX / cellSize);
-      const nextGridY = Math.round(nextPixelY / cellSize);
+      const nextGridX = Math.round(nextPixelX / window.pacmanCellSize);
+      const nextGridY = Math.round(nextPixelY / window.pacmanCellSize);
       
       // Check if the next position is valid
       if (canMove(nextGridX, nextGridY, isGhost)) {
         // Move the entity
         entity.pixelX = nextPixelX;
         entity.pixelY = nextPixelY;
-        entity.x = entity.pixelX / cellSize;
-        entity.y = entity.pixelY / cellSize;
+        entity.x = entity.pixelX / window.pacmanCellSize;
+        entity.y = entity.pixelY / window.pacmanCellSize;
         
         // Handle tunnel wrapping (only for Pac-Man, not ghosts)
         if (!isGhost) {
           if (entity.x < -0.5) {
             entity.x = 24.5;
-            entity.pixelX = 24.5 * cellSize;
+            entity.pixelX = 24.5 * window.pacmanCellSize;
           } else if (entity.x > 24.5) {
             entity.x = -0.5;
-            entity.pixelX = -0.5 * cellSize;
+            entity.pixelX = -0.5 * window.pacmanCellSize;
           }
         }
         
@@ -656,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
           Math.pow(pacman.pixelX - ghost.pixelX, 2) + 
           Math.pow(pacman.pixelY - ghost.pixelY, 2)
         );
-        if (dist < cellSize * 0.8) {
+        if (dist < window.pacmanCellSize * 0.8) {
           handleCollision();
           break;
         }
@@ -667,8 +678,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Respawn Pac-Man at center
       pacman.x = 12; // Center of maze
       pacman.y = 7;  // Center position
-      pacman.pixelX = 12 * cellSize;
-      pacman.pixelY = 7 * cellSize;
+      pacman.pixelX = 12 * window.pacmanCellSize;
+      pacman.pixelY = 7 * window.pacmanCellSize;
       pacman.direction = 'left';
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
@@ -677,8 +688,8 @@ document.addEventListener('DOMContentLoaded', function() {
       ghosts.forEach((ghost) => {
         ghost.x = ghost.scatter.x;
         ghost.y = ghost.scatter.y;
-        ghost.pixelX = ghost.scatter.x * cellSize;
-        ghost.pixelY = ghost.scatter.y * cellSize;
+        ghost.pixelX = ghost.scatter.x * window.pacmanCellSize;
+        ghost.pixelY = ghost.scatter.y * window.pacmanCellSize;
         ghost.targetPath = [];
         ghost.mode = 'scatter';
         

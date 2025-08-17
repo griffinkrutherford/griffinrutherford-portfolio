@@ -225,35 +225,92 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Immediate simple render to verify canvas works
     function immediateRender() {
+      console.log('immediateRender called, canvas dimensions:', canvas.width, 'x', canvas.height);
+      
+      // Ensure canvas has dimensions
       if (canvas.width === 0 || canvas.height === 0) {
-        canvas.width = 300;
-        canvas.height = 180;
+        canvas.width = 500;
+        canvas.height = 300;
+        console.log('Set canvas dimensions to:', canvas.width, 'x', canvas.height);
       }
-      ctx.fillStyle = '#000';
+      
+      // Clear and fill background
+      ctx.fillStyle = '#000033';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw maze walls (simple version)
+      ctx.strokeStyle = '#0000FF';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+      
+      // Draw some dots
+      ctx.fillStyle = '#FFD700';
+      for (let x = 50; x < canvas.width; x += 50) {
+        for (let y = 50; y < canvas.height; y += 50) {
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
       
       // Draw simple Pac-Man
       ctx.fillStyle = '#FFFF00';
       ctx.beginPath();
-      ctx.arc(canvas.width/2, canvas.height/2, 20, 0.2 * Math.PI, 1.8 * Math.PI);
+      ctx.arc(canvas.width/2, canvas.height/2, 25, 0.2 * Math.PI, 1.8 * Math.PI);
       ctx.lineTo(canvas.width/2, canvas.height/2);
       ctx.closePath();
       ctx.fill();
       
-      // Draw a ghost
-      ctx.fillStyle = '#FF0000';
-      ctx.beginPath();
-      ctx.arc(canvas.width/3, canvas.height/2, 15, Math.PI, 0, false);
-      ctx.lineTo(canvas.width/3 + 15, canvas.height/2 + 15);
-      ctx.lineTo(canvas.width/3 - 15, canvas.height/2 + 15);
-      ctx.closePath();
-      ctx.fill();
+      // Draw ghosts
+      const ghosts = [
+        { x: 100, y: 100, color: '#FF0000' },
+        { x: canvas.width - 100, y: 100, color: '#FFB8FF' },
+        { x: 100, y: canvas.height - 100, color: '#00FFFF' },
+        { x: canvas.width - 100, y: canvas.height - 100, color: '#FFB847' }
+      ];
       
-      console.log('Immediate render completed');
+      ghosts.forEach(ghost => {
+        ctx.fillStyle = ghost.color;
+        ctx.beginPath();
+        ctx.arc(ghost.x, ghost.y, 18, Math.PI, 0, false);
+        ctx.lineTo(ghost.x + 18, ghost.y + 18);
+        ctx.lineTo(ghost.x + 12, ghost.y + 12);
+        ctx.lineTo(ghost.x + 6, ghost.y + 18);
+        ctx.lineTo(ghost.x, ghost.y + 12);
+        ctx.lineTo(ghost.x - 6, ghost.y + 18);
+        ctx.lineTo(ghost.x - 12, ghost.y + 12);
+        ctx.lineTo(ghost.x - 18, ghost.y + 18);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Eyes
+        ctx.fillStyle = '#FFF';
+        ctx.beginPath();
+        ctx.arc(ghost.x - 6, ghost.y - 3, 4, 0, Math.PI * 2);
+        ctx.arc(ghost.x + 6, ghost.y - 3, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(ghost.x - 6, ghost.y - 3, 2, 0, Math.PI * 2);
+        ctx.arc(ghost.x + 6, ghost.y - 3, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      
+      console.log('Immediate render completed with ghosts and dots');
     }
     
-    // Do immediate render
+    // Do immediate render on multiple triggers to ensure it works
     immediateRender();
+    
+    // Also render after a short delay
+    setTimeout(immediateRender, 100);
+    
+    // And when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', immediateRender);
+    } else {
+      setTimeout(immediateRender, 0);
+    }
     
     // Function to resize canvas responsively
     function resizeCanvas() {

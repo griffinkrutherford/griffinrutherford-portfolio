@@ -909,7 +909,7 @@
             <!-- 90s Mode Button with Pac-Man Game -->
             <div class="nineties-button-container">
                 <a href="90s.html" class="pacman-button-wrapper">
-                    <canvas id="pacman-maze" width="500" height="300"></canvas>
+                    <canvas id="pacman-maze"></canvas>
                     <div class="nineties-text-overlay">90s Mode</div>
                 </a>
             </div>
@@ -917,110 +917,5 @@
     </section>
 
     <script src="js/script.js"></script>
-    
-    <!-- Direct Pac-Man initialization to ensure it works -->
-    <script>
-        // Mark as initialized to prevent conflicts
-        window.pacmanInitialized = true;
-        
-        // Wait for page to fully load
-        window.addEventListener('load', function() {
-            const canvas = document.getElementById('pacman-maze');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                
-                // Simple animation variables
-                let frame = 0;
-                
-                function drawSimplePacman() {
-                    // Clear canvas
-                    ctx.fillStyle = '#000';
-                    ctx.fillRect(0, 0, 500, 300);
-                    
-                    // Draw border
-                    ctx.strokeStyle = '#0000FF';
-                    ctx.lineWidth = 4;
-                    ctx.strokeRect(10, 10, 480, 280);
-                    
-                    // Draw dots in a grid
-                    ctx.fillStyle = '#FFD700';
-                    for (let x = 40; x < 500; x += 40) {
-                        for (let y = 40; y < 300; y += 40) {
-                            ctx.beginPath();
-                            ctx.arc(x, y, 3, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
-                    }
-                    
-                    // Animate Pac-Man position
-                    const pacX = 250 + Math.cos(frame * 0.02) * 100;
-                    const pacY = 150 + Math.sin(frame * 0.03) * 50;
-                    
-                    // Draw Pac-Man with animated mouth
-                    ctx.fillStyle = '#FFFF00';
-                    ctx.beginPath();
-                    const mouthAngle = Math.abs(Math.sin(frame * 0.1)) * 0.3;
-                    ctx.arc(pacX, pacY, 20, mouthAngle * Math.PI, (2 - mouthAngle) * Math.PI);
-                    ctx.lineTo(pacX, pacY);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    // Draw ghosts
-                    const ghosts = [
-                        { x: 100 + Math.sin(frame * 0.04) * 30, y: 100, color: '#FF0000' },
-                        { x: 400 - Math.sin(frame * 0.03) * 30, y: 100, color: '#FFB8FF' },
-                        { x: 100 + Math.cos(frame * 0.035) * 30, y: 200, color: '#00FFFF' },
-                        { x: 400 - Math.cos(frame * 0.025) * 30, y: 200, color: '#FFB847' }
-                    ];
-                    
-                    ghosts.forEach(ghost => {
-                        // Ghost body
-                        ctx.fillStyle = ghost.color;
-                        ctx.beginPath();
-                        ctx.arc(ghost.x, ghost.y, 15, Math.PI, 0, false);
-                        ctx.lineTo(ghost.x + 15, ghost.y + 15);
-                        ctx.lineTo(ghost.x + 10, ghost.y + 10);
-                        ctx.lineTo(ghost.x + 5, ghost.y + 15);
-                        ctx.lineTo(ghost.x, ghost.y + 10);
-                        ctx.lineTo(ghost.x - 5, ghost.y + 15);
-                        ctx.lineTo(ghost.x - 10, ghost.y + 10);
-                        ctx.lineTo(ghost.x - 15, ghost.y + 15);
-                        ctx.closePath();
-                        ctx.fill();
-                        
-                        // Ghost eyes
-                        ctx.fillStyle = '#FFF';
-                        ctx.beginPath();
-                        ctx.arc(ghost.x - 5, ghost.y - 2, 3, 0, Math.PI * 2);
-                        ctx.arc(ghost.x + 5, ghost.y - 2, 3, 0, Math.PI * 2);
-                        ctx.fill();
-                        
-                        ctx.fillStyle = '#000';
-                        ctx.beginPath();
-                        ctx.arc(ghost.x - 5, ghost.y - 2, 1.5, 0, Math.PI * 2);
-                        ctx.arc(ghost.x + 5, ghost.y - 2, 1.5, 0, Math.PI * 2);
-                        ctx.fill();
-                    });
-                    
-                    // Draw score
-                    ctx.fillStyle = '#FFFF00';
-                    ctx.font = 'bold 16px monospace';
-                    ctx.fillText('SCORE: ' + Math.floor(frame * 10), 20, 30);
-                    
-                    frame++;
-                    requestAnimationFrame(drawSimplePacman);
-                }
-                
-                // Start animation
-                drawSimplePacman();
-                
-                // Handle click for navigation
-                canvas.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.location.href = '90s.html';
-                });
-            }
-        });
-    </script>
 </body>
 </html>

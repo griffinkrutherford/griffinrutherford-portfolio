@@ -201,10 +201,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Pac-Man Maze Game
+  // Pac-Man Maze Game - Skip if already initialized by inline script
   const canvas = document.getElementById('pacman-maze');
   console.log('Canvas element found:', canvas);
-  if (canvas) {
+  
+  // Check if canvas is already being used
+  if (canvas && !window.pacmanInitialized) {
+    window.pacmanInitialized = true;
     console.log('Canvas initial state:', {
       width: canvas.width,
       height: canvas.height,

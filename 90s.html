@@ -16,6 +16,385 @@
             background: #000080;
             font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
             overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        /* Theme Toggle Button Styles */
+        .theme-toggle-btn {
+            background: linear-gradient(45deg, #FF00FF, #00FFFF);
+            border: 3px solid #FFD700;
+            color: #000;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Comic Neue', cursive;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            min-width: 140px;
+            justify-content: center;
+        }
+        
+        .theme-toggle-btn:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            animation: rainbow-border 1s infinite;
+        }
+        
+        .theme-toggle-icon {
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes rainbow-border {
+            0% { border-color: #FF0000; }
+            16% { border-color: #FF8000; }
+            33% { border-color: #FFFF00; }
+            50% { border-color: #00FF00; }
+            66% { border-color: #00FFFF; }
+            83% { border-color: #8000FF; }
+            100% { border-color: #FF0000; }
+        }
+        
+        /* Matrix Theme Styles */
+        body.matrix-theme {
+            background: #000;
+            color: #00FF00;
+            font-family: 'Courier New', 'Consolas', 'Monaco', 'Menlo', monospace;
+        }
+        
+        body.matrix-theme .theme-toggle-btn {
+            background: linear-gradient(45deg, #001100, #003300);
+            border: 3px solid #00FF00;
+            color: #00FF00;
+            box-shadow: 0 0 15px #00FF00;
+            text-shadow: 0 0 5px #00FF00;
+        }
+        
+        body.matrix-theme .theme-toggle-btn:hover {
+            background: linear-gradient(45deg, #002200, #004400);
+            box-shadow: 0 0 25px #00FF00, inset 0 0 10px rgba(0, 255, 0, 0.1);
+            transform: scale(1.05);
+            animation: matrix-glow 1s infinite;
+        }
+        
+        @keyframes matrix-glow {
+            0%, 100% { 
+                border-color: #00FF00;
+                text-shadow: 0 0 5px #00FF00;
+            }
+            50% { 
+                border-color: #00FF44;
+                text-shadow: 0 0 10px #00FF00, 0 0 15px #00FF00;
+            }
+        }
+        
+        /* Matrix Theme Overrides */
+        body.matrix-theme .nineties-wrapper {
+            background: #000;
+            font-family: 'Courier New', 'Consolas', 'Monaco', 'Menlo', monospace;
+        }
+        
+        body.matrix-theme .nineties-header {
+            background: linear-gradient(135deg, #001100, #002200, #001100);
+            border: 5px solid #00FF00;
+            box-shadow: 0 0 30px #00FF00, inset 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+        
+        body.matrix-theme .nineties-title-container {
+            background: #000;
+            border: 3px solid #00FF00;
+        }
+        
+        body.matrix-theme .nineties-blink {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+            animation: matrix-blink 1s infinite;
+        }
+        
+        @keyframes matrix-blink {
+            0%, 50% { opacity: 1; text-shadow: 0 0 10px #00FF00; }
+            51%, 100% { opacity: 0.3; text-shadow: 0 0 5px #00FF00; }
+        }
+        
+        body.matrix-theme .rainbow-text {
+            background: linear-gradient(to right, #00FF00, #00FF44, #00FF88, #00FFAA, #00FFCC, #00FFEE, #00FFFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: matrix-text-glow 3s linear infinite;
+            text-shadow: none;
+        }
+        
+        @keyframes matrix-text-glow {
+            0% { filter: brightness(1) hue-rotate(0deg); }
+            100% { filter: brightness(1.2) hue-rotate(30deg); }
+        }
+        
+        body.matrix-theme .nineties-subtitle {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+        
+        body.matrix-theme .under-construction {
+            background: #000;
+            color: #00FF00;
+            border: 3px solid #00FF00;
+            animation: matrix-flash 0.5s infinite alternate;
+        }
+        
+        @keyframes matrix-flash {
+            0% { 
+                background: #000;
+                box-shadow: 0 0 10px #00FF00;
+            }
+            100% { 
+                background: #001100;
+                box-shadow: 0 0 20px #00FF00;
+            }
+        }
+        
+        body.matrix-theme .nineties-nav-table td {
+            background: #001100;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+        }
+        
+        body.matrix-theme .nineties-nav-table td:hover {
+            background: #002200;
+            box-shadow: 0 0 15px #00FF00;
+            transform: scale(1.05);
+        }
+        
+        body.matrix-theme .nineties-section {
+            background: linear-gradient(135deg, rgba(0, 17, 0, 0.8), rgba(0, 34, 0, 0.8));
+            border: 5px solid #00FF00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        body.matrix-theme .nineties-section h2 {
+            background: linear-gradient(90deg, #00FF00, #00FF44, #00FF88, #00FFAA, #00FF00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        body.matrix-theme .visitor-counter {
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 15px #00FF00;
+        }
+        
+        body.matrix-theme .nineties-marquee {
+            background: #000;
+            color: #00FF00;
+            border: 3px solid #00FF00;
+        }
+        
+        body.matrix-theme .guestbook {
+            background: #001100;
+            border: 5px solid #00FF00;
+        }
+        
+        body.matrix-theme .guestbook-form {
+            background: #000;
+            border: 2px solid #00FF00;
+        }
+        
+        body.matrix-theme .guestbook-form input,
+        body.matrix-theme .guestbook-form textarea {
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body.matrix-theme .guestbook-submit {
+            background: linear-gradient(180deg, #00FF00, #008800);
+            border: 2px solid #00FF00;
+            color: #000;
+        }
+        
+        body.matrix-theme .webring {
+            background: #000;
+            color: #00FF00;
+            border: 3px solid #00FF00;
+        }
+        
+        body.matrix-theme .webring-nav a {
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            background: #000;
+        }
+        
+        body.matrix-theme .webring-nav a:hover {
+            background: #00FF00;
+            color: #000;
+            box-shadow: 0 0 15px #00FF00;
+        }
+        
+        body.matrix-theme .badges-section {
+            background: repeating-linear-gradient(
+                45deg,
+                #000,
+                #000 10px,
+                #001100 10px,
+                #001100 20px
+            );
+        }
+        
+        body.matrix-theme .badge {
+            filter: hue-rotate(120deg) brightness(1.2);
+        }
+        
+        body.matrix-theme .midi-player {
+            background: #000;
+            border: 2px solid #00FF00;
+        }
+        
+        body.matrix-theme .midi-display {
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+        }
+        
+        body.matrix-theme .midi-controls {
+            color: #00FF00;
+        }
+        
+        body.matrix-theme .ascii-art,
+        body.matrix-theme .ascii-border {
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+        }
+        
+        body.matrix-theme .skill-name {
+            color: #00FF00;
+        }
+        
+        body.matrix-theme .skill-progress {
+            background: #000;
+            border: 2px solid #00FF00;
+        }
+        
+        body.matrix-theme .skill-fill {
+            background: linear-gradient(90deg, #00FF00, #00AA00);
+            color: #000;
+        }
+        
+        body.matrix-theme .flame-text {
+            background: linear-gradient(to bottom, #00FF00, #00AA00, #008800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        body.matrix-theme .rotating-3d {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+        
+        body.matrix-theme .counter-digit {
+            background: #000;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+        }
+        
+        body.matrix-theme .counter-label,
+        body.matrix-theme .counter-since {
+            color: #00FF00;
+        }
+        
+        body.matrix-theme .spinning-email {
+            color: #00FF00;
+        }
+        
+        body.matrix-theme a {
+            color: #00AA00;
+            transition: color 0.3s ease;
+        }
+        
+        body.matrix-theme a:hover {
+            color: #00FF00;
+            text-shadow: 0 0 5px #00FF00;
+        }
+        
+        /* Matrix Rain Background */
+        body.matrix-theme .matrix-rain {
+            opacity: 0.4;
+            z-index: -1;
+        }
+        
+        body.matrix-theme .starfield-bg {
+            display: none;
+        }
+        
+        /* Matrix Digital Rain Canvas */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        body.matrix-theme #matrix-canvas {
+            opacity: 1;
+        }
+        
+        /* Matrix Scanlines Effect */
+        body.matrix-theme::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 2px,
+                rgba(0, 255, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+            animation: scanlines 0.1s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Smooth transitions for theme switching */
+        .nineties-wrapper,
+        .nineties-header,
+        .nineties-title-container,
+        .nineties-section,
+        .visitor-counter,
+        .nineties-marquee,
+        .guestbook,
+        .webring,
+        .midi-player,
+        .ascii-art,
+        .ascii-border {
+            transition: all 0.5s ease;
         }
     </style>
 </head>
@@ -26,8 +405,12 @@
         <div class="starfield-bg"></div>
         <div class="matrix-rain"></div>
         
-        <!-- Modern Mode Toggle Button -->
-        <div style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+        <!-- Theme Toggle Buttons -->
+        <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+            <button id="theme-toggle" class="theme-toggle-btn">
+                <span class="theme-toggle-icon">⊡</span>
+                <span class="theme-toggle-text">Matrix Mode</span>
+            </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
                 [<-] Back to Modern Mode
             </button>
@@ -210,25 +593,25 @@
                 </h3>
                 <div class="skills-bars">
                     <div class="skill-bar">
-                        <div class="skill-name">🗣️ Communication</div>
+                        <div class="skill-name">(*) Communication</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 92%;">92%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">🎤 Presentations</div>
+                        <div class="skill-name">[o] Presentations</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 89%;">89%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">👥 Community Building</div>
+                        <div class="skill-name">^_^ Community Building</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 94%;">94%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">💬 Being Talkative</div>
+                        <div class="skill-name">:-) Being Talkative</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 96%;">96%</div>
                         </div>
@@ -449,7 +832,141 @@
         </div>
     </div>
 
+    <!-- Matrix Digital Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+    
     <script>
+        // Theme Toggle Functionality
+        let currentTheme = localStorage.getItem('theme') || 'nineties';
+        
+        function initializeTheme() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('theme-toggle');
+            const toggleIcon = document.querySelector('.theme-toggle-icon');
+            const toggleText = document.querySelector('.theme-toggle-text');
+            
+            if (currentTheme === 'matrix') {
+                body.classList.add('matrix-theme');
+                toggleIcon.textContent = '⊞';
+                toggleText.textContent = '90s Mode';
+                initMatrixRain();
+            } else {
+                body.classList.remove('matrix-theme');
+                toggleIcon.textContent = '⊡';
+                toggleText.textContent = 'Matrix Mode';
+                stopMatrixRain();
+            }
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const toggleIcon = document.querySelector('.theme-toggle-icon');
+            const toggleText = document.querySelector('.theme-toggle-text');
+            
+            if (currentTheme === 'nineties') {
+                currentTheme = 'matrix';
+                body.classList.add('matrix-theme');
+                toggleIcon.textContent = '⊞';
+                toggleText.textContent = '90s Mode';
+                localStorage.setItem('theme', 'matrix');
+                initMatrixRain();
+            } else {
+                currentTheme = 'nineties';
+                body.classList.remove('matrix-theme');
+                toggleIcon.textContent = '⊡';
+                toggleText.textContent = 'Matrix Mode';
+                localStorage.setItem('theme', 'nineties');
+                stopMatrixRain();
+            }
+        }
+        
+        // Matrix Digital Rain Effect
+        let matrixAnimation;
+        let matrixCanvas;
+        let matrixCtx;
+        
+        function initMatrixRain() {
+            matrixCanvas = document.getElementById('matrix-canvas');
+            matrixCtx = matrixCanvas.getContext('2d');
+            
+            // Set canvas size
+            function resizeCanvas() {
+                matrixCanvas.width = window.innerWidth;
+                matrixCanvas.height = window.innerHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Matrix characters
+            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const charArray = chars.split('');
+            
+            const fontSize = 14;
+            const columns = matrixCanvas.width / fontSize;
+            
+            // Array to store y-position of each column
+            const drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+            
+            function drawMatrix() {
+                // Black background with slight transparency for trail effect
+                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+                matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                
+                matrixCtx.fillStyle = '#0F0';
+                matrixCtx.font = fontSize + 'px Courier New';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    // Random character
+                    const text = charArray[Math.floor(Math.random() * charArray.length)];
+                    
+                    // Draw character
+                    matrixCtx.fillStyle = '#0F0';
+                    matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    // Add slight glow effect for leading characters
+                    if (Math.random() > 0.98) {
+                        matrixCtx.fillStyle = '#FFF';
+                        matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    }
+                    
+                    // Reset drop to top randomly
+                    if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    
+                    drops[i]++;
+                }
+            }
+            
+            // Start animation
+            matrixAnimation = setInterval(drawMatrix, 35);
+        }
+        
+        function stopMatrixRain() {
+            if (matrixAnimation) {
+                clearInterval(matrixAnimation);
+                matrixAnimation = null;
+            }
+            if (matrixCtx) {
+                matrixCtx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            }
+        }
+        
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            
+            // Add event listener to theme toggle button
+            const toggleBtn = document.getElementById('theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', toggleTheme);
+            }
+        });
+        
         // AOL Dial-up Experience
         const dialupMessages = [
             "Initializing modem...",

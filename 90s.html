@@ -1772,7 +1772,7 @@
     
     <!-- Load Nintendo Theme Script -->
     <script src="js/nintendo-theme.js"></script>
-    <script src="js/nintendo-sprites.js"></script>
+    <script src="js/nintendo-sprites-real.js"></script>
     
     <!-- Nintendo Sprite Container -->
     <div id="nintendo-sprites-container"></div>
@@ -2875,6 +2875,13 @@
         
         // Clean up Nintendo sprites when switching themes
         function cleanupNintendoSprites() {
+            // Clean up new sprite system
+            if (window.nintendoSpriteSystem) {
+                window.nintendoSpriteSystem.cleanup();
+                window.nintendoSpriteSystem = null;
+            }
+            
+            // Clean up old system
             const container = document.getElementById('nintendo-sprites-container');
             if (container) container.innerHTML = '';
             
@@ -2893,10 +2900,10 @@
             // Initialize Nintendo sprites if Nintendo theme is active
             if (currentTheme === 'nintendo') {
                 setTimeout(() => {
-                    if (window.initializeNintendoSprites) {
-                        window.initializeNintendoSprites();
-                    } else {
-                        initNintendoSprites();
+                    if (window.NintendoSpriteSystem) {
+                        const spriteSystem = new window.NintendoSpriteSystem();
+                        spriteSystem.init();
+                        window.nintendoSpriteSystem = spriteSystem;
                     }
                 }, 100);
             }
@@ -2905,11 +2912,10 @@
         // Initialize sprites if starting with Nintendo theme
         if (currentTheme === 'nintendo') {
             setTimeout(() => {
-                if (window.initializeNintendoSprites) {
-                    window.initializeNintendoSprites();
-                } else {
-                    // Fallback to CSS sprites if image sprites not loaded
-                    initNintendoSprites();
+                if (window.NintendoSpriteSystem) {
+                    const spriteSystem = new window.NintendoSpriteSystem();
+                    spriteSystem.init();
+                    window.nintendoSpriteSystem = spriteSystem;
                 }
             }, 500);
         }

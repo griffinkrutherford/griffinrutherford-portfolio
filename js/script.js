@@ -1289,27 +1289,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle Pac-Man click for secret page
-    canvas.style.pointerEvents = 'auto'; // Enable clicks on canvas
-    canvas.addEventListener('click', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const pacmanX = pacman.x * window.pacmanCellSize + window.pacmanOffsetX;
-      const pacmanY = pacman.y * window.pacmanCellSize + window.pacmanOffsetY;
-      
-      // Check if click is on Pac-Man (with some padding for easier clicking)
-      const clickRadius = window.pacmanCellSize;
-      if (x >= pacmanX && x <= pacmanX + clickRadius &&
-          y >= pacmanY && y <= pacmanY + clickRadius) {
+    // Remove pointer-events: none from CSS so clicks work
+    canvas.style.pointerEvents = 'auto';
+    
+    // Get the parent link element
+    const parentLink = canvas.closest('.pacman-button-wrapper');
+    
+    // Override the parent link's default behavior
+    if (parentLink) {
+      parentLink.addEventListener('click', (e) => {
+        // Prevent default navigation
         e.preventDefault();
-        e.stopPropagation(); // Prevent the link from triggering
-        window.location.href = 'secret.html';
-      } else {
-        // Allow the wrapper link to handle navigation to 90s.html
-        // Don't prevent default, let the parent link work
-      }
-    });
+        
+        // Get click coordinates relative to canvas
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Get Pac-Man's position on canvas
+        const pacmanX = pacman.x * window.pacmanCellSize + window.pacmanOffsetX;
+        const pacmanY = pacman.y * window.pacmanCellSize + window.pacmanOffsetY;
+        
+        // Check if click is on Pac-Man (with some padding for easier clicking)
+        const clickRadius = window.pacmanCellSize;
+        const distanceFromPacman = Math.sqrt(
+          Math.pow(x - (pacmanX + clickRadius/2), 2) + 
+          Math.pow(y - (pacmanY + clickRadius/2), 2)
+        );
+        
+        if (distanceFromPacman <= clickRadius * 0.75) {
+          // Clicked on Pac-Man - go to secret page
+          window.location.href = 'secret.html';
+        } else {
+          // Clicked elsewhere - go to 90s page
+          window.location.href = '90s.html';
+        }
+      });
+    }
     
     // Initialize the game
     resetMaze();

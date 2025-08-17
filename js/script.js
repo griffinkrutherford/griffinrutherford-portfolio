@@ -105,101 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-
-  // Konami Code Implementation
-  let konamiSequence = [];
-  const targetSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-  
-  document.addEventListener('keydown', function(e) {
-    konamiSequence.push(e.code);
-    
-    // Keep only the last 10 keys
-    if (konamiSequence.length > 10) {
-      konamiSequence.shift();
-    }
-    
-    // Check if sequence matches Konami code
-    if (konamiSequence.length === 10) {
-      let matches = true;
-      for (let i = 0; i < 10; i++) {
-        if (konamiSequence[i] !== targetSequence[i]) {
-          matches = false;
-          break;
-        }
-      }
-      
-      if (matches) {
-        // Konami code activated!
-        console.log('%c🎮 KONAMI CODE ACTIVATED! 🎮', 'color: #ff0000; font-size: 24px; font-weight: bold;');
-        
-        // Create special effects
-        document.body.style.animation = 'rainbow-background 3s infinite';
-        
-        // Add rainbow animation CSS if it doesn't exist
-        if (!document.getElementById('konami-styles')) {
-          const style = document.createElement('style');
-          style.id = 'konami-styles';
-          style.textContent = `
-            @keyframes rainbow-background {
-              0% { filter: hue-rotate(0deg); }
-              100% { filter: hue-rotate(360deg); }
-            }
-            .konami-message {
-              position: fixed;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-              background-size: 400% 400%;
-              animation: rainbow-slide 2s ease infinite;
-              color: white;
-              padding: 20px;
-              border-radius: 10px;
-              font-family: 'Press Start 2P', cursive;
-              font-size: 14px;
-              text-align: center;
-              z-index: 10000;
-              box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-            }
-            @keyframes rainbow-slide {
-              0% { background-position: 0% 50%; }
-              50% { background-position: 100% 50%; }
-              100% { background-position: 0% 50%; }
-            }
-          `;
-          document.head.appendChild(style);
-        }
-        
-        // Show message
-        const message = document.createElement('div');
-        message.className = 'konami-message';
-        message.innerHTML = `
-          🎮 KONAMI CODE ACTIVATED! 🎮<br><br>
-          🌟 SECRET UNLOCKED! 🌟<br>
-          You found the Easter egg!<br><br>
-          <small>Click anywhere to continue...</small>
-        `;
-        document.body.appendChild(message);
-        
-        // Remove effects after click
-        message.addEventListener('click', function() {
-          document.body.style.animation = '';
-          message.remove();
-        });
-        
-        // Auto-remove after 5 seconds
-        setTimeout(() => {
-          if (message.parentNode) {
-            document.body.style.animation = '';
-            message.remove();
-          }
-        }, 5000);
-        
-        // Reset sequence
-        konamiSequence = [];
-      }
-    }
-  });
   
   // Pac-Man Maze Game
   const canvas = document.getElementById('pacman-maze');
@@ -230,18 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Center the game if there's extra space
       window.pacmanOffsetX = (canvas.width - (targetCols * window.pacmanCellSize)) / 2;
       window.pacmanOffsetY = (canvas.height - (targetRows * window.pacmanCellSize)) / 2;
-      
-      // Update entity pixel positions when cell size changes (if entities exist)
-      if (typeof pacman !== 'undefined') {
-        pacman.pixelX = pacman.x * window.pacmanCellSize;
-        pacman.pixelY = pacman.y * window.pacmanCellSize;
-      }
-      if (typeof ghosts !== 'undefined') {
-        ghosts.forEach(ghost => {
-          ghost.pixelX = ghost.x * window.pacmanCellSize;
-          ghost.pixelY = ghost.y * window.pacmanCellSize;
-        });
-      }
     }
     
     // Initial resize
@@ -250,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Resize on window resize
     window.addEventListener('resize', resizeCanvas);
     
+    const cellSize = window.pacmanCellSize;
     const cols = 25; // Fixed grid size
     const rows = 15;
     
@@ -305,16 +199,16 @@ document.addEventListener('DOMContentLoaded', function() {
       // Reset entities to spawn positions
       pacman.x = pacmanSpawn.x;
       pacman.y = pacmanSpawn.y;
-      pacman.pixelX = pacmanSpawn.x * window.pacmanCellSize;
-      pacman.pixelY = pacmanSpawn.y * window.pacmanCellSize;
+      pacman.pixelX = pacmanSpawn.x * cellSize;
+      pacman.pixelY = pacmanSpawn.y * cellSize;
       pacman.direction = 'left';
       pacman.targetPath = [];
       
       ghosts.forEach((ghost) => {
         ghost.x = ghost.spawn.x;
         ghost.y = ghost.spawn.y;
-        ghost.pixelX = ghost.spawn.x * window.pacmanCellSize;
-        ghost.pixelY = ghost.spawn.y * window.pacmanCellSize;
+        ghost.pixelX = ghost.spawn.x * cellSize;
+        ghost.pixelY = ghost.spawn.y * cellSize;
         ghost.targetPath = [];
         ghost.mode = 'scatter';
       });
@@ -331,8 +225,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let pacman = {
       x: pacmanSpawn.x,
       y: pacmanSpawn.y,
-      pixelX: pacmanSpawn.x * window.pacmanCellSize,
-      pixelY: pacmanSpawn.y * window.pacmanCellSize,
+      pixelX: pacmanSpawn.x * cellSize,
+      pixelY: pacmanSpawn.y * cellSize,
       direction: 'left',
       nextDirection: 'left',
       mouthOpen: true,
@@ -352,22 +246,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const ghosts = [
       { x: ghostSpawns[0].x, y: ghostSpawns[0].y, 
-        pixelX: ghostSpawns[0].x * window.pacmanCellSize, pixelY: ghostSpawns[0].y * window.pacmanCellSize, 
+        pixelX: ghostSpawns[0].x * cellSize, pixelY: ghostSpawns[0].y * cellSize, 
         color: '#FF0000', direction: 'up', name: 'Blinky', 
         mode: 'scatter', speed: 0.06, targetPath: [], scatter: {x: 22, y: 2},
         spawn: ghostSpawns[0] },
       { x: ghostSpawns[1].x, y: ghostSpawns[1].y, 
-        pixelX: ghostSpawns[1].x * window.pacmanCellSize, pixelY: ghostSpawns[1].y * window.pacmanCellSize,
+        pixelX: ghostSpawns[1].x * cellSize, pixelY: ghostSpawns[1].y * cellSize,
         color: '#FFB8FF', direction: 'right', name: 'Pinky', 
         mode: 'scatter', speed: 0.055, targetPath: [], scatter: {x: 2, y: 2},
         spawn: ghostSpawns[1] },
       { x: ghostSpawns[2].x, y: ghostSpawns[2].y, 
-        pixelX: ghostSpawns[2].x * window.pacmanCellSize, pixelY: ghostSpawns[2].y * window.pacmanCellSize,
+        pixelX: ghostSpawns[2].x * cellSize, pixelY: ghostSpawns[2].y * cellSize,
         color: '#00FFFF', direction: 'left', name: 'Inky', 
         mode: 'scatter', speed: 0.05, targetPath: [], scatter: {x: 22, y: 12},
         spawn: ghostSpawns[2] },
       { x: ghostSpawns[3].x, y: ghostSpawns[3].y, 
-        pixelX: ghostSpawns[3].x * window.pacmanCellSize, pixelY: ghostSpawns[3].y * window.pacmanCellSize,
+        pixelX: ghostSpawns[3].x * cellSize, pixelY: ghostSpawns[3].y * cellSize,
         color: '#FFB852', direction: 'down', name: 'Clyde', 
         mode: 'scatter', speed: 0.045, targetPath: [], scatter: {x: 2, y: 12},
         spawn: ghostSpawns[3] }
@@ -693,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Calculate next position based on direction using delta time for frame-rate independence
       let nextPixelX = entity.pixelX;
       let nextPixelY = entity.pixelY;
-      const speed = entity.speed * window.pacmanCellSize * (deltaTime / frameTime); // Frame-rate independent movement
+      const speed = entity.speed * cellSize * (deltaTime / frameTime); // Frame-rate independent movement
       
       switch(entity.direction) {
         case 'up': nextPixelY -= speed; break;
@@ -703,25 +597,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Convert to grid coordinates to check collision
-      const nextGridX = Math.round(nextPixelX / window.pacmanCellSize);
-      const nextGridY = Math.round(nextPixelY / window.pacmanCellSize);
+      const nextGridX = Math.round(nextPixelX / cellSize);
+      const nextGridY = Math.round(nextPixelY / cellSize);
       
       // Check if the next position is valid
       if (canMove(nextGridX, nextGridY, isGhost)) {
         // Move the entity
         entity.pixelX = nextPixelX;
         entity.pixelY = nextPixelY;
-        entity.x = entity.pixelX / window.pacmanCellSize;
-        entity.y = entity.pixelY / window.pacmanCellSize;
+        entity.x = entity.pixelX / cellSize;
+        entity.y = entity.pixelY / cellSize;
         
         // Handle tunnel wrapping (only for Pac-Man, not ghosts)
         if (!isGhost) {
           if (entity.x < -0.5) {
             entity.x = 24.5;
-            entity.pixelX = 24.5 * window.pacmanCellSize;
+            entity.pixelX = 24.5 * cellSize;
           } else if (entity.x > 24.5) {
             entity.x = -0.5;
-            entity.pixelX = -0.5 * window.pacmanCellSize;
+            entity.pixelX = -0.5 * cellSize;
           }
         }
         
@@ -762,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
           Math.pow(pacman.pixelX - ghost.pixelX, 2) + 
           Math.pow(pacman.pixelY - ghost.pixelY, 2)
         );
-        if (dist < window.pacmanCellSize * 0.8) {
+        if (dist < cellSize * 0.8) {
           handleCollision();
           break;
         }
@@ -773,8 +667,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Respawn Pac-Man at center
       pacman.x = 12; // Center of maze
       pacman.y = 7;  // Center position
-      pacman.pixelX = 12 * window.pacmanCellSize;
-      pacman.pixelY = 7 * window.pacmanCellSize;
+      pacman.pixelX = 12 * cellSize;
+      pacman.pixelY = 7 * cellSize;
       pacman.direction = 'left';
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
@@ -783,8 +677,8 @@ document.addEventListener('DOMContentLoaded', function() {
       ghosts.forEach((ghost) => {
         ghost.x = ghost.scatter.x;
         ghost.y = ghost.scatter.y;
-        ghost.pixelX = ghost.scatter.x * window.pacmanCellSize;
-        ghost.pixelY = ghost.scatter.y * window.pacmanCellSize;
+        ghost.pixelX = ghost.scatter.x * cellSize;
+        ghost.pixelY = ghost.scatter.y * cellSize;
         ghost.targetPath = [];
         ghost.mode = 'scatter';
         

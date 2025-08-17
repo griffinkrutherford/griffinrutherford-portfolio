@@ -72,35 +72,6 @@
     line-height: 1.6;
 }
 
-/* Comic font option for modern mode if needed */
-.main-content.comic-font {
-    font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
-}
-
-/* Font loading optimization for slower connections */
-@supports (font-display: swap) {
-    .nineties-wrapper {
-        font-display: swap;
-    }
-}
-
-/* Ensure font consistency across different mobile browsers */
-@media screen and (max-width: 768px) {
-    .nineties-wrapper {
-        /* Force font re-evaluation on mobile for better Comic Neue loading */
-        font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', 'Apple Chancery', 'Bradley Hand', cursive, fantasy, sans-serif;
-    }
-}
-
-/* WebKit-specific optimizations for iOS Safari and Chrome Mobile */
-@supports (-webkit-appearance: none) {
-    .nineties-wrapper {
-        -webkit-font-feature-settings: "kern" 1;
-        font-feature-settings: "kern" 1;
-        text-rendering: optimizeLegibility;
-    }
-}
-
 /* LinkedIn Section */
 .linkedin-section {
     margin-bottom: 2rem;
@@ -279,32 +250,6 @@
         top: 5px;
         letter-spacing: 1px;
     }
-
-    /* 90s Mode: Fix rainbow text (name) being cut off on mobile */
-    .rainbow-text {
-        font-size: clamp(1.8rem, 8vw, 3rem) !important;
-        letter-spacing: clamp(1px, 2vw, 3px) !important;
-        margin: 15px 0 !important;
-        padding: 0 15px !important;
-        word-break: break-word;
-        white-space: normal;
-        line-height: 1.2;
-        text-align: center;
-        /* Ensure text doesn't get cut off */
-        overflow-wrap: break-word;
-        hyphens: auto;
-    }
-
-    /* 90s Mode: Header container mobile adjustments */
-    .nineties-header {
-        margin: 15px 10px !important;
-        padding: 15px !important;
-        border-width: 3px !important;
-    }
-
-    .nineties-title-container {
-        padding: 15px !important;
-    }
 }
 
 @media (max-width: 480px) {
@@ -326,9 +271,6 @@
 
     .pacman-button-wrapper {
         max-width: 95%;
-        /* Maintain minimum size even on very small screens */
-        min-width: 280px;
-        min-height: 168px;
         border-width: 1px;
     }
 
@@ -336,25 +278,6 @@
         font-size: 1rem;
         top: 3px;
         letter-spacing: 0.5px;
-    }
-
-    /* Extra small mobile: Ensure rainbow text is never cut off */
-    .rainbow-text {
-        font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
-        letter-spacing: clamp(0.5px, 1vw, 2px) !important;
-        margin: 10px 0 !important;
-        padding: 0 10px !important;
-    }
-
-    /* Extra small mobile: Header adjustments */
-    .nineties-header {
-        margin: 10px 5px !important;
-        padding: 15px 10px !important;
-        border-width: 3px !important;
-    }
-
-    .nineties-title-container {
-        padding: 15px 10px !important;
     }
 }
 
@@ -848,24 +771,6 @@ h3 {
    90s MODE STYLES - TOTALLY RADICAL! 
    ======================================== */
 
-/* FONT SOLUTION FOR MOBILE COMPATIBILITY:
-   - Primary: 'Comic Neue' (Google Fonts) - Modern, mobile-compatible Comic Sans alternative
-   - Fallback 1: 'Comic Sans MS' - Original font for desktop Windows/Mac
-   - Fallback 2: 'Comic Sans' - Alternate reference for some systems
-   - Fallback 3: 'Chalkboard SE' - macOS casual font
-   - Fallback 4: 'Marker Felt' - Another macOS casual font
-   - Fallback 5: 'Trebuchet MS' - Casual serif-like font
-   - Fallback 6: 'Apple Chancery' - Mobile iOS fallback (added in mobile media query)
-   - Fallback 7: 'Bradley Hand' - Another iOS casual font fallback
-   - Final: cursive, fantasy, sans-serif - Generic CSS font families
-   
-   This stack ensures:
-   ✓ iOS Safari compatibility
-   ✓ Chrome Mobile (Android) compatibility
-   ✓ Desktop browser compatibility
-   ✓ Graceful degradation on all devices
-   */
-
 /* 90s Toggle Button */
 .nineties-toggle-btn {
     background: linear-gradient(45deg, #FF00FF, #00FFFF);
@@ -890,12 +795,11 @@ h3 {
     background: #000080;
     background-image: 
         repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,0,.1) 10px, rgba(255,255,0,.1) 20px),
-        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPElEQVQoU2NkIBIwEqmOgWoKf/36xfD//38GFhYWhu/fvzMwMzMzYFVIjEJ0hriNHFWIz0hcCklRSIxCADI7Ew0TAAAAAElFTkSuQmCC');
+        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPElEQVQoU2NkIBIwEqmOgWoKf/36xfD//38GFhYWhu/fvzMwMzMzYFVIjEJ0hbiNHFWIz0hcCklRSIxCADI7Ew0TAAAAAElFTkSuQmCC');
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    /* Enhanced font stack for better mobile compatibility with Comic Neue primary */
-    font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 /* Starfield Background */
@@ -963,9 +867,6 @@ h3 {
     box-shadow: 10px 10px 0 #000;
     position: relative;
     z-index: 10;
-    /* Ensure proper mobile handling */
-    overflow: visible;
-    word-wrap: break-word;
 }
 
 .nineties-title-container {
@@ -1461,9 +1362,6 @@ h3 {
     position: relative;
     max-width: 500px;
     width: 100%;
-    /* Ensure minimum dimensions for proper canvas rendering */
-    min-width: 300px;
-    min-height: 180px;
     aspect-ratio: 5/3; /* Maintains 500:300 ratio */
     border-radius: 15px;
     overflow: hidden;
@@ -1474,8 +1372,6 @@ h3 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     cursor: pointer;
-    /* Ensure the container has layout */
-    contain: layout style;
 }
 
 .pacman-button-wrapper:hover {
@@ -1490,10 +1386,7 @@ h3 {
     z-index: 2;
     width: 100%;
     height: 100%;
-    /* Remove pointer-events: none as it may interfere with rendering */
-    /* Canvas will handle click detection internally */
-    background: #000; /* Ensure black background for debugging */
-    border: 1px solid rgba(255,255,255,0.1); /* Subtle border for debugging */
+    pointer-events: none; /* Allow clicks to pass through except on Pac-Man */
 }
 
 .nineties-text-overlay {
@@ -1507,7 +1400,7 @@ h3 {
     text-shadow: 2px 2px 0 #FF00FF,
                  3px 3px 0 #0000FF,
                  0 0 10px rgba(255, 255, 0, 0.5);
-    font-family: 'Courier New', 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-family: 'Courier New', monospace;
     letter-spacing: 2px;
     z-index: 3;
     pointer-events: none;

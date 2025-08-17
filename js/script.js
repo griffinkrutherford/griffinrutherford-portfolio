@@ -203,8 +203,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Pac-Man Maze Game
   const canvas = document.getElementById('pacman-maze');
+  console.log('Canvas element found:', canvas);
   if (canvas) {
     const ctx = canvas.getContext('2d');
+    console.log('Canvas context obtained:', ctx);
     
     // Function to resize canvas responsively
     function resizeCanvas() {
@@ -213,9 +215,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const containerWidth = containerRect.width;
       const containerHeight = containerRect.height;
       
+      console.log('Container dimensions:', containerWidth, 'x', containerHeight);
+      
+      // If container has no dimensions yet, use fallback values
+      const fallbackWidth = 500;
+      const fallbackHeight = 300;
+      const actualWidth = containerWidth > 0 ? containerWidth : fallbackWidth;
+      const actualHeight = containerHeight > 0 ? containerHeight : fallbackHeight;
+      
+      console.log('Using dimensions:', actualWidth, 'x', actualHeight);
+      
       // Set canvas size to match container
-      canvas.width = containerWidth;
-      canvas.height = containerHeight;
+      canvas.width = actualWidth;
+      canvas.height = actualHeight;
       
       // Calculate cell size based on canvas dimensions
       // Maintain the 25x15 grid ratio
@@ -226,6 +238,12 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Use the smaller cell size to maintain aspect ratio
       window.pacmanCellSize = Math.min(cellSizeX, cellSizeY);
+      
+      // Ensure minimum cell size for visibility
+      if (window.pacmanCellSize < 5) {
+        console.warn('Cell size too small:', window.pacmanCellSize, 'setting to minimum 10');
+        window.pacmanCellSize = 10;
+      }
       
       // Center the game if there's extra space
       window.pacmanOffsetX = (canvas.width - (targetCols * window.pacmanCellSize)) / 2;
@@ -251,6 +269,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial resize
     resizeCanvas();
+    console.log('After initial resizeCanvas - Canvas dimensions:', canvas.width, 'x', canvas.height);
+    console.log('Cell size:', window.pacmanCellSize);
+    console.log('Offsets:', window.pacmanOffsetX, window.pacmanOffsetY);
+    
+    // Also try resizing after a short delay to ensure container is laid out
+    setTimeout(() => {
+      console.log('Delayed resize attempt...');
+      resizeCanvas();
+      console.log('After delayed resizeCanvas - Canvas dimensions:', canvas.width, 'x', canvas.height);
+      console.log('Cell size:', window.pacmanCellSize);
+      console.log('Offsets:', window.pacmanOffsetX, window.pacmanOffsetY);
+      
+      // Force a redraw after delayed resize
+      if (typeof drawMaze === 'function') {
+        drawMaze();
+        if (typeof drawPacman === 'function') drawPacman();
+        if (typeof drawGhosts === 'function') drawGhosts();
+      }
+    }, 100);
     
     // Resize on window resize
     window.addEventListener('resize', resizeCanvas);
@@ -292,6 +329,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create a working copy of the maze
     let maze = mazeTemplate.map(row => [...row]);
+    console.log('Maze initialized:', maze.length, 'rows x', maze[0] ? maze[0].length : 0, 'cols');
+    console.log('First row of maze:', maze[0]);
+    console.log('Maze template first row:', mazeTemplate[0]);
     
     function resetMaze() {
       // Reset maze to original state
@@ -504,13 +544,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function drawMaze() {
+      console.log('drawMaze called - Canvas size:', canvas.width, 'x', canvas.height);
+      console.log('drawMaze called - Cell size:', window.pacmanCellSize);
+      console.log('drawMaze called - Maze exists:', !!maze, 'Length:', maze ? maze.length : 0);
+      console.log('drawMaze called - Context exists:', !!ctx);
+      
+      if (!ctx) {
+        console.error('Canvas context is not available!');
+        return;
+      }
+      
+      if (canvas.width === 0 || canvas.height === 0) {
+        console.error('Canvas has no dimensions!');
+        return;
+      }
+      
+      if (!window.pacmanCellSize || window.pacmanCellSize <= 0) {
+        console.error('Invalid cell size:', window.pacmanCellSize);
+        return;
+      }
+      
+      // Clear canvas with black background
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Test: Draw a red rectangle to verify canvas is working
+      ctx.fillStyle = '#FF0000';
+      ctx.fillRect(10, 10, 50, 30);
+      console.log('Test rectangle drawn at (10,10) with size 50x30');
       
       // Ensure maze is initialized
       if (!maze || maze.length === 0) {
         maze = mazeTemplate.map(row => [...row]);
+        console.log('Maze reinitialized in drawMaze');
       }
+      
+      let wallCount = 0;
+      let pelletCount = 0;
       
       for (let row = 0; row < maze.length; row++) {
         for (let col = 0; col < maze[row].length; col++) {
@@ -519,6 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const y = row * window.pacmanCellSize + window.pacmanOffsetY;
           
           if (cell === 1) {
+            wallCount++;
             // Draw wall with better graphics - brighter blue for visibility
             ctx.fillStyle = '#2121FF';
             ctx.fillRect(x, y, window.pacmanCellSize, window.pacmanCellSize);
@@ -532,6 +603,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.lineWidth = 1;
             ctx.strokeRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
           } else if (cell === 2) {
+            pelletCount++;
             // Draw pellet (scale with cell size)
             ctx.fillStyle = '#FFB897';
             ctx.beginPath();
@@ -539,6 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.arc(x + window.pacmanCellSize/2, y + window.pacmanCellSize/2, pelletSize, 0, Math.PI * 2);
             ctx.fill();
           } else if (cell === 3) {
+            pelletCount++;
             // Draw power pellet (larger, scale with cell size)
             ctx.fillStyle = '#FFB897';
             ctx.beginPath();
@@ -548,6 +621,8 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       }
+      
+      console.log('drawMaze completed - Walls drawn:', wallCount, 'Pellets drawn:', pelletCount);
     }
     
     function drawPacman() {
@@ -1408,8 +1483,10 @@ document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(gameLoop);
     }
     
-    // Handle Pac-Man click for secret page
+    // Handle Pac-Man click for secret page  
     canvas.style.pointerEvents = 'auto'; // Enable clicks on canvas
+    canvas.style.border = '2px solid red'; // Debug: make canvas visible
+    console.log('Canvas pointer events set to auto and debug border added');
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -1432,13 +1509,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize the game
+    console.log('Initializing game...');
     resetMaze();
+    console.log('Game reset completed');
     
     // Ensure initial draw happens after DOM is ready
     requestAnimationFrame(() => {
+      console.log('Initial draw requestAnimationFrame callback executing...');
       drawMaze();
       drawPacman();
       drawGhosts();
+      console.log('Initial draw completed');
     });
     
     // Start the game loop

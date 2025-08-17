@@ -396,6 +396,55 @@
         .ascii-border {
             transition: all 0.5s ease;
         }
+        
+        /* Mobile optimizations for theme toggle */
+        @media (max-width: 768px) {
+            .theme-toggle-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                min-width: 120px;
+            }
+            
+            .theme-toggle-icon {
+                font-size: 14px;
+            }
+            
+            .theme-toggle-text {
+                font-size: 10px;
+            }
+            
+            /* Reduce matrix rain intensity on mobile for performance */
+            body.matrix-theme #matrix-canvas {
+                opacity: 0.6;
+            }
+            
+            body.matrix-theme::before {
+                background: repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(0, 255, 0, 0.02) 3px,
+                    rgba(0, 255, 0, 0.02) 6px
+                );
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .theme-toggle-btn {
+                padding: 6px 10px;
+                font-size: 10px;
+                min-width: 100px;
+            }
+            
+            /* Further reduce effects on very small screens */
+            body.matrix-theme #matrix-canvas {
+                opacity: 0.4;
+            }
+            
+            body.matrix-theme::before {
+                display: none; /* Disable scanlines on very small screens */
+            }
+        }
     </style>
 </head>
 <body class="nineties-mode">

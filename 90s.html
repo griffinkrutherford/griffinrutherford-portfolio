@@ -1715,7 +1715,7 @@
                 </h2>
                 <center>
                     <div style="background: #000; padding: 20px; border: 5px ridge #FFD700; display: inline-block;">
-                        <canvas id="pacman-maze" width="500" height="300" style="border: 2px solid #00FF00;"></canvas>
+                        <canvas id="pacman-game-90s" width="500" height="300" style="border: 2px solid #00FF00; background: #000;"></canvas>
                         <div style="margin-top: 10px; color: #00FF00; font-family: 'Courier New', monospace;">
                             <div class="nineties-blink">Click Pac-Man for a secret!</div>
                         </div>
@@ -1787,9 +1787,6 @@
     
     <!-- Load Nintendo Theme Script -->
     <script src="js/nintendo-theme.js"></script>
-    
-    <!-- Load Main Script with Pac-Man Game -->
-    <script src="js/script.js"></script>
 
     <!-- Dial-up Connection Screen -->
     <div id="dialup-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000;">
@@ -2443,6 +2440,154 @@
             const randomSong = songs[Math.floor(Math.random() * songs.length)];
             display.textContent = `~o~ Now Playing: "${randomSong}" ~o~`;
         }, 10000);
+
+        // Simple Pac-Man Game for 90s Page
+        const pacmanCanvas = document.getElementById('pacman-game-90s');
+        if (pacmanCanvas) {
+            const ctx = pacmanCanvas.getContext('2d');
+            const width = pacmanCanvas.width;
+            const height = pacmanCanvas.height;
+            
+            // Game variables
+            let pacman = {
+                x: width / 2,
+                y: height / 2,
+                radius: 15,
+                mouthOpen: 0,
+                direction: 0
+            };
+            
+            let ghosts = [
+                { x: 50, y: 50, color: '#FF0000', dx: 2, dy: 1 },
+                { x: width - 50, y: 50, color: '#FFB8FF', dx: -1, dy: 2 },
+                { x: 50, y: height - 50, color: '#00FFFF', dx: 1, dy: -1 },
+                { x: width - 50, y: height - 50, color: '#FFB847', dx: -2, dy: 1 }
+            ];
+            
+            let pellets = [];
+            // Create pellets grid
+            for (let x = 30; x < width; x += 40) {
+                for (let y = 30; y < height; y += 40) {
+                    pellets.push({ x: x, y: y, eaten: false });
+                }
+            }
+            
+            // Game loop
+            function drawPacmanGame() {
+                // Clear canvas
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, width, height);
+                
+                // Draw maze border
+                ctx.strokeStyle = '#0000FF';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(5, 5, width - 10, height - 10);
+                
+                // Draw pellets
+                ctx.fillStyle = '#FFD700';
+                pellets.forEach(pellet => {
+                    if (!pellet.eaten) {
+                        ctx.beginPath();
+                        ctx.arc(pellet.x, pellet.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+                
+                // Move and draw ghosts
+                ghosts.forEach(ghost => {
+                    // Move ghost
+                    ghost.x += ghost.dx;
+                    ghost.y += ghost.dy;
+                    
+                    // Bounce off walls
+                    if (ghost.x <= 20 || ghost.x >= width - 20) ghost.dx *= -1;
+                    if (ghost.y <= 20 || ghost.y >= height - 20) ghost.dy *= -1;
+                    
+                    // Draw ghost
+                    ctx.fillStyle = ghost.color;
+                    ctx.beginPath();
+                    ctx.arc(ghost.x, ghost.y, 12, Math.PI, 0, false);
+                    ctx.lineTo(ghost.x + 12, ghost.y + 12);
+                    ctx.lineTo(ghost.x + 8, ghost.y + 8);
+                    ctx.lineTo(ghost.x + 4, ghost.y + 12);
+                    ctx.lineTo(ghost.x, ghost.y + 8);
+                    ctx.lineTo(ghost.x - 4, ghost.y + 12);
+                    ctx.lineTo(ghost.x - 8, ghost.y + 8);
+                    ctx.lineTo(ghost.x - 12, ghost.y + 12);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Ghost eyes
+                    ctx.fillStyle = '#FFF';
+                    ctx.beginPath();
+                    ctx.arc(ghost.x - 5, ghost.y - 3, 3, 0, Math.PI * 2);
+                    ctx.arc(ghost.x + 5, ghost.y - 3, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath();
+                    ctx.arc(ghost.x - 5, ghost.y - 3, 1.5, 0, Math.PI * 2);
+                    ctx.arc(ghost.x + 5, ghost.y - 3, 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                // Animate Pac-Man mouth
+                pacman.mouthOpen = (pacman.mouthOpen + 0.1) % 1;
+                
+                // Auto-move Pac-Man
+                pacman.direction += 0.02;
+                pacman.x = width/2 + Math.cos(pacman.direction) * 80;
+                pacman.y = height/2 + Math.sin(pacman.direction) * 60;
+                
+                // Check pellet collision
+                pellets.forEach(pellet => {
+                    if (!pellet.eaten) {
+                        const dist = Math.sqrt(Math.pow(pacman.x - pellet.x, 2) + Math.pow(pacman.y - pellet.y, 2));
+                        if (dist < pacman.radius) {
+                            pellet.eaten = true;
+                        }
+                    }
+                });
+                
+                // Draw Pac-Man
+                ctx.fillStyle = '#FFFF00';
+                ctx.beginPath();
+                const mouthAngle = Math.abs(Math.sin(pacman.mouthOpen * Math.PI)) * 0.3;
+                ctx.arc(pacman.x, pacman.y, pacman.radius, 
+                    pacman.direction + mouthAngle, 
+                    pacman.direction + (Math.PI * 2) - mouthAngle, false);
+                ctx.lineTo(pacman.x, pacman.y);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Draw score
+                const score = pellets.filter(p => p.eaten).length * 10;
+                ctx.fillStyle = '#FFD700';
+                ctx.font = 'bold 16px "Courier New", monospace';
+                ctx.fillText('SCORE: ' + score, 10, 25);
+                
+                // Reset pellets if all eaten
+                if (pellets.every(p => p.eaten)) {
+                    pellets.forEach(p => p.eaten = false);
+                }
+                
+                requestAnimationFrame(drawPacmanGame);
+            }
+            
+            // Add click handler for secret
+            pacmanCanvas.addEventListener('click', function(e) {
+                const rect = pacmanCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const dist = Math.sqrt(Math.pow(x - pacman.x, 2) + Math.pow(y - pacman.y, 2));
+                if (dist < pacman.radius) {
+                    window.location.href = 'secret.html';
+                }
+            });
+            
+            // Start game
+            drawPacmanGame();
+        }
     </script>
 </body>
 </html>

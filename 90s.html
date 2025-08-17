@@ -1772,6 +1772,7 @@
     
     <!-- Load Nintendo Theme Script -->
     <script src="js/nintendo-theme.js"></script>
+    <script src="js/nintendo-sprites.js"></script>
     
     <!-- Nintendo Sprite Container -->
     <div id="nintendo-sprites-container"></div>
@@ -2891,13 +2892,26 @@
             
             // Initialize Nintendo sprites if Nintendo theme is active
             if (currentTheme === 'nintendo') {
-                setTimeout(initNintendoSprites, 100);
+                setTimeout(() => {
+                    if (window.initializeNintendoSprites) {
+                        window.initializeNintendoSprites();
+                    } else {
+                        initNintendoSprites();
+                    }
+                }, 100);
             }
         };
         
         // Initialize sprites if starting with Nintendo theme
         if (currentTheme === 'nintendo') {
-            setTimeout(initNintendoSprites, 500);
+            setTimeout(() => {
+                if (window.initializeNintendoSprites) {
+                    window.initializeNintendoSprites();
+                } else {
+                    // Fallback to CSS sprites if image sprites not loaded
+                    initNintendoSprites();
+                }
+            }, 500);
         }
     </script>
 </body>

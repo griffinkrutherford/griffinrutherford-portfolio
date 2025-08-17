@@ -123,66 +123,26 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   function activateRainbowMode() {
-    // Create rainbow overlay
-    const rainbow = document.createElement('div');
-    rainbow.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      background: linear-gradient(45deg, 
-        #ff0000, #ff7700, #ffdd00, #00ff00, 
-        #0099ff, #6633ff, #ff00ff, #ff0000);
-      background-size: 400% 400%;
-      opacity: 0;
-      animation: rainbowWave 3s ease-in-out infinite, fadeInOut 5s ease-in-out;
-    `;
-    
-    // Add CSS animation
+    // Add rainbow hue animation to all elements
     const style = document.createElement('style');
     style.textContent = `
-      @keyframes rainbowWave {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+      @keyframes rainbowHue {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
       }
-      @keyframes fadeInOut {
-        0% { opacity: 0; }
-        20% { opacity: 0.4; }
-        80% { opacity: 0.4; }
-        100% { opacity: 0; }
-      }
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
+      
+      .rainbow-active * {
+        animation: rainbowHue 5s linear infinite !important;
       }
     `;
     document.head.appendChild(style);
     
-    document.body.appendChild(rainbow);
-    
-    // Add shake effect to main content
-    const content = document.querySelector('.content-section');
-    if (content) {
-      content.style.animation = 'shake 0.5s ease-in-out';
-      setTimeout(() => {
-        content.style.animation = '';
-      }, 500);
-    }
-    
-    // Remove rainbow after animation
-    setTimeout(() => {
-      rainbow.remove();
-      style.remove();
-    }, 5000);
+    // Apply rainbow effect to body
+    document.body.classList.add('rainbow-active');
     
     // Show secret message
     const message = document.createElement('div');
-    message.textContent = '🌈 KONAMI CODE ACTIVATED! 🌈';
+    message.textContent = 'Easter Egg Found!';
     message.style.cssText = `
       position: fixed;
       top: 50%;
@@ -191,27 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
       font-size: 3em;
       font-weight: bold;
       color: white;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
       z-index: 10000;
       pointer-events: none;
-      animation: bounce 1s ease-in-out;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px 40px;
+      border-radius: 10px;
     `;
-    
-    const bounceStyle = document.createElement('style');
-    bounceStyle.textContent = `
-      @keyframes bounce {
-        0%, 100% { transform: translate(-50%, -50%) scale(1); }
-        50% { transform: translate(-50%, -60%) scale(1.2); }
-      }
-    `;
-    document.head.appendChild(bounceStyle);
     
     document.body.appendChild(message);
     
+    // Remove effects after 5 seconds
     setTimeout(() => {
+      document.body.classList.remove('rainbow-active');
       message.remove();
-      bounceStyle.remove();
-    }, 3000);
+      style.remove();
+    }, 5000);
   }
   
   // Pac-Man Maze Game

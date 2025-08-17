@@ -536,7 +536,7 @@
         }
         
         body.nintendo-theme .nineties-section::before {
-            content: '🍄';
+            content: '[*]';
             position: absolute;
             top: -15px;
             left: 20px;
@@ -816,7 +816,7 @@
         
         /* Kirby Star Elements */
         body.nintendo-theme .skill-fill::before {
-            content: '⭐';
+            content: '*';
             position: absolute;
             left: 5px;
             top: 50%;
@@ -831,7 +831,7 @@
         
         /* Mario Coin Animation for Counter */
         body.nintendo-theme .counter-digit::before {
-            content: '🪙';
+            content: '(o)';
             position: absolute;
             top: -25px;
             left: 50%;
@@ -873,7 +873,7 @@
         }
         
         body.nintendo-theme .nineties-section:nth-child(even)::before {
-            content: '⭐';
+            content: '*';
             background: #FFB3D9;
             border-color: #FF69B4;
         }
@@ -890,7 +890,7 @@
         
         /* Power-up Mushroom Decorations */
         body.nintendo-theme .under-construction::before {
-            content: '🍄';
+            content: '[*]';
             position: absolute;
             left: 10px;
             top: 50%;
@@ -921,7 +921,7 @@
         
         /* Warp Star for Kirby Elements */
         body.nintendo-theme .rainbow-text::after {
-            content: '✨⭐✨';
+            content: '***';
             display: block;
             text-align: center;
             font-size: 24px;
@@ -941,7 +941,7 @@
         }
         
         body.nintendo-theme .nintendo-world-title::before {
-            content: '❓';
+            content: '[?]';
             position: absolute;
             left: -40px;
             top: 50%;
@@ -993,7 +993,7 @@
         }
         
         body.nintendo-theme .nintendo-coin-counter::before {
-            content: '🪙';
+            content: '(o)';
             position: absolute;
             left: -30px;
             top: 50%;
@@ -1008,12 +1008,12 @@
         
         /* Nintendo People Skills */
         body.nintendo-theme .nintendo-people-skills::before {
-            content: '👑 ';
+            content: '[+] ';
             animation: kirby-float 3s ease-in-out infinite;
         }
         
         body.nintendo-theme .nintendo-people-skills::after {
-            content: ' 👑';
+            content: ' [+]';
             animation: kirby-float 3s ease-in-out infinite 1.5s;
         }
         
@@ -1066,7 +1066,7 @@
         }
         
         body.nintendo-theme .skill-fill::after {
-            content: '⭐';
+            content: '*';
             position: absolute;
             right: -25px;
             top: 50%;
@@ -1116,7 +1116,7 @@
         }
         
         body.nintendo-theme .ascii-border::before {
-            content: '❓';
+            content: '[?]';
             position: absolute;
             top: -20px;
             left: 50%;
@@ -1178,7 +1178,7 @@
         
         /* Nintendo Theme Game UI Elements */
         body.nintendo-theme .guestbook-form::before {
-            content: '🎮 MULTIPLAYER LOBBY 🎮';
+            content: '[o] MULTIPLAYER LOBBY [o]';
             display: block;
             text-align: center;
             background: #E60012;
@@ -1191,7 +1191,7 @@
         }
         
         body.nintendo-theme .webring::before {
-            content: '🌟 WARP ZONE 🌟';
+            content: '[*] WARP ZONE [*]';
             display: block;
             text-align: center;
             font-size: 20px;
@@ -1344,6 +1344,13 @@
                 right: -15px;
                 font-size: 12px;
             }
+            
+            /* ASCII border mobile responsiveness */
+            .ascii-border {
+                overflow-x: auto;
+                font-size: 10px;
+                white-space: pre;
+            }
         }
     </style>
 </head>
@@ -1357,7 +1364,7 @@
         <!-- Theme Toggle Buttons -->
         <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
             <button id="theme-toggle" class="theme-toggle-btn">
-                <span class="theme-toggle-icon">🌈</span>
+                <span class="theme-toggle-icon">===</span>
                 <span class="theme-toggle-text">Matrix Mode</span>
             </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1432,19 +1439,17 @@
                     <span class="flame-text nintendo-world-title" data-theme-text="welcomeTitle">WELCOME TO MY HOMEPAGE!</span>
                 </h2>
                 <div class="ascii-border">
-╔══════════════════════════════════════════╗
-║ <span data-theme-text="welcomeGreeting">Hey there, cyber-surfer! =)</span>      ║
-║                                          ║
-║ <span data-theme-text="welcomeIntro">Welcome to my slice of the digital world! I'm a        ║
-║ computer science wizard who's totally    ║
-║ passionate about artificial intelligence ║
-║ and making rad software.</span>          ║
-║                                          ║
-║ <span data-theme-text="welcomeBody">When I'm not coding, you can find me conquering mountain trails or   ║
-║ pumping iron at the gym. I believe in   ║
-║ being totally well-rounded - mind AND    ║
-║ body!</span>                             ║
-╚══════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ <span data-theme-text="welcomeGreeting">Hey there, cyber-surfer! =)</span>                                                ║
+║                                                                              ║
+║ <span data-theme-text="welcomeIntro">Welcome to my slice of the digital world! I'm a computer science        ║
+║ wizard who's totally passionate about artificial intelligence and making    ║
+║ rad software.</span>                                                         ║
+║                                                                              ║
+║ <span data-theme-text="welcomeBody">When I'm not coding, you can find me conquering mountain trails or      ║
+║ pumping iron at the gym. I believe in being totally well-rounded - mind     ║
+║ AND body!</span>                                                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
                 </div>
                 <center>
                     <div class="spinning-email">@</div>
@@ -1459,50 +1464,50 @@
 ┌─────────────────────────────────────────┐
 │ EXPERIENCE                              │
 ├─────────────────────────────────────────┤
-│ ⭐ Lead AI Engineer @ TrueFlow AI       │
+│ * Lead AI Engineer @ TrueFlow AI        │
 │   Making CRMs smart with LLMs!         │
 │   Successfully delivered AI solutions  │
 │                                         │
-│ 🎤 Podcaster @ Malestrum               │
+│ [M] Podcaster @ Malestrum               │
 │   Father-son talks that rock!          │
-│   Achievement Unlocked! ⭐              │
+│   Achievement Unlocked! *               │
 │                                         │
-│ 🍄 Founding Engineer @ Coherascent     │
+│ [*] Founding Engineer @ Coherascent     │
 │   Mental/physical health tech!         │
 │   Built wellness applications          │
 │                                         │
-│ 🧮 AI Math Trainer @ Outlier           │
+│ [=] AI Math Trainer @ Outlier           │
 │   Teaching robots calculus!            │
-│   Mathematical excellence! 🔥          │
+│   Mathematical excellence! ~~~          │
 │                                         │
-│ 🛡️ Cybersecurity @ JeffCo              │
+│ [S] Cybersecurity @ JeffCo              │
 │   Keeping the county safe!             │
-│   Digital security guardian! 👑        │
+│   Digital security guardian! [+]        │
 │                                         │
-│ 🗺️ Software Intern @ CACI              │
+│ [M] Software Intern @ CACI              │
 │   Navigation for the visually impaired │
-│   Making technology accessible! 🪙     │
+│   Making technology accessible! (o)     │
 │                                         │
-│ 🏰 Resident Advisor @ Mines            │
+│ [H] Resident Advisor @ Mines            │
 │   Dorm life coordinator!               │
-│   Community helper! ⭐                 │
+│   Community helper! *                   │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
 │ EDUCATION                               │
 ├─────────────────────────────────────────┤
-│ 🏫 Colorado School of Mines            │
+│ [S] Colorado School of Mines            │
 │ Combined BS+MS Computer Science        │
 │ 2020-2025 (Double degree!)            │
-│ Academic excellence! ⭐⭐               │
+│ Academic excellence! **                 │
 │                                         │
-│ 🎯 AI/ML & Data Science Specialization │
+│ [T] AI/ML & Data Science Specialization │
 │ Making computers think since 2020!     │
-│ Future-focused education! 🍄           │
+│ Future-focused education! [*]           │
 │                                         │
-│ 🎭 Santa Fe Prep School 2015-2020      │
+│ [T] Santa Fe Prep School 2015-2020      │
 │ Track Captain & Theater Star!          │
-│ Well-rounded development! 👑            │
+│ Well-rounded development! [+]            │
 └─────────────────────────────────────────┘
                 </div>
             </div>
@@ -1764,6 +1769,9 @@
         <source src="audio/aol-dialup.wav" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
+    
+    <!-- Load Nintendo Theme Script -->
+    <script src="js/nintendo-theme.js"></script>
 
     <!-- Dial-up Connection Screen -->
     <div id="dialup-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000;">
@@ -2016,17 +2024,17 @@
             switch(currentTheme) {
                 case 'matrix':
                     body.classList.add('matrix-theme');
-                    toggleIcon.textContent = '💻';
+                    toggleIcon.textContent = '[=]';
                     toggleText.textContent = 'Nintendo Mode';
                     initMatrixRain();
                     break;
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '🎮';
+                    toggleIcon.textContent = '[o]';
                     toggleText.textContent = '90s Mode';
                     break;
                 default: // nineties
-                    toggleIcon.textContent = '🌈';
+                    toggleIcon.textContent = '===';
                     toggleText.textContent = 'Matrix Mode';
                     break;
             }
@@ -2053,18 +2061,23 @@
             switch(currentTheme) {
                 case 'matrix':
                     body.classList.add('matrix-theme');
-                    toggleIcon.textContent = '💻';
+                    toggleIcon.textContent = '[=]';
                     toggleText.textContent = 'Nintendo Mode';
                     initMatrixRain();
                     break;
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '🎮';
+                    toggleIcon.textContent = '[o]';
                     toggleText.textContent = '90s Mode';
                     playNintendoSound();
+                    // Initialize Nintendo sprite theme if available
+                    if (window.NintendoTheme) {
+                        window.nintendoTheme = new NintendoTheme();
+                        window.nintendoTheme.init();
+                    }
                     break;
                 default: // nineties
-                    toggleIcon.textContent = '🌈';
+                    toggleIcon.textContent = '===';
                     toggleText.textContent = 'Matrix Mode';
                     break;
             }

@@ -244,6 +244,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
+    // Initialize default cell size before resize
+    window.pacmanCellSize = 20;
+    window.pacmanOffsetX = 0;
+    window.pacmanOffsetY = 0;
+    
     // Initial resize
     resizeCanvas();
     
@@ -1420,7 +1425,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the game
     resetMaze();
     
-    // Start the game
+    // Ensure initial draw happens after DOM is ready
+    requestAnimationFrame(() => {
+      drawMaze();
+      drawPacman();
+      drawGhosts();
+    });
+    
+    // Start the game loop
     gameLoop();
   }
   

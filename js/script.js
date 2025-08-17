@@ -223,6 +223,38 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
+    // Immediate simple render to verify canvas works
+    function immediateRender() {
+      if (canvas.width === 0 || canvas.height === 0) {
+        canvas.width = 300;
+        canvas.height = 180;
+      }
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw simple Pac-Man
+      ctx.fillStyle = '#FFFF00';
+      ctx.beginPath();
+      ctx.arc(canvas.width/2, canvas.height/2, 20, 0.2 * Math.PI, 1.8 * Math.PI);
+      ctx.lineTo(canvas.width/2, canvas.height/2);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Draw a ghost
+      ctx.fillStyle = '#FF0000';
+      ctx.beginPath();
+      ctx.arc(canvas.width/3, canvas.height/2, 15, Math.PI, 0, false);
+      ctx.lineTo(canvas.width/3 + 15, canvas.height/2 + 15);
+      ctx.lineTo(canvas.width/3 - 15, canvas.height/2 + 15);
+      ctx.closePath();
+      ctx.fill();
+      
+      console.log('Immediate render completed');
+    }
+    
+    // Do immediate render
+    immediateRender();
+    
     // Function to resize canvas responsively
     function resizeCanvas() {
       try {

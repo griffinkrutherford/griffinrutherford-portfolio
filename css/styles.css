@@ -279,6 +279,32 @@
         top: 5px;
         letter-spacing: 1px;
     }
+
+    /* 90s Mode: Fix rainbow text (name) being cut off on mobile */
+    .rainbow-text {
+        font-size: clamp(1.8rem, 8vw, 3rem) !important;
+        letter-spacing: clamp(1px, 2vw, 3px) !important;
+        margin: 15px 0 !important;
+        padding: 0 15px !important;
+        word-break: break-word;
+        white-space: normal;
+        line-height: 1.2;
+        text-align: center;
+        /* Ensure text doesn't get cut off */
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+
+    /* 90s Mode: Header container mobile adjustments */
+    .nineties-header {
+        margin: 15px 10px !important;
+        padding: 15px !important;
+        border-width: 3px !important;
+    }
+
+    .nineties-title-container {
+        padding: 15px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -310,6 +336,25 @@
         font-size: 1rem;
         top: 3px;
         letter-spacing: 0.5px;
+    }
+
+    /* Extra small mobile: Ensure rainbow text is never cut off */
+    .rainbow-text {
+        font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+        letter-spacing: clamp(0.5px, 1vw, 2px) !important;
+        margin: 10px 0 !important;
+        padding: 0 10px !important;
+    }
+
+    /* Extra small mobile: Header adjustments */
+    .nineties-header {
+        margin: 10px 5px !important;
+        padding: 15px 10px !important;
+        border-width: 3px !important;
+    }
+
+    .nineties-title-container {
+        padding: 15px 10px !important;
     }
 }
 
@@ -918,6 +963,9 @@ h3 {
     box-shadow: 10px 10px 0 #000;
     position: relative;
     z-index: 10;
+    /* Ensure proper mobile handling */
+    overflow: visible;
+    word-wrap: break-word;
 }
 
 .nineties-title-container {

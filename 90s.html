@@ -757,7 +757,7 @@
             text-shadow: 1px 1px 0px #E60012;
         }
         
-        /* Nintendo Background Pattern */
+        /* Nintendo Background Pattern with Mario & Kirby Elements */
         body.nintendo-theme::before {
             content: '';
             position: fixed;
@@ -768,8 +768,9 @@
             background-image: 
                 radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
                 radial-gradient(circle at 80% 80%, rgba(230, 0, 18, 0.1) 2px, transparent 2px),
-                radial-gradient(circle at 40% 60%, rgba(0, 166, 82, 0.1) 2px, transparent 2px);
-            background-size: 50px 50px, 70px 70px, 90px 90px;
+                radial-gradient(circle at 40% 60%, rgba(0, 166, 82, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 60% 30%, rgba(255, 179, 217, 0.1) 2px, transparent 2px);
+            background-size: 50px 50px, 70px 70px, 90px 90px, 60px 60px;
             animation: nintendo-float 20s ease-in-out infinite;
             pointer-events: none;
             z-index: -1;
@@ -778,6 +779,426 @@
         @keyframes nintendo-float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
+        }
+        
+        /* Mario Pipe Decorative Elements */
+        body.nintendo-theme .nineties-section::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to right, #00A652, #4CBB17);
+            border: 2px solid #006400;
+            border-radius: 0 0 10px 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Mario Question Block Styling for Interactive Elements */
+        body.nintendo-theme .nineties-nav-table td::after {
+            content: '?';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 16px;
+            text-shadow: 1px 1px 0 #E60012;
+            animation: question-block-bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes question-block-bounce {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
+        }
+        
+        /* Kirby Star Elements */
+        body.nintendo-theme .skill-fill::before {
+            content: '⭐';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: kirby-star-twinkle 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes kirby-star-twinkle {
+            0%, 100% { opacity: 0.7; transform: translateY(-50%) scale(1); }
+            50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+        }
+        
+        /* Mario Coin Animation for Counter */
+        body.nintendo-theme .counter-digit::before {
+            content: '🪙';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: coin-spin 3s linear infinite;
+        }
+        
+        @keyframes coin-spin {
+            0% { transform: translateX(-50%) rotateY(0deg); }
+            50% { transform: translateX(-50%) rotateY(180deg) scale(0.8); }
+            100% { transform: translateX(-50%) rotateY(360deg); }
+        }
+        
+        /* 1-UP Style for Achievements */
+        body.nintendo-theme .skill-name::after {
+            content: '1UP';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #00A652;
+            color: #FFFFFF;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            animation: oneup-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes oneup-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(0, 166, 82, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(0, 166, 82, 0.8); }
+        }
+        
+        /* Kirby Pink Accent Colors */
+        body.nintendo-theme .nineties-section:nth-child(even) {
+            border-color: #FFB3D9;
+            box-shadow: 0 0 20px rgba(255, 179, 217, 0.3);
+        }
+        
+        body.nintendo-theme .nineties-section:nth-child(even)::before {
+            content: '⭐';
+            background: #FFB3D9;
+            border-color: #FF69B4;
+        }
+        
+        /* Mario Brick Pattern for Some Sections */
+        body.nintendo-theme .guestbook {
+            background: 
+                linear-gradient(90deg, #8B4513 0%, #A0522D 50%, #8B4513 100%),
+                repeating-linear-gradient(0deg, 
+                    transparent 0px, transparent 18px,
+                    rgba(0, 0, 0, 0.1) 18px, rgba(0, 0, 0, 0.1) 20px);
+            background-blend-mode: multiply;
+        }
+        
+        /* Power-up Mushroom Decorations */
+        body.nintendo-theme .under-construction::before {
+            content: '🍄';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            animation: mushroom-bounce 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes mushroom-bounce {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-55%) scale(1.1); }
+        }
+        
+        /* Fire Flower Effect for Flame Text */
+        body.nintendo-theme .flame-text::before {
+            content: '🔥';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: fire-flicker 0.8s ease-in-out infinite alternate;
+        }
+        
+        @keyframes fire-flicker {
+            0% { opacity: 0.8; transform: translateY(-50%) scale(1); }
+            100% { opacity: 1; transform: translateY(-50%) scale(1.1); }
+        }
+        
+        /* Warp Star for Kirby Elements */
+        body.nintendo-theme .rainbow-text::after {
+            content: '✨⭐✨';
+            display: block;
+            text-align: center;
+            font-size: 24px;
+            margin-top: 10px;
+            animation: warp-star-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes warp-star-glow {
+            0%, 100% { opacity: 0.7; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.3) hue-rotate(45deg); }
+        }
+        
+        /* Nintendo World Title Styling */
+        body.nintendo-theme .nintendo-world-title {
+            position: relative;
+            text-shadow: 2px 2px 0px #000, -2px -2px 0px #FFD700, 2px -2px 0px #FFD700, -2px 2px 0px #FFD700;
+        }
+        
+        body.nintendo-theme .nintendo-world-title::before {
+            content: '❓';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FFD700;
+            border: 3px solid #E60012;
+            border-radius: 8px;
+            padding: 2px 6px;
+            font-size: 20px;
+            animation: question-block-bounce 2s ease-in-out infinite;
+        }
+        
+        /* Nintendo Skill Styling */
+        body.nintendo-theme .nintendo-skill {
+            position: relative;
+        }
+        
+        body.nintendo-theme .nintendo-skill::after {
+            content: '⬆';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00A652;
+            font-weight: bold;
+            animation: level-up-bounce 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes level-up-bounce {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-70%); }
+        }
+        
+        /* Nintendo Press Start Animation */
+        body.nintendo-theme .nintendo-press-start {
+            animation: press-start-blink 1s infinite;
+            color: #FFD700;
+            text-shadow: 2px 2px 0px #E60012;
+        }
+        
+        @keyframes press-start-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        /* Nintendo Coin Counter */
+        body.nintendo-theme .nintendo-coin-counter {
+            position: relative;
+        }
+        
+        body.nintendo-theme .nintendo-coin-counter::before {
+            content: '🪙';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: coin-collect 2s ease-in-out infinite;
+        }
+        
+        @keyframes coin-collect {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-60%) scale(1.2); }
+        }
+        
+        /* Nintendo People Skills */
+        body.nintendo-theme .nintendo-people-skills::before {
+            content: '👑 ';
+            animation: kirby-float 3s ease-in-out infinite;
+        }
+        
+        body.nintendo-theme .nintendo-people-skills::after {
+            content: ' 👑';
+            animation: kirby-float 3s ease-in-out infinite 1.5s;
+        }
+        
+        @keyframes kirby-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Nintendo Achievement Styling */
+        body.nintendo-theme .nintendo-achievement {
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+            border: 3px solid #E60012;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            animation: achievement-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes achievement-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.9), 0 0 40px rgba(230, 0, 18, 0.3); }
+        }
+        
+        /* Mario Bros Pipe Styling for Navigation */
+        body.nintendo-theme .nineties-nav-table td {
+            position: relative;
+            overflow: visible;
+        }
+        
+        body.nintendo-theme .nineties-nav-table td::before {
+            content: '🟢';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            animation: pipe-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pipe-glow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; filter: brightness(1.3); }
+        }
+        
+        /* Kirby Star Power for Skill Bars */
+        body.nintendo-theme .skill-fill {
+            position: relative;
+            overflow: visible;
+        }
+        
+        body.nintendo-theme .skill-fill::after {
+            content: '⭐';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: star-power 2s ease-in-out infinite;
+        }
+        
+        @keyframes star-power {
+            0%, 100% { opacity: 0.8; transform: translateY(-50%) rotate(0deg); }
+            50% { opacity: 1; transform: translateY(-50%) rotate(180deg) scale(1.2); }
+        }
+        
+        /* Nintendo Theme Mario Bros Background Elements */
+        body.nintendo-theme .nineties-section {
+            position: relative;
+        }
+        
+        body.nintendo-theme .nineties-section:nth-child(odd)::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 15px;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(to right, #00A652 0%, #4CBB17 50%, #00A652 100%);
+            border: 2px solid #006400;
+            border-radius: 0 0 8px 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.nintendo-theme .nineties-section:nth-child(even)::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 15px;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(to left, #FF69B4 0%, #FFB3D9 50%, #FF69B4 100%);
+            border: 2px solid #FF1493;
+            border-radius: 0 0 8px 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Nintendo Theme Question Blocks */
+        body.nintendo-theme .ascii-border {
+            position: relative;
+        }
+        
+        body.nintendo-theme .ascii-border::before {
+            content: '❓';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD700;
+            border: 3px solid #E60012;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 18px;
+            animation: question-block-float 3s ease-in-out infinite;
+            z-index: 10;
+        }
+        
+        @keyframes question-block-float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Game Over / Continue Styling */
+        body.nintendo-theme .visitor-counter::before {
+            content: 'HIGH SCORE: ';
+            font-weight: bold;
+            color: #E60012;
+        }
+        
+        body.nintendo-theme .visitor-counter::after {
+            content: ' COINS!';
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        /* Nintendo Menu Sound Effect Simulation */
+        body.nintendo-theme .nineties-nav-table td:hover::after {
+            content: '♪';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            color: #FFD700;
+            font-size: 16px;
+            animation: menu-sound 0.3s ease-out;
+        }
+        
+        @keyframes menu-sound {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(1) translateY(-20px); }
+        }
+        
+        /* Nintendo Marquee Special Effects */
+        body.nintendo-theme .nintendo-marquee {
+            background: linear-gradient(45deg, #E60012, #FF4444, #FFD700, #00A652, #5C94FC);
+            background-size: 400% 100%;
+            animation: nintendo-rainbow-scroll 4s linear infinite;
+            border: 3px solid #FFD700;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 0px #000;
+            font-weight: bold;
+        }
+        
+        /* Nintendo Theme Game UI Elements */
+        body.nintendo-theme .guestbook-form::before {
+            content: '🎮 MULTIPLAYER LOBBY 🎮';
+            display: block;
+            text-align: center;
+            background: #E60012;
+            color: #FFFFFF;
+            padding: 10px;
+            margin: -10px -10px 10px -10px;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #000;
+        }
+        
+        body.nintendo-theme .webring::before {
+            content: '🌟 WARP ZONE 🌟';
+            display: block;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #FFD700;
+            text-shadow: 2px 2px 0px #E60012;
         }
         
         /* Matrix Digital Rain Canvas */
@@ -901,6 +1322,28 @@
             body.nintendo-theme::before {
                 background-size: 30px 30px, 40px 40px, 50px 50px;
             }
+            
+            /* Reduce Nintendo decorative elements on small screens */
+            body.nintendo-theme .nintendo-world-title::before {
+                left: -25px;
+                font-size: 14px;
+                padding: 1px 3px;
+            }
+            
+            body.nintendo-theme .nintendo-skill::after {
+                right: -15px;
+                font-size: 12px;
+            }
+            
+            body.nintendo-theme .ascii-border::before {
+                font-size: 14px;
+                padding: 3px 5px;
+            }
+            
+            body.nintendo-theme .skill-fill::after {
+                right: -15px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -977,8 +1420,8 @@
         </center>
 
         <!-- Marquee Text -->
-        <marquee behavior="scroll" direction="left" scrollamount="8" class="nineties-marquee">
-            >>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! 
+        <marquee behavior="scroll" direction="left" scrollamount="8" class="nineties-marquee nintendo-marquee">
+            >>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Let's-a-go! Yahoo! Poyo! >>> Press Start to Continue! >>> Collecting Power Stars since 1996! >>> Dream Land awaits! >>> It's-a-me, Griffin! >>> 
         </marquee>
 
         <!-- Main Content in 90s Style -->
@@ -986,72 +1429,85 @@
             <!-- About Section -->
             <div id="nineties-about" class="nineties-section">
                 <h2 class="nineties-section-title">
-                    <span class="flame-text">WELCOME TO MY HOMEPAGE!</span>
+                    <span class="flame-text nintendo-world-title">WORLD 1-1: WELCOME TO MY HOMEPAGE! LET'S-A-GO!</span>
                 </h2>
                 <div class="ascii-border">
 ╔══════════════════════════════════════════╗
-║ Hey there, cyber-surfer! =)              ║
+║ Hey there, cyber-surfer! WAHOO! =)      ║
 ║                                          ║
-║ I'm Griffin, and this is my slice of    ║
-║ the World Wide Web! I'm a computer      ║
-║ science wizard who's totally passionate ║
-║ about artificial intelligence and       ║
-║ making rad software.                     ║
+║ It's-a-me, Griffin! Welcome to my slice ║
+║ of the digital Dream Land! I'm a        ║
+║ computer science wizard who's totally    ║
+║ passionate about artificial intelligence ║
+║ and making rad software. Poyo! ⭐       ║
 ║                                          ║
-║ When I'm not coding, you can find me    ║
-║ conquering mountain trails or pumping   ║
-║ iron at the gym. I believe in being     ║
-║ totally well-rounded - mind AND body!   ║
+║ When I'm not coding power-ups, you can  ║
+║ find me conquering mountain trails or   ║
+║ pumping iron at the gym. I believe in   ║
+║ being totally well-rounded - mind AND    ║
+║ body! Just like collecting Power Stars! ║
+║ Yahoo! 🍄⭐🔥👑                         ║
 ╚══════════════════════════════════════════╝
                 </div>
                 <center>
                     <div class="spinning-email">@</div>
-                    <div class="nineties-blink">CODING SINCE THE DIAL-UP DAYS!</div>
+                    <div class="nineties-blink nintendo-press-start">PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS! 🪙</div>
                 </center>
             </div>
 
             <!-- Resume Section -->
             <div id="nineties-resume" class="nineties-section">
-                <h2 class="nineties-section-title rainbow-text">MY RESUME</h2>
+                <h2 class="nineties-section-title rainbow-text nintendo-world-title">WORLD 2-1: HIGH SCORE RESUME! 🌟👑</h2>
                 <div class="ascii-art">
 ┌─────────────────────────────────────────┐
 │ EXPERIENCE                              │
 ├─────────────────────────────────────────┤
-│ ▸ Lead AI Engineer @ TrueFlow AI       │
-│   Making CRMs smart with LLMs! :-)     │
+│ ⭐ BOSS LEVEL: Lead AI Engineer         │
+│   @ TrueFlow AI - Making CRMs smart    │
+│   with LLMs! Yahoo! Got the Power Star!│
 │                                         │
-│ ▸ Podcaster @ Malestrum                │
-│   Father-son talks that rock! 8-)     │
+│ 🎤 SPECIAL STAGE: Podcaster @ Malestrum│
+│   Father-son talks that rock! Poyo!    │
+│   Achievement Unlocked! ⭐              │
 │                                         │
-│ ▸ Founding Engineer @ Coherascent      │
-│   Mental/physical health tech! \o/     │
+│ 🍄 POWER-UP: Founding Engineer         │
+│   @ Coherascent - Mental/physical      │
+│   health tech! 1-UP for wellness!      │
 │                                         │
-│ ▸ AI Math Trainer @ Outlier            │
-│   Teaching robots calculus! =D         │
+│ 🧮 MINI-GAME: AI Math Trainer @ Outlier│
+│   Teaching robots calculus! Wahoo!     │
+│   Mathematical Fire Flower! 🔥         │
 │                                         │
-│ ▸ Cybersecurity Intern @ JeffCo        │
-│   Keeping the county safe! [*]         │
+│ 🛡️ FORTRESS: Cybersecurity @ JeffCo    │
+│   Keeping the county safe from Bowser! │
+│   Guardian of Dream Land! 👑           │
 │                                         │
-│ ▸ Software Intern @ CACI               │
-│   Navigation for the visually impaired!│
+│ 🗺️ QUEST: Software Intern @ CACI       │
+│   Navigation for the visually impaired │
+│   It's-a-me helping people! 🪙         │
 │                                         │
-│ ▸ Resident Advisor @ Mines             │
-│   Dorm life coordinator! ^_^           │
+│ 🏰 CASTLE: Resident Advisor @ Mines    │
+│   Dorm life coordinator! Mamma mia!    │
+│   Kirby's Helper to Friends! ⭐        │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
 │ EDUCATION                               │
 ├─────────────────────────────────────────┤
-│ Colorado School of Mines /\\           │
-│ Combined BS+MS Computer Science        │
-│ 2020-2025 (That's right, BOTH!)       │
+│ 🏫 FINAL WORLD: Colorado School of     │
+│ Mines - Combined BS+MS Computer Science│
+│ 2020-2025 (Double degree! Poyo!)      │
+│ Like getting TWO Power Stars! ⭐⭐      │
 │                                         │
-│ Focus: AI/ML & Data Science [o]        │
-│ Making computers think since 2020! @_@ │
+│ 🎯 SPECIAL ABILITY: AI/ML & Data       │
+│ Science - Making computers think       │
+│ since 2020! Let's-a-go into the       │
+│ future of Dream Land! Wahoo! 🍄        │
 │                                         │
-│ Santa Fe Prep School *|*               │
-│ 2015-2020                              │
-│ Track Captain & Theater Star! >:D      │
+│ 🎭 TUTORIAL LEVEL: Santa Fe Prep       │
+│ School 2015-2020 - Track Captain &    │
+│ Theater Star! Building skills like     │
+│ Kirby copying abilities! Yahoo! 👑     │
 └─────────────────────────────────────────┘
                 </div>
             </div>
@@ -1059,35 +1515,35 @@
             <!-- Skills Section -->
             <div id="nineties-skills" class="nineties-section">
                 <h2 class="nineties-section-title">
-                    <span class="rotating-3d">WHAT I KNOW</span>
+                    <span class="rotating-3d nintendo-world-title">WORLD 3-1: LEVEL UP! MY POWER-UPS & ABILITIES! 🍄⭐👑</span>
                 </h2>
                 <div class="skills-bars">
                     <div class="skill-bar">
-                        <div class="skill-name">&lt;/&gt; HTML/CSS</div>
+                        <div class="skill-name nintendo-skill">&lt;/&gt; HTML/CSS Power-Up!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 95%;">95%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">[JS] JavaScript</div>
+                        <div class="skill-name nintendo-skill">[JS] JavaScript Fire Flower!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 90%;">90%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">~ Python</div>
+                        <div class="skill-name nintendo-skill">🐍 Python Super Mushroom!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 93%;">93%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">{AI} AI/ML</div>
+                        <div class="skill-name nintendo-skill">{AI} AI/ML Star Power!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 88%;">88%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">[DB] Databases</div>
+                        <div class="skill-name nintendo-skill">[DB] Database Warp Pipe!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 85%;">85%</div>
                         </div>
@@ -1095,29 +1551,29 @@
                 </div>
                 <br>
                 <h3 style="color: #00FFFF; text-align: center; font-size: 20px;">
-                    <span class="nineties-blink">*** PEOPLE SKILLS ***</span>
+                    <span class="nineties-blink nintendo-people-skills">*** FRIENDSHIP ABILITIES LIKE KIRBY! ***</span>
                 </h3>
                 <div class="skills-bars">
                     <div class="skill-bar">
-                        <div class="skill-name">(*) Communication</div>
+                        <div class="skill-name nintendo-skill">(*) Communication Copy Ability!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 92%;">92%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">[o] Presentations</div>
+                        <div class="skill-name nintendo-skill">[o] Presentation Microphone!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 89%;">89%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">^_^ Community Building</div>
+                        <div class="skill-name nintendo-skill">^_^ Dream Land Community!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 94%;">94%</div>
                         </div>
                     </div>
                     <div class="skill-bar">
-                        <div class="skill-name">:-) Being Talkative</div>
+                        <div class="skill-name nintendo-skill">:-) Chatty like King Dedede!</div>
                         <div class="skill-progress">
                             <div class="skill-fill" style="width: 96%;">96%</div>
                         </div>
@@ -1128,7 +1584,7 @@
             <!-- Projects Section -->
             <div id="nineties-projects" class="nineties-section">
                 <h2 class="nineties-section-title">
-                    <span class="flame-text">COOL STUFF I MADE</span>
+                    <span class="flame-text nintendo-world-title">WORLD 4-1: BOSS BATTLES! COOL STUFF I MADE 🔥👑</span>
                 </h2>
                 <center>
                     <table border="3" cellpadding="15" cellspacing="8" bgcolor="#000000">
@@ -1152,13 +1608,13 @@
                 </center>
                 <br>
                 <center>
-                    <div class="nineties-blink">*** ALL PROJECTS 100% Y2K COMPLIANT! ***</div>
+                    <div class="nineties-blink nintendo-achievement">*** ACHIEVEMENT UNLOCKED: ALL PROJECTS 100% Y2K COMPLIANT! GAME COMPLETE! 🍄⭐***</div>
                 </center>
             </div>
 
             <!-- Guestbook Section -->
             <div class="guestbook">
-                <h2 class="nineties-section-title rainbow-text">SIGN MY GUESTBOOK!</h2>
+                <h2 class="nineties-section-title rainbow-text nintendo-world-title">WORLD 5-1: MULTIPLAYER MODE! SIGN MY GUESTBOOK! 🍄⭐</h2>
                 <div class="guestbook-form">
                     <form onsubmit="event.preventDefault(); alert('Thanks for signing my guestbook! Your message has been saved to my floppy disk! [SAVE]'); return false;">
                         <table width="100%" cellpadding="5">
@@ -1219,7 +1675,7 @@
             <!-- Contact Section -->
             <div class="nineties-section">
                 <h2 class="nineties-section-title">
-                    <span class="rainbow-text">FIND ME ON THE INFORMATION SUPERHIGHWAY!</span>
+                    <span class="rainbow-text nintendo-world-title">WORLD 6-1: WARP ZONE! FIND ME ON THE INFORMATION SUPERHIGHWAY! 🪙👑</span>
                 </h2>
                 <center>
                     <table border="3" cellpadding="10" bgcolor="#000">
@@ -1376,6 +1832,61 @@
             }
         }
         
+        // Additional Nintendo sound effects
+        function playPowerUpSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Power-up sound (Mario mushroom style)
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime); // E5
+                oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.1); // G5
+                oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.2); // C6
+                oscillator.frequency.setValueAtTime(1318.51, audioContext.currentTime + 0.3); // E6
+                oscillator.frequency.setValueAtTime(1567.98, audioContext.currentTime + 0.4); // G6
+                
+                oscillator.type = 'square';
+                
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.6);
+            } catch (e) {
+                console.log('Audio not supported or blocked');
+            }
+        }
+        
+        function playKirbySound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Kirby "Poyo!" sound (bouncy melody)
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime + 0.1); // C5
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
+                
+                oscillator.type = 'triangle'; // Softer sound for Kirby
+                
+                gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.4);
+            } catch (e) {
+                console.log('Audio not supported or blocked');
+            }
+        }
+        
         function initializeTheme() {
             const body = document.body;
             const toggleBtn = document.getElementById('theme-toggle');
@@ -1525,7 +2036,89 @@
             if (toggleBtn) {
                 toggleBtn.addEventListener('click', toggleTheme);
             }
+            
+            // Add Nintendo theme-specific interactions
+            setupNintendoInteractions();
         });
+        
+        function setupNintendoInteractions() {
+            // Add click sounds to navigation when in Nintendo theme
+            const navButtons = document.querySelectorAll('.nineties-nav-table td');
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (document.body.classList.contains('nintendo-theme')) {
+                        playNintendoSound();
+                    }
+                });
+            });
+            
+            // Add power-up sound to skill bars when hovered in Nintendo theme
+            const skillBars = document.querySelectorAll('.skill-bar');
+            skillBars.forEach(skillBar => {
+                skillBar.addEventListener('mouseenter', function() {
+                    if (document.body.classList.contains('nintendo-theme')) {
+                        setTimeout(() => playPowerUpSound(), 200);
+                    }
+                });
+            });
+            
+            // Add Kirby sound to people skills section
+            const peopleSkillsTitle = document.querySelector('.nintendo-people-skills');
+            if (peopleSkillsTitle) {
+                peopleSkillsTitle.addEventListener('click', function() {
+                    if (document.body.classList.contains('nintendo-theme')) {
+                        playKirbySound();
+                    }
+                });
+            }
+            
+            // Add special click effects to Nintendo world titles
+            const worldTitles = document.querySelectorAll('.nintendo-world-title');
+            worldTitles.forEach(title => {
+                title.addEventListener('click', function() {
+                    if (document.body.classList.contains('nintendo-theme')) {
+                        // Create a temporary "1UP" effect
+                        const oneUp = document.createElement('div');
+                        oneUp.textContent = '1UP!';
+                        oneUp.style.position = 'absolute';
+                        oneUp.style.color = '#00A652';
+                        oneUp.style.fontWeight = 'bold';
+                        oneUp.style.fontSize = '16px';
+                        oneUp.style.pointerEvents = 'none';
+                        oneUp.style.zIndex = '1000';
+                        oneUp.style.animation = 'float-up 1s ease-out forwards';
+                        
+                        // Position near the clicked title
+                        const rect = title.getBoundingClientRect();
+                        oneUp.style.left = (rect.left + rect.width / 2) + 'px';
+                        oneUp.style.top = (rect.top - 10) + 'px';
+                        
+                        document.body.appendChild(oneUp);
+                        playPowerUpSound();
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            if (oneUp.parentNode) {
+                                oneUp.parentNode.removeChild(oneUp);
+                            }
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Add CSS for float-up animation if not exists
+            if (!document.getElementById('nintendo-interactions-styles')) {
+                const style = document.createElement('style');
+                style.id = 'nintendo-interactions-styles';
+                style.textContent = `
+                    @keyframes float-up {
+                        0% { opacity: 1; transform: translateY(0px) scale(1); }
+                        100% { opacity: 0; transform: translateY(-50px) scale(1.2); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
         
         // AOL Dial-up Experience
         const dialupMessages = [

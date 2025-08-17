@@ -72,6 +72,35 @@
     line-height: 1.6;
 }
 
+/* Comic font option for modern mode if needed */
+.main-content.comic-font {
+    font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
+}
+
+/* Font loading optimization for slower connections */
+@supports (font-display: swap) {
+    .nineties-wrapper {
+        font-display: swap;
+    }
+}
+
+/* Ensure font consistency across different mobile browsers */
+@media screen and (max-width: 768px) {
+    .nineties-wrapper {
+        /* Force font re-evaluation on mobile for better Comic Neue loading */
+        font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', 'Apple Chancery', 'Bradley Hand', cursive, fantasy, sans-serif;
+    }
+}
+
+/* WebKit-specific optimizations for iOS Safari and Chrome Mobile */
+@supports (-webkit-appearance: none) {
+    .nineties-wrapper {
+        -webkit-font-feature-settings: "kern" 1;
+        font-feature-settings: "kern" 1;
+        text-rendering: optimizeLegibility;
+    }
+}
+
 /* LinkedIn Section */
 .linkedin-section {
     margin-bottom: 2rem;
@@ -774,6 +803,24 @@ h3 {
    90s MODE STYLES - TOTALLY RADICAL! 
    ======================================== */
 
+/* FONT SOLUTION FOR MOBILE COMPATIBILITY:
+   - Primary: 'Comic Neue' (Google Fonts) - Modern, mobile-compatible Comic Sans alternative
+   - Fallback 1: 'Comic Sans MS' - Original font for desktop Windows/Mac
+   - Fallback 2: 'Comic Sans' - Alternate reference for some systems
+   - Fallback 3: 'Chalkboard SE' - macOS casual font
+   - Fallback 4: 'Marker Felt' - Another macOS casual font
+   - Fallback 5: 'Trebuchet MS' - Casual serif-like font
+   - Fallback 6: 'Apple Chancery' - Mobile iOS fallback (added in mobile media query)
+   - Fallback 7: 'Bradley Hand' - Another iOS casual font fallback
+   - Final: cursive, fantasy, sans-serif - Generic CSS font families
+   
+   This stack ensures:
+   ✓ iOS Safari compatibility
+   ✓ Chrome Mobile (Android) compatibility
+   ✓ Desktop browser compatibility
+   ✓ Graceful degradation on all devices
+   */
+
 /* 90s Toggle Button */
 .nineties-toggle-btn {
     background: linear-gradient(45deg, #FF00FF, #00FFFF);
@@ -802,8 +849,8 @@ h3 {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    /* Enhanced font stack for better mobile compatibility */
-    font-family: 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Comic Neue', cursive, fantasy, sans-serif;
+    /* Enhanced font stack for better mobile compatibility with Comic Neue primary */
+    font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
 }
 
 /* Starfield Background */

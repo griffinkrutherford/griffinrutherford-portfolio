@@ -1440,15 +1440,15 @@
                 </h2>
                 <div class="ascii-border">
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║ <span data-theme-text="welcomeGreeting">Hey there, cyber-surfer! =)</span>                                                ║
+║ <span data-theme-text="welcomeGreeting">Hey there, cyber-surfer! =)</span>                                                 ║
 ║                                                                              ║
-║ <span data-theme-text="welcomeIntro">Welcome to my slice of the digital world! I'm a computer science        ║
-║ wizard who's totally passionate about artificial intelligence and making    ║
-║ rad software.</span>                                                         ║
+║ <span data-theme-text="welcomeIntro1">Welcome to my slice of the digital world! I'm a computer science</span>     ║
+║ <span data-theme-text="welcomeIntro2">wizard who's totally passionate about artificial intelligence and</span>     ║
+║ <span data-theme-text="welcomeIntro3">making rad software.</span>                                                 ║
 ║                                                                              ║
-║ <span data-theme-text="welcomeBody">When I'm not coding, you can find me conquering mountain trails or      ║
-║ pumping iron at the gym. I believe in being totally well-rounded - mind     ║
-║ AND body!</span>                                                             ║
+║ <span data-theme-text="welcomeBody1">When I'm not coding, you can find me conquering mountain trails or</span>    ║
+║ <span data-theme-text="welcomeBody2">pumping iron at the gym. I believe in being totally well-rounded -</span>    ║
+║ <span data-theme-text="welcomeBody3">mind AND body!</span>                                                        ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
                 </div>
                 <center>
@@ -1812,8 +1812,12 @@
                 marquee: ">>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Totally radical coding since 1996! >>> ",
                 welcomeTitle: "WELCOME TO MY HOMEPAGE!",
                 welcomeGreeting: "Hey there, cyber-surfer! =)",
-                welcomeIntro: "Welcome to my slice of the digital world! I'm a computer science wizard who's totally passionate about artificial intelligence and making rad software.",
-                welcomeBody: "When I'm not coding, you can find me conquering mountain trails or pumping iron at the gym. I believe in being totally well-rounded - mind AND body!",
+                welcomeIntro1: "Welcome to my slice of the digital world! I'm a computer science",
+                welcomeIntro2: "wizard who's totally passionate about artificial intelligence and",
+                welcomeIntro3: "making rad software.",
+                welcomeBody1: "When I'm not coding, you can find me conquering mountain trails or",
+                welcomeBody2: "pumping iron at the gym. I believe in being totally well-rounded -",
+                welcomeBody3: "mind AND body!",
                 welcomePress: "PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS!",
                 resumeTitle: "MY RESUME",
                 skillsTitle: "WHAT I KNOW",
@@ -1827,8 +1831,12 @@
                 marquee: ">>> ACCESSING MAINFRAME... <<< SECURITY PROTOCOLS ACTIVE <<< UNAUTHORIZED ACCESS DETECTED <<< INITIATING COUNTERMEASURES <<< THE MATRIX HAS YOU... <<< FOLLOW THE WHITE RABBIT... >>> ",
                 welcomeTitle: "SYSTEM ACCESS GRANTED",
                 welcomeGreeting: "Welcome to the real world, Neo.",
-                welcomeIntro: "You have entered the construct. I am a digital architect who specializes in artificial intelligence and system manipulation.",
-                welcomeBody: "When not jacked into the Matrix, I maintain physical form through training protocols. The mind and body must be equally sharp.",
+                welcomeIntro1: "You have entered the construct. I am a digital architect who",
+                welcomeIntro2: "specializes in artificial intelligence and system manipulation.",
+                welcomeIntro3: "The code is everywhere.",
+                welcomeBody1: "When not jacked into the Matrix, I maintain physical form through",
+                welcomeBody2: "training protocols. The mind and body must be equally sharp.",
+                welcomeBody3: "Free your mind.",
                 welcomePress: "PRESS ANY KEY TO CONTINUE... SYSTEM ONLINE",
                 resumeTitle: "AGENT PROFILE DATABASE",
                 skillsTitle: "DOWNLOADED ABILITIES & PROGRAMS",
@@ -1842,8 +1850,12 @@
                 marquee: ">>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Let's-a-go! Yahoo! Poyo! >>> Press Start to Continue! >>> Collecting Power Stars since 1996! >>> Dream Land awaits! >>> It's-a-me, Griffin! >>> ",
                 welcomeTitle: "WORLD 1-1: WELCOME TO MY HOMEPAGE! LET'S-A-GO!",
                 welcomeGreeting: "Hey there, cyber-surfer! WAHOO! =)",
-                welcomeIntro: "It's-a-me, Griffin! Welcome to my slice of the digital Dream Land! I'm a computer science wizard who's totally passionate about artificial intelligence and making rad software. Poyo! ⭐",
-                welcomeBody: "When I'm not coding power-ups, you can find me conquering mountain trails or pumping iron at the gym. I believe in being totally well-rounded - mind AND body! Just like collecting Power Stars! Yahoo! 🍄⭐🔥👑",
+                welcomeIntro1: "It's-a-me, Griffin! Welcome to my digital Dream Land! I'm a",
+                welcomeIntro2: "computer science wizard who's totally passionate about AI and",
+                welcomeIntro3: "making rad software. Poyo! ⭐",
+                welcomeBody1: "When I'm not coding power-ups, you can find me conquering",
+                welcomeBody2: "mountain trails or pumping iron. I believe in being well-rounded -",
+                welcomeBody3: "mind AND body! Yahoo! 🍄⭐",
                 welcomePress: "PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS! 🪙",
                 resumeTitle: "WORLD 2-1: HIGH SCORE RESUME! 🌟👑",
                 skillsTitle: "WORLD 3-1: LEVEL UP! MY POWER-UPS & ABILITIES! 🍄⭐👑",
@@ -2020,6 +2032,10 @@
             // Remove all theme classes
             body.classList.remove('matrix-theme', 'nintendo-theme');
             stopMatrixRain();
+            // Clean up Nintendo theme if it was active
+            if (window.nintendoTheme && window.nintendoTheme.isActive) {
+                window.nintendoTheme.destroy();
+            }
             
             switch(currentTheme) {
                 case 'matrix':
@@ -2032,6 +2048,11 @@
                     body.classList.add('nintendo-theme');
                     toggleIcon.textContent = '[o]';
                     toggleText.textContent = '90s Mode';
+                    // Initialize Nintendo sprite theme if available
+                    if (window.NintendoTheme) {
+                        window.nintendoTheme = new NintendoTheme();
+                        window.nintendoTheme.init();
+                    }
                     break;
                 default: // nineties
                     toggleIcon.textContent = '===';
@@ -2056,6 +2077,10 @@
             // Remove all theme classes
             body.classList.remove('matrix-theme', 'nintendo-theme');
             stopMatrixRain();
+            // Clean up Nintendo theme if it was active
+            if (window.nintendoTheme && window.nintendoTheme.isActive) {
+                window.nintendoTheme.destroy();
+            }
             
             // Apply new theme
             switch(currentTheme) {

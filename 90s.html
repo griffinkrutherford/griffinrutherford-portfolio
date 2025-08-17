@@ -340,6 +340,446 @@
             display: none;
         }
         
+        /* Nintendo Theme Styles */
+        body.nintendo-theme {
+            background: linear-gradient(135deg, #5C94FC, #87CEEB);
+            color: #4D4D4D;
+            font-family: 'Comic Neue', 'Arial Rounded MT Bold', 'Helvetica Rounded', sans-serif;
+        }
+        
+        body.nintendo-theme .theme-toggle-btn {
+            background: linear-gradient(45deg, #E60012, #FF4444);
+            border: 3px solid #FFD700;
+            color: #FFFFFF;
+            box-shadow: 0 0 15px rgba(230, 0, 18, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body.nintendo-theme .theme-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+            z-index: -1;
+            border-radius: inherit;
+            animation: nintendo-coin-spin 2s linear infinite;
+        }
+        
+        body.nintendo-theme .theme-toggle-btn:hover {
+            background: linear-gradient(45deg, #FF0000, #FF6666);
+            box-shadow: 0 0 25px rgba(230, 0, 18, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: scale(1.05) translateY(-2px);
+            animation: nintendo-bounce 0.6s ease-in-out infinite alternate;
+        }
+        
+        @keyframes nintendo-coin-spin {
+            0% { transform: rotate(0deg); opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { transform: rotate(360deg); opacity: 0.7; }
+        }
+        
+        @keyframes nintendo-bounce {
+            0% { transform: scale(1.05) translateY(-2px); }
+            100% { transform: scale(1.1) translateY(-4px); }
+        }
+        
+        @keyframes nintendo-power-up {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+        
+        @keyframes nintendo-star-twinkle {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* Nintendo Theme Overrides */
+        body.nintendo-theme .nineties-wrapper {
+            background: linear-gradient(135deg, #5C94FC, #87CEEB);
+            font-family: 'Comic Neue', 'Arial Rounded MT Bold', sans-serif;
+        }
+        
+        body.nintendo-theme .nineties-header {
+            background: linear-gradient(135deg, #E60012, #FF4444, #E60012);
+            border: 5px solid #FFD700;
+            box-shadow: 0 0 30px rgba(230, 0, 18, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        body.nintendo-theme .nineties-header::before {
+            content: '★';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 24px;
+            color: #FFD700;
+            animation: nintendo-star-twinkle 2s ease-in-out infinite;
+        }
+        
+        body.nintendo-theme .nineties-header::after {
+            content: '★';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            color: #FFD700;
+            animation: nintendo-star-twinkle 2s ease-in-out infinite 1s;
+        }
+        
+        body.nintendo-theme .nineties-title-container {
+            background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+            border: 3px solid #E60012;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body.nintendo-theme .nineties-title-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: nintendo-shine 3s ease-in-out infinite;
+        }
+        
+        @keyframes nintendo-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        body.nintendo-theme .nineties-blink {
+            color: #E60012;
+            text-shadow: 2px 2px 0px #FFD700, -2px -2px 0px #FFD700, 2px -2px 0px #FFD700, -2px 2px 0px #FFD700;
+            animation: nintendo-power-up 1.5s infinite;
+        }
+        
+        body.nintendo-theme .rainbow-text {
+            background: linear-gradient(to right, #E60012, #FF4444, #FFD700, #00A652, #5C94FC, #E60012);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nintendo-rainbow-scroll 4s linear infinite;
+            text-shadow: none;
+        }
+        
+        @keyframes nintendo-rainbow-scroll {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        
+        body.nintendo-theme .nineties-subtitle {
+            color: #4D4D4D;
+            text-shadow: 1px 1px 0px #FFFFFF;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .under-construction {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #E60012;
+            border: 3px solid #E60012;
+            animation: nintendo-power-up 1s infinite;
+            border-radius: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #FFFFFF;
+        }
+        
+        body.nintendo-theme .nineties-nav-table td {
+            background: linear-gradient(135deg, #FFFFFF, #F0F0F0);
+            border: 3px solid #E60012;
+            color: #4D4D4D;
+            font-weight: bold;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body.nintendo-theme .nineties-nav-table td::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.2) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        body.nintendo-theme .nineties-nav-table td:hover {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 0 15px rgba(230, 0, 18, 0.5);
+            transform: scale(1.05) translateY(-2px);
+            color: #FFFFFF;
+            text-shadow: 1px 1px 0px #E60012;
+        }
+        
+        body.nintendo-theme .nineties-nav-table td:hover::before {
+            opacity: 1;
+        }
+        
+        body.nintendo-theme .nineties-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+            border: 5px solid #E60012;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(230, 0, 18, 0.3);
+            position: relative;
+        }
+        
+        body.nintendo-theme .nineties-section::before {
+            content: '🍄';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 30px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            padding: 5px;
+            border: 2px solid #E60012;
+        }
+        
+        body.nintendo-theme .nineties-section h2 {
+            background: linear-gradient(90deg, #E60012, #FF4444, #FFD700, #00A652, #5C94FC, #E60012);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nintendo-rainbow-scroll 4s linear infinite;
+            text-shadow: none;
+        }
+        
+        body.nintendo-theme .visitor-counter {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #E60012;
+            border: 3px solid #E60012;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(230, 0, 18, 0.4);
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .counter-digit {
+            background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+            color: #E60012;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.nintendo-theme .nineties-marquee {
+            background: linear-gradient(45deg, #00A652, #4CBB17);
+            color: #FFFFFF;
+            border: 3px solid #FFD700;
+            border-radius: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+        }
+        
+        body.nintendo-theme .guestbook {
+            background: linear-gradient(135deg, #FFFFFF, #F8F8F8);
+            border: 5px solid #E60012;
+            border-radius: 20px;
+        }
+        
+        body.nintendo-theme .guestbook-form {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: 3px solid #E60012;
+            border-radius: 15px;
+        }
+        
+        body.nintendo-theme .guestbook-form input,
+        body.nintendo-theme .guestbook-form textarea {
+            background: #FFFFFF;
+            color: #4D4D4D;
+            border: 2px solid #E60012;
+            border-radius: 8px;
+            font-family: 'Comic Neue', sans-serif;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .guestbook-form input:focus,
+        body.nintendo-theme .guestbook-form textarea:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            outline: none;
+        }
+        
+        body.nintendo-theme .guestbook-submit {
+            background: linear-gradient(180deg, #E60012, #B50000);
+            border: 3px solid #FFD700;
+            color: #FFFFFF;
+            border-radius: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        body.nintendo-theme .guestbook-submit:hover {
+            background: linear-gradient(180deg, #FF0000, #CC0000);
+            transform: scale(1.05);
+            animation: nintendo-bounce 0.6s ease-in-out infinite alternate;
+        }
+        
+        body.nintendo-theme .webring {
+            background: linear-gradient(45deg, #5C94FC, #87CEEB);
+            color: #FFFFFF;
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+        }
+        
+        body.nintendo-theme .webring-nav a {
+            color: #E60012;
+            border: 2px solid #E60012;
+            background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        body.nintendo-theme .webring-nav a:hover {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #FFFFFF;
+            box-shadow: 0 0 15px rgba(230, 0, 18, 0.5);
+            transform: scale(1.1);
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+        }
+        
+        body.nintendo-theme .badges-section {
+            background: repeating-linear-gradient(
+                45deg,
+                #FFFFFF,
+                #FFFFFF 15px,
+                #F0F0F0 15px,
+                #F0F0F0 30px
+            );
+            border-radius: 15px;
+            border: 3px solid #E60012;
+        }
+        
+        body.nintendo-theme .badge {
+            filter: none;
+            animation: nintendo-power-up 3s ease-in-out infinite;
+        }
+        
+        body.nintendo-theme .midi-player {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: 3px solid #E60012;
+            border-radius: 15px;
+        }
+        
+        body.nintendo-theme .midi-display {
+            background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+            color: #E60012;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .midi-controls {
+            color: #E60012;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .ascii-art,
+        body.nintendo-theme .ascii-border {
+            background: linear-gradient(45deg, #FFFFFF, #F8F8F8);
+            color: #4D4D4D;
+            border: 3px solid #E60012;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme .skill-name {
+            color: #E60012;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.nintendo-theme .skill-progress {
+            background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+            border: 2px solid #E60012;
+            border-radius: 10px;
+        }
+        
+        body.nintendo-theme .skill-fill {
+            background: linear-gradient(90deg, #00A652, #4CBB17, #FFD700);
+            color: #FFFFFF;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+        }
+        
+        body.nintendo-theme .flame-text {
+            background: linear-gradient(to bottom, #E60012, #FF4444, #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nintendo-power-up 2s ease-in-out infinite;
+        }
+        
+        body.nintendo-theme .rotating-3d {
+            color: #E60012;
+            text-shadow: 2px 2px 0px #FFD700, -2px -2px 0px #FFD700;
+            animation: nintendo-power-up 3s ease-in-out infinite;
+        }
+        
+        body.nintendo-theme .counter-label,
+        body.nintendo-theme .counter-since {
+            color: #E60012;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.nintendo-theme .spinning-email {
+            color: #FFD700;
+            animation: nintendo-coin-spin 2s linear infinite;
+            font-size: 24px;
+        }
+        
+        body.nintendo-theme a {
+            color: #E60012;
+            transition: color 0.3s ease;
+            font-weight: bold;
+        }
+        
+        body.nintendo-theme a:hover {
+            color: #FFD700;
+            text-shadow: 1px 1px 0px #E60012;
+        }
+        
+        /* Nintendo Background Pattern */
+        body.nintendo-theme::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 80%, rgba(230, 0, 18, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 40% 60%, rgba(0, 166, 82, 0.1) 2px, transparent 2px);
+            background-size: 50px 50px, 70px 70px, 90px 90px;
+            animation: nintendo-float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes nintendo-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
         /* Matrix Digital Rain Canvas */
         #matrix-canvas {
             position: fixed;
@@ -444,6 +884,23 @@
             body.matrix-theme::before {
                 display: none; /* Disable scanlines on very small screens */
             }
+            
+            /* Nintendo theme mobile optimizations */
+            body.nintendo-theme .nineties-header::before,
+            body.nintendo-theme .nineties-header::after {
+                font-size: 16px;
+                top: 5px;
+            }
+            
+            body.nintendo-theme .nineties-section::before {
+                font-size: 20px;
+                top: -10px;
+                left: 10px;
+            }
+            
+            body.nintendo-theme::before {
+                background-size: 30px 30px, 40px 40px, 50px 50px;
+            }
         }
     </style>
 </head>
@@ -457,7 +914,7 @@
         <!-- Theme Toggle Buttons -->
         <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
             <button id="theme-toggle" class="theme-toggle-btn">
-                <span class="theme-toggle-icon">⊡</span>
+                <span class="theme-toggle-icon">🌈</span>
                 <span class="theme-toggle-text">Matrix Mode</span>
             </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -885,8 +1342,39 @@
     <canvas id="matrix-canvas"></canvas>
     
     <script>
-        // Theme Toggle Functionality
-        let currentTheme = localStorage.getItem('theme') || 'nineties';
+        // Theme Toggle Functionality - Three Themes
+        const themes = ['nineties', 'matrix', 'nintendo'];
+        let currentThemeIndex = parseInt(localStorage.getItem('themeIndex')) || 0;
+        let currentTheme = themes[currentThemeIndex];
+        
+        // Nintendo sound effects
+        function playNintendoSound() {
+            // Create a simple 8-bit style beep using Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Play a coin-like sound (ascending notes)
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+                oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+                oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.3); // C6
+                
+                oscillator.type = 'square'; // 8-bit style square wave
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('Audio not supported or blocked');
+            }
+        }
         
         function initializeTheme() {
             const body = document.body;
@@ -894,16 +1382,26 @@
             const toggleIcon = document.querySelector('.theme-toggle-icon');
             const toggleText = document.querySelector('.theme-toggle-text');
             
-            if (currentTheme === 'matrix') {
-                body.classList.add('matrix-theme');
-                toggleIcon.textContent = '⊞';
-                toggleText.textContent = '90s Mode';
-                initMatrixRain();
-            } else {
-                body.classList.remove('matrix-theme');
-                toggleIcon.textContent = '⊡';
-                toggleText.textContent = 'Matrix Mode';
-                stopMatrixRain();
+            // Remove all theme classes
+            body.classList.remove('matrix-theme', 'nintendo-theme');
+            stopMatrixRain();
+            
+            switch(currentTheme) {
+                case 'matrix':
+                    body.classList.add('matrix-theme');
+                    toggleIcon.textContent = '💻';
+                    toggleText.textContent = 'Nintendo Mode';
+                    initMatrixRain();
+                    break;
+                case 'nintendo':
+                    body.classList.add('nintendo-theme');
+                    toggleIcon.textContent = '🎮';
+                    toggleText.textContent = '90s Mode';
+                    break;
+                default: // nineties
+                    toggleIcon.textContent = '🌈';
+                    toggleText.textContent = 'Matrix Mode';
+                    break;
             }
         }
         
@@ -912,20 +1410,33 @@
             const toggleIcon = document.querySelector('.theme-toggle-icon');
             const toggleText = document.querySelector('.theme-toggle-text');
             
-            if (currentTheme === 'nineties') {
-                currentTheme = 'matrix';
-                body.classList.add('matrix-theme');
-                toggleIcon.textContent = '⊞';
-                toggleText.textContent = '90s Mode';
-                localStorage.setItem('theme', 'matrix');
-                initMatrixRain();
-            } else {
-                currentTheme = 'nineties';
-                body.classList.remove('matrix-theme');
-                toggleIcon.textContent = '⊡';
-                toggleText.textContent = 'Matrix Mode';
-                localStorage.setItem('theme', 'nineties');
-                stopMatrixRain();
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            currentTheme = themes[currentThemeIndex];
+            localStorage.setItem('themeIndex', currentThemeIndex.toString());
+            
+            // Remove all theme classes
+            body.classList.remove('matrix-theme', 'nintendo-theme');
+            stopMatrixRain();
+            
+            // Apply new theme
+            switch(currentTheme) {
+                case 'matrix':
+                    body.classList.add('matrix-theme');
+                    toggleIcon.textContent = '💻';
+                    toggleText.textContent = 'Nintendo Mode';
+                    initMatrixRain();
+                    break;
+                case 'nintendo':
+                    body.classList.add('nintendo-theme');
+                    toggleIcon.textContent = '🎮';
+                    toggleText.textContent = '90s Mode';
+                    playNintendoSound();
+                    break;
+                default: // nineties
+                    toggleIcon.textContent = '🌈';
+                    toggleText.textContent = 'Matrix Mode';
+                    break;
             }
         }
         

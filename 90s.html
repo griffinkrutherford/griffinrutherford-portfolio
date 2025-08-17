@@ -14,9 +14,16 @@
             margin: 0;
             padding: 0;
             background: #000080;
-            font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif;
+            font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', 'Trebuchet MS', cursive, fantasy, sans-serif !important;
             overflow-x: hidden;
             transition: all 0.5s ease;
+        }
+        
+        /* Force Comic Sans on all elements for mobile */
+        @media (max-width: 768px) {
+            body, body * {
+                font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', 'Marker Felt', cursive, fantasy, sans-serif !important;
+            }
         }
         
         /* Theme Toggle Button Styles */

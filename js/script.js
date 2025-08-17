@@ -257,6 +257,14 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log('Using computed style dimensions:', actualWidth, 'x', actualHeight);
         }
         
+        // If still no dimensions, try using viewport-based fallback
+        if (actualWidth <= 0 || actualHeight <= 0) {
+          // Use a reasonable fraction of the viewport for mobile compatibility
+          actualWidth = Math.min(500, window.innerWidth * 0.9);
+          actualHeight = actualWidth * 0.6; // Maintain 5:3 aspect ratio
+          console.log('Using viewport-based fallback dimensions:', actualWidth, 'x', actualHeight);
+        }
+        
         // Final fallback values for minimum viable canvas
         if (actualWidth <= 0) {
           console.warn('Container width is 0 or negative, using fallback of 500px');
@@ -313,10 +321,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Force a redraw after resize
         console.log('Triggering redraw after resize...');
-        requestAnimationFrame(() => {
+        setTimeout(() => {
           drawMaze();
+          drawPacman();
+          drawGhosts();
           console.log('Redraw after resize completed');
-        });
+        }, 10);
         
         return true;
         
@@ -338,8 +348,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.pacmanOffsetX = 0;
     window.pacmanOffsetY = 0;
     
-    // Resize on window resize
-    window.addEventListener('resize', resizeCanvas);
+    // Resize on window resize with debouncing
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        console.log('Window resized, updating canvas...');
+        resizeCanvas();
+      }, 100);
+    });
     
     const cols = 25; // Fixed grid size
     const rows = 15;
@@ -1546,8 +1563,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle Pac-Man click for secret page  
-    canvas.style.pointerEvents = 'auto'; // Enable clicks on canvas
-    console.log('Canvas pointer events set to auto');
+    // Don't set pointerEvents - let CSS handle it for better compatibility
+    console.log('Canvas click handler setup starting...');
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;

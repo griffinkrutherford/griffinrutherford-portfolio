@@ -507,6 +507,11 @@ document.addEventListener('DOMContentLoaded', function() {
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
+      // Ensure maze is initialized
+      if (!maze || maze.length === 0) {
+        maze = mazeTemplate.map(row => [...row]);
+      }
+      
       for (let row = 0; row < maze.length; row++) {
         for (let col = 0; col < maze[row].length; col++) {
           const cell = maze[row][col];
@@ -514,12 +519,16 @@ document.addEventListener('DOMContentLoaded', function() {
           const y = row * window.pacmanCellSize + window.pacmanOffsetY;
           
           if (cell === 1) {
-            // Draw wall with better graphics
+            // Draw wall with better graphics - brighter blue for visibility
+            ctx.fillStyle = '#2121FF';
+            ctx.fillRect(x, y, window.pacmanCellSize, window.pacmanCellSize);
+            
+            // Add darker inner rect for depth
             ctx.fillStyle = '#1919A6';
             ctx.fillRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
             
             // Add highlights
-            ctx.strokeStyle = '#2929FF';
+            ctx.strokeStyle = '#4040FF';
             ctx.lineWidth = 1;
             ctx.strokeRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
           } else if (cell === 2) {

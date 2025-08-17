@@ -1772,6 +1772,327 @@
     
     <!-- Load Nintendo Theme Script -->
     <script src="js/nintendo-theme.js"></script>
+    
+    <!-- Nintendo Sprite Container -->
+    <div id="nintendo-sprites-container"></div>
+    
+    <!-- Nintendo Theme Styles and Sprites -->
+    <style id="nintendo-sprite-styles">
+        /* Nintendo Sprite Animations */
+        .nintendo-sprite {
+            position: fixed;
+            z-index: 100;
+            pointer-events: none;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Mario Sprite using CSS */
+        .sprite-mario {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to bottom,
+                #FF0000 0%, #FF0000 30%,  /* Hat */
+                #FDB5A7 30%, #FDB5A7 50%, /* Face */
+                #FF0000 50%, #FF0000 70%, /* Shirt */
+                #0000FF 70%, #0000FF 100% /* Overalls */
+            );
+            border-radius: 30% 30% 40% 40%;
+            animation: nintendo-bounce 2s infinite;
+        }
+        
+        /* Luigi Sprite */
+        .sprite-luigi {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to bottom,
+                #00AA00 0%, #00AA00 30%,  /* Hat */
+                #FDB5A7 30%, #FDB5A7 50%, /* Face */
+                #00AA00 50%, #00AA00 70%, /* Shirt */
+                #0000FF 70%, #0000FF 100% /* Overalls */
+            );
+            border-radius: 30% 30% 40% 40%;
+            animation: nintendo-bounce 2.2s infinite;
+        }
+        
+        /* Kirby Sprite */
+        .sprite-kirby {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #FFB3D9, #FF69B4);
+            border-radius: 50%;
+            position: relative;
+            animation: nintendo-float 3s ease-in-out infinite;
+        }
+        
+        .sprite-kirby::before,
+        .sprite-kirby::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 10px;
+            background: #000;
+            border-radius: 50%;
+            top: 12px;
+        }
+        
+        .sprite-kirby::before {
+            left: 10px;
+        }
+        
+        .sprite-kirby::after {
+            right: 10px;
+        }
+        
+        /* Pikachu Sprite */
+        .sprite-pikachu {
+            width: 35px;
+            height: 35px;
+            background: #FFD700;
+            border-radius: 45% 45% 50% 50%;
+            position: relative;
+            animation: nintendo-hop 1.5s infinite;
+        }
+        
+        .sprite-pikachu::before,
+        .sprite-pikachu::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #000;
+            border-radius: 50%;
+            top: 12px;
+        }
+        
+        .sprite-pikachu::before {
+            left: 8px;
+        }
+        
+        .sprite-pikachu::after {
+            right: 8px;
+        }
+        
+        /* Mushroom Sprite */
+        .sprite-mushroom {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            animation: nintendo-pulse 2s infinite;
+        }
+        
+        .sprite-mushroom::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #FF0000;
+            border-radius: 50% 50% 0 0;
+            top: 0;
+            border: 2px solid #FFF;
+            box-sizing: border-box;
+        }
+        
+        .sprite-mushroom::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: #FFF;
+            bottom: 0;
+            left: 5px;
+            border-radius: 0 0 40% 40%;
+        }
+        
+        /* Star Sprite */
+        .sprite-star {
+            width: 30px;
+            height: 30px;
+            background: #FFD700;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: nintendo-spin 2s linear infinite, nintendo-rainbow 1s linear infinite;
+        }
+        
+        /* Question Block */
+        .sprite-question-block {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #FFA500 0%, #FFD700 50%, #FFA500 100%);
+            border: 2px solid #8B4513;
+            position: relative;
+            animation: nintendo-pulse 1s infinite;
+        }
+        
+        .sprite-question-block::after {
+            content: '?';
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFF;
+            top: 2px;
+            text-shadow: 1px 1px 0 #8B4513;
+        }
+        
+        /* Coin Sprite */
+        .sprite-coin {
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            border: 2px solid #FF8C00;
+            animation: nintendo-coin-spin 1s linear infinite;
+            position: relative;
+        }
+        
+        .sprite-coin::after {
+            content: '$';
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #8B4513;
+            top: 3px;
+        }
+        
+        /* Goomba Sprite */
+        .sprite-goomba {
+            width: 30px;
+            height: 30px;
+            background: #8B4513;
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            animation: nintendo-waddle 2s linear infinite;
+        }
+        
+        .sprite-goomba::before,
+        .sprite-goomba::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 7px;
+            background: #000;
+            top: 10px;
+        }
+        
+        .sprite-goomba::before {
+            left: 7px;
+        }
+        
+        .sprite-goomba::after {
+            right: 7px;
+        }
+        
+        /* Yoshi Sprite */
+        .sprite-yoshi {
+            width: 35px;
+            height: 40px;
+            background: #00AA00;
+            border-radius: 45% 45% 50% 50%;
+            position: relative;
+            animation: nintendo-bounce 1.8s infinite;
+        }
+        
+        .sprite-yoshi::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: #FFF;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+        }
+        
+        /* Animations */
+        @keyframes nintendo-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes nintendo-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(5deg); }
+            75% { transform: translateY(5px) rotate(-5deg); }
+        }
+        
+        @keyframes nintendo-hop {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-15px) scaleY(0.9); }
+        }
+        
+        @keyframes nintendo-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes nintendo-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes nintendo-rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        @keyframes nintendo-coin-spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        @keyframes nintendo-waddle {
+            0%, 100% { transform: translateX(0) rotate(-5deg); }
+            50% { transform: translateX(5px) rotate(5deg); }
+        }
+        
+        /* Path animations */
+        @keyframes nintendo-path-horizontal {
+            0% { left: -50px; }
+            100% { left: calc(100% + 50px); }
+        }
+        
+        @keyframes nintendo-path-vertical {
+            0% { top: -50px; }
+            100% { top: calc(100% + 50px); }
+        }
+        
+        @keyframes nintendo-path-diagonal {
+            0% { left: -50px; top: 20%; }
+            100% { left: calc(100% + 50px); top: 80%; }
+        }
+        
+        /* Apply path animations to sprites */
+        .path-horizontal {
+            animation: nintendo-path-horizontal 15s linear infinite;
+        }
+        
+        .path-vertical {
+            animation: nintendo-path-vertical 20s linear infinite;
+        }
+        
+        .path-diagonal {
+            animation: nintendo-path-diagonal 18s linear infinite;
+        }
+        
+        /* Nintendo-themed modifications when theme is active */
+        body.nintendo-theme .nineties-header {
+            background: linear-gradient(135deg, #E60012, #FF4444, #E60012) !important;
+            border-color: #FFD700 !important;
+        }
+        
+        body.nintendo-theme .nineties-section {
+            background: linear-gradient(135deg, rgba(92, 148, 252, 0.3), rgba(200, 76, 12, 0.3)) !important;
+            border-color: #FFD700 !important;
+        }
+        
+        body.nintendo-theme .rainbow-text {
+            animation: nintendo-rainbow 2s linear infinite !important;
+        }
+    </style>
 
     <!-- Dial-up Connection Screen -->
     <div id="dialup-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000;">
@@ -2425,6 +2746,159 @@
             const randomSong = songs[Math.floor(Math.random() * songs.length)];
             display.textContent = `~o~ Now Playing: "${randomSong}" ~o~`;
         }, 10000);
+        
+        // Nintendo Sprite System for Nintendo Theme
+        function initNintendoSprites() {
+            if (currentTheme !== 'nintendo') return;
+            
+            const container = document.getElementById('nintendo-sprites-container');
+            if (!container) return;
+            
+            // Clear existing sprites
+            container.innerHTML = '';
+            
+            // Sprite types and their properties
+            const sprites = [
+                { class: 'sprite-mario', count: 2, paths: ['path-horizontal'] },
+                { class: 'sprite-luigi', count: 1, paths: ['path-diagonal'] },
+                { class: 'sprite-kirby', count: 2, paths: ['path-horizontal', 'path-vertical'] },
+                { class: 'sprite-pikachu', count: 2, paths: ['path-horizontal'] },
+                { class: 'sprite-mushroom', count: 3, paths: ['path-horizontal'] },
+                { class: 'sprite-star', count: 2, paths: ['path-diagonal'] },
+                { class: 'sprite-question-block', count: 4, paths: [] }, // Static blocks
+                { class: 'sprite-coin', count: 5, paths: ['path-horizontal', 'path-vertical'] },
+                { class: 'sprite-goomba', count: 2, paths: ['path-horizontal'] },
+                { class: 'sprite-yoshi', count: 1, paths: ['path-diagonal'] }
+            ];
+            
+            // Create sprites
+            sprites.forEach(spriteType => {
+                for (let i = 0; i < spriteType.count; i++) {
+                    const sprite = document.createElement('div');
+                    sprite.className = `nintendo-sprite ${spriteType.class}`;
+                    
+                    // Add path animation if specified
+                    if (spriteType.paths.length > 0) {
+                        const randomPath = spriteType.paths[Math.floor(Math.random() * spriteType.paths.length)];
+                        sprite.classList.add(randomPath);
+                        
+                        // Set random starting position
+                        sprite.style.animationDelay = `${Math.random() * 10}s`;
+                        
+                        // Random vertical position for horizontal paths
+                        if (randomPath === 'path-horizontal') {
+                            sprite.style.top = `${Math.random() * 80 + 10}%`;
+                        }
+                        // Random horizontal position for vertical paths
+                        else if (randomPath === 'path-vertical') {
+                            sprite.style.left = `${Math.random() * 80 + 10}%`;
+                        }
+                    } else {
+                        // Static positioning for blocks
+                        sprite.style.position = 'fixed';
+                        sprite.style.left = `${Math.random() * 90 + 5}%`;
+                        sprite.style.top = `${Math.random() * 80 + 10}%`;
+                    }
+                    
+                    container.appendChild(sprite);
+                }
+            });
+            
+            // Add special effects
+            addNintendoEffects();
+        }
+        
+        function addNintendoEffects() {
+            // Add coin counter
+            const coinCounter = document.createElement('div');
+            coinCounter.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 200;
+                background: rgba(0, 0, 0, 0.7);
+                color: #FFD700;
+                padding: 10px;
+                border-radius: 10px;
+                font-family: 'Courier New', monospace;
+                font-size: 20px;
+                font-weight: bold;
+                border: 3px solid #FFD700;
+            `;
+            coinCounter.innerHTML = '🪙 x 000';
+            coinCounter.id = 'nintendo-coin-counter';
+            document.body.appendChild(coinCounter);
+            
+            // Animate coin counter
+            let coinCount = 0;
+            setInterval(() => {
+                coinCount = (coinCount + 1) % 1000;
+                coinCounter.innerHTML = `🪙 x ${String(coinCount).padStart(3, '0')}`;
+            }, 2000);
+            
+            // Add sound effect placeholders (visual feedback)
+            document.addEventListener('click', (e) => {
+                if (currentTheme !== 'nintendo') return;
+                
+                // Create visual "pop" effect
+                const pop = document.createElement('div');
+                pop.style.cssText = `
+                    position: fixed;
+                    left: ${e.clientX - 15}px;
+                    top: ${e.clientY - 15}px;
+                    width: 30px;
+                    height: 30px;
+                    background: radial-gradient(circle, #FFD700, transparent);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                    animation: pop-effect 0.5s ease-out forwards;
+                `;
+                document.body.appendChild(pop);
+                setTimeout(() => pop.remove(), 500);
+            });
+            
+            // Add pop effect animation
+            if (!document.getElementById('nintendo-pop-style')) {
+                const style = document.createElement('style');
+                style.id = 'nintendo-pop-style';
+                style.textContent = `
+                    @keyframes pop-effect {
+                        0% { transform: scale(0); opacity: 1; }
+                        100% { transform: scale(3); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Clean up Nintendo sprites when switching themes
+        function cleanupNintendoSprites() {
+            const container = document.getElementById('nintendo-sprites-container');
+            if (container) container.innerHTML = '';
+            
+            const coinCounter = document.getElementById('nintendo-coin-counter');
+            if (coinCounter) coinCounter.remove();
+        }
+        
+        // Hook into theme switching
+        const originalUpdateThemeText = updateThemeText;
+        updateThemeText = function() {
+            originalUpdateThemeText();
+            
+            // Clean up previous Nintendo sprites
+            cleanupNintendoSprites();
+            
+            // Initialize Nintendo sprites if Nintendo theme is active
+            if (currentTheme === 'nintendo') {
+                setTimeout(initNintendoSprites, 100);
+            }
+        };
+        
+        // Initialize sprites if starting with Nintendo theme
+        if (currentTheme === 'nintendo') {
+            setTimeout(initNintendoSprites, 500);
+        }
     </script>
 </body>
 </html>

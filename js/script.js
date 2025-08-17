@@ -106,6 +106,114 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // Konami Code Easter Egg
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let konamiProgress = 0;
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiProgress]) {
+      konamiProgress++;
+      if (konamiProgress === konamiCode.length) {
+        activateRainbowMode();
+        konamiProgress = 0;
+      }
+    } else {
+      konamiProgress = 0;
+    }
+  });
+  
+  function activateRainbowMode() {
+    // Create rainbow overlay
+    const rainbow = document.createElement('div');
+    rainbow.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background: linear-gradient(45deg, 
+        #ff0000, #ff7700, #ffdd00, #00ff00, 
+        #0099ff, #6633ff, #ff00ff, #ff0000);
+      background-size: 400% 400%;
+      opacity: 0;
+      animation: rainbowWave 3s ease-in-out infinite, fadeInOut 5s ease-in-out;
+    `;
+    
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes rainbowWave {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      @keyframes fadeInOut {
+        0% { opacity: 0; }
+        20% { opacity: 0.4; }
+        80% { opacity: 0.4; }
+        100% { opacity: 0; }
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(rainbow);
+    
+    // Add shake effect to main content
+    const content = document.querySelector('.content-section');
+    if (content) {
+      content.style.animation = 'shake 0.5s ease-in-out';
+      setTimeout(() => {
+        content.style.animation = '';
+      }, 500);
+    }
+    
+    // Remove rainbow after animation
+    setTimeout(() => {
+      rainbow.remove();
+      style.remove();
+    }, 5000);
+    
+    // Show secret message
+    const message = document.createElement('div');
+    message.textContent = '🌈 KONAMI CODE ACTIVATED! 🌈';
+    message.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      z-index: 10000;
+      pointer-events: none;
+      animation: bounce 1s ease-in-out;
+    `;
+    
+    const bounceStyle = document.createElement('style');
+    bounceStyle.textContent = `
+      @keyframes bounce {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -60%) scale(1.2); }
+      }
+    `;
+    document.head.appendChild(bounceStyle);
+    
+    document.body.appendChild(message);
+    
+    setTimeout(() => {
+      message.remove();
+      bounceStyle.remove();
+    }, 3000);
+  }
+  
   // Pac-Man Maze Game
   const canvas = document.getElementById('pacman-maze');
   if (canvas) {

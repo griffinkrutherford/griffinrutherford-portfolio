@@ -7,40 +7,22 @@ class NintendoSpriteSystem {
         this.container = null;
         this.animationFrames = {};
         
-        // Sprite sheet configurations
-        this.spriteSheets = {
-            mario: {
-                src: '/images/sprites/nintendo/mario-world.png',
-                frames: {
-                    // Small Mario positions on sprite sheet (x, y, width, height)
-                    smallStand: { x: 209, y: 0, w: 16, h: 16 },
-                    smallWalk1: { x: 226, y: 0, w: 16, h: 16 },
-                    smallWalk2: { x: 243, y: 0, w: 16, h: 16 },
-                    smallJump: { x: 277, y: 0, w: 16, h: 16 },
-                    // Big Mario
-                    bigStand: { x: 209, y: 32, w: 16, h: 32 },
-                    bigWalk1: { x: 226, y: 32, w: 16, h: 32 },
-                    bigWalk2: { x: 243, y: 32, w: 16, h: 32 },
-                    bigJump: { x: 277, y: 32, w: 16, h: 32 }
-                }
-            },
-            kirby: {
-                src: '/images/sprites/nintendo/kirby-sprites.png',
-                frames: {
-                    // Kirby positions (these are estimates, adjust based on actual sheet)
-                    stand: { x: 0, y: 0, w: 20, h: 20 },
-                    walk1: { x: 21, y: 0, w: 20, h: 20 },
-                    walk2: { x: 42, y: 0, w: 20, h: 20 },
-                    float: { x: 63, y: 0, w: 20, h: 20 },
-                    inhale: { x: 84, y: 0, w: 20, h: 20 }
-                }
-            }
+        // Actual sprite files available
+        this.spriteFiles = {
+            mario: [
+                '/images/sprites/nintendo/mario/mario-walking.gif',
+                '/images/sprites/nintendo/mario/yoshi-standing.png',
+                '/images/sprites/nintendo/mario/floating-qblock.png'
+            ],
+            kirby: [
+                '/images/sprites/nintendo/kirby/kirby-dance.gif'
+            ]
         };
         
         this.loadedSheets = {};
     }
     
-    async init() {
+    init() {
         this.container = document.getElementById('nintendo-sprites-container');
         if (!this.container) {
             console.error('Nintendo sprites container not found');
@@ -50,259 +32,198 @@ class NintendoSpriteSystem {
         // Clear existing sprites
         this.container.innerHTML = '';
         
-        // Load sprite sheets
-        await this.loadSpriteSheets();
-        
-        // Create sprites
+        // Create sprites using actual files
         this.createSprites();
         
         // Start animation loop
         this.animate();
     }
     
-    async loadSpriteSheets() {
-        const promises = Object.entries(this.spriteSheets).map(([name, config]) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => {
-                    this.loadedSheets[name] = img;
-                    resolve();
-                };
-                img.onerror = () => {
-                    console.error(`Failed to load sprite sheet: ${name}`);
-                    resolve(); // Continue even if one fails
-                };
-                img.src = config.src;
-            });
-        });
-        
-        await Promise.all(promises);
-    }
-    
-    createSpriteCanvas(sheetName, frameName, scale = 2) {
-        const sheet = this.spriteSheets[sheetName];
-        const frame = sheet.frames[frameName];
-        const img = this.loadedSheets[sheetName];
-        
-        if (!img || !frame) return null;
-        
-        // Create canvas for sprite
-        const canvas = document.createElement('canvas');
-        canvas.width = frame.w * scale;
-        canvas.height = frame.h * scale;
-        
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false; // Keep pixels crisp
-        
-        // Draw sprite from sheet
-        ctx.drawImage(
-            img,
-            frame.x, frame.y, frame.w, frame.h,  // Source
-            0, 0, canvas.width, canvas.height     // Destination
-        );
-        
-        return canvas;
+    createSpriteImage(src) {
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.background = 'transparent';
+        img.style.border = 'none';
+        img.style.outline = 'none';
+        return img;
     }
     
     createSprites() {
-        // Create multiple Mario sprites
-        for (let i = 0; i < 3; i++) {
-            this.createMarioSprite(i);
-        }
+        // Create Mario walking sprites
+        this.createMarioWalking();
         
-        // Create multiple Kirby sprites
-        for (let i = 0; i < 3; i++) {
-            this.createKirbySprite(i);
-        }
+        // Create Yoshi sprite
+        this.createYoshiSprite();
         
-        // Create coin blocks (using CSS as fallback)
-        for (let i = 0; i < 5; i++) {
-            this.createCoinBlock(i);
+        // Create Kirby dancing sprite
+        this.createKirbyDancing();
+        
+        // Create floating question blocks
+        for (let i = 0; i < 3; i++) {
+            this.createFloatingBlock(i);
         }
     }
     
-    createMarioSprite(index) {
+    createMarioWalking() {
         const sprite = document.createElement('div');
         sprite.className = 'nintendo-sprite sprite-mario';
         sprite.style.cssText = `
             position: fixed;
-            left: ${-50 - index * 100}px;
-            top: ${60 + index * 10}%;
-            width: 32px;
-            height: 32px;
+            left: -80px;
+            bottom: 100px;
+            height: 64px;
             z-index: 150;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
+            background: transparent;
         `;
         
-        // Create animation frames
-        const frames = ['smallStand', 'smallWalk1', 'smallWalk2'];
-        let currentFrame = 0;
+        const img = this.createSpriteImage(this.spriteFiles.mario[0]);
+        sprite.appendChild(img);
         
-        // Update sprite image
-        const updateFrame = () => {
-            const canvas = this.createSpriteCanvas('mario', frames[currentFrame]);
-            if (canvas) {
-                sprite.style.backgroundImage = `url(${canvas.toDataURL()})`;
-                sprite.style.backgroundSize = 'contain';
-                sprite.style.backgroundRepeat = 'no-repeat';
-            }
-        };
-        
-        updateFrame();
-        
-        // Animate sprite
-        sprite.dataset.x = -50 - index * 100;
-        sprite.dataset.speed = 2 + index * 0.5;
-        sprite.dataset.frameCounter = 0;
+        // Animate sprite horizontally
+        sprite.dataset.x = -80;
+        sprite.dataset.speed = 3;
         
         this.sprites.push({
             element: sprite,
-            type: 'mario',
-            updateFrame: () => {
-                sprite.dataset.frameCounter = parseInt(sprite.dataset.frameCounter) + 1;
-                if (sprite.dataset.frameCounter % 10 === 0) {
-                    currentFrame = (currentFrame + 1) % frames.length;
-                    updateFrame();
-                }
-            }
+            type: 'mario-walking'
         });
         
         this.container.appendChild(sprite);
     }
     
-    createKirbySprite(index) {
+    createYoshiSprite() {
+        const sprite = document.createElement('div');
+        sprite.className = 'nintendo-sprite sprite-yoshi';
+        sprite.style.cssText = `
+            position: fixed;
+            right: 100px;
+            bottom: 100px;
+            height: 56px;
+            z-index: 150;
+            background: transparent;
+        `;
+        
+        const img = this.createSpriteImage(this.spriteFiles.mario[1]);
+        sprite.appendChild(img);
+        
+        // Bounce animation
+        sprite.dataset.bounceY = 0;
+        sprite.dataset.bounceDirection = 1;
+        
+        this.sprites.push({
+            element: sprite,
+            type: 'yoshi'
+        });
+        
+        this.container.appendChild(sprite);
+    }
+    
+    createKirbyDancing() {
         const sprite = document.createElement('div');
         sprite.className = 'nintendo-sprite sprite-kirby';
         sprite.style.cssText = `
             position: fixed;
-            left: ${70 + index * 25}%;
-            top: ${20 + index * 15}%;
-            width: 40px;
-            height: 40px;
+            left: 50%;
+            top: 20%;
+            height: 80px;
+            transform: translateX(-50%);
             z-index: 150;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
+            background: transparent;
         `;
         
-        // Create animation frames
-        const frames = ['stand', 'walk1', 'walk2', 'float'];
-        let currentFrame = 0;
-        
-        // Update sprite image
-        const updateFrame = () => {
-            const canvas = this.createSpriteCanvas('kirby', frames[currentFrame]);
-            if (canvas) {
-                sprite.style.backgroundImage = `url(${canvas.toDataURL()})`;
-                sprite.style.backgroundSize = 'contain';
-                sprite.style.backgroundRepeat = 'no-repeat';
-            }
-        };
-        
-        updateFrame();
+        const img = this.createSpriteImage(this.spriteFiles.kirby[0]);
+        sprite.appendChild(img);
         
         // Float animation
-        sprite.dataset.floatY = 0;
-        sprite.dataset.floatAngle = index * Math.PI / 3;
-        sprite.dataset.frameCounter = 0;
+        sprite.dataset.floatAngle = 0;
         
         this.sprites.push({
             element: sprite,
-            type: 'kirby',
-            updateFrame: () => {
-                sprite.dataset.frameCounter = parseInt(sprite.dataset.frameCounter) + 1;
-                if (sprite.dataset.frameCounter % 15 === 0) {
-                    currentFrame = (currentFrame + 1) % frames.length;
-                    updateFrame();
-                }
-            }
+            type: 'kirby-dancing'
         });
         
         this.container.appendChild(sprite);
     }
     
-    createCoinBlock(index) {
-        const block = document.createElement('div');
-        block.className = 'nintendo-sprite sprite-coin-block';
-        block.style.cssText = `
+    createFloatingBlock(index) {
+        const sprite = document.createElement('div');
+        sprite.className = 'nintendo-sprite sprite-qblock';
+        sprite.style.cssText = `
             position: fixed;
-            left: ${15 + index * 15}%;
-            top: 40%;
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #FFA500, #FFD700);
-            border: 2px solid #8B4513;
+            left: ${20 + index * 30}%;
+            top: 30%;
+            height: 48px;
             z-index: 150;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 0 #8B4513;
+            background: transparent;
         `;
-        block.textContent = '?';
+        
+        const img = this.createSpriteImage(this.spriteFiles.mario[2]);
+        sprite.appendChild(img);
         
         // Pulse animation
-        block.dataset.pulseScale = 1;
-        block.dataset.pulseDirection = 1;
+        sprite.dataset.pulseScale = 1;
+        sprite.dataset.pulseDirection = 1;
         
         this.sprites.push({
-            element: block,
-            type: 'block'
+            element: sprite,
+            type: 'qblock'
         });
         
-        this.container.appendChild(block);
+        this.container.appendChild(sprite);
     }
     
     animate() {
-        // Animate Mario sprites (horizontal movement)
-        this.sprites.filter(s => s.type === 'mario').forEach(sprite => {
+        // Animate Mario walking (horizontal movement)
+        this.sprites.filter(s => s.type === 'mario-walking').forEach(sprite => {
             const el = sprite.element;
             let x = parseFloat(el.dataset.x);
             const speed = parseFloat(el.dataset.speed);
             
             x += speed;
-            if (x > window.innerWidth + 50) {
-                x = -50;
+            if (x > window.innerWidth + 80) {
+                x = -80;
             }
             
             el.dataset.x = x;
             el.style.left = `${x}px`;
-            
-            // Update animation frame
-            if (sprite.updateFrame) {
-                sprite.updateFrame();
-            }
         });
         
-        // Animate Kirby sprites (floating)
-        this.sprites.filter(s => s.type === 'kirby').forEach(sprite => {
+        // Animate Yoshi (bouncing)
+        this.sprites.filter(s => s.type === 'yoshi').forEach(sprite => {
+            const el = sprite.element;
+            let bounceY = parseFloat(el.dataset.bounceY);
+            let direction = parseInt(el.dataset.bounceDirection);
+            
+            bounceY += direction * 2;
+            if (bounceY > 20 || bounceY < -20) {
+                direction *= -1;
+            }
+            
+            el.dataset.bounceY = bounceY;
+            el.dataset.bounceDirection = direction;
+            el.style.transform = `translateY(${bounceY}px)`;
+        });
+        
+        // Animate Kirby (floating)
+        this.sprites.filter(s => s.type === 'kirby-dancing').forEach(sprite => {
             const el = sprite.element;
             let angle = parseFloat(el.dataset.floatAngle);
             
             angle += 0.05;
-            const floatY = Math.sin(angle) * 20;
+            const floatY = Math.sin(angle) * 15;
             
             el.dataset.floatAngle = angle;
-            el.style.transform = `translateY(${floatY}px)`;
-            
-            // Update animation frame
-            if (sprite.updateFrame) {
-                sprite.updateFrame();
-            }
+            el.style.transform = `translateX(-50%) translateY(${floatY}px)`;
         });
         
-        // Animate coin blocks (pulsing)
-        this.sprites.filter(s => s.type === 'block').forEach(sprite => {
+        // Animate question blocks (pulsing)
+        this.sprites.filter(s => s.type === 'qblock').forEach(sprite => {
             const el = sprite.element;
             let scale = parseFloat(el.dataset.pulseScale);
             let direction = parseInt(el.dataset.pulseDirection);
             
-            scale += direction * 0.01;
-            if (scale > 1.1 || scale < 0.9) {
+            scale += direction * 0.005;
+            if (scale > 1.05 || scale < 0.95) {
                 direction *= -1;
             }
             

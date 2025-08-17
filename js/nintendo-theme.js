@@ -71,12 +71,13 @@ class NintendoTheme {
         
         this.isActive = true;
         this.createThemeStyles();
-        this.addFloatingSprites();
-        this.addCoinCounter();
-        this.addPowerUpEffects();
-        this.addSoundEffects();
-        this.replaceButtons();
-        this.addWarpPipes();
+        // Disabled for cleaner aesthetic
+        // this.addFloatingSprites();
+        // this.addCoinCounter();
+        // this.addPowerUpEffects();
+        // this.addSoundEffects();
+        // this.replaceButtons();
+        // this.addWarpPipes();
         
         // Add Nintendo theme class to body
         document.body.classList.add('nintendo-theme');

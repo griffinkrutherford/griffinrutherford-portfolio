@@ -535,16 +535,86 @@
             position: relative;
         }
         
-        body.nintendo-theme .nineties-section::before {
-            content: '[*]';
+        /* Different sprites for each section */
+        body.nintendo-theme #nineties-about::before {
+            content: '';
             position: absolute;
             top: -15px;
             left: 20px;
-            font-size: 30px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            padding: 5px;
-            border: 2px solid #E60012;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/mario/mario-walking.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        body.nintendo-theme #nineties-resume::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/mario/yoshi-standing.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        body.nintendo-theme #nineties-skills::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/kirby/kirby-dance.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        body.nintendo-theme #nineties-projects::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/mario/floating-qblock.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Default for any other sections */
+        body.nintendo-theme .nineties-section::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/mario/floating-qblock.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         body.nintendo-theme .nineties-section h2 {
@@ -588,6 +658,23 @@
             background: linear-gradient(135deg, #FFFFFF, #F8F8F8);
             border: 5px solid #E60012;
             border-radius: 20px;
+            position: relative;
+        }
+        
+        body.nintendo-theme .guestbook::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-image: url('/images/sprites/nintendo/mario/yoshi-standing.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         body.nintendo-theme .guestbook-form {
@@ -890,12 +977,20 @@
         
         /* Power-up Mushroom Decorations */
         body.nintendo-theme .under-construction::before {
-            content: '[*]';
+            content: '';
             position: absolute;
             left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 20px;
+            width: 24px;
+            height: 24px;
+            background-image: url('/images/sprites/nintendo/mario/yoshi-standing.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
             animation: mushroom-bounce 1.5s ease-in-out infinite;
         }
         
@@ -941,16 +1036,20 @@
         }
         
         body.nintendo-theme .nintendo-world-title::before {
-            content: '[?]';
+            content: '';
             position: absolute;
             left: -40px;
             top: 50%;
             transform: translateY(-50%);
-            background: #FFD700;
-            border: 3px solid #E60012;
-            border-radius: 8px;
-            padding: 2px 6px;
-            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            background-image: url('/images/sprites/nintendo/mario/floating-qblock.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
             animation: question-block-bounce 2s ease-in-out infinite;
         }
         
@@ -1116,12 +1215,20 @@
         }
         
         body.nintendo-theme .ascii-border::before {
-            content: '[?]';
+            content: '';
             position: absolute;
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #FFD700;
+            width: 28px;
+            height: 28px;
+            background-image: url('/images/sprites/nintendo/mario/floating-qblock.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
             border: 3px solid #E60012;
             border-radius: 8px;
             padding: 5px 8px;
@@ -1313,8 +1420,14 @@
                 top: 5px;
             }
             
+            body.nintendo-theme #nineties-about::before,
+            body.nintendo-theme #nineties-resume::before,
+            body.nintendo-theme #nineties-skills::before,
+            body.nintendo-theme #nineties-projects::before,
+            body.nintendo-theme .guestbook::before,
             body.nintendo-theme .nineties-section::before {
-                font-size: 20px;
+                width: 24px;
+                height: 24px;
                 top: -10px;
                 left: 10px;
             }
@@ -1326,8 +1439,8 @@
             /* Reduce Nintendo decorative elements on small screens */
             body.nintendo-theme .nintendo-world-title::before {
                 left: -25px;
-                font-size: 14px;
-                padding: 1px 3px;
+                width: 24px;
+                height: 24px;
             }
             
             body.nintendo-theme .nintendo-skill::after {
@@ -1772,10 +1885,7 @@
     
     <!-- Load Nintendo Theme Script -->
     <script src="js/nintendo-theme.js"></script>
-    <script src="js/nintendo-sprites-real.js"></script>
-    
-    <!-- Nintendo Sprite Container -->
-    <div id="nintendo-sprites-container"></div>
+    <script src="js/nintendo-header-sprites.js"></script>
     
     <!-- Nintendo Theme Styles and Sprites -->
     <style id="nintendo-sprite-styles">
@@ -1787,19 +1897,50 @@
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
+            background: transparent !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* Mario Sprite using CSS */
+        /* Ensure sprites maintain aspect ratio and have transparent backgrounds */
+        .nintendo-sprite img {
+            background: transparent !important;
+            max-width: none;
+            max-height: 100%;
+            width: auto !important;
+            height: 100% !important;
+            object-fit: contain !important;
+            display: block;
+            image-rendering: pixelated !important;
+            image-rendering: -moz-crisp-edges !important;
+            image-rendering: crisp-edges !important;
+        }
+        
+        /* Override all sprite backgrounds to be transparent */
+        .sprite-mario, .sprite-luigi, .sprite-kirby, .sprite-yoshi,
+        .sprite-pikachu, .sprite-mushroom, .sprite-star, .sprite-qblock,
+        .sprite-coin-block, .sprite-goomba, .sprite-koopa {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove all pseudo-elements that create backgrounds */
+        .sprite-mario::before, .sprite-mario::after,
+        .sprite-luigi::before, .sprite-luigi::after,
+        .sprite-kirby::before, .sprite-kirby::after,
+        .sprite-yoshi::before, .sprite-yoshi::after,
+        .sprite-pikachu::before, .sprite-pikachu::after,
+        .sprite-mushroom::before, .sprite-mushroom::after,
+        .sprite-star::before, .sprite-star::after,
+        .sprite-qblock::before, .sprite-qblock::after {
+            display: none !important;
+        }
+        
+        /* Mario Sprite - removed CSS background */
         .sprite-mario {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(to bottom,
-                #FF0000 0%, #FF0000 30%,  /* Hat */
-                #FDB5A7 30%, #FDB5A7 50%, /* Face */
-                #FF0000 50%, #FF0000 70%, /* Shirt */
-                #0000FF 70%, #0000FF 100% /* Overalls */
-            );
-            border-radius: 30% 30% 40% 40%;
+            background: transparent !important;
             animation: nintendo-bounce 2s infinite;
         }
         
@@ -1817,33 +1958,16 @@
             animation: nintendo-bounce 2.2s infinite;
         }
         
-        /* Kirby Sprite */
+        /* Kirby Sprite - removed CSS background */
         .sprite-kirby {
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle at 30% 30%, #FFB3D9, #FF69B4);
-            border-radius: 50%;
+            background: transparent !important;
             position: relative;
             animation: nintendo-float 3s ease-in-out infinite;
         }
         
         .sprite-kirby::before,
         .sprite-kirby::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 10px;
-            background: #000;
-            border-radius: 50%;
-            top: 12px;
-        }
-        
-        .sprite-kirby::before {
-            left: 10px;
-        }
-        
-        .sprite-kirby::after {
-            right: 10px;
+            display: none !important;
         }
         
         /* Pikachu Sprite */
@@ -1989,23 +2113,13 @@
         
         /* Yoshi Sprite */
         .sprite-yoshi {
-            width: 35px;
-            height: 40px;
-            background: #00AA00;
-            border-radius: 45% 45% 50% 50%;
+            background: transparent !important;
             position: relative;
             animation: nintendo-bounce 1.8s infinite;
         }
         
         .sprite-yoshi::before {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 10px;
-            background: #FFF;
-            border-radius: 50%;
-            top: 10px;
-            left: 10px;
+            display: none !important;
         }
         
         /* Animations */
@@ -2875,7 +2989,13 @@
         
         // Clean up Nintendo sprites when switching themes
         function cleanupNintendoSprites() {
-            // Clean up new sprite system
+            // Clean up header sprites
+            if (window.nintendoHeaderSprites) {
+                window.nintendoHeaderSprites.cleanup();
+                window.nintendoHeaderSprites = null;
+            }
+            
+            // Clean up any sprite systems
             if (window.nintendoSpriteSystem) {
                 window.nintendoSpriteSystem.cleanup();
                 window.nintendoSpriteSystem = null;
@@ -2897,13 +3017,13 @@
             // Clean up previous Nintendo sprites
             cleanupNintendoSprites();
             
-            // Initialize Nintendo sprites if Nintendo theme is active
+            // Initialize Nintendo header sprites if Nintendo theme is active
             if (currentTheme === 'nintendo') {
                 setTimeout(() => {
-                    if (window.NintendoSpriteSystem) {
-                        const spriteSystem = new window.NintendoSpriteSystem();
-                        spriteSystem.init();
-                        window.nintendoSpriteSystem = spriteSystem;
+                    if (window.NintendoHeaderSprites) {
+                        const headerSprites = new window.NintendoHeaderSprites();
+                        headerSprites.init();
+                        window.nintendoHeaderSprites = headerSprites;
                     }
                 }, 100);
             }
@@ -2912,10 +3032,10 @@
         // Initialize sprites if starting with Nintendo theme
         if (currentTheme === 'nintendo') {
             setTimeout(() => {
-                if (window.NintendoSpriteSystem) {
-                    const spriteSystem = new window.NintendoSpriteSystem();
-                    spriteSystem.init();
-                    window.nintendoSpriteSystem = spriteSystem;
+                if (window.NintendoHeaderSprites) {
+                    const headerSprites = new window.NintendoHeaderSprites();
+                    headerSprites.init();
+                    window.nintendoHeaderSprites = headerSprites;
                 }
             }, 500);
         }

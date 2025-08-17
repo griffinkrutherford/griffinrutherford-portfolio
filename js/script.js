@@ -105,6 +105,101 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+
+  // Konami Code Implementation
+  let konamiSequence = [];
+  const targetSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+  
+  document.addEventListener('keydown', function(e) {
+    konamiSequence.push(e.code);
+    
+    // Keep only the last 10 keys
+    if (konamiSequence.length > 10) {
+      konamiSequence.shift();
+    }
+    
+    // Check if sequence matches Konami code
+    if (konamiSequence.length === 10) {
+      let matches = true;
+      for (let i = 0; i < 10; i++) {
+        if (konamiSequence[i] !== targetSequence[i]) {
+          matches = false;
+          break;
+        }
+      }
+      
+      if (matches) {
+        // Konami code activated!
+        console.log('%c🎮 KONAMI CODE ACTIVATED! 🎮', 'color: #ff0000; font-size: 24px; font-weight: bold;');
+        
+        // Create special effects
+        document.body.style.animation = 'rainbow-background 3s infinite';
+        
+        // Add rainbow animation CSS if it doesn't exist
+        if (!document.getElementById('konami-styles')) {
+          const style = document.createElement('style');
+          style.id = 'konami-styles';
+          style.textContent = `
+            @keyframes rainbow-background {
+              0% { filter: hue-rotate(0deg); }
+              100% { filter: hue-rotate(360deg); }
+            }
+            .konami-message {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+              background-size: 400% 400%;
+              animation: rainbow-slide 2s ease infinite;
+              color: white;
+              padding: 20px;
+              border-radius: 10px;
+              font-family: 'Press Start 2P', cursive;
+              font-size: 14px;
+              text-align: center;
+              z-index: 10000;
+              box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            }
+            @keyframes rainbow-slide {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+        
+        // Show message
+        const message = document.createElement('div');
+        message.className = 'konami-message';
+        message.innerHTML = `
+          🎮 KONAMI CODE ACTIVATED! 🎮<br><br>
+          🌟 SECRET UNLOCKED! 🌟<br>
+          You found the Easter egg!<br><br>
+          <small>Click anywhere to continue...</small>
+        `;
+        document.body.appendChild(message);
+        
+        // Remove effects after click
+        message.addEventListener('click', function() {
+          document.body.style.animation = '';
+          message.remove();
+        });
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+          if (message.parentNode) {
+            document.body.style.animation = '';
+            message.remove();
+          }
+        }, 5000);
+        
+        // Reset sequence
+        konamiSequence = [];
+      }
+    }
+  });
   
   // Pac-Man Maze Game
   const canvas = document.getElementById('pacman-maze');

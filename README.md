@@ -14,7 +14,7 @@ Welcome to my personal portfolio website! This site serves as a digital hub to s
 - [Contact](#contact)
 
 ## About Me
-I’m Griffin Rutherford, a Combined BS+MS Computer Science student at Colorado School of Mines (2020–2025), with a focus on Data Science and Machine Learning. I’m passionate about mental and physical health tech, as seen in my work founding Coherascent—a holistic well-being platform. Beyond tech, I’m an athlete, adventurer, and community builder, always striving to be well-rounded.
+I'm Griffin Rutherford, a Combined BS+MS Computer Science graduate from Colorado School of Mines (2020–2025), with a focus on Data Science and Machine Learning. I'm passionate about mental and physical health tech, as seen in my work founding Coherascent—a holistic well-being platform. Beyond tech, I'm an athlete, adventurer, and community builder, always striving to be well-rounded.
 
 ## Features
 - **Responsive Design**: Optimized for desktop and mobile viewing.

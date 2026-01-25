@@ -427,7 +427,7 @@ h3 {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 4;
+    z-index: 10;
   }
   .quick-links-button {
     background-color: var(--primary-red);

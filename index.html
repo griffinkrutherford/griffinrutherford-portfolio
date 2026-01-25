@@ -44,7 +44,29 @@
       </ul>
     </nav>
   </div>
-  
+
+  <!-- Theme Picker -->
+  <div class="theme-picker-menu">
+    <button class="theme-picker-button" title="Color Theme">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2 A10 10 0 0 1 12 22 A10 10 0 0 0 12 2"/>
+      </svg>
+    </button>
+    <div class="theme-picker-panel">
+      <h3>Theme Colors</h3>
+      <div class="color-picker-group">
+        <label for="primary-color">Primary Color:</label>
+        <input type="color" id="primary-color" value="#6C1AFF">
+      </div>
+      <div class="color-picker-group">
+        <label for="secondary-color">Secondary Color:</label>
+        <input type="color" id="secondary-color" value="#FF1A4D">
+      </div>
+      <button class="reset-theme-btn">Reset to Default</button>
+    </div>
+  </div>
+
     <!-- Video Header -->
     <div class="video-header">
         <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="images/video-poster.jpg">

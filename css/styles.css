@@ -600,7 +600,105 @@ h3 {
       display: block;
     }
   }
-  
+
+  /* Theme Picker */
+  .theme-picker-menu {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 4;
+  }
+
+  .theme-picker-button {
+    background-color: var(--primary-purple);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+  }
+
+  .theme-picker-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(108, 26, 255, 0.5);
+  }
+
+  .theme-picker-panel {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--dark-bg);
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 280px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .theme-picker-menu.active .theme-picker-panel {
+    display: block;
+  }
+
+  .theme-picker-panel h3 {
+    color: var(--primary-purple);
+    margin: 0 0 15px 0;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .color-picker-group {
+    margin-bottom: 15px;
+  }
+
+  .color-picker-group label {
+    display: block;
+    color: #F8F1FF;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .color-picker-group input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 5px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .reset-theme-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary-red);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .reset-theme-btn:hover {
+    background: var(--accent-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(255, 26, 77, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .theme-picker-panel {
+      right: -10px;
+      min-width: 250px;
+    }
+  }
+
   .experience-section,
   .projects-section,
   .organizations-section {

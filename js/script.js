@@ -104,6 +104,102 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
     }
+
+    // Theme Picker functionality
+    const themePickerMenu = document.querySelector('.theme-picker-menu');
+    const themePickerButton = document.querySelector('.theme-picker-button');
+    const primaryColorInput = document.getElementById('primary-color');
+    const secondaryColorInput = document.getElementById('secondary-color');
+    const resetThemeBtn = document.querySelector('.reset-theme-btn');
+
+    if (themePickerButton && themePickerMenu) {
+      // Toggle theme picker panel
+      themePickerButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themePickerMenu.classList.toggle('active');
+      });
+
+      // Close theme picker when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!themePickerMenu.contains(e.target)) {
+          themePickerMenu.classList.remove('active');
+        }
+      });
+
+      // Load saved colors from localStorage
+      const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6C1AFF';
+      const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#FF1A4D';
+
+      primaryColorInput.value = savedPrimaryColor;
+      secondaryColorInput.value = savedSecondaryColor;
+
+      // Apply saved colors
+      applyThemeColors(savedPrimaryColor, savedSecondaryColor);
+
+      // Primary color change handler
+      primaryColorInput.addEventListener('input', (e) => {
+        const primaryColor = e.target.value;
+        const secondaryColor = secondaryColorInput.value;
+        applyThemeColors(primaryColor, secondaryColor);
+        localStorage.setItem('primaryColor', primaryColor);
+      });
+
+      // Secondary color change handler
+      secondaryColorInput.addEventListener('input', (e) => {
+        const primaryColor = primaryColorInput.value;
+        const secondaryColor = e.target.value;
+        applyThemeColors(primaryColor, secondaryColor);
+        localStorage.setItem('secondaryColor', secondaryColor);
+      });
+
+      // Reset to default colors
+      resetThemeBtn.addEventListener('click', () => {
+        const defaultPrimary = '#6C1AFF';
+        const defaultSecondary = '#FF1A4D';
+        primaryColorInput.value = defaultPrimary;
+        secondaryColorInput.value = defaultSecondary;
+        applyThemeColors(defaultPrimary, defaultSecondary);
+        localStorage.setItem('primaryColor', defaultPrimary);
+        localStorage.setItem('secondaryColor', defaultSecondary);
+      });
+    }
+
+    // Function to apply theme colors
+    function applyThemeColors(primaryColor, secondaryColor) {
+      const root = document.documentElement;
+
+      // Set primary color (purple)
+      root.style.setProperty('--primary-purple', primaryColor);
+      root.style.setProperty('--accent-purple', adjustColorBrightness(primaryColor, 40));
+
+      // Set secondary color (red)
+      root.style.setProperty('--primary-red', secondaryColor);
+      root.style.setProperty('--accent-red', adjustColorBrightness(secondaryColor, 40));
+    }
+
+    // Helper function to adjust color brightness
+    function adjustColorBrightness(hex, amount) {
+      // Remove # if present
+      hex = hex.replace('#', '');
+
+      // Convert to RGB
+      let r = parseInt(hex.substr(0, 2), 16);
+      let g = parseInt(hex.substr(2, 2), 16);
+      let b = parseInt(hex.substr(4, 2), 16);
+
+      // Adjust brightness
+      r = Math.min(255, Math.max(0, r + amount));
+      g = Math.min(255, Math.max(0, g + amount));
+      b = Math.min(255, Math.max(0, b + amount));
+
+      // Convert back to hex
+      const newHex = '#' +
+        r.toString(16).padStart(2, '0') +
+        g.toString(16).padStart(2, '0') +
+        b.toString(16).padStart(2, '0');
+
+      return newHex;
+    }
   });
   
   // Konami Code Easter Egg

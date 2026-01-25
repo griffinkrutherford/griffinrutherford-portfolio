@@ -983,10 +983,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function checkCollision() {
+      // Don't check collision if still in respawn period
+      if (respawnTimer > 0) return;
+
       const cellSize = getCellSize();
       for (let ghost of ghosts) {
         const dist = Math.sqrt(
-          Math.pow(pacman.pixelX - ghost.pixelX, 2) + 
+          Math.pow(pacman.pixelX - ghost.pixelX, 2) +
           Math.pow(pacman.pixelY - ghost.pixelY, 2)
         );
         if (dist < cellSize * 0.8) {
@@ -1033,11 +1036,11 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       // Give player breathing room (in milliseconds)
-      respawnTimer = 1500; // 1.5 seconds
-      
+      respawnTimer = 2000; // 2 seconds immunity
+
       // Force scatter mode for a bit after collision
       chaseMode = false;
-      modeTimer = 4000; // 4 seconds of scatter mode
+      modeTimer = 5000; // 5 seconds of scatter mode
     }
     
     function isPositionSafe(x, y, dangerRadius = 3) {

@@ -655,7 +655,7 @@ h3 {
   }
 
   .theme-picker-panel h3 {
-    color: var(--primary-purple);
+    color: #F8F1FF;
     margin: 0 0 15px 0;
     font-size: 1.1rem;
     text-align: center;

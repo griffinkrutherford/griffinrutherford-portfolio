@@ -168,11 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function applyThemeColors(primaryColor, secondaryColor) {
       const root = document.documentElement;
 
-      // Set primary color (purple)
+      // Set primary color (purple) and variations
       root.style.setProperty('--primary-purple', primaryColor);
       root.style.setProperty('--accent-purple', adjustColorBrightness(primaryColor, 40));
 
-      // Set secondary color (red)
+      // Set backgrounds as darker versions of primary color
+      root.style.setProperty('--dark-bg', darkenColor(primaryColor, 0.85));
+      root.style.setProperty('--content-bg', darkenColor(primaryColor, 0.75));
+
+      // Set secondary color (red) and variations
       root.style.setProperty('--primary-red', secondaryColor);
       root.style.setProperty('--accent-red', adjustColorBrightness(secondaryColor, 40));
     }
@@ -191,6 +195,30 @@ document.addEventListener('DOMContentLoaded', function() {
       r = Math.min(255, Math.max(0, r + amount));
       g = Math.min(255, Math.max(0, g + amount));
       b = Math.min(255, Math.max(0, b + amount));
+
+      // Convert back to hex
+      const newHex = '#' +
+        r.toString(16).padStart(2, '0') +
+        g.toString(16).padStart(2, '0') +
+        b.toString(16).padStart(2, '0');
+
+      return newHex;
+    }
+
+    // Helper function to darken a color by a percentage
+    function darkenColor(hex, percentage) {
+      // Remove # if present
+      hex = hex.replace('#', '');
+
+      // Convert to RGB
+      let r = parseInt(hex.substr(0, 2), 16);
+      let g = parseInt(hex.substr(2, 2), 16);
+      let b = parseInt(hex.substr(4, 2), 16);
+
+      // Darken by reducing RGB values
+      r = Math.round(r * (1 - percentage));
+      g = Math.round(g * (1 - percentage));
+      b = Math.round(b * (1 - percentage));
 
       // Convert back to hex
       const newHex = '#' +

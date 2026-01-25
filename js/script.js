@@ -230,6 +230,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // Set secondary color (red) and variations
       root.style.setProperty('--primary-red', secondaryColor);
       root.style.setProperty('--accent-red', adjustColorBrightness(secondaryColor, 40));
+
+      // Set rgba versions for effects (shadows, backgrounds)
+      const primaryRgb = hexToRgb(primaryColor);
+      const secondaryRgb = hexToRgb(secondaryColor);
+
+      root.style.setProperty('--primary-red-rgb', `${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}`);
+      root.style.setProperty('--primary-purple-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
     }
 
     // Helper function to adjust color brightness
@@ -320,6 +327,15 @@ document.addEventListener('DOMContentLoaded', function() {
         r.toString(16).padStart(2, '0') +
         g.toString(16).padStart(2, '0') +
         b.toString(16).padStart(2, '0');
+    }
+
+    // Convert hex to RGB object
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      return { r, g, b };
     }
   });
   

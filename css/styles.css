@@ -5,6 +5,8 @@
     --content-bg: #2D0A3D;
     --accent-purple: #9D4DFF;
     --accent-red: #FF4D7D;
+    --primary-red-rgb: 255, 26, 77;
+    --primary-purple-rgb: 108, 26, 255;
 }
 
 * {
@@ -109,7 +111,7 @@
 .linkedin-section .ig-post:hover {
     transform: translateY(-5px);
     border-color: var(--primary-red);
-    box-shadow: 0 10px 20px rgba(255, 26, 77, 0.3);
+    box-shadow: 0 10px 20px rgba(var(--primary-red-rgb), 0.3);
 }
 
 .experience-item {
@@ -146,7 +148,7 @@
 .ig-post:hover {
     transform: translateY(-5px);
     border-color: var(--primary-red);
-    box-shadow: 0 10px 20px rgba(255, 26, 77, 0.3);
+    box-shadow: 0 10px 20px rgba(var(--primary-red-rgb), 0.3);
 }
 
 /* Social Links */
@@ -173,7 +175,7 @@
 
 .social-links a:hover {
     transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(255, 26, 77, 0.4);
+    box-shadow: 0 5px 15px rgba(var(--primary-red-rgb), 0.4);
 }
 
 .social-links a i {
@@ -329,7 +331,7 @@ h3 {
 .show-more-btn {
   background: none;
   border: none;
-  color: #FF4D88;
+  color: var(--accent-red);
   cursor: pointer;
   padding: 5px 0;
   font-weight: bold;
@@ -343,7 +345,7 @@ h3 {
 .experience-section .experience-item h4 a.project-link,
 .education-section .education-item h4 .project-link,
 .education-section .education-item h4 a.project-link {
-    color: #FF4D88;
+    color: var(--accent-red);
     text-decoration: none;
     transition: all 0.3s ease;
 }
@@ -366,7 +368,7 @@ h3 {
 }
 
 .experience-section .experience-item a.project-link h4 {
-  color: #FF4D88;
+  color: var(--accent-red);
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -444,7 +446,7 @@ h3 {
   
   .quick-links-button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(var(--primary-red-rgb), 0.5);
   }
   .quick-links-button .bar {
     display: block;
@@ -488,7 +490,7 @@ h3 {
 
   .quick-links-nav a:hover {
     color: var(--primary-red);
-    background: rgba(255, 26, 77, 0.1);
+    background: rgba(var(--primary-red-rgb), 0.1);
   }
   
   .quick-links-nav a i {
@@ -723,7 +725,7 @@ h3 {
   }
 
   .reset-theme-btn:hover {
-    box-shadow: 0 3px 10px rgba(255, 26, 77, 0.4);
+    box-shadow: 0 3px 10px rgba(var(--primary-red-rgb), 0.4);
   }
 
   .rainbow-theme-btn {
@@ -761,7 +763,7 @@ h3 {
   .skills-section {
     margin: 0 0 20px 0;
     padding: 20px;
-    background: rgba(255, 0, 0, 0.1);
+    background: rgba(var(--primary-red-rgb), 0.1);
     border-radius: 8px;
     border: 1px solid var(--primary-red);
   }
@@ -776,7 +778,7 @@ h3 {
     color: var(--primary-red);
     margin-bottom: 15px;
     font-size: 1.1rem;
-    border-bottom: 2px solid rgba(255, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(var(--primary-red-rgb), 0.3);
     padding-bottom: 8px;
   }
   
@@ -792,7 +794,7 @@ h3 {
   .skills-list li {
     padding: 8px 14px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(var(--primary-red-rgb), 0.3);
     border-radius: 20px;
     color: #F8F1FF;
     font-size: 0.9rem;
@@ -801,7 +803,7 @@ h3 {
   }
   
   .skills-list li:hover {
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(var(--primary-red-rgb), 0.2);
     border-color: var(--primary-red);
     transform: translateY(-2px);
   }
@@ -910,8 +912,8 @@ h3 {
 
 /* Highlight styling for graduate, ML, data science, and challenging courses */
 .course-item.highlight-course {
-  color: #FF4D88; /* Matches --accent-red */
-  border-color: #FF4D88; /* Optional: highlight border too */
+  color: var(--accent-red); /* Matches --accent-red */
+  border-color: var(--accent-red); /* Optional: highlight border too */
 }
 
 /* ========================================

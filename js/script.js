@@ -111,6 +111,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const primaryColorInput = document.getElementById('primary-color');
     const secondaryColorInput = document.getElementById('secondary-color');
     const resetThemeBtn = document.querySelector('.reset-theme-btn');
+    const randomThemeBtn = document.querySelector('.random-theme-btn');
+    const rainbowThemeBtn = document.querySelector('.rainbow-theme-btn');
+    let rainbowInterval = null;
+    let rainbowHue = 0;
 
     if (themePickerButton && themePickerMenu) {
       // Toggle theme picker panel
@@ -138,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Primary color change handler
       primaryColorInput.addEventListener('input', (e) => {
+        stopRainbowMode();
         const primaryColor = e.target.value;
         const secondaryColor = secondaryColorInput.value;
         applyThemeColors(primaryColor, secondaryColor);
@@ -146,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Secondary color change handler
       secondaryColorInput.addEventListener('input', (e) => {
+        stopRainbowMode();
         const primaryColor = primaryColorInput.value;
         const secondaryColor = e.target.value;
         applyThemeColors(primaryColor, secondaryColor);
@@ -154,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Reset to default colors
       resetThemeBtn.addEventListener('click', () => {
+        stopRainbowMode();
         const defaultPrimary = '#6C1AFF';
         const defaultSecondary = '#FF1A4D';
         primaryColorInput.value = defaultPrimary;
@@ -162,6 +169,50 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('primaryColor', defaultPrimary);
         localStorage.setItem('secondaryColor', defaultSecondary);
       });
+
+      // Random colors
+      randomThemeBtn.addEventListener('click', () => {
+        stopRainbowMode();
+        const randomPrimary = generateRandomColor();
+        const randomSecondary = generateRandomColor();
+        primaryColorInput.value = randomPrimary;
+        secondaryColorInput.value = randomSecondary;
+        applyThemeColors(randomPrimary, randomSecondary);
+        localStorage.setItem('primaryColor', randomPrimary);
+        localStorage.setItem('secondaryColor', randomSecondary);
+      });
+
+      // Rainbow mode
+      rainbowThemeBtn.addEventListener('click', () => {
+        if (rainbowInterval) {
+          stopRainbowMode();
+        } else {
+          startRainbowMode();
+        }
+      });
+    }
+
+    // Start rainbow mode
+    function startRainbowMode() {
+      rainbowThemeBtn.classList.add('active');
+      rainbowHue = 0;
+      rainbowInterval = setInterval(() => {
+        rainbowHue = (rainbowHue + 1) % 360;
+        const primaryColor = hslToHex(rainbowHue, 70, 55);
+        const secondaryColor = hslToHex((rainbowHue + 180) % 360, 80, 55);
+        primaryColorInput.value = primaryColor;
+        secondaryColorInput.value = secondaryColor;
+        applyThemeColors(primaryColor, secondaryColor);
+      }, 50); // Update every 50ms for smooth animation
+    }
+
+    // Stop rainbow mode
+    function stopRainbowMode() {
+      if (rainbowInterval) {
+        clearInterval(rainbowInterval);
+        rainbowInterval = null;
+        rainbowThemeBtn.classList.remove('active');
+      }
     }
 
     // Function to apply theme colors
@@ -227,6 +278,48 @@ document.addEventListener('DOMContentLoaded', function() {
         b.toString(16).padStart(2, '0');
 
       return newHex;
+    }
+
+    // Generate a random color
+    function generateRandomColor() {
+      const hue = Math.floor(Math.random() * 360);
+      const saturation = 60 + Math.floor(Math.random() * 30); // 60-90%
+      const lightness = 45 + Math.floor(Math.random() * 20); // 45-65%
+      return hslToHex(hue, saturation, lightness);
+    }
+
+    // Convert HSL to Hex
+    function hslToHex(h, s, l) {
+      s /= 100;
+      l /= 100;
+
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+      const m = l - c / 2;
+      let r = 0, g = 0, b = 0;
+
+      if (0 <= h && h < 60) {
+        r = c; g = x; b = 0;
+      } else if (60 <= h && h < 120) {
+        r = x; g = c; b = 0;
+      } else if (120 <= h && h < 180) {
+        r = 0; g = c; b = x;
+      } else if (180 <= h && h < 240) {
+        r = 0; g = x; b = c;
+      } else if (240 <= h && h < 300) {
+        r = x; g = 0; b = c;
+      } else if (300 <= h && h < 360) {
+        r = c; g = 0; b = x;
+      }
+
+      r = Math.round((r + m) * 255);
+      g = Math.round((g + m) * 255);
+      b = Math.round((b + m) * 255);
+
+      return '#' +
+        r.toString(16).padStart(2, '0') +
+        g.toString(16).padStart(2, '0') +
+        b.toString(16).padStart(2, '0');
     }
   });
   

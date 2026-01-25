@@ -674,22 +674,59 @@ h3 {
     background: transparent;
   }
 
-  .reset-theme-btn {
-    width: 100%;
-    padding: 10px;
-    background: var(--primary-red);
+  .theme-action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .theme-action-btn {
+    flex: 1;
+    padding: 10px 8px;
+    background: var(--primary-purple);
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .theme-action-btn svg {
+    flex-shrink: 0;
+  }
+
+  .theme-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(108, 26, 255, 0.4);
+  }
+
+  .reset-theme-btn {
+    background: var(--primary-red);
   }
 
   .reset-theme-btn:hover {
-    background: var(--accent-red);
-    transform: translateY(-2px);
     box-shadow: 0 3px 10px rgba(255, 26, 77, 0.4);
+  }
+
+  .rainbow-theme-btn {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    background-size: 200% 100%;
+    animation: rainbowSlide 3s linear infinite;
+  }
+
+  .rainbow-theme-btn.active {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+
+  @keyframes rainbowSlide {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
   }
 
   @media (max-width: 768px) {

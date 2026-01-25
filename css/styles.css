@@ -462,7 +462,8 @@ h3 {
     background: var(--dark-bg);
     border: 2px solid var(--primary-red);
     border-radius: 8px;
-    padding: 10px;
+    padding: 15px;
+    min-width: 280px;
   }
   .quick-links-nav ul {
     list-style: none;
@@ -470,7 +471,7 @@ h3 {
     padding: 0;
   }
   .quick-links-nav li {
-    margin: 10px 0;
+    margin: 0;
   }
   .quick-links-nav a {
     color: #F8F1FF;
@@ -478,11 +479,16 @@ h3 {
     font-weight: bold;
     font-family: Arial, sans-serif;
     opacity: 0.9;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, background 0.3s ease;
+    display: block;
+    padding: 12px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
   }
-  
+
   .quick-links-nav a:hover {
     color: var(--primary-red);
+    background: rgba(255, 26, 77, 0.1);
   }
   
   .quick-links-nav a i {
@@ -553,21 +559,23 @@ h3 {
   }
 
   .quick-links-nav .submenu li {
-    margin: 8px 0;
+    margin: 0;
   }
 
   .quick-links-nav .submenu a {
     color: #F8F1FF;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+    font-size: 0.95rem;
+    transition: color 0.3s ease, background 0.3s ease;
     display: block;
-    padding: 5px 0;
+    padding: 10px 12px;
+    border-radius: 5px;
   }
 
   .quick-links-nav .submenu a:hover {
     color: var(--primary-purple);
+    background: rgba(108, 26, 255, 0.1);
   }
 
   /* Add arrow indicator for submenu */
@@ -911,17 +919,18 @@ h3 {
     background: linear-gradient(45deg, #FF00FF, #00FFFF);
     border: none;
     color: #000;
-    padding: 8px 16px;
+    padding: 12px 15px;
     cursor: pointer;
     font-weight: bold;
     border-radius: 5px;
     transition: all 0.3s;
     width: 100%;
     text-align: left;
+    font-size: 1rem;
 }
 
 .nineties-toggle-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
 }
 

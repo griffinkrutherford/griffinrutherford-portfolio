@@ -618,7 +618,7 @@ h3 {
     position: fixed;
     top: 80px;
     right: 20px;
-    z-index: 4;
+    z-index: 1001;
   }
 
   .theme-picker-button {

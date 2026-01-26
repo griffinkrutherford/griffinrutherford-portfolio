@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stochastic Gradient Descent Worksheet - Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0a29 0%, #2d0a3d 100%);
+            color: #f8f1ff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(45, 10, 61, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid #6c1aff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ff1a4d;
+        }
+
+        h1 {
+            color: #ff1a4d;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #9d4dff;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        h3 {
+            color: #6c1aff;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .question {
+            background: rgba(108, 26, 255, 0.1);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ff1a4d;
+        }
+
+        .question-number {
+            color: #ff4d7d;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(26, 10, 41, 0.6);
+            border: 2px solid #6c1aff;
+            border-radius: 5px;
+            color: #f8f1ff;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #ff1a4d;
+            box-shadow: 0 0 10px rgba(255, 26, 77, 0.3);
+        }
+
+        .canvas-container {
+            background: #000;
+            border: 3px solid #6c1aff;
+            border-radius: 10px;
+            margin: 20px 0;
+            padding: 10px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            cursor: crosshair;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, #6c1aff, #9d4dff);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(108, 26, 255, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 26, 255, 0.5);
+        }
+
+        button.reset {
+            background: linear-gradient(45deg, #ff1a4d, #ff4d7d);
+        }
+
+        .info-box {
+            background: rgba(255, 26, 77, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff1a4d;
+            margin: 20px 0;
+        }
+
+        .formula {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+            color: #9d4dff;
+        }
+
+        .speaker-bio {
+            background: rgba(108, 26, 255, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 10px;
+            border: 2px solid #6c1aff;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 10px;
+            color: #9d4dff;
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(108, 26, 255, 0.3);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff1a4d;
+            cursor: pointer;
+        }
+
+        .value-display {
+            text-align: center;
+            font-size: 1.2em;
+            color: #ff4d7d;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .question {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Stochastic Gradient Descent</h1>
+            <h2>The Math Behind ChatGPT!</h2>
+            <h3>Guest Speaker - Griffin Rutherford - MS Computer Science - Mountain Runner</h3>
+            <p style="margin-top: 15px; font-style: italic; color: #9d4dff;">
+                This topic is normally only taught at the master's degree level. But I'm sure you can learn it!
+            </p>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question">
+            <div class="question-number">1.</div>
+            <div class="question-text">
+                The expression for the slope of a function is:
+            </div>
+            <input type="text" placeholder="Your answer...">
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question">
+            <div class="question-number">2.</div>
+            <div class="question-text">
+                What does it mean when the slope is zero?
+            </div>
+            <input type="text" placeholder="Your answer...">
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question">
+            <div class="question-number">3.</div>
+            <div class="question-text">
+                What is the expression for the x-coordinate of the vertex of a parabola?
+            </div>
+            <input type="text" placeholder="Your answer...">
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question">
+            <div class="question-number">4.</div>
+            <div class="question-text">
+                If you connect two dots that are equidistant from the vertex with a line, what is the slope of that line?
+            </div>
+            <input type="text" placeholder="Your answer...">
+
+            <div class="canvas-container">
+                <canvas id="parabolaCanvas" width="800" height="400"></canvas>
+            </div>
+            <div class="controls">
+                <button onclick="showVertexLine()">Show Vertex Line</button>
+                <button class="reset" onclick="clearParabola()">Clear</button>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question">
+            <div class="question-number">5.</div>
+            <div class="question-text">
+                How does the slope change from the left to right side of the vertex of any parabola?
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question">
+            <div class="question-number">6.</div>
+            <div class="question-text">
+                Using this quartic equation as an example: <span class="formula">y = x⁴ + 2x³ − 3x² + x + 1</span>
+                We have something that looks like a vertex, but since it's a higher order polynomial, it's a local minimum: there's no formula for this! It's at (-2.22, -13.60).
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="quarticCanvas" width="800" height="400"></canvas>
+            </div>
+
+            <div class="question-text" style="margin-top: 20px;">
+                In real life problem solving, why might finding a vertex or local min/max be useful?
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question">
+            <div class="question-number">7.</div>
+            <div class="question-text">
+                If f(x) represents the amount of water pollution, and x is the amount of a resource used in an engineering project, would it be better to find the local minimum or local maximum of this function? Explain your reasoning.
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question">
+            <div class="question-number">8.</div>
+            <div class="question-text">
+                But the world is a lot more complicated than one number in and one number out! We can actually extend this concept to 3D! Don't worry about all the underlying math, I want to focus on intuition. 3D functions are cool; they are normally not taught until Calculus III. Below is the 3D equivalent of a parabola called a paraboloid:
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="paraboloidCanvas" width="800" height="500"></canvas>
+            </div>
+            <div class="controls">
+                <button onclick="rotateParaboloid()">Auto Rotate</button>
+                <button class="reset" onclick="stopRotation()">Stop</button>
+            </div>
+            <p style="text-align: center; margin-top: 10px; font-style: italic; color: #9d4dff;">
+                Click and drag to rotate the paraboloid!
+            </p>
+
+            <div class="question-text" style="margin-top: 20px;">
+                Why do you think the real world doesn't normally use 2D functions for science and engineering?
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question">
+            <div class="question-number">9.</div>
+            <div class="question-text">
+                Let's say you could walk inside that paraboloid above, but you must be blindfolded. If you didn't exactly know where the bottom is, how would you figure out where the lowest point is? What concept from the start of the lesson helps us solve this question? Hint: There is no equation for this problem.
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question">
+            <div class="question-number">10.</div>
+            <div class="info-box">
+                <p style="margin-bottom: 15px;">
+                    Yes! The world is messy and we can't just plug stuff into equations. As we have a bunch of data, we can't rely on the quadratic formula, completing the square, etc. I mean it would be insane to solve quartic equations by hand with this nightmare formula:
+                </p>
+                <div class="formula" style="font-size: 0.9em; overflow-x: auto;">
+                    x = ±√[(b²/2a²) - (2c/3a) ± √((b²/2a²) - (2c/3a))² - ((c²/a²) - (bd/a²) + e/a))]
+                </div>
+                <p style="margin-top: 15px;">
+                    So what in the world do we do? We use computers!
+                </p>
+            </div>
+
+            <div class="question-text">
+                Computers can crunch a bunch of math insanely fast. We can also use context clues to help computers make a lot of rapid guesses back-to-back, so they get closer to the output we want.
+                <br><br>
+                Remember the concept of local minima/maxima and how we talked about slope? Those concepts all exist in 3D too.
+                <br><br>
+                So how do you think a computer can find the local minimum of a function if all we know is the input, output, and slope of where we are "standing"? Hint: Imagine you are walking in the paraboloid from the last page trying to find the very bottom.
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+
+            <div class="canvas-container">
+                <canvas id="gradientDescentCanvas" width="800" height="400"></canvas>
+            </div>
+            <div class="controls">
+                <button onclick="startGradientDescent()">Start Gradient Descent</button>
+                <button class="reset" onclick="resetGradientDescent()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question">
+            <div class="question-number">11.</div>
+            <div class="info-box">
+                <p style="margin-bottom: 15px;">
+                    <strong>Spoiler for Q10:</strong> Computers can think like someone standing at the edge of a paraboloid, and make small steps downward until it knows the slope is flat. Remember that line we drew through the vertex of the parabola from Q4? Computers can figure that out, but in 3D too.
+                </p>
+                <p>
+                    Computers really just make a bunch of educated guesses until it gets close enough to the result we want: the lowest point of the paraboloid.
+                </p>
+                <p style="margin-top: 15px; font-weight: bold; color: #ff4d7d;">
+                    This is the concept of Gradient Descent, the foundational reason why ChatGPT works!!
+                </p>
+            </div>
+
+            <div class="question-text" style="margin-top: 30px;">
+                So instead of walking inside the paraboloid, let's imagine we have a super weird bowl with marbles inside. We drop marbles somewhere randomly in this bowl, and wherever the marbles end up landing decides how much money is saved. The deeper inside the bowl they end up, the better.
+                <br><br>
+                We have two holes. Think of the deepest hole as the global minimum and the other hole is a local minimum.
+                <br><br>
+                Let's say you could control the bowl with your hands and you want as many marbles as possible to end up in the deeper hole. You are blindfolded once again, so you can't tilt the bowl in the direction you know has the deeper hole.
+                <br><br>
+                What could you do to try to get the most marbles in the deepest hole after the marbles are dropped? Could anything be done?
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="marblesCanvas" width="800" height="500"></canvas>
+            </div>
+            <div class="slider-container">
+                <label>Shakiness (Temperature/Noise):</label>
+                <input type="range" id="shakinessSlider" min="0" max="100" value="30">
+                <div class="value-display">Shakiness: <span id="shakinessValue">30</span>%</div>
+            </div>
+            <div class="controls">
+                <button onclick="dropMarbles()">Drop Marbles</button>
+                <button class="reset" onclick="resetMarbles()">Reset</button>
+            </div>
+
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question">
+            <div class="question-number">12.</div>
+            <div class="info-box">
+                <p style="font-weight: bold; color: #ff4d7d; margin-bottom: 15px;">
+                    You just learned the concept of Stochastic Gradient Descent! This concept is not normally taught until 500-level graduate math classes 😱!
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>Stochastic</strong> is a fancy word for random.
+                </p>
+                <p style="margin-bottom: 15px;">
+                    To summarize, adding a bit of random "shakiness" helps computers better approximate to the best "local minimum" compared to going straight down.
+                </p>
+                <p style="margin-bottom: 15px;">
+                    Some shakiness is good, but too much causes the marbles to fall out, so we need just the right amount.
+                </p>
+                <p>
+                    In the world of AI, this "shakiness" is referred to as <strong>"noise"</strong> or <strong>"temperature"</strong>.
+                </p>
+                <p style="margin-top: 15px;">
+                    Instead of marbles in weird bowl holes, instead picture the depth of the hole as reducing pollution, saving resources, etc.
+                </p>
+            </div>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="question">
+            <div class="question-number">13.</div>
+            <div class="question-text" style="font-size: 1.3em; text-align: center; color: #ff4d7d;">
+                How in the world does this have to do with ChatGPT?
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+        </div>
+
+        <!-- Speaker Bio -->
+        <div class="speaker-bio">
+            <h2 style="margin-bottom: 20px; text-align: center;">About the Speaker (Griffin Rutherford)</h2>
+            <p>
+                I am a 24-year-old graduate of Santa Fe Prep and a Bachelor and Master of Science in Computer Science Graduate from Colorado School of Mines. People say I have "golden retriever energy", and I love being physically active. I am an avid weightlifter, trail cyclist, snowboarder, runner, and more. I moved back to Santa Fe to work a remote position as an AI Implementation Engineer for a startup. I was a member of the Alpha Tau Omega fraternity as Philanthropy Chair, and I lived in the frat house basement for two years (at the expense of my GPA). I also love to sing, write, and enjoy long conversations with friends and family.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Parabola Canvas
+        const parabolaCanvas = document.getElementById('parabolaCanvas');
+        const parabolaCtx = parabolaCanvas.getContext('2d');
+        let showLine = false;
+
+        function drawParabola() {
+            parabolaCtx.clearRect(0, 0, parabolaCanvas.width, parabolaCanvas.height);
+
+            // Draw axes
+            parabolaCtx.strokeStyle = '#6c1aff';
+            parabolaCtx.lineWidth = 2;
+            parabolaCtx.beginPath();
+            parabolaCtx.moveTo(0, parabolaCanvas.height / 2);
+            parabolaCtx.lineTo(parabolaCanvas.width, parabolaCanvas.height / 2);
+            parabolaCtx.moveTo(parabolaCanvas.width / 2, 0);
+            parabolaCtx.lineTo(parabolaCanvas.width / 2, parabolaCanvas.height);
+            parabolaCtx.stroke();
+
+            // Draw parabola y = x^2
+            parabolaCtx.strokeStyle = '#ff4d7d';
+            parabolaCtx.lineWidth = 3;
+            parabolaCtx.beginPath();
+
+            const scale = 50;
+            const centerX = parabolaCanvas.width / 2;
+            const centerY = parabolaCanvas.height / 2;
+
+            for (let x = -8; x <= 8; x += 0.1) {
+                const y = x * x / 4;
+                const canvasX = centerX + x * scale;
+                const canvasY = centerY - y * scale;
+
+                if (x === -8) {
+                    parabolaCtx.moveTo(canvasX, canvasY);
+                } else {
+                    parabolaCtx.lineTo(canvasX, canvasY);
+                }
+            }
+            parabolaCtx.stroke();
+
+            // Draw vertex
+            parabolaCtx.fillStyle = '#9d4dff';
+            parabolaCtx.beginPath();
+            parabolaCtx.arc(centerX, centerY, 6, 0, Math.PI * 2);
+            parabolaCtx.fill();
+
+            if (showLine) {
+                // Draw horizontal line through vertex
+                const dist = 2;
+                const x1 = centerX - dist * scale;
+                const x2 = centerX + dist * scale;
+                const y1 = centerY - (dist * dist / 4) * scale;
+                const y2 = centerY - (dist * dist / 4) * scale;
+
+                parabolaCtx.strokeStyle = '#00ff00';
+                parabolaCtx.lineWidth = 2;
+                parabolaCtx.setLineDash([5, 5]);
+                parabolaCtx.beginPath();
+                parabolaCtx.moveTo(x1, y1);
+                parabolaCtx.lineTo(x2, y2);
+                parabolaCtx.stroke();
+                parabolaCtx.setLineDash([]);
+
+                // Draw points
+                parabolaCtx.fillStyle = '#00ff00';
+                parabolaCtx.beginPath();
+                parabolaCtx.arc(x1, y1, 5, 0, Math.PI * 2);
+                parabolaCtx.arc(x2, y2, 5, 0, Math.PI * 2);
+                parabolaCtx.fill();
+            }
+        }
+
+        function showVertexLine() {
+            showLine = true;
+            drawParabola();
+        }
+
+        function clearParabola() {
+            showLine = false;
+            drawParabola();
+        }
+
+        // Quartic Canvas
+        const quarticCanvas = document.getElementById('quarticCanvas');
+        const quarticCtx = quarticCanvas.getContext('2d');
+
+        function drawQuartic() {
+            quarticCtx.clearRect(0, 0, quarticCanvas.width, quarticCanvas.height);
+
+            // Draw axes
+            quarticCtx.strokeStyle = '#6c1aff';
+            quarticCtx.lineWidth = 2;
+            quarticCtx.beginPath();
+            quarticCtx.moveTo(0, quarticCanvas.height / 2);
+            quarticCtx.lineTo(quarticCanvas.width, quarticCanvas.height / 2);
+            quarticCtx.moveTo(quarticCanvas.width / 2, 0);
+            quarticCtx.lineTo(quarticCanvas.width / 2, quarticCanvas.height);
+            quarticCtx.stroke();
+
+            // Draw quartic y = x^4 + 2x^3 - 3x^2 + x + 1
+            quarticCtx.strokeStyle = '#ff4d7d';
+            quarticCtx.lineWidth = 3;
+            quarticCtx.beginPath();
+
+            const scale = 30;
+            const centerX = quarticCanvas.width / 2;
+            const centerY = quarticCanvas.height / 2;
+
+            for (let x = -4; x <= 2; x += 0.05) {
+                const y = Math.pow(x, 4) + 2 * Math.pow(x, 3) - 3 * Math.pow(x, 2) + x + 1;
+                const canvasX = centerX + x * scale;
+                const canvasY = centerY - y * scale * 0.5;
+
+                if (x === -4) {
+                    quarticCtx.moveTo(canvasX, canvasY);
+                } else {
+                    quarticCtx.lineTo(canvasX, canvasY);
+                }
+            }
+            quarticCtx.stroke();
+
+            // Mark local minimum at (-2.22, -13.60)
+            const minX = centerX + (-2.22) * scale;
+            const minY = centerY - (-13.60) * scale * 0.5;
+
+            quarticCtx.fillStyle = '#9d4dff';
+            quarticCtx.beginPath();
+            quarticCtx.arc(minX, minY, 6, 0, Math.PI * 2);
+            quarticCtx.fill();
+
+            quarticCtx.fillStyle = '#ff4d7d';
+            quarticCtx.font = '14px Arial';
+            quarticCtx.fillText('Local Min (-2.22, -13.60)', minX + 10, minY);
+        }
+
+        // Paraboloid Canvas (3D)
+        const paraboloidCanvas = document.getElementById('paraboloidCanvas');
+        const paraboloidCtx = paraboloidCanvas.getContext('2d');
+        let angleX = 0.5;
+        let angleY = 0;
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let rotationInterval = null;
+
+        paraboloidCanvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastMouseX = e.offsetX;
+            lastMouseY = e.offsetY;
+        });
+
+        paraboloidCanvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.offsetX - lastMouseX;
+                const deltaY = e.offsetY - lastMouseY;
+
+                angleY += deltaX * 0.01;
+                angleX += deltaY * 0.01;
+
+                lastMouseX = e.offsetX;
+                lastMouseY = e.offsetY;
+
+                drawParaboloid();
+            }
+        });
+
+        paraboloidCanvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        paraboloidCanvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        function rotateParaboloid() {
+            if (rotationInterval) return;
+            rotationInterval = setInterval(() => {
+                angleY += 0.02;
+                drawParaboloid();
+            }, 30);
+        }
+
+        function stopRotation() {
+            if (rotationInterval) {
+                clearInterval(rotationInterval);
+                rotationInterval = null;
+            }
+        }
+
+        function drawParaboloid() {
+            paraboloidCtx.clearRect(0, 0, paraboloidCanvas.width, paraboloidCanvas.height);
+
+            const centerX = paraboloidCanvas.width / 2;
+            const centerY = paraboloidCanvas.height / 2;
+            const scale = 40;
+
+            // Draw grid lines
+            const gridSize = 5;
+            const gridStep = 0.5;
+
+            for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                paraboloidCtx.strokeStyle = 'rgba(108, 26, 255, 0.3)';
+                paraboloidCtx.lineWidth = 1;
+                paraboloidCtx.beginPath();
+
+                for (let y = -gridSize; y <= gridSize; y += gridStep) {
+                    const z = x * x + y * y;
+                    const point = project3D(x, y, z, centerX, centerY, scale);
+
+                    if (y === -gridSize) {
+                        paraboloidCtx.moveTo(point.x, point.y);
+                    } else {
+                        paraboloidCtx.lineTo(point.x, point.y);
+                    }
+                }
+                paraboloidCtx.stroke();
+            }
+
+            for (let y = -gridSize; y <= gridSize; y += gridStep) {
+                paraboloidCtx.strokeStyle = 'rgba(108, 26, 255, 0.3)';
+                paraboloidCtx.lineWidth = 1;
+                paraboloidCtx.beginPath();
+
+                for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                    const z = x * x + y * y;
+                    const point = project3D(x, y, z, centerX, centerY, scale);
+
+                    if (x === -gridSize) {
+                        paraboloidCtx.moveTo(point.x, point.y);
+                    } else {
+                        paraboloidCtx.lineTo(point.x, point.y);
+                    }
+                }
+                paraboloidCtx.stroke();
+            }
+
+            // Draw bottom point
+            const bottom = project3D(0, 0, 0, centerX, centerY, scale);
+            paraboloidCtx.fillStyle = '#ff4d7d';
+            paraboloidCtx.beginPath();
+            paraboloidCtx.arc(bottom.x, bottom.y, 8, 0, Math.PI * 2);
+            paraboloidCtx.fill();
+        }
+
+        function project3D(x, y, z, centerX, centerY, scale) {
+            // Rotate around X axis
+            let y1 = y * Math.cos(angleX) - z * Math.sin(angleX);
+            let z1 = y * Math.sin(angleX) + z * Math.cos(angleX);
+
+            // Rotate around Y axis
+            let x2 = x * Math.cos(angleY) - z1 * Math.sin(angleY);
+            let z2 = x * Math.sin(angleY) + z1 * Math.cos(angleY);
+
+            // Project to 2D
+            const perspective = 200 / (200 + z2);
+
+            return {
+                x: centerX + x2 * scale * perspective,
+                y: centerY - y1 * scale * perspective
+            };
+        }
+
+        // Gradient Descent Canvas
+        const gdCanvas = document.getElementById('gradientDescentCanvas');
+        const gdCtx = gdCanvas.getContext('2d');
+        let gdAnimating = false;
+        let gdPosition = 6;
+        let gdSteps = [];
+
+        function drawGradientDescentSetup() {
+            gdCtx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
+
+            // Draw axes
+            gdCtx.strokeStyle = '#6c1aff';
+            gdCtx.lineWidth = 2;
+            gdCtx.beginPath();
+            gdCtx.moveTo(0, gdCanvas.height / 2);
+            gdCtx.lineTo(gdCanvas.width, gdCanvas.height / 2);
+            gdCtx.moveTo(gdCanvas.width / 2, 0);
+            gdCtx.lineTo(gdCanvas.width / 2, gdCanvas.height);
+            gdCtx.stroke();
+
+            // Draw function
+            gdCtx.strokeStyle = '#ff4d7d';
+            gdCtx.lineWidth = 3;
+            gdCtx.beginPath();
+
+            const scale = 40;
+            const centerX = gdCanvas.width / 2;
+            const centerY = gdCanvas.height / 2;
+
+            for (let x = -10; x <= 10; x += 0.1) {
+                const y = Math.pow(x, 2) / 8;
+                const canvasX = centerX + x * scale;
+                const canvasY = centerY - y * scale;
+
+                if (x === -10) {
+                    gdCtx.moveTo(canvasX, canvasY);
+                } else {
+                    gdCtx.lineTo(canvasX, canvasY);
+                }
+            }
+            gdCtx.stroke();
+
+            // Draw current position
+            if (gdPosition !== null) {
+                const y = Math.pow(gdPosition, 2) / 8;
+                const canvasX = centerX + gdPosition * scale;
+                const canvasY = centerY - y * scale;
+
+                gdCtx.fillStyle = '#9d4dff';
+                gdCtx.beginPath();
+                gdCtx.arc(canvasX, canvasY, 8, 0, Math.PI * 2);
+                gdCtx.fill();
+            }
+
+            // Draw steps
+            gdSteps.forEach((step, i) => {
+                const y = Math.pow(step, 2) / 8;
+                const canvasX = centerX + step * scale;
+                const canvasY = centerY - y * scale;
+
+                gdCtx.fillStyle = `rgba(157, 77, 255, ${1 - i * 0.1})`;
+                gdCtx.beginPath();
+                gdCtx.arc(canvasX, canvasY, 5, 0, Math.PI * 2);
+                gdCtx.fill();
+            });
+        }
+
+        function startGradientDescent() {
+            if (gdAnimating) return;
+
+            gdAnimating = true;
+            gdPosition = 6;
+            gdSteps = [];
+
+            const interval = setInterval(() => {
+                // Calculate gradient (slope)
+                const gradient = gdPosition / 4;
+
+                // Move in opposite direction of gradient
+                const learningRate = 0.3;
+                gdPosition = gdPosition - learningRate * gradient;
+
+                gdSteps.push(gdPosition);
+                if (gdSteps.length > 10) gdSteps.shift();
+
+                drawGradientDescentSetup();
+
+                // Stop when close to minimum
+                if (Math.abs(gdPosition) < 0.1) {
+                    clearInterval(interval);
+                    gdAnimating = false;
+                }
+            }, 200);
+        }
+
+        function resetGradientDescent() {
+            gdAnimating = false;
+            gdPosition = 6;
+            gdSteps = [];
+            drawGradientDescentSetup();
+        }
+
+        // Marbles Canvas
+        const marblesCanvas = document.getElementById('marblesCanvas');
+        const marblesCtx = marblesCanvas.getContext('2d');
+        const shakinessSlider = document.getElementById('shakinessSlider');
+        const shakinessValue = document.getElementById('shakinessValue');
+
+        let marbles = [];
+        let animatingMarbles = false;
+
+        shakinessSlider.addEventListener('input', (e) => {
+            shakinessValue.textContent = e.target.value;
+        });
+
+        function drawBowl() {
+            marblesCtx.clearRect(0, 0, marblesCanvas.width, marblesCanvas.height);
+
+            // Draw bowl outline
+            marblesCtx.strokeStyle = '#6c1aff';
+            marblesCtx.lineWidth = 3;
+            marblesCtx.beginPath();
+
+            const centerX = marblesCanvas.width / 2;
+            const bottomY = marblesCanvas.height - 50;
+            const width = 600;
+
+            for (let x = -width/2; x <= width/2; x += 5) {
+                const normalizedX = x / (width/2);
+                const y = Math.pow(normalizedX, 4) * 150 + Math.sin(normalizedX * Math.PI) * 30;
+
+                if (x === -width/2) {
+                    marblesCtx.moveTo(centerX + x, bottomY - y);
+                } else {
+                    marblesCtx.lineTo(centerX + x, bottomY - y);
+                }
+            }
+            marblesCtx.stroke();
+
+            // Mark minima
+            const localMinX = centerX - 100;
+            const globalMinX = centerX + 150;
+
+            marblesCtx.fillStyle = '#9d4dff';
+            marblesCtx.font = '14px Arial';
+            marblesCtx.fillText('Local Min', localMinX - 30, bottomY + 30);
+            marblesCtx.fillText('Global Min', globalMinX - 30, bottomY + 30);
+
+            // Draw marbles
+            marbles.forEach(marble => {
+                marblesCtx.fillStyle = marble.color;
+                marblesCtx.beginPath();
+                marblesCtx.arc(marble.x, marble.y, marble.radius, 0, Math.PI * 2);
+                marblesCtx.fill();
+            });
+        }
+
+        function dropMarbles() {
+            if (animatingMarbles) return;
+
+            marbles = [];
+            const numMarbles = 20;
+            const shakiness = parseInt(shakinessSlider.value) / 100;
+
+            for (let i = 0; i < numMarbles; i++) {
+                const startX = marblesCanvas.width / 2 + (Math.random() - 0.5) * 400;
+                marbles.push({
+                    x: startX,
+                    y: 50,
+                    vx: (Math.random() - 0.5) * shakiness * 10,
+                    vy: 0,
+                    radius: 8,
+                    color: `hsl(${Math.random() * 360}, 70%, 60%)`
+                });
+            }
+
+            animatingMarbles = true;
+            animateMarbles(shakiness);
+        }
+
+        function animateMarbles(shakiness) {
+            if (!animatingMarbles) return;
+
+            let allSettled = true;
+
+            marbles.forEach(marble => {
+                // Physics
+                marble.vy += 0.5; // gravity
+                marble.x += marble.vx;
+                marble.y += marble.vy;
+
+                // Add noise based on shakiness
+                marble.vx += (Math.random() - 0.5) * shakiness * 2;
+
+                // Friction
+                marble.vx *= 0.98;
+                marble.vy *= 0.98;
+
+                // Bowl collision
+                const centerX = marblesCanvas.width / 2;
+                const bottomY = marblesCanvas.height - 50;
+                const relX = marble.x - centerX;
+                const normalizedX = relX / 300;
+                const bowlY = bottomY - (Math.pow(normalizedX, 4) * 150 + Math.sin(normalizedX * Math.PI) * 30);
+
+                if (marble.y > bowlY - marble.radius) {
+                    marble.y = bowlY - marble.radius;
+                    marble.vy *= -0.6; // bounce
+
+                    if (Math.abs(marble.vy) > 0.5) allSettled = false;
+                } else {
+                    allSettled = false;
+                }
+
+                // Side walls
+                if (marble.x < centerX - 300 || marble.x > centerX + 300) {
+                    marble.vx *= -0.8;
+                    marble.x = Math.max(centerX - 300, Math.min(centerX + 300, marble.x));
+                }
+            });
+
+            drawBowl();
+
+            if (!allSettled || Math.abs(marble.vy) > 0.1) {
+                requestAnimationFrame(() => animateMarbles(shakiness));
+            } else {
+                animatingMarbles = false;
+            }
+        }
+
+        function resetMarbles() {
+            animatingMarbles = false;
+            marbles = [];
+            drawBowl();
+        }
+
+        // Initialize all canvases
+        drawParabola();
+        drawQuartic();
+        drawParaboloid();
+        drawGradientDescentSetup();
+        drawBowl();
+    </script>
+</body>
+</html>

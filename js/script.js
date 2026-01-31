@@ -1627,8 +1627,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function gameLoop(currentTime) {
       // Calculate delta time for frame-rate independence
-      if (lastFrameTime === 0) lastFrameTime = currentTime;
+      if (!Number.isFinite(currentTime)) {
+        currentTime = performance.now();
+      }
+      if (!Number.isFinite(lastFrameTime) || lastFrameTime === 0) {
+        lastFrameTime = currentTime;
+      }
       deltaTime = currentTime - lastFrameTime;
+      if (!Number.isFinite(deltaTime) || deltaTime <= 0) {
+        deltaTime = frameTime;
+      }
       lastFrameTime = currentTime;
       
       // Cap delta time to prevent large jumps (if tab was inactive)
@@ -1696,6 +1704,6 @@ document.addEventListener('DOMContentLoaded', function() {
     resetMaze();
     
     // Start the game
-    gameLoop();
+    requestAnimationFrame(gameLoop);
   }
   

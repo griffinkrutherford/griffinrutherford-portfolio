@@ -94,7 +94,7 @@
 
   <!-- Theme Picker -->
   <div class="theme-picker-menu">
-    <button class="theme-picker-button" title="Color Theme">
+    <button class="theme-picker-button" type="button" title="Color Theme" aria-expanded="false" aria-controls="theme-picker-panel">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67 0 1.38-1.12 2.5-2.5 2.5zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5 0-.16-.08-.28-.14-.35-.41-.46-.63-1.05-.63-1.65 0-1.38 1.12-2.5 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z"/>
         <circle cx="6.5" cy="11.5" r="1.5"/>
@@ -103,7 +103,7 @@
         <circle cx="17.5" cy="11.5" r="1.5"/>
       </svg>
     </button>
-    <div class="theme-picker-panel">
+    <div class="theme-picker-panel" id="theme-picker-panel">
       <h3>Theme Colors</h3>
       <div class="color-picker-group">
         <label for="primary-color">Primary Color:</label>
@@ -114,7 +114,7 @@
         <input type="color" id="secondary-color" value="#FF1A4D">
       </div>
       <div class="theme-action-buttons">
-        <button class="theme-action-btn reset-theme-btn" title="Reset to Default">
+        <button class="theme-action-btn reset-theme-btn" type="button" title="Reset to Default">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
             <path d="M21 3v5h-5"/>
@@ -123,7 +123,7 @@
           </svg>
           Default
         </button>
-        <button class="theme-action-btn random-theme-btn" title="Random Colors">
+        <button class="theme-action-btn random-theme-btn" type="button" title="Random Colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/>
             <path d="M18 2l4 4-4 4"/>
@@ -133,7 +133,7 @@
           </svg>
           Random
         </button>
-        <button class="theme-action-btn rainbow-theme-btn" title="Rainbow Mode">
+        <button class="theme-action-btn rainbow-theme-btn" type="button" title="Rainbow Mode">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 17a10 10 0 0 0-20 0"/>
             <path d="M6 17a6 6 0 0 1 12 0"/>

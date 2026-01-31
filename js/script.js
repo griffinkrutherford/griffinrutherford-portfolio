@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const quickLinksButton = document.querySelector('.quick-links-button');
     const quickLinksNav = document.querySelector('.quick-links-nav');
     
-    if (quickLinksButton && quickLinksMenu) {
+    if (quickLinksButton && quickLinksMenu && quickLinksNav) {
       quickLinksButton.addEventListener('click', (e) => {
         e.stopPropagation();
         quickLinksMenu.classList.toggle('active');
@@ -108,7 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Theme Picker functionality
+  });
+
+  function initThemePicker() {
     const themePickerMenu = document.querySelector('.theme-picker-menu');
     const themePickerButton = document.querySelector('.theme-picker-button');
     const primaryColorInput = document.getElementById('primary-color');
@@ -116,84 +118,99 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetThemeBtn = document.querySelector('.reset-theme-btn');
     const randomThemeBtn = document.querySelector('.random-theme-btn');
     const rainbowThemeBtn = document.querySelector('.rainbow-theme-btn');
+
+    if (!themePickerButton || !themePickerMenu || !primaryColorInput || !secondaryColorInput || !resetThemeBtn || !randomThemeBtn || !rainbowThemeBtn) {
+      return;
+    }
+
+    if (themePickerMenu.dataset.themePickerInit === 'true') {
+      return;
+    }
+    themePickerMenu.dataset.themePickerInit = 'true';
+
     let rainbowInterval = null;
     let rainbowHue = 0;
 
-    if (themePickerButton && themePickerMenu) {
-      // Toggle theme picker panel
-      themePickerButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        themePickerMenu.classList.toggle('active');
-      });
+    const setExpanded = (isOpen) => {
+      themePickerButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
 
-      // Close theme picker when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!themePickerMenu.contains(e.target)) {
-          themePickerMenu.classList.remove('active');
-        }
-      });
+    // Toggle theme picker panel
+    themePickerButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = themePickerMenu.classList.toggle('active');
+      setExpanded(isOpen);
+    });
 
-      // Load saved colors from localStorage
-      const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6C1AFF';
-      const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#FF1A4D';
+    // Close theme picker when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!themePickerMenu.contains(e.target)) {
+        themePickerMenu.classList.remove('active');
+        setExpanded(false);
+      }
+    });
 
-      primaryColorInput.value = savedPrimaryColor;
-      secondaryColorInput.value = savedSecondaryColor;
+    // Load saved colors from localStorage
+    const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6C1AFF';
+    const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#FF1A4D';
 
-      // Apply saved colors
-      applyThemeColors(savedPrimaryColor, savedSecondaryColor);
+    primaryColorInput.value = savedPrimaryColor;
+    secondaryColorInput.value = savedSecondaryColor;
 
-      // Primary color change handler
-      primaryColorInput.addEventListener('input', (e) => {
+    // Apply saved colors
+    applyThemeColors(savedPrimaryColor, savedSecondaryColor);
+
+    // Primary color change handler
+    primaryColorInput.addEventListener('input', (e) => {
+      stopRainbowMode();
+      const primaryColor = e.target.value;
+      const secondaryColor = secondaryColorInput.value;
+      applyThemeColors(primaryColor, secondaryColor);
+      localStorage.setItem('primaryColor', primaryColor);
+    });
+
+    // Secondary color change handler
+    secondaryColorInput.addEventListener('input', (e) => {
+      stopRainbowMode();
+      const primaryColor = primaryColorInput.value;
+      const secondaryColor = e.target.value;
+      applyThemeColors(primaryColor, secondaryColor);
+      localStorage.setItem('secondaryColor', secondaryColor);
+    });
+
+    // Reset to default colors
+    resetThemeBtn.addEventListener('click', () => {
+      stopRainbowMode();
+      const defaultPrimary = '#6C1AFF';
+      const defaultSecondary = '#FF1A4D';
+      primaryColorInput.value = defaultPrimary;
+      secondaryColorInput.value = defaultSecondary;
+      applyThemeColors(defaultPrimary, defaultSecondary);
+      localStorage.setItem('primaryColor', defaultPrimary);
+      localStorage.setItem('secondaryColor', defaultSecondary);
+    });
+
+    // Random colors
+    randomThemeBtn.addEventListener('click', () => {
+      stopRainbowMode();
+      const randomPrimary = generateRandomColor();
+      const randomSecondary = generateRandomColor();
+      primaryColorInput.value = randomPrimary;
+      secondaryColorInput.value = randomSecondary;
+      applyThemeColors(randomPrimary, randomSecondary);
+      localStorage.setItem('primaryColor', randomPrimary);
+      localStorage.setItem('secondaryColor', randomSecondary);
+    });
+
+    // Rainbow mode
+    rainbowThemeBtn.addEventListener('click', () => {
+      if (rainbowInterval) {
         stopRainbowMode();
-        const primaryColor = e.target.value;
-        const secondaryColor = secondaryColorInput.value;
-        applyThemeColors(primaryColor, secondaryColor);
-        localStorage.setItem('primaryColor', primaryColor);
-      });
-
-      // Secondary color change handler
-      secondaryColorInput.addEventListener('input', (e) => {
-        stopRainbowMode();
-        const primaryColor = primaryColorInput.value;
-        const secondaryColor = e.target.value;
-        applyThemeColors(primaryColor, secondaryColor);
-        localStorage.setItem('secondaryColor', secondaryColor);
-      });
-
-      // Reset to default colors
-      resetThemeBtn.addEventListener('click', () => {
-        stopRainbowMode();
-        const defaultPrimary = '#6C1AFF';
-        const defaultSecondary = '#FF1A4D';
-        primaryColorInput.value = defaultPrimary;
-        secondaryColorInput.value = defaultSecondary;
-        applyThemeColors(defaultPrimary, defaultSecondary);
-        localStorage.setItem('primaryColor', defaultPrimary);
-        localStorage.setItem('secondaryColor', defaultSecondary);
-      });
-
-      // Random colors
-      randomThemeBtn.addEventListener('click', () => {
-        stopRainbowMode();
-        const randomPrimary = generateRandomColor();
-        const randomSecondary = generateRandomColor();
-        primaryColorInput.value = randomPrimary;
-        secondaryColorInput.value = randomSecondary;
-        applyThemeColors(randomPrimary, randomSecondary);
-        localStorage.setItem('primaryColor', randomPrimary);
-        localStorage.setItem('secondaryColor', randomSecondary);
-      });
-
-      // Rainbow mode
-      rainbowThemeBtn.addEventListener('click', () => {
-        if (rainbowInterval) {
-          stopRainbowMode();
-        } else {
-          startRainbowMode();
-        }
-      });
-    }
+      } else {
+        startRainbowMode();
+      }
+    });
 
     // Start rainbow mode
     function startRainbowMode() {
@@ -241,6 +258,13 @@ document.addEventListener('DOMContentLoaded', function() {
       root.style.setProperty('--primary-red-rgb', `${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}`);
       root.style.setProperty('--primary-purple-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
     }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemePicker);
+  } else {
+    initThemePicker();
+  }
 
     // Helper function to adjust color brightness
     function adjustColorBrightness(hex, amount) {
@@ -463,12 +487,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial resize
     resizeCanvas();
     
-    // Resize on window resize
-    window.addEventListener('resize', () => {
+    function handlePacmanResize() {
       resizeCanvas();
-      syncEntityPixelsToGrid(pacman);
-      ghosts.forEach(syncEntityPixelsToGrid);
-    });
+      if (pacman) {
+        syncEntityPixelsToGrid(pacman);
+      }
+      if (ghosts && Array.isArray(ghosts)) {
+        ghosts.forEach(syncEntityPixelsToGrid);
+      }
+    }
     const cols = 25; // Fixed grid size
     const rows = 15;
     
@@ -591,6 +618,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mode: 'scatter', speed: 0.045, targetPath: [], scatter: {x: 2, y: 12},
         spawn: ghostSpawns[3] }
     ];
+
+    // Resize on window resize (after entities exist)
+    window.addEventListener('resize', handlePacmanResize);
     
     let modeTimer = 200; // Start with scatter mode
     let chaseMode = false;

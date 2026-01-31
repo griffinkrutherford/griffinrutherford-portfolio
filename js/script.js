@@ -364,7 +364,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const b = parseInt(hex.substr(4, 2), 16);
       return { r, g, b };
     }
-  });
   
   // Konami Code Easter Egg
   const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];

@@ -2250,7 +2250,8 @@
     <script>
         // Theme Toggle Functionality - Three Themes
         const themes = ['nineties', 'matrix', 'nintendo'];
-        let currentThemeIndex = parseInt(localStorage.getItem('themeIndex')) || 0;
+        const savedThemeIndex = parseInt(localStorage.getItem('themeIndex'));
+        let currentThemeIndex = Number.isFinite(savedThemeIndex) ? savedThemeIndex : 1;
         let currentTheme = themes[currentThemeIndex];
         
         // Theme-specific text content

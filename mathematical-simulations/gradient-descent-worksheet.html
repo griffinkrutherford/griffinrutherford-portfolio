@@ -622,9 +622,48 @@
             <div class="question-text" style="font-size: 1.3em; text-align: center; color: #e10600;">
                 What in the world does this have to do with ChatGPT?
             </div>
+            <div class="question-text" style="margin-top: 20px;">
+                AI like ChatGPT stores how words relate to each other as a whole bunch of numbers organized in a specific way. Check this out:
+                <br><br>
+                In this first example, ChatGPT stores the concept of “Royalty” on the x-axis and “Gender Identity” on the y-axis.
+                <img class="question-asset" src="gradient-descent-worksheet-assets/q13-word2vec-1.png" alt="Word vector example with royalty and gender axes">
+                <br><br>
+                In this second example, ChatGPT stores the concept of “Activity Intensity” on the x-axis and “Temperature” on the y-axis.
+                <img class="question-asset" src="gradient-descent-worksheet-assets/q13-word2vec-2.png" alt="Word vector example with activity intensity and temperature axes">
+                <img class="question-asset" src="gradient-descent-worksheet-assets/q13-word2vec-3.png" alt="Word vector example with concept arithmetic">
+                <br><br>
+                Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
+                <br><br>
+                So ChatGPT does all of this, but instead of pairs of numbers, it is able to perform these operations on lists of MILLIONS of numbers at a time. This is because there are so many more relationships between words outside of “Royalty” and “Gender Identity” or “Activity Intensity” and “Temperature”.
+                <br><br>
+                So instead of 2D space (with parabolas) or even 3D space (with paraboloids)...
+                <br><br>
+                We are working with functions in MILLION DIMENSIONAL SPACE!!!!
+                <img class="question-asset" src="gradient-descent-worksheet-assets/q13-million-dimension-space.png" alt="Illustration of high-dimensional space">
+                <br><br>
+                Remember when we talked about dropping marbles in bowls and shaking a little bit? ChatGPT does this while working in a dimensional space WE CAN’T EVEN COMPREHEND!! Long story short, ChatGPT’s outputs are based on sets of predictions that use information from relationships between words. Accuracy, comprehension, and output from these AI models can be thought of as a more complicated version of finding a local minimum, like the vertex of a parabola.
+                <br><br>
+                Reminder on our new terms: stochastic is a fancy word for random, and this concept is also referred to as “noise” or “temperature”. Temperature is more widely used in the context of language models like ChatGPT.
+                <br><br>
+                What do you think happens when we raise or lower the temperature of the output of ChatGPT? Yes, this is shaking a bowl in a million dimension space.
+            </div>
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="13">Submit</button>
             <div class="answer" id="answer-13"></div>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="question">
+            <div class="question-number">14.</div>
+            <div class="question-text">
+                To conclude, we started by talking about how to calculate the slope of a function, and we ended with the insanity of dropping marbles in strange, million-dimension bowls to explain how ChatGPT works. What you are learning in class now aligns with the foundation of not only AI, but how the world works in SO many ways. Below, please connect ONE topic you learned in class to ONE new idea you learned today.
+            </div>
+            <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="14">Submit</button>
+            <div class="answer" id="answer-14"></div>
+            <p style="margin-top: 20px; font-weight: bold; text-align: center;">
+                Thank you so much for listening and participating!!
+            </p>
         </div>
 
         <!-- Speaker Bio -->
@@ -651,7 +690,8 @@
                 10: "Use the slope to move downhill a little at a time until it flattens out.",
                 11: "Add randomness (shake) so marbles can escape the shallow hole and reach the deeper one.",
                 12: "This section summarizes stochastic gradient descent and why randomness helps.",
-                13: "ChatGPT learns by reducing error over and over, like sliding downhill to the lowest point."
+                13: "ChatGPT represents word meanings as numbers and learns by reducing error over and over, like sliding downhill to the lowest point.",
+                14: "Example: We learned slope/derivatives, and today we used them to find minima, which is how AI optimizes its predictions."
             },
             calculus: {
                 1: "Slope at a point is the derivative: f'(x) or dy/dx.",
@@ -666,7 +706,8 @@
                 10: "Iteratively move opposite the gradient until the gradient is near zero.",
                 11: "Add stochasticity to escape local minima and improve chances of reaching the global minimum.",
                 12: "This section summarizes stochastic gradient descent and why randomness helps.",
-                13: "ChatGPT is trained by minimizing loss with gradient descent/SGD on huge datasets."
+                13: "ChatGPT embeds words into high-dimensional vectors and is trained by minimizing loss with gradient descent/SGD.",
+                14: "Example: Derivatives/critical points lead to optimization, which is the core math behind training AI models."
             }
         };
 

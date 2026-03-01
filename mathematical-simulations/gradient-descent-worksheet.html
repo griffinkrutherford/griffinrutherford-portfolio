@@ -497,19 +497,6 @@
                 What could you do to try to get the most marbles in the deepest hole after the marbles are dropped? Could anything be done?
             </div>
 
-            <div class="canvas-container">
-                <canvas id="marblesCanvas" width="800" height="500"></canvas>
-            </div>
-            <div class="slider-container">
-                <label>Shakiness (Temperature/Noise):</label>
-                <input type="range" id="shakinessSlider" min="0" max="100" value="30">
-                <div class="value-display">Shakiness: <span id="shakinessValue">30</span>%</div>
-            </div>
-            <div class="controls">
-                <button onclick="dropMarbles()">Drop Marbles</button>
-                <button class="reset" onclick="resetMarbles()">Reset</button>
-            </div>
-
             <button class="reveal-asset" id="show-marbles-gif" type="button">Reveal Marbles Drop</button>
             <img class="question-asset is-hidden" id="marbles-gif" src="gradient-descent-worksheet-assets/q11-marbles.gif" alt="Marbles dropping into a bowl">
             <textarea placeholder="Your answer..."></textarea>
@@ -603,6 +590,7 @@
         document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
+                drawParabola();
             });
         });
 
@@ -671,12 +659,25 @@
             parabolaCtx.fill();
 
             if (showLine) {
-                // Draw horizontal line through vertex
-                const dist = 2;
-                const x1 = centerX - dist * scale;
-                const x2 = centerX + dist * scale;
-                const y1 = centerY - (dist * dist / 4) * scale;
-                const y2 = centerY - (dist * dist / 4) * scale;
+                let x1;
+                let x2;
+                let y1;
+                let y2;
+
+                if (currentMode === 'calculus') {
+                    // Tangent line at the vertex (slope = 0)
+                    x1 = centerX - 4 * scale;
+                    x2 = centerX + 4 * scale;
+                    y1 = centerY;
+                    y2 = centerY;
+                } else {
+                    // Secant line through two symmetric points
+                    const dist = 2;
+                    x1 = centerX - dist * scale;
+                    x2 = centerX + dist * scale;
+                    y1 = centerY - (dist * dist / 4) * scale;
+                    y2 = centerY - (dist * dist / 4) * scale;
+                }
 
                 parabolaCtx.strokeStyle = '#e10600';
                 parabolaCtx.lineWidth = 2;
@@ -993,146 +994,11 @@
             drawGradientDescentSetup();
         }
 
-        // Marbles Canvas
-        const marblesCanvas = document.getElementById('marblesCanvas');
-        const marblesCtx = marblesCanvas.getContext('2d');
-        const shakinessSlider = document.getElementById('shakinessSlider');
-        const shakinessValue = document.getElementById('shakinessValue');
-
-        let marbles = [];
-        let animatingMarbles = false;
-
-        shakinessSlider.addEventListener('input', (e) => {
-            shakinessValue.textContent = e.target.value;
-        });
-
-        function drawBowl() {
-            marblesCtx.clearRect(0, 0, marblesCanvas.width, marblesCanvas.height);
-
-            // Draw bowl outline
-            marblesCtx.strokeStyle = '#ffffff';
-            marblesCtx.lineWidth = 3;
-            marblesCtx.beginPath();
-
-            const centerX = marblesCanvas.width / 2;
-            const bottomY = marblesCanvas.height - 50;
-            const width = 600;
-
-            for (let x = -width/2; x <= width/2; x += 5) {
-                const normalizedX = x / (width/2);
-                const y = Math.pow(normalizedX, 4) * 150 + Math.sin(normalizedX * Math.PI) * 30;
-
-                if (x === -width/2) {
-                    marblesCtx.moveTo(centerX + x, bottomY - y);
-                } else {
-                    marblesCtx.lineTo(centerX + x, bottomY - y);
-                }
-            }
-            marblesCtx.stroke();
-
-            // Mark minima
-            const localMinX = centerX - 100;
-            const globalMinX = centerX + 150;
-
-            marblesCtx.fillStyle = '#e10600';
-            marblesCtx.font = '14px Arial';
-            marblesCtx.fillText('Local Min', localMinX - 30, bottomY + 30);
-            marblesCtx.fillText('Global Min', globalMinX - 30, bottomY + 30);
-
-            // Draw marbles
-            marbles.forEach(marble => {
-                marblesCtx.fillStyle = marble.color;
-                marblesCtx.beginPath();
-                marblesCtx.arc(marble.x, marble.y, marble.radius, 0, Math.PI * 2);
-                marblesCtx.fill();
-            });
-        }
-
-        function dropMarbles() {
-            if (animatingMarbles) return;
-
-            marbles = [];
-            const numMarbles = 20;
-            const shakiness = parseInt(shakinessSlider.value) / 100;
-
-            for (let i = 0; i < numMarbles; i++) {
-                const startX = marblesCanvas.width / 2 + (Math.random() - 0.5) * 400;
-                marbles.push({
-                    x: startX,
-                    y: 50,
-                    vx: (Math.random() - 0.5) * shakiness * 10,
-                    vy: 0,
-                    radius: 8,
-                    color: `hsl(0, 80%, ${50 + Math.random() * 20}%)`
-                });
-            }
-
-            animatingMarbles = true;
-            animateMarbles(shakiness);
-        }
-
-        function animateMarbles(shakiness) {
-            if (!animatingMarbles) return;
-
-            let allSettled = true;
-
-            marbles.forEach(marble => {
-                // Physics
-                marble.vy += 0.5; // gravity
-                marble.x += marble.vx;
-                marble.y += marble.vy;
-
-                // Add noise based on shakiness
-                marble.vx += (Math.random() - 0.5) * shakiness * 2;
-
-                // Friction
-                marble.vx *= 0.98;
-                marble.vy *= 0.98;
-
-                // Bowl collision
-                const centerX = marblesCanvas.width / 2;
-                const bottomY = marblesCanvas.height - 50;
-                const relX = marble.x - centerX;
-                const normalizedX = relX / 300;
-                const bowlY = bottomY - (Math.pow(normalizedX, 4) * 150 + Math.sin(normalizedX * Math.PI) * 30);
-
-                if (marble.y > bowlY - marble.radius) {
-                    marble.y = bowlY - marble.radius;
-                    marble.vy *= -0.6; // bounce
-
-                    if (Math.abs(marble.vy) > 0.5) allSettled = false;
-                } else {
-                    allSettled = false;
-                }
-
-                // Side walls
-                if (marble.x < centerX - 300 || marble.x > centerX + 300) {
-                    marble.vx *= -0.8;
-                    marble.x = Math.max(centerX - 300, Math.min(centerX + 300, marble.x));
-                }
-            });
-
-            drawBowl();
-
-            if (!allSettled || Math.abs(marble.vy) > 0.1) {
-                requestAnimationFrame(() => animateMarbles(shakiness));
-            } else {
-                animatingMarbles = false;
-            }
-        }
-
-        function resetMarbles() {
-            animatingMarbles = false;
-            marbles = [];
-            drawBowl();
-        }
-
         // Initialize all canvases
         drawParabola();
         drawQuartic();
         drawParaboloid();
         drawGradientDescentSetup();
-        drawBowl();
     </script>
 </body>
 </html>

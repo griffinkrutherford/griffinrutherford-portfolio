@@ -254,6 +254,20 @@
             color: #fff;
         }
 
+        .question-asset {
+            width: 100%;
+            max-width: 760px;
+            display: block;
+            margin: 15px auto;
+            border: 2px solid #e10600;
+            border-radius: 10px;
+            background: #0a0a0a;
+        }
+
+        .is-hidden {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -431,6 +445,7 @@
                 <div class="formula" style="font-size: 0.9em; overflow-x: auto;">
                     x = ±√[(b²/2a²) - (2c/3a) ± √((b²/2a²) - (2c/3a))² - ((c²/a²) - (bd/a²) + e/a))]
                 </div>
+                <img class="question-asset" src="gradient-descent-worksheet-assets/q10-quartic-formula.svg" alt="Quartic formula">
                 <p style="margin-top: 15px;">
                     So what in the world do we do? We use computers!
                 </p>
@@ -443,6 +458,7 @@
                 <br><br>
                 So how do you think a computer can find the local minimum of a function if all we know is the input, output, and slope of where we are "standing"? Hint: Imagine you are walking in the paraboloid from the last page trying to find the very bottom.
             </div>
+            <img class="question-asset" src="gradient-descent-worksheet-assets/q10-paraboloid.png" alt="Paraboloid surface">
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="10">Submit</button>
             <div class="answer" id="answer-10"></div>
@@ -494,6 +510,8 @@
                 <button class="reset" onclick="resetMarbles()">Reset</button>
             </div>
 
+            <button class="reveal-asset" id="show-marbles-gif" type="button">Reveal Marbles Drop</button>
+            <img class="question-asset is-hidden" id="marbles-gif" src="gradient-descent-worksheet-assets/q11-marbles.gif" alt="Marbles dropping into a bowl">
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="11">Submit</button>
             <div class="answer" id="answer-11"></div>
@@ -597,6 +615,14 @@
                 answerEl.classList.add('visible');
             });
         });
+
+        const revealMarblesButton = document.getElementById('show-marbles-gif');
+        const marblesGif = document.getElementById('marbles-gif');
+        if (revealMarblesButton && marblesGif) {
+            revealMarblesButton.addEventListener('click', () => {
+                marblesGif.classList.remove('is-hidden');
+            });
+        }
 
         // Parabola Canvas
         const parabolaCanvas = document.getElementById('parabolaCanvas');
@@ -730,7 +756,12 @@
 
             quarticCtx.fillStyle = '#ffffff';
             quarticCtx.font = '14px Arial';
-            quarticCtx.fillText('Local Min (-2.22, -13.60)', minX + 10, minY);
+            // Keep label inside canvas bounds
+            const label = 'Local Min (-2.22, -13.60)';
+            const labelWidth = quarticCtx.measureText(label).width;
+            const labelX = Math.min(minX + 10, quarticCanvas.width - labelWidth - 10);
+            const labelY = Math.max(minY - 10, 20);
+            quarticCtx.fillText(label, labelX, labelY);
         }
 
         // Paraboloid Canvas (3D)

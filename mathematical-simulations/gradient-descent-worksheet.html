@@ -280,6 +280,8 @@
             max-height: 90vh;
             overflow-x: auto;
             overflow-y: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #e10600 #111;
             background: #0a0a0a;
             border: 2px solid #e10600;
             border-radius: 12px;
@@ -287,10 +289,32 @@
             position: relative;
         }
 
+        .modal-content::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #111;
+            border-radius: 999px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #e10600;
+            border-radius: 999px;
+            border: 2px solid #111;
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+            background: #0a0a0a;
+            padding-bottom: 10px;
+            z-index: 1;
+        }
+
         .modal-close {
-            position: absolute;
-            top: 12px;
-            right: 12px;
             background: #e10600;
             color: #fff;
             border: none;
@@ -498,7 +522,9 @@
 
             <div class="modal is-hidden" id="quartic-modal" role="dialog" aria-modal="true" aria-label="Quartic formula">
                 <div class="modal-content">
-                    <button class="modal-close" id="quartic-close" type="button">Close</button>
+                    <div class="modal-header">
+                        <button class="modal-close" id="quartic-close" type="button">Close</button>
+                    </div>
                     <img class="modal-asset" src="gradient-descent-worksheet-assets/q10-quartic-formula.svg" alt="Quartic formula">
                 </div>
             </div>

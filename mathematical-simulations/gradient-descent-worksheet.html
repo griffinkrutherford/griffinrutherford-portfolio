@@ -277,8 +277,9 @@
 
         .modal-content {
             width: min(95vw, 1200px);
-            height: 90vh;
-            overflow: auto;
+            max-height: 90vh;
+            overflow-x: auto;
+            overflow-y: hidden;
             background: #0a0a0a;
             border: 2px solid #e10600;
             border-radius: 12px;
@@ -300,7 +301,8 @@
         }
 
         .modal-asset {
-            width: 100%;
+            width: auto;
+            max-width: none;
             display: block;
             border-radius: 8px;
             background: #0a0a0a;

@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #1a0a29 0%, #2d0a3d 100%);
-            color: #f8f1ff;
+            background: #000;
+            color: #fff;
             padding: 20px;
             line-height: 1.6;
         }
@@ -22,50 +22,50 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: rgba(45, 10, 61, 0.8);
+            background: #0a0a0a;
             padding: 40px;
             border-radius: 15px;
-            border: 2px solid #6c1aff;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid #e10600;
+            box-shadow: 0 10px 30px rgba(225, 6, 0, 0.15);
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 3px solid #ff1a4d;
+            border-bottom: 3px solid #e10600;
         }
 
         h1 {
-            color: #ff1a4d;
+            color: #e10600;
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         h2 {
-            color: #9d4dff;
+            color: #fff;
             font-size: 1.8em;
             margin-bottom: 5px;
         }
 
         h3 {
-            color: #6c1aff;
+            color: #cfcfcf;
             font-size: 1.2em;
             margin-bottom: 20px;
             font-style: italic;
         }
 
         .question {
-            background: rgba(108, 26, 255, 0.1);
+            background: rgba(225, 6, 0, 0.08);
             padding: 25px;
             margin: 30px 0;
             border-radius: 10px;
-            border-left: 5px solid #ff1a4d;
+            border-left: 5px solid #e10600;
         }
 
         .question-number {
-            color: #ff4d7d;
+            color: #e10600;
             font-weight: bold;
             font-size: 1.3em;
             margin-bottom: 15px;
@@ -81,10 +81,10 @@
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            background: rgba(26, 10, 41, 0.6);
-            border: 2px solid #6c1aff;
+            background: #111;
+            border: 2px solid #3a3a3a;
             border-radius: 5px;
-            color: #f8f1ff;
+            color: #fff;
             font-size: 1em;
             font-family: 'Georgia', serif;
         }
@@ -96,13 +96,13 @@
 
         input[type="text"]:focus, textarea:focus {
             outline: none;
-            border-color: #ff1a4d;
-            box-shadow: 0 0 10px rgba(255, 26, 77, 0.3);
+            border-color: #e10600;
+            box-shadow: 0 0 10px rgba(225, 6, 0, 0.3);
         }
 
         .canvas-container {
             background: #000;
-            border: 3px solid #6c1aff;
+            border: 3px solid #e10600;
             border-radius: 10px;
             margin: 20px 0;
             padding: 10px;
@@ -124,52 +124,54 @@
         }
 
         button {
-            background: linear-gradient(45deg, #6c1aff, #9d4dff);
-            color: white;
-            border: none;
+            background: #e10600;
+            color: #fff;
+            border: 2px solid #e10600;
             padding: 12px 24px;
             border-radius: 25px;
             font-size: 1em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(108, 26, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(225, 6, 0, 0.3);
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(108, 26, 255, 0.5);
+            box-shadow: 0 6px 15px rgba(225, 6, 0, 0.5);
         }
 
         button.reset {
-            background: linear-gradient(45deg, #ff1a4d, #ff4d7d);
+            background: transparent;
+            color: #fff;
+            border: 2px solid #e10600;
         }
 
         .info-box {
-            background: rgba(255, 26, 77, 0.1);
+            background: rgba(225, 6, 0, 0.08);
             padding: 20px;
             border-radius: 10px;
-            border: 2px solid #ff1a4d;
+            border: 2px solid #e10600;
             margin: 20px 0;
         }
 
         .formula {
-            background: rgba(0, 0, 0, 0.5);
+            background: #111;
             padding: 15px;
             border-radius: 5px;
             font-family: 'Courier New', monospace;
             text-align: center;
             font-size: 1.2em;
             margin: 15px 0;
-            color: #9d4dff;
+            color: #e10600;
         }
 
         .speaker-bio {
-            background: rgba(108, 26, 255, 0.1);
+            background: #0f0f0f;
             padding: 30px;
             margin-top: 50px;
             border-radius: 10px;
-            border: 2px solid #6c1aff;
+            border: 2px solid #e10600;
         }
 
         .slider-container {
@@ -179,7 +181,7 @@
         .slider-container label {
             display: block;
             margin-bottom: 10px;
-            color: #9d4dff;
+            color: #fff;
             font-weight: bold;
         }
 
@@ -187,7 +189,7 @@
             width: 100%;
             height: 8px;
             border-radius: 5px;
-            background: rgba(108, 26, 255, 0.3);
+            background: #333;
             outline: none;
         }
 
@@ -196,15 +198,33 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #ff1a4d;
+            background: #e10600;
             cursor: pointer;
         }
 
         .value-display {
             text-align: center;
             font-size: 1.2em;
-            color: #ff4d7d;
+            color: #e10600;
             margin-top: 10px;
+        }
+
+        .submit-answer {
+            margin-top: 12px;
+        }
+
+        .answer {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #0c0c0c;
+            border-left: 3px solid #e10600;
+            border-radius: 6px;
+            color: #fff;
+        }
+
+        .answer.visible {
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -232,7 +252,7 @@
             <h1>Stochastic Gradient Descent</h1>
             <h2>The Math Behind ChatGPT!</h2>
             <h3>Guest Speaker - Griffin Rutherford - MS Computer Science - Mountain Runner</h3>
-            <p style="margin-top: 15px; font-style: italic; color: #9d4dff;">
+            <p style="margin-top: 15px; font-style: italic; color: #cfcfcf;">
                 This topic is normally only taught at the master's degree level. But I'm sure you can learn it!
             </p>
         </div>
@@ -244,6 +264,8 @@
                 The expression for the slope of a function is:
             </div>
             <input type="text" placeholder="Your answer...">
+            <button class="submit-answer" data-question="1">Submit</button>
+            <div class="answer" id="answer-1"></div>
         </div>
 
         <!-- Question 2 -->
@@ -253,6 +275,8 @@
                 What does it mean when the slope is zero?
             </div>
             <input type="text" placeholder="Your answer...">
+            <button class="submit-answer" data-question="2">Submit</button>
+            <div class="answer" id="answer-2"></div>
         </div>
 
         <!-- Question 3 -->
@@ -262,6 +286,8 @@
                 What is the expression for the x-coordinate of the vertex of a parabola?
             </div>
             <input type="text" placeholder="Your answer...">
+            <button class="submit-answer" data-question="3">Submit</button>
+            <div class="answer" id="answer-3"></div>
         </div>
 
         <!-- Question 4 -->
@@ -279,6 +305,8 @@
                 <button onclick="showVertexLine()">Show Vertex Line</button>
                 <button class="reset" onclick="clearParabola()">Clear</button>
             </div>
+            <button class="submit-answer" data-question="4">Submit</button>
+            <div class="answer" id="answer-4"></div>
         </div>
 
         <!-- Question 5 -->
@@ -288,6 +316,8 @@
                 How does the slope change from the left to right side of the vertex of any parabola?
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="5">Submit</button>
+            <div class="answer" id="answer-5"></div>
         </div>
 
         <!-- Question 6 -->
@@ -306,6 +336,8 @@
                 In real life problem solving, why might finding a vertex or local min/max be useful?
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="6">Submit</button>
+            <div class="answer" id="answer-6"></div>
         </div>
 
         <!-- Question 7 -->
@@ -315,6 +347,8 @@
                 If f(x) represents the amount of water pollution, and x is the amount of a resource used in an engineering project, would it be better to find the local minimum or local maximum of this function? Explain your reasoning.
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="7">Submit</button>
+            <div class="answer" id="answer-7"></div>
         </div>
 
         <!-- Question 8 -->
@@ -331,7 +365,7 @@
                 <button onclick="rotateParaboloid()">Auto Rotate</button>
                 <button class="reset" onclick="stopRotation()">Stop</button>
             </div>
-            <p style="text-align: center; margin-top: 10px; font-style: italic; color: #9d4dff;">
+            <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf;">
                 Click and drag to rotate the paraboloid!
             </p>
 
@@ -339,6 +373,8 @@
                 Why do you think the real world doesn't normally use 2D functions for science and engineering?
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="8">Submit</button>
+            <div class="answer" id="answer-8"></div>
         </div>
 
         <!-- Question 9 -->
@@ -348,6 +384,8 @@
                 Let's say you could walk inside that paraboloid above, but you must be blindfolded. If you didn't exactly know where the bottom is, how would you figure out where the lowest point is? What concept from the start of the lesson helps us solve this question? Hint: There is no equation for this problem.
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="9">Submit</button>
+            <div class="answer" id="answer-9"></div>
         </div>
 
         <!-- Question 10 -->
@@ -381,6 +419,8 @@
                 <button onclick="startGradientDescent()">Start Gradient Descent</button>
                 <button class="reset" onclick="resetGradientDescent()">Reset</button>
             </div>
+            <button class="submit-answer" data-question="10">Submit</button>
+            <div class="answer" id="answer-10"></div>
         </div>
 
         <!-- Question 11 -->
@@ -393,7 +433,7 @@
                 <p>
                     Computers really just make a bunch of educated guesses until it gets close enough to the result we want: the lowest point of the paraboloid.
                 </p>
-                <p style="margin-top: 15px; font-weight: bold; color: #ff4d7d;">
+                <p style="margin-top: 15px; font-weight: bold; color: #e10600;">
                     This is the concept of Gradient Descent, the foundational reason why ChatGPT works!!
                 </p>
             </div>
@@ -422,13 +462,15 @@
             </div>
 
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="11">Submit</button>
+            <div class="answer" id="answer-11"></div>
         </div>
 
         <!-- Question 12 -->
         <div class="question">
             <div class="question-number">12.</div>
             <div class="info-box">
-                <p style="font-weight: bold; color: #ff4d7d; margin-bottom: 15px;">
+                <p style="font-weight: bold; color: #e10600; margin-bottom: 15px;">
                     You just learned the concept of Stochastic Gradient Descent! This concept is not normally taught until 500-level graduate math classes 😱!
                 </p>
                 <p style="margin-bottom: 15px;">
@@ -447,15 +489,19 @@
                     Instead of marbles in weird bowl holes, instead picture the depth of the hole as reducing pollution, saving resources, etc.
                 </p>
             </div>
+            <button class="submit-answer" data-question="12">Submit</button>
+            <div class="answer" id="answer-12"></div>
         </div>
 
         <!-- Question 13 -->
         <div class="question">
             <div class="question-number">13.</div>
-            <div class="question-text" style="font-size: 1.3em; text-align: center; color: #ff4d7d;">
+            <div class="question-text" style="font-size: 1.3em; text-align: center; color: #e10600;">
                 How in the world does this have to do with ChatGPT?
             </div>
             <textarea placeholder="Your answer..."></textarea>
+            <button class="submit-answer" data-question="13">Submit</button>
+            <div class="answer" id="answer-13"></div>
         </div>
 
         <!-- Speaker Bio -->
@@ -468,6 +514,31 @@
     </div>
 
     <script>
+        const answerMap = {
+            1: "The slope is the derivative: f'(x) or dy/dx.",
+            2: "A zero slope means the graph is flat there — a horizontal tangent, often a local max or min.",
+            3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
+            4: "The line is horizontal, so the slope is 0.",
+            5: "For an upward-opening parabola, slope is negative on the left, zero at the vertex, and positive on the right.",
+            6: "Local minima/maxima help optimize real problems like minimizing cost, pollution, or risk, or maximizing profit and efficiency.",
+            7: "Find the local minimum — less pollution is better for a given resource use.",
+            8: "Most real systems depend on multiple variables, so a 2D function is too simple to model them well.",
+            9: "Use the slope/gradient to take steps downhill — the idea of gradient descent.",
+            10: "Use the slope to step in the downhill direction repeatedly until the slope is near zero (gradient descent).",
+            11: "Introduce randomness or shake/try multiple drops to escape local minima and land in the global minimum.",
+            12: "No written response needed — this section summarizes stochastic gradient descent and why randomness helps.",
+            13: "ChatGPT is trained by minimizing error (loss) with gradient descent/SGD on huge amounts of data."
+        };
+
+        document.querySelectorAll('.submit-answer').forEach((button) => {
+            button.addEventListener('click', () => {
+                const questionNumber = button.getAttribute('data-question');
+                const answerEl = document.getElementById(`answer-${questionNumber}`);
+                answerEl.textContent = answerMap[questionNumber] || "Answer coming soon.";
+                answerEl.classList.add('visible');
+            });
+        });
+
         // Parabola Canvas
         const parabolaCanvas = document.getElementById('parabolaCanvas');
         const parabolaCtx = parabolaCanvas.getContext('2d');
@@ -477,7 +548,7 @@
             parabolaCtx.clearRect(0, 0, parabolaCanvas.width, parabolaCanvas.height);
 
             // Draw axes
-            parabolaCtx.strokeStyle = '#6c1aff';
+            parabolaCtx.strokeStyle = '#ffffff';
             parabolaCtx.lineWidth = 2;
             parabolaCtx.beginPath();
             parabolaCtx.moveTo(0, parabolaCanvas.height / 2);
@@ -487,7 +558,7 @@
             parabolaCtx.stroke();
 
             // Draw parabola y = x^2
-            parabolaCtx.strokeStyle = '#ff4d7d';
+            parabolaCtx.strokeStyle = '#e10600';
             parabolaCtx.lineWidth = 3;
             parabolaCtx.beginPath();
 
@@ -509,7 +580,7 @@
             parabolaCtx.stroke();
 
             // Draw vertex
-            parabolaCtx.fillStyle = '#9d4dff';
+            parabolaCtx.fillStyle = '#ffffff';
             parabolaCtx.beginPath();
             parabolaCtx.arc(centerX, centerY, 6, 0, Math.PI * 2);
             parabolaCtx.fill();
@@ -522,7 +593,7 @@
                 const y1 = centerY - (dist * dist / 4) * scale;
                 const y2 = centerY - (dist * dist / 4) * scale;
 
-                parabolaCtx.strokeStyle = '#00ff00';
+                parabolaCtx.strokeStyle = '#e10600';
                 parabolaCtx.lineWidth = 2;
                 parabolaCtx.setLineDash([5, 5]);
                 parabolaCtx.beginPath();
@@ -532,7 +603,7 @@
                 parabolaCtx.setLineDash([]);
 
                 // Draw points
-                parabolaCtx.fillStyle = '#00ff00';
+                parabolaCtx.fillStyle = '#e10600';
                 parabolaCtx.beginPath();
                 parabolaCtx.arc(x1, y1, 5, 0, Math.PI * 2);
                 parabolaCtx.arc(x2, y2, 5, 0, Math.PI * 2);
@@ -558,7 +629,7 @@
             quarticCtx.clearRect(0, 0, quarticCanvas.width, quarticCanvas.height);
 
             // Draw axes
-            quarticCtx.strokeStyle = '#6c1aff';
+            quarticCtx.strokeStyle = '#ffffff';
             quarticCtx.lineWidth = 2;
             quarticCtx.beginPath();
             quarticCtx.moveTo(0, quarticCanvas.height / 2);
@@ -568,7 +639,7 @@
             quarticCtx.stroke();
 
             // Draw quartic y = x^4 + 2x^3 - 3x^2 + x + 1
-            quarticCtx.strokeStyle = '#ff4d7d';
+            quarticCtx.strokeStyle = '#e10600';
             quarticCtx.lineWidth = 3;
             quarticCtx.beginPath();
 
@@ -593,12 +664,12 @@
             const minX = centerX + (-2.22) * scale;
             const minY = centerY - (-13.60) * scale * 0.5;
 
-            quarticCtx.fillStyle = '#9d4dff';
+            quarticCtx.fillStyle = '#ffffff';
             quarticCtx.beginPath();
             quarticCtx.arc(minX, minY, 6, 0, Math.PI * 2);
             quarticCtx.fill();
 
-            quarticCtx.fillStyle = '#ff4d7d';
+            quarticCtx.fillStyle = '#ffffff';
             quarticCtx.font = '14px Arial';
             quarticCtx.fillText('Local Min (-2.22, -13.60)', minX + 10, minY);
         }
@@ -669,7 +740,7 @@
             const gridStep = 0.5;
 
             for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(108, 26, 255, 0.3)';
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
                 paraboloidCtx.lineWidth = 1;
                 paraboloidCtx.beginPath();
 
@@ -687,7 +758,7 @@
             }
 
             for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(108, 26, 255, 0.3)';
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
                 paraboloidCtx.lineWidth = 1;
                 paraboloidCtx.beginPath();
 
@@ -706,7 +777,7 @@
 
             // Draw bottom point
             const bottom = project3D(0, 0, 0, centerX, centerY, scale);
-            paraboloidCtx.fillStyle = '#ff4d7d';
+            paraboloidCtx.fillStyle = '#e10600';
             paraboloidCtx.beginPath();
             paraboloidCtx.arc(bottom.x, bottom.y, 8, 0, Math.PI * 2);
             paraboloidCtx.fill();
@@ -741,7 +812,7 @@
             gdCtx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
 
             // Draw axes
-            gdCtx.strokeStyle = '#6c1aff';
+            gdCtx.strokeStyle = '#ffffff';
             gdCtx.lineWidth = 2;
             gdCtx.beginPath();
             gdCtx.moveTo(0, gdCanvas.height / 2);
@@ -751,7 +822,7 @@
             gdCtx.stroke();
 
             // Draw function
-            gdCtx.strokeStyle = '#ff4d7d';
+            gdCtx.strokeStyle = '#e10600';
             gdCtx.lineWidth = 3;
             gdCtx.beginPath();
 
@@ -778,7 +849,7 @@
                 const canvasX = centerX + gdPosition * scale;
                 const canvasY = centerY - y * scale;
 
-                gdCtx.fillStyle = '#9d4dff';
+                gdCtx.fillStyle = '#ffffff';
                 gdCtx.beginPath();
                 gdCtx.arc(canvasX, canvasY, 8, 0, Math.PI * 2);
                 gdCtx.fill();
@@ -790,7 +861,7 @@
                 const canvasX = centerX + step * scale;
                 const canvasY = centerY - y * scale;
 
-                gdCtx.fillStyle = `rgba(157, 77, 255, ${1 - i * 0.1})`;
+                gdCtx.fillStyle = `rgba(225, 6, 0, ${1 - i * 0.1})`;
                 gdCtx.beginPath();
                 gdCtx.arc(canvasX, canvasY, 5, 0, Math.PI * 2);
                 gdCtx.fill();
@@ -849,7 +920,7 @@
             marblesCtx.clearRect(0, 0, marblesCanvas.width, marblesCanvas.height);
 
             // Draw bowl outline
-            marblesCtx.strokeStyle = '#6c1aff';
+            marblesCtx.strokeStyle = '#ffffff';
             marblesCtx.lineWidth = 3;
             marblesCtx.beginPath();
 
@@ -873,7 +944,7 @@
             const localMinX = centerX - 100;
             const globalMinX = centerX + 150;
 
-            marblesCtx.fillStyle = '#9d4dff';
+            marblesCtx.fillStyle = '#e10600';
             marblesCtx.font = '14px Arial';
             marblesCtx.fillText('Local Min', localMinX - 30, bottomY + 30);
             marblesCtx.fillText('Global Min', globalMinX - 30, bottomY + 30);
@@ -902,7 +973,7 @@
                     vx: (Math.random() - 0.5) * shakiness * 10,
                     vy: 0,
                     radius: 8,
-                    color: `hsl(${Math.random() * 360}, 70%, 60%)`
+                    color: `hsl(0, 80%, ${50 + Math.random() * 20}%)`
                 });
             }
 

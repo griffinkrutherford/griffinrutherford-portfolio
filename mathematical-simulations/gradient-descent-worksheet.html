@@ -268,6 +268,48 @@
             display: none;
         }
 
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: min(100%, 1000px);
+            max-height: 90vh;
+            overflow: auto;
+            background: #0a0a0a;
+            border: 2px solid #e10600;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #e10600;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-asset {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            background: #0a0a0a;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -442,13 +484,17 @@
                 <p style="margin-bottom: 15px;">
                     Yes! The world is messy and we can't just plug stuff into equations. As we have a bunch of data, we can't rely on the quadratic formula, completing the square, etc. I mean it would be insane to solve quartic equations by hand with this nightmare formula:
                 </p>
-                <div class="formula" style="font-size: 0.9em; overflow-x: auto;">
-                    x = ±√[(b²/2a²) - (2c/3a) ± √((b²/2a²) - (2c/3a))² - ((c²/a²) - (bd/a²) + e/a))]
-                </div>
-                <img class="question-asset" src="gradient-descent-worksheet-assets/q10-quartic-formula.svg" alt="Quartic formula">
+                <button class="reveal-asset" id="show-quartic-formula" type="button">Reveal the craziness</button>
                 <p style="margin-top: 15px;">
                     So what in the world do we do? We use computers!
                 </p>
+            </div>
+
+            <div class="modal is-hidden" id="quartic-modal" role="dialog" aria-modal="true" aria-label="Quartic formula">
+                <div class="modal-content">
+                    <button class="modal-close" id="quartic-close" type="button">Close</button>
+                    <img class="modal-asset" src="gradient-descent-worksheet-assets/q10-quartic-formula.svg" alt="Quartic formula">
+                </div>
             </div>
 
             <div class="question-text">
@@ -612,6 +658,44 @@
             });
         }
 
+        const quarticModal = document.getElementById('quartic-modal');
+        const quarticOpen = document.getElementById('show-quartic-formula');
+        const quarticClose = document.getElementById('quartic-close');
+
+        function openQuarticModal() {
+            if (quarticModal) {
+                quarticModal.classList.remove('is-hidden');
+            }
+        }
+
+        function closeQuarticModal() {
+            if (quarticModal) {
+                quarticModal.classList.add('is-hidden');
+            }
+        }
+
+        if (quarticOpen) {
+            quarticOpen.addEventListener('click', openQuarticModal);
+        }
+
+        if (quarticClose) {
+            quarticClose.addEventListener('click', closeQuarticModal);
+        }
+
+        if (quarticModal) {
+            quarticModal.addEventListener('click', (e) => {
+                if (e.target === quarticModal) {
+                    closeQuarticModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeQuarticModal();
+            }
+        });
+
         // Parabola Canvas
         const parabolaCanvas = document.getElementById('parabolaCanvas');
         const parabolaCtx = parabolaCanvas.getContext('2d');
@@ -694,6 +778,28 @@
                 parabolaCtx.arc(x1, y1, 5, 0, Math.PI * 2);
                 parabolaCtx.arc(x2, y2, 5, 0, Math.PI * 2);
                 parabolaCtx.fill();
+
+                if (currentMode === 'calculus') {
+                    // Add arrowheads to indicate an infinite tangent line
+                    const arrowSize = 10;
+                    parabolaCtx.fillStyle = '#e10600';
+
+                    // Left arrow
+                    parabolaCtx.beginPath();
+                    parabolaCtx.moveTo(x1, y1);
+                    parabolaCtx.lineTo(x1 + arrowSize, y1 - arrowSize / 2);
+                    parabolaCtx.lineTo(x1 + arrowSize, y1 + arrowSize / 2);
+                    parabolaCtx.closePath();
+                    parabolaCtx.fill();
+
+                    // Right arrow
+                    parabolaCtx.beginPath();
+                    parabolaCtx.moveTo(x2, y2);
+                    parabolaCtx.lineTo(x2 - arrowSize, y2 - arrowSize / 2);
+                    parabolaCtx.lineTo(x2 - arrowSize, y2 + arrowSize / 2);
+                    parabolaCtx.closePath();
+                    parabolaCtx.fill();
+                }
             }
         }
 

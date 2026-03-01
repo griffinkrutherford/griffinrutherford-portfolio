@@ -227,6 +227,33 @@
             display: block;
         }
 
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .mode-toggle input {
+            display: none;
+        }
+
+        .mode-toggle label {
+            padding: 8px 16px;
+            border: 2px solid #e10600;
+            border-radius: 999px;
+            cursor: pointer;
+            background: transparent;
+            color: #fff;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .mode-toggle input:checked + label {
+            background: #e10600;
+            color: #fff;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -255,6 +282,12 @@
             <p style="margin-top: 15px; font-style: italic; color: #cfcfcf;">
                 This topic is normally only taught at the master's degree level. But I'm sure you can learn it!
             </p>
+            <div class="mode-toggle" aria-label="Answer mode toggle">
+                <input type="radio" id="mode-algebra" name="answer-mode" value="algebra" checked>
+                <label for="mode-algebra">Algebra II</label>
+                <input type="radio" id="mode-calculus" name="answer-mode" value="calculus">
+                <label for="mode-calculus">Calculus</label>
+            </div>
         </div>
 
         <!-- Question 1 -->
@@ -515,26 +548,52 @@
 
     <script>
         const answerMap = {
-            1: "The slope is the derivative: f'(x) or dy/dx.",
-            2: "A zero slope means the graph is flat there — a horizontal tangent, often a local max or min.",
-            3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
-            4: "The line is horizontal, so the slope is 0.",
-            5: "For an upward-opening parabola, slope is negative on the left, zero at the vertex, and positive on the right.",
-            6: "Local minima/maxima help optimize real problems like minimizing cost, pollution, or risk, or maximizing profit and efficiency.",
-            7: "Find the local minimum — less pollution is better for a given resource use.",
-            8: "Most real systems depend on multiple variables, so a 2D function is too simple to model them well.",
-            9: "Use the slope/gradient to take steps downhill — the idea of gradient descent.",
-            10: "Use the slope to step in the downhill direction repeatedly until the slope is near zero (gradient descent).",
-            11: "Introduce randomness or shake/try multiple drops to escape local minima and land in the global minimum.",
-            12: "No written response needed — this section summarizes stochastic gradient descent and why randomness helps.",
-            13: "ChatGPT is trained by minimizing error (loss) with gradient descent/SGD on huge amounts of data."
+            algebra: {
+                1: "Slope between two points: (y2 - y1) / (x2 - x1).",
+                2: "A zero slope means the line is flat (horizontal).",
+                3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
+                4: "The line is horizontal, so the slope is 0.",
+                5: "Left of the vertex the slope is negative, at the vertex it is 0, and to the right it is positive.",
+                6: "Min/max points help you optimize real problems like cost, pollution, or profit.",
+                7: "Local minimum — less pollution is better.",
+                8: "Most real problems depend on several variables, so 2D graphs are too simple.",
+                9: "Follow the downhill direction step by step; use slope to guide you.",
+                10: "Use the slope to move downhill a little at a time until it flattens out.",
+                11: "Add randomness (shake) so marbles can escape the shallow hole and reach the deeper one.",
+                12: "This section summarizes stochastic gradient descent and why randomness helps.",
+                13: "ChatGPT learns by reducing error over and over, like sliding downhill to the lowest point."
+            },
+            calculus: {
+                1: "Slope at a point is the derivative: f'(x) or dy/dx.",
+                2: "A zero slope means a horizontal tangent, often a local max or min (f'(x) = 0).",
+                3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
+                4: "That line is horizontal, so the slope is 0. The vertex is a local minimum where f'(x) = 0.",
+                5: "For an upward-opening parabola, f'(x) < 0 on the left, f'(x) = 0 at the vertex, and f'(x) > 0 on the right.",
+                6: "Local minima/maxima are critical points (where f'(x) = 0 or undefined) used for optimization in real systems.",
+                7: "Local minimum — you want to minimize pollution.",
+                8: "Most systems are multivariable, so you need functions of several variables (surfaces) and partial derivatives.",
+                9: "Use the gradient to step in the direction of steepest descent (gradient descent).",
+                10: "Iteratively move opposite the gradient until the gradient is near zero.",
+                11: "Add stochasticity to escape local minima and improve chances of reaching the global minimum.",
+                12: "This section summarizes stochastic gradient descent and why randomness helps.",
+                13: "ChatGPT is trained by minimizing loss with gradient descent/SGD on huge datasets."
+            }
         };
+
+        let currentMode = "algebra";
+
+        document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
+            input.addEventListener('change', (e) => {
+                currentMode = e.target.value;
+            });
+        });
 
         document.querySelectorAll('.submit-answer').forEach((button) => {
             button.addEventListener('click', () => {
                 const questionNumber = button.getAttribute('data-question');
                 const answerEl = document.getElementById(`answer-${questionNumber}`);
-                answerEl.textContent = answerMap[questionNumber] || "Answer coming soon.";
+                const modeAnswers = answerMap[currentMode] || {};
+                answerEl.textContent = modeAnswers[questionNumber] || "Answer coming soon.";
                 answerEl.classList.add('visible');
             });
         });

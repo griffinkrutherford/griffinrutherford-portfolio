@@ -148,8 +148,39 @@
     <!-- Video Header -->
     <div class="video-header">
         <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="images/video-poster.jpg">
-            <source src="videos/hook-video-720.mp4" type="video/mp4">
+            <!-- Fallback for browsers without JS -->
+            <noscript>
+                <source src="videos/hook-video-480.mp4" type="video/mp4">
+            </noscript>
         </video>
+        <script>
+            (function() {
+                var video = document.getElementById('hero-video');
+                var src = 'videos/hook-video-720.mp4'; // Default to highest quality
+                
+                // Detect network connection speed if the browser supports it
+                var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (conn) {
+                    if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
+                        src = 'videos/hook-video-360.mp4';
+                    } else if (conn.effectiveType === '3g' || conn.saveData) {
+                        src = 'videos/hook-video-480.mp4';
+                    }
+                }
+                
+                // If it's a mobile device (smaller screen) and high quality is selected, 
+                // save bandwidth by downgrading to 480p as 720p isn't as noticeable.
+                if (window.innerWidth <= 768 && src === 'videos/hook-video-720.mp4') {
+                    src = 'videos/hook-video-480.mp4';
+                }
+                
+                // Apply the selected source
+                var source = document.createElement('source');
+                source.src = src;
+                source.type = 'video/mp4';
+                video.appendChild(source);
+            })();
+        </script>
         <h1 class="name-overlay">GRIFFIN RUTHERFORD</h1>
         <!-- New scroll arrow element -->
         <div class="scroll-arrow">&#8595;</div>

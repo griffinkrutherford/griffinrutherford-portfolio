@@ -897,9 +897,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Bounds check
       if (y < 0 || y >= 15) return false;
       
-      // Handle horizontal tunnels for Pac-Man only
+      // Handle horizontal tunnels for Pac-Man
       if (!isGhost && (x < 0 || x >= 25)) {
-        return y >= 0 && y < 15; // Allow tunnel movement for Pac-Man
+        return y === 8; // Only allow tunnel at row 8
       }
       
       // Ghosts must stay within maze bounds
@@ -914,114 +914,85 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function smoothMove(entity) {
-      // Check if this is a ghost (has a color property)
       const isGhost = entity.hasOwnProperty('color');
-      
-      // Ensure entity has a valid direction
-      if (!entity.direction || !directions.includes(entity.direction)) {
-        const validDirs = directions.filter(dir => {
-          let testX = Math.round(entity.x);
-          let testY = Math.round(entity.y);
-          switch(dir) {
-            case 'up': testY--; break;
-            case 'down': testY++; break;
-            case 'left': testX--; break;
-            case 'right': testX++; break;
-          }
-          return canMove(testX, testY, isGhost);
-        });
-        
-        if (validDirs.length > 0) {
-          entity.direction = validDirs[0];
-        } else {
-          return false; // Can't move at all
-        }
-      }
-      
-      // Calculate next position based on direction using delta time for frame-rate independence
-      let nextPixelX = entity.pixelX;
-      let nextPixelY = entity.pixelY;
       const cellSize = getCellSize();
-      const speed = entity.speed * cellSize * (deltaTime / frameTime); // Frame-rate independent movement
       
-      switch(entity.direction) {
-        case 'up': nextPixelY -= speed; break;
-        case 'down': nextPixelY += speed; break;
-        case 'left': nextPixelX -= speed; break;
-        case 'right': nextPixelX += speed; break;
-      }
+      // Target grid position
+      const currentGridX = Math.round(entity.x);
+      const currentGridY = Math.round(entity.y);
       
-      // Convert to grid coordinates to check collision
-      const nextGridX = Math.round(nextPixelX / cellSize);
-      const nextGridY = Math.round(nextPixelY / cellSize);
+      // Calculate speed based on deltaTime
+      const speed = entity.speed * (deltaTime / frameTime);
       
-      // Check if the next position is valid
-      if (canMove(nextGridX, nextGridY, isGhost)) {
-        // Move the entity
-        entity.pixelX = nextPixelX;
-        entity.pixelY = nextPixelY;
-        entity.x = entity.pixelX / cellSize;
-        entity.y = entity.pixelY / cellSize;
-        snapEntityToGrid(entity);
-        
-        // Handle tunnel wrapping (only for Pac-Man, not ghosts)
-        if (!isGhost) {
-          if (entity.x < -0.5) {
-            entity.x = 24.5;
-            entity.pixelX = 24.5 * cellSize;
-          } else if (entity.x > 24.5) {
-            entity.x = -0.5;
-            entity.pixelX = -0.5 * cellSize;
-          }
+      // Check if we are close to grid center to allow turning
+      const distToCenter = Math.sqrt(Math.pow(entity.x - currentGridX, 2) + Math.pow(entity.y - currentGridY, 2));
+      const atGrid = distToCenter < 0.1;
+      
+      if (atGrid && entity.direction !== entity.nextDirection) {
+        // Try to change to nextDirection
+        let testX = currentGridX, testY = currentGridY;
+        switch(entity.nextDirection) {
+          case 'up': testY--; break;
+          case 'down': testY++; break;
+          case 'left': testX--; break;
+          case 'right': testX++; break;
         }
         
-        return true;
-      } else {
-        // Check if we're at a grid position and can turn
-        const currentGridX = Math.round(entity.x);
-        const currentGridY = Math.round(entity.y);
-        const atGrid = Math.abs(entity.x - currentGridX) < 0.1 && Math.abs(entity.y - currentGridY) < 0.1;
-        
-        if (atGrid) {
-          // Snap to grid center before choosing a new direction
+        if (canMove(testX, testY, isGhost)) {
+          entity.direction = entity.nextDirection;
           entity.x = currentGridX;
           entity.y = currentGridY;
-          entity.pixelX = currentGridX * cellSize;
-          entity.pixelY = currentGridY * cellSize;
-          // Try to find an alternative direction
-          const validDirs = directions.filter(dir => {
-            let testX = currentGridX, testY = currentGridY;
-            switch(dir) {
-              case 'up': testY--; break;
-              case 'down': testY++; break;
-              case 'left': testX--; break;
-              case 'right': testX++; break;
-            }
-            return canMove(testX, testY, isGhost);
-          });
-          
-          if (validDirs.length > 0 && !validDirs.includes(entity.direction)) {
-            // Change direction to a valid one
-            entity.direction = validDirs[0];
-            return smoothMove(entity); // Try moving in new direction
-          }
+        }
+      }
+      
+      // Move in current direction
+      let nextX = entity.x;
+      let nextY = entity.y;
+      
+      switch(entity.direction) {
+        case 'up': nextY -= speed; break;
+        case 'down': nextY += speed; break;
+        case 'left': nextX -= speed; break;
+        case 'right': nextX += speed; break;
+      }
+      
+      // Determine the next cell we are entering
+      let checkX = entity.direction === 'left' ? Math.floor(nextX) : Math.ceil(nextX);
+      let checkY = entity.direction === 'up' ? Math.floor(nextY) : Math.ceil(nextY);
+      
+      if (canMove(checkX, checkY, isGhost)) {
+        entity.x = nextX;
+        entity.y = nextY;
+        
+        // Handle tunnel wrapping
+        if (!isGhost) {
+          if (entity.x < -0.5) entity.x = 24.5;
+          if (entity.x > 24.5) entity.x = -0.5;
         }
         
+        // Sync pixel coordinates for drawing and collision
+        entity.pixelX = entity.x * cellSize;
+        entity.pixelY = entity.y * cellSize;
+        return true;
+      } else {
+        // Hit a wall, stop at grid center
+        entity.x = currentGridX;
+        entity.y = currentGridY;
+        entity.pixelX = entity.x * cellSize;
+        entity.pixelY = entity.y * cellSize;
         return false;
       }
     }
     
     function checkCollision() {
-      // Don't check collision if still in respawn period
-      if (respawnTimer > 0) return;
+      if (respawnTimer > 0 || levelComplete) return;
 
-      const cellSize = getCellSize();
       for (let ghost of ghosts) {
-        const dist = Math.sqrt(
-          Math.pow(pacman.pixelX - ghost.pixelX, 2) +
-          Math.pow(pacman.pixelY - ghost.pixelY, 2)
-        );
-        if (dist < cellSize * 0.8) {
+        // Simple bounding box collision
+        const dx = Math.abs(pacman.x - ghost.x);
+        const dy = Math.abs(pacman.y - ghost.y);
+        
+        if (dx < 0.7 && dy < 0.7) {
           handleCollision();
           break;
         }
@@ -1029,47 +1000,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function handleCollision() {
-      // Respawn Pac-Man at center
-      pacman.x = 12; // Center of maze
-      pacman.y = 7;  // Center position
-      pacman.pixelX = 12 * getCellSize();
-      pacman.pixelY = 7 * getCellSize();
+      // Immunity/Flash effect
+      respawnTimer = 2000;
+      
+      // Reset Pac-Man
+      pacman.x = pacmanSpawn.x;
+      pacman.y = pacmanSpawn.y;
+      pacman.pixelX = pacman.x * getCellSize();
+      pacman.pixelY = pacman.y * getCellSize();
       pacman.direction = 'left';
       pacman.nextDirection = 'left';
       pacman.targetPath = [];
       
-      // Reset all ghosts to their corner scatter positions
-      ghosts.forEach((ghost) => {
-        ghost.x = ghost.scatter.x;
-        ghost.y = ghost.scatter.y;
-        ghost.pixelX = ghost.scatter.x * getCellSize();
-        ghost.pixelY = ghost.scatter.y * getCellSize();
-        ghost.targetPath = [];
-        ghost.mode = 'scatter';
-        
-        // Clear any current direction and let them find new paths
-        const validDirs = ['up', 'down', 'left', 'right'].filter(dir => {
-          let testX = ghost.x, testY = ghost.y;
-          switch(dir) {
-            case 'up': testY--; break;
-            case 'down': testY++; break;
-            case 'left': testX--; break;
-            case 'right': testX++; break;
-          }
-          return canMove(testX, testY, true);
-        });
-        
-        if (validDirs.length > 0) {
-          ghost.direction = validDirs[Math.floor(Math.random() * validDirs.length)];
-        }
-      });
-      
-      // Give player breathing room (in milliseconds)
-      respawnTimer = 2000; // 2 seconds immunity
-
-      // Force scatter mode for a bit after collision
+      // Scatter ghosts
       chaseMode = false;
-      modeTimer = 5000; // 5 seconds of scatter mode
+      modeTimer = 5000;
+      ghosts.forEach(ghost => {
+        ghost.targetPath = [];
+      });
     }
     
     function isPositionSafe(x, y, dangerRadius = 3) {

@@ -2248,10 +2248,14 @@
     <canvas id="matrix-canvas"></canvas>
     
     <script>
-        // Theme Toggle Functionality - Three Themes
-        const themes = ['nineties', 'matrix', 'nintendo'];
-        const savedThemeIndex = parseInt(localStorage.getItem('themeIndex'));
-        let currentThemeIndex = Number.isFinite(savedThemeIndex) ? savedThemeIndex : 1;
+        // Theme Toggle Functionality - Two Themes (Nintendo Mode Disabled)
+        const themes = ['nineties', 'matrix'];
+        let savedThemeIndex = parseInt(localStorage.getItem('themeIndex'));
+        // If theme was nintendo (index 2) or invalid, reset to classic
+        if (!Number.isFinite(savedThemeIndex) || savedThemeIndex >= themes.length) {
+            savedThemeIndex = 0;
+        }
+        let currentThemeIndex = savedThemeIndex;
         let currentTheme = themes[currentThemeIndex];
         
         // Theme-specific text content
@@ -2473,34 +2477,19 @@
         
         function initializeTheme() {
             const body = document.body;
-            const toggleBtn = document.getElementById('theme-toggle');
             const toggleIcon = document.querySelector('.theme-toggle-icon');
             const toggleText = document.querySelector('.theme-toggle-text');
             
             // Remove all theme classes
             body.classList.remove('matrix-theme', 'nintendo-theme');
             stopMatrixRain();
-            // Clean up Nintendo theme if it was active
-            if (window.nintendoTheme && window.nintendoTheme.isActive) {
-                window.nintendoTheme.destroy();
-            }
             
             switch(currentTheme) {
                 case 'matrix':
                     body.classList.add('matrix-theme');
                     toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Nintendo Mode';
+                    toggleText.textContent = 'Classic Mode';
                     initMatrixRain();
-                    break;
-                case 'nintendo':
-                    body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '[o]';
-                    toggleText.textContent = '90s Mode';
-                    // Initialize Nintendo sprite theme if available
-                    if (window.NintendoTheme) {
-                        window.nintendoTheme = new NintendoTheme();
-                        window.nintendoTheme.init();
-                    }
                     break;
                 default: // nineties
                     toggleIcon.textContent = '===';
@@ -2525,29 +2514,14 @@
             // Remove all theme classes
             body.classList.remove('matrix-theme', 'nintendo-theme');
             stopMatrixRain();
-            // Clean up Nintendo theme if it was active
-            if (window.nintendoTheme && window.nintendoTheme.isActive) {
-                window.nintendoTheme.destroy();
-            }
             
             // Apply new theme
             switch(currentTheme) {
                 case 'matrix':
                     body.classList.add('matrix-theme');
                     toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Nintendo Mode';
+                    toggleText.textContent = 'Classic Mode';
                     initMatrixRain();
-                    break;
-                case 'nintendo':
-                    body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '[o]';
-                    toggleText.textContent = '90s Mode';
-                    playNintendoSound();
-                    // Initialize Nintendo sprite theme if available
-                    if (window.NintendoTheme) {
-                        window.nintendoTheme = new NintendoTheme();
-                        window.nintendoTheme.init();
-                    }
                     break;
                 default: // nineties
                     toggleIcon.textContent = '===';

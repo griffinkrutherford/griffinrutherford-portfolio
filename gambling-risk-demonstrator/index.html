@@ -315,6 +315,12 @@
       background: rgba(255, 26, 77, 0.1);
     }
 
+    .pill.warning {
+      border-color: var(--warning);
+      color: var(--warning);
+      background: rgba(252, 211, 77, 0.12);
+    }
+
     /* ===== Wheel Animation ===== */
     .wheelWrap {
       display: grid;
@@ -792,6 +798,9 @@
       <input id="paths" type="number" step="100" min="100" value="5000" />
       <span style="font-size: 12px; color: var(--muted); font-weight: normal;">More paths = more accurate (but slower)</span>
     </label>
+    <div id="derivedScenario" style="grid-column: 1 / -1; padding: 16px; background: rgba(108, 26, 255, 0.08); border: 1px solid var(--border); border-radius: 14px; color: var(--muted); line-height: 1.6;">
+      The model summary will appear here.
+    </div>
     <button id="run" class="btn">
       <svg class="icon" aria-hidden="true"><use href="#icon-roulette"/></svg>
       Run Simulation
@@ -857,6 +866,11 @@
           One leak? No problem. But thousands of leaks? You're going to sink!
         </p>
       </div>
+      <div class="row" id="fixedBetSummary" style="margin-top: 0; margin-bottom: 18px;">
+        <span class="pill" id="summaryNetWins">Need +100 net wins</span>
+        <span class="pill" id="summaryReachableTarget">First reachable win: +$100</span>
+        <span class="pill" id="summaryReachableLoss">First reachable loss: -$10,000</span>
+      </div>
       <div class="kpi">
         <span class="val" id="ruinProb">–%</span>
         <span class="sub">Success Probability</span>
@@ -903,8 +917,8 @@
     <div class="card">
       <h2><svg class="icon icon--lg" aria-hidden="true"><use href="#icon-chart"/></svg> The Compound Effect</h2>
       <p class="caption" style="font-size: 15px; line-height: 1.6;">
-        This graph shows the most important insight in gambling: <strong>the more you play, the more certain your loss becomes.</strong>
-        The house edge compounds over time like reverse interest!
+        This graph answers a different question from gambler's ruin: <strong>if you promise to stop after exactly N even-money bets, what is the chance you are ahead at that moment?</strong>
+        It is here to build intuition about repeated exposure to the house edge.
       </p>
       <canvas id="compareChart"></canvas>
       <div style="padding: 12px; background: rgba(255, 207, 77, 0.1); border-radius: 8px; margin-top: 15px;">
@@ -1039,6 +1053,10 @@
     bigBar: $('#bigBar'),
     ruinProb: $('#ruinProb'),
     ruinBar: $('#ruinBar'),
+    derivedScenario: $('#derivedScenario'),
+    summaryNetWins: $('#summaryNetWins'),
+    summaryReachableTarget: $('#summaryReachableTarget'),
+    summaryReachableLoss: $('#summaryReachableLoss'),
     wheel: $('#wheel'),
     spinBtn: $('#spinOnce'),
     bigOutcome: $('#bigOutcome'),
@@ -1064,6 +1082,16 @@
     if (pct < 1) return pct.toFixed(3) + '%';
     if (pct < 10) return pct.toFixed(2) + '%';
     return pct.toFixed(1) + '%';
+  }
+
+  function formatMoney(x) {
+    if (!isFinite(x)) return '$0';
+    const abs = Math.abs(x);
+    const hasCents = Math.abs(abs - Math.round(abs)) > 1e-9;
+    return '$' + abs.toLocaleString(undefined, {
+      minimumFractionDigits: hasCents ? 2 : 0,
+      maximumFractionDigits: hasCents ? 2 : 0
+    });
   }
   
   function sizeCanvas(canvas) { 
@@ -1154,6 +1182,19 @@
   }
 
   // ===== Mathematical Models =====
+
+  function buildFixedBetScenario(target, loss, unit) {
+    const safeUnit = Math.max(1e-9, unit);
+    const targetSteps = Math.max(1, Math.ceil(target / safeUnit));
+    const lossSteps = Math.max(1, Math.ceil(loss / safeUnit));
+    return {
+      unit: safeUnit,
+      targetSteps,
+      lossSteps,
+      reachableTarget: targetSteps * safeUnit,
+      reachableLoss: lossSteps * safeUnit
+    };
+  }
   
   // Gambler's Ruin probability (analytical solution)
   // This calculates the probability of reaching the target before going broke
@@ -1191,8 +1232,8 @@
   
   // Fixed bet strategy simulation
   function simulateFixedBets({ p, target, loss, unit, nPaths, maxSteps = 200000, sampleEvery = 10, rng = Math.random }) {
-    const targetUnits = Math.max(1, Math.floor(target / unit));
-    const lossUnits = Math.max(1, Math.floor(loss / unit));
+    const scenario = buildFixedBetScenario(target, loss, unit);
+    const { targetSteps, lossSteps, reachableTarget, reachableLoss } = scenario;
     const paths = [];
     let successCount = 0;
     const durations = [];
@@ -1203,7 +1244,7 @@
       let steps = 0;
       const trajectory = [[0, 0]];
       
-      while (bankroll > -lossUnits && bankroll < targetUnits && steps < maxSteps) {
+      while (bankroll > -lossSteps && bankroll < targetSteps && steps < maxSteps) {
         bankroll += rng() < p ? 1 : -1;
         steps++;
         
@@ -1212,10 +1253,10 @@
         }
       }
       
-      const finalPosition = Math.max(-lossUnits, Math.min(targetUnits, bankroll));
+      const finalPosition = Math.max(-lossSteps, Math.min(targetSteps, bankroll));
       trajectory.push([steps, finalPosition]);
       
-      const won = finalPosition >= targetUnits;
+      const won = finalPosition >= targetSteps;
       if (won) {
         successCount++;
       }
@@ -1231,8 +1272,10 @@
       probability: successCount / nPaths,
       durations,
       outcomes,
-      targetUnits,
-      lossUnits
+      targetUnits: targetSteps,
+      lossUnits: lossSteps,
+      reachableTarget,
+      reachableLoss
     };
   }
 
@@ -1851,11 +1894,14 @@
     const loss = Math.max(1, parseFloat(elements.loss.value || '10000'));
     const unit = Math.max(1, parseFloat(elements.unit.value || '1'));
     const strategy = elements.strategy.value;
+    const fixedScenario = buildFixedBetScenario(target, loss, unit);
     
     liveSimulation.state = {
       p, target, loss, unit, strategy,
+      fixedScenario,
       time: 0,
       bankroll: 0,
+      bankrollUnits: 0,
       bet: unit,
       trajectory: [[0, 0]]
     };
@@ -1879,7 +1925,8 @@
     if (strategy === 'unit') {
       // Fixed bet strategy
       const won = liveSimulation.rng() < p;
-      liveSimulation.state.bankroll += won ? unit : -unit;
+      liveSimulation.state.bankrollUnits += won ? 1 : -1;
+      liveSimulation.state.bankroll = liveSimulation.state.bankrollUnits * unit;
     } else {
       // Martingale strategy
       const maxBet = Math.min(
@@ -1912,26 +1959,28 @@
     }
     
     // Check for termination
-    if (liveSimulation.state.bankroll >= target) {
+    const successLine = strategy === 'unit' ? liveSimulation.state.fixedScenario.reachableTarget : target;
+    const ruinLine = strategy === 'unit' ? liveSimulation.state.fixedScenario.reachableLoss : loss;
+    if (liveSimulation.state.bankroll >= successLine) {
       liveSimulation.active = false;
       elements.liveStatus.textContent = 'Success!';
       elements.liveStatus.className = 'pill success';
       liveSimulation.state.trajectory.push([
         liveSimulation.state.time,
-        target
+        successLine
       ]);
-    } else if (liveSimulation.state.bankroll <= -loss) {
+    } else if (liveSimulation.state.bankroll <= -ruinLine) {
       liveSimulation.active = false;
       elements.liveStatus.textContent = 'Ruined';
       elements.liveStatus.className = 'pill danger';
       liveSimulation.state.trajectory.push([
         liveSimulation.state.time,
-        -loss
+        -ruinLine
       ]);
     }
     
     // Update visualization
-    drawPathsChart([liveSimulation.state.trajectory], target, loss);
+    drawPathsChart([liveSimulation.state.trajectory], successLine, ruinLine);
   }
 
   function animateLiveSimulation() {
@@ -1962,6 +2011,9 @@
     const loss = Math.max(1, parseFloat(elements.loss.value || '10000'));
     const unit = Math.max(1, parseFloat(elements.unit.value || '1'));
     const strategy = elements.strategy.value;
+    const fixedScenario = buildFixedBetScenario(target, loss, unit);
+    const fixedBetProb = computeRuinProbability(p, fixedScenario.targetSteps, fixedScenario.lossSteps);
+    const requiresRounding = Math.abs(fixedScenario.reachableTarget - target) > 1e-9 || Math.abs(fixedScenario.reachableLoss - loss) > 1e-9;
 
     const oneBetText = formatPercent(p);
     const winRateEl = document.getElementById('currentWinRate');
@@ -1971,13 +2023,20 @@
       if (el) el.textContent = oneBetText;
     });
     
-    const targetUnits = Math.max(1, Math.floor(target / unit));
-    const lossUnits = Math.max(1, Math.floor(loss / unit));
-    const fixedBetProb = computeRuinProbability(p, targetUnits, lossUnits);
     ['manyBetPct', 'manyBetPct2'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = formatPercent(fixedBetProb);
     });
+    elements.summaryNetWins.textContent = `Need ${fixedScenario.targetSteps} net wins`;
+    elements.summaryReachableTarget.textContent = `First reachable win: +${formatMoney(fixedScenario.reachableTarget)}`;
+    elements.summaryReachableLoss.textContent = `First reachable loss: -${formatMoney(fixedScenario.reachableLoss)}`;
+    elements.derivedScenario.innerHTML = `
+      <strong>Model interpretation:</strong> With fixed ${formatMoney(unit)} bets, your bankroll moves in chunks of ${formatMoney(unit)}.
+      That means this exact fixed-bet model stops at <strong>+${formatMoney(fixedScenario.reachableTarget)}</strong> or <strong>-${formatMoney(fixedScenario.reachableLoss)}</strong>.
+      ${requiresRounding
+        ? `Your requested thresholds of +${formatMoney(target)} and -${formatMoney(loss)} are not exact multiples of the bet size, so the model uses the first reachable amounts instead.`
+        : `Your requested thresholds are exactly reachable with this bet size, so the math and the simulation line up perfectly.`}
+    `;
     
     const compoundMap = {
       compound1: probabilityAheadAfterBets(p, 1),
@@ -1997,17 +2056,16 @@
     
     // Update multi-bet display
     if (strategy === 'unit') {
-      const probability = computeRuinProbability(p, targetUnits, lossUnits);
+      elements.ruinProb.textContent = formatPercent(fixedBetProb);
+      elements.ruinBar.style.width = (100 * fixedBetProb).toFixed(2) + '%';
       
-      elements.ruinProb.textContent = formatPercent(probability);
-      elements.ruinBar.style.width = (100 * probability).toFixed(2) + '%';
-      
-      const successChance = probability * 100;
-      const lossChance = (1 - probability) * 100;
+      const successChance = fixedBetProb * 100;
+      const lossChance = (1 - fixedBetProb) * 100;
       
       elements.analyticNote.innerHTML = `
-        <strong>What's happening:</strong> With $${unit} bets, you need to win ${targetUnits} more times than you lose 
-        before losing ${lossUnits} times total. <br>
+        <strong>What's happening:</strong> With ${formatMoney(unit)} bets, you need to climb from $0 to <strong>+${formatMoney(fixedScenario.reachableTarget)}</strong>
+        before you fall to <strong>-${formatMoney(fixedScenario.reachableLoss)}</strong>.<br>
+        <strong>In step terms:</strong> That means ${fixedScenario.targetSteps} net wins before ${fixedScenario.lossSteps} net losses. <br>
         <strong>Your chances:</strong> ${successChance.toFixed(3)}% success vs ${lossChance.toFixed(3)}% failure. 
         That's roughly a 1 in ${Math.max(1, Math.round(100 / successChance))} chance under the current settings.
       `;
@@ -2034,6 +2092,7 @@
       samplePaths = result.paths.map(path => 
         path.map(([t, y]) => [t, y * unit])
       );
+      drawPathsChart(samplePaths, result.reachableTarget, result.reachableLoss);
     } else {
       const result = simulateMartingale({
         p, target, loss, unit,
@@ -2041,9 +2100,8 @@
         rng
       });
       samplePaths = result.paths;
+      drawPathsChart(samplePaths, target, loss);
     }
-    
-    drawPathsChart(samplePaths, target, loss);
     drawComparisonChart(target, loss);
     
     // Draw empty histogram with instructions
@@ -2111,9 +2169,7 @@
           p, target, loss, unit, nPaths, rng
         });
         
-        const targetUnits = result.targetUnits;
-        const lossUnits = result.lossUnits;
-        const theoretical = computeRuinProbability(p, targetUnits, lossUnits);
+        const theoretical = computeRuinProbability(p, result.targetUnits, result.lossUnits);
         
         elements.ruinProb.innerHTML = `
           ${formatPercent(theoretical)} <span style="font-size: 12px; opacity: 0.8;">(exact)</span><br>
@@ -2126,7 +2182,7 @@
         const displayPaths = result.paths.slice(0, 50).map(path => 
           path.map(([t, y]) => [t, y * unit])
         );
-        drawPathsChart(displayPaths, target, loss);
+        drawPathsChart(displayPaths, result.reachableTarget, result.reachableLoss);
       } else {
         result = simulateMartingale({
           p, target, loss, unit, nPaths, rng
@@ -2183,14 +2239,28 @@
         pass: test2Pass,
         details: `Theory: ${theoretical.toFixed(4)}, MC: ${mcResult.probability.toFixed(4)}`
       });
+
+      // Test 3: Non-divisible thresholds stay consistent with simulation
+      const roundedResult = simulateFixedBets({
+        p, target: 10, loss: 10, unit: 3,
+        nPaths: 10000,
+        rng: mulberry32(91)
+      });
+      const roundedTheory = computeRuinProbability(p, roundedResult.targetUnits, roundedResult.lossUnits);
+      const test3Pass = Math.abs(roundedTheory - roundedResult.probability) < 0.02;
+      tests.push({
+        name: 'Rounded Thresholds',
+        pass: test3Pass,
+        details: `Theory: ${roundedTheory.toFixed(4)}, MC: ${roundedResult.probability.toFixed(4)}, stop at +${roundedResult.reachableTarget}/-${roundedResult.reachableLoss}`
+      });
       
-      // Test 3: Edge cases
+      // Test 4: Edge cases
       const edgeCase1 = computeRuinProbability(0, 10, 10);
       const edgeCase2 = computeRuinProbability(1, 10, 10);
-      const test3Pass = edgeCase1 === 0 && edgeCase2 === 1;
+      const test4Pass = edgeCase1 === 0 && edgeCase2 === 1;
       tests.push({
         name: 'Edge Cases',
-        pass: test3Pass,
+        pass: test4Pass,
         details: `P(0) = ${edgeCase1}, P(1) = ${edgeCase2}`
       });
       

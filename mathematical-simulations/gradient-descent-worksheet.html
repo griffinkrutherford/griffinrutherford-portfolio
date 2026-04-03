@@ -993,8 +993,8 @@
         // Paraboloid Canvas (3D)
         const paraboloidCanvas = document.getElementById('paraboloidCanvas');
         const paraboloidCtx = paraboloidCanvas.getContext('2d');
-        let angleX = 0.5;
-        let angleY = 0;
+        let angleX = -0.95;
+        let angleY = 0.45;
         let isDragging = false;
         let lastMouseX = 0;
         let lastMouseY = 0;
@@ -1056,8 +1056,8 @@
             const gridStep = 0.5;
 
             for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-                paraboloidCtx.lineWidth = 1;
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                paraboloidCtx.lineWidth = 2.2;
                 paraboloidCtx.beginPath();
 
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {
@@ -1074,8 +1074,8 @@
             }
 
             for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-                paraboloidCtx.lineWidth = 1;
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                paraboloidCtx.lineWidth = 2.2;
                 paraboloidCtx.beginPath();
 
                 for (let x = -gridSize; x <= gridSize; x += gridStep) {
@@ -1095,7 +1095,7 @@
             const bottom = project3D(0, 0, 0, centerX, centerY, scale);
             paraboloidCtx.fillStyle = '#e10600';
             paraboloidCtx.beginPath();
-            paraboloidCtx.arc(bottom.x, bottom.y, 8, 0, Math.PI * 2);
+            paraboloidCtx.arc(bottom.x, bottom.y, 10, 0, Math.PI * 2);
             paraboloidCtx.fill();
         }
 

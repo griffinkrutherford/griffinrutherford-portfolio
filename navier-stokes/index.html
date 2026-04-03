@@ -211,6 +211,10 @@
   const ey = new Int8Array([0, 0, 1, 0,-1, 1, 1,-1,-1]);
   const w  = new Float32Array([4/9, 1/9,1/9,1/9,1/9, 1/36,1/36,1/36,1/36]);
   const inv = new Uint8Array([0,3,4,1,2,7,8,5,6]);
+  const MAX_SPEED = 0.35;
+  const MIN_RHO = 0.2;
+  const MAX_RHO = 4.0;
+  const MAX_DYE = 2.5;
   let F, Ftmp, rho, ux, uy, dyeR, dyeG, dyeB, obst, fx, fy;
   // preallocated temp for advection (no per-frame allocations)
   let tR, tG, tB;
@@ -238,6 +242,18 @@
     }
   }
   const IX=(x,y)=>x+y*N;
+  function setEquilibriumCell(target, i, r=1, u=0, v=0){
+    const base=i*9; const u2=u*u+v*v;
+    for(let d=0; d<9; d++){
+      const eu = 3*(ex[d]*u + ey[d]*v);
+      target[base+d] = w[d]*r*(1 + eu + 0.5*eu*eu - 1.5*u2);
+    }
+  }
+  function resetCell(i){
+    rho[i]=1; ux[i]=0; uy[i]=0; fx[i]=0; fy[i]=0;
+    setEquilibriumCell(F, i, 1, 0, 0);
+    setEquilibriumCell(Ftmp, i, 1, 0, 0);
+  }
 
   // ===== Collision (BGK) + Guo forcing
   function collide(){
@@ -253,7 +269,8 @@
         const Fd = (1 - 0.5*omega) * w[d] * (
           3*(ex[d]-u)*Fx + 3*(ey[d]-v)*Fy + 9*edotu*(ex[d]*Fx + ey[d]*Fy)
         );
-        Ftmp[base+d] = F[base+d] + omega*(feq - F[base+d]) + Fd;
+        const next = F[base+d] + omega*(feq - F[base+d]) + Fd;
+        Ftmp[base+d] = Number.isFinite(next) && next > 0 ? next : 0;
       }
     }
     // consume forces after applying the impulse
@@ -290,12 +307,17 @@
       const base=i*9;
       const f0=F[base], f1=F[base+1], f2=F[base+2], f3=F[base+3], f4=F[base+4], f5=F[base+5], f6=F[base+6], f7=F[base+7], f8=F[base+8];
       const r = f0+f1+f2+f3+f4+f5+f6+f7+f8;
+      if(!Number.isFinite(r) || r < MIN_RHO || r > MAX_RHO){ resetCell(i); continue; }
       let u = (f1 - f3 + f5 - f6 - f7 + f8);
       let v = (f2 - f4 + f5 + f6 - f7 - f8);
       // avoid divide-by-zero and clamp crazy speeds (visual stability)
       const invr = r>1e-6 ? 1/r : 0; u*=invr; v*=invr;
+      if(!Number.isFinite(u) || !Number.isFinite(v)){ resetCell(i); continue; }
       const sp = Math.hypot(u,v);
-      if(sp>2){ const s=2/sp; u*=s; v*=s; }
+      if(sp>MAX_SPEED){
+        const s=MAX_SPEED/sp; u*=s; v*=s;
+        setEquilibriumCell(F, i, r, u, v);
+      }
       rho[i]=r; ux[i]=u; uy[i]=v; if(obst[i]){ ux[i]=uy[i]=0; }
     }
   }
@@ -308,9 +330,23 @@
       const yN=y*N;
       for(let x=0;x<N;x++){
         const i=yN+x; let xp = x - ux[i]*flow; let yp = y - uy[i]*flow;
-        if(wrap){ xp=(xp%N+N)%N; yp=(yp%N+N)%N; } else { xp=clamp(xp,0.5,N-1.5); yp=clamp(yp,0.5,N-1.5); }
+        if(!Number.isFinite(xp) || !Number.isFinite(yp)){ tR[i]=0; tG[i]=0; tB[i]=0; continue; }
+        let x1, y1;
+        if(wrap){
+          xp=(xp%N+N)%N; yp=(yp%N+N)%N;
+          const x0=xp|0, y0=yp|0, tx=xp-x0, ty=yp-y0;
+          x1=(x0+1)%N; y1=(y0+1)%N;
+          const i00=y0*N+x0, i10=y0*N+x1, i01=y1*N+x0, i11=y1*N+x1;
+          const a=(1-tx)*(1-ty), b=tx*(1-ty), c=(1-tx)*ty, d=tx*ty;
+          tR[i]=a*dyeR[i00]+b*dyeR[i10]+c*dyeR[i01]+d*dyeR[i11];
+          tG[i]=a*dyeG[i00]+b*dyeG[i10]+c*dyeG[i01]+d*dyeG[i11];
+          tB[i]=a*dyeB[i00]+b*dyeB[i10]+c*dyeB[i01]+d*dyeB[i11];
+          continue;
+        }
+        xp=clamp(xp,0.5,N-1.5); yp=clamp(yp,0.5,N-1.5);
         const x0=xp|0, y0=yp|0, tx=xp-x0, ty=yp-y0;
-        const i00=y0*N+x0, i10=y0*N+((x0+1)%N), i01=((y0+1)%N)*N+x0, i11=((y0+1)%N)*N+((x0+1)%N);
+        x1=Math.min(N-1,x0+1); y1=Math.min(N-1,y0+1);
+        const i00=y0*N+x0, i10=y0*N+x1, i01=y1*N+x0, i11=y1*N+x1;
         const a=(1-tx)*(1-ty), b=tx*(1-ty), c=(1-tx)*ty, d=tx*ty;
         tR[i]=a*dyeR[i00]+b*dyeR[i10]+c*dyeR[i01]+d*dyeR[i11];
         tG[i]=a*dyeG[i00]+b*dyeG[i10]+c*dyeG[i01]+d*dyeG[i11];
@@ -321,7 +357,12 @@
     [dyeR,tR] = [tR,dyeR];
     [dyeG,tG] = [tG,dyeG];
     [dyeB,tB] = [tB,dyeB];
-    if(cfg.fade>0){ const k=Math.max(0,1-cfg.fade*0.02); for(let i=0;i<size;i++){ dyeR[i]*=k; dyeG[i]*=k; dyeB[i]*=k; } }
+    const k = cfg.fade>0 ? Math.max(0,1-cfg.fade*0.02) : 1;
+    for(let i=0;i<size;i++){
+      dyeR[i] = Number.isFinite(dyeR[i]) ? clamp(dyeR[i]*k, 0, MAX_DYE) : 0;
+      dyeG[i] = Number.isFinite(dyeG[i]) ? clamp(dyeG[i]*k, 0, MAX_DYE) : 0;
+      dyeB[i] = Number.isFinite(dyeB[i]) ? clamp(dyeB[i]*k, 0, MAX_DYE) : 0;
+    }
   }
 
   // ===== Interaction / Emitters
@@ -330,8 +371,10 @@
   function splat(gx,gy,dx,dy){
     const rad=Math.max(2, cfg.brush*N/Math.min(cvs.width,cvs.height)*DPR); const rr=rad*rad; const [cr,cg,cb]=cfg.dyeRGB;
     const x0=Math.max(1,(gx-rad)|0), x1=Math.min(N-2,(gx+rad)|0); const y0=Math.max(1,(gy-rad)|0), y1=Math.min(N-2,(gy+rad)|0);
-    const FxVal = dx * cfg.force / (N*N);
-    const FyVal = dy * cfg.force / (N*N);
+    const motion = Math.hypot(dx,dy);
+    const impulseScale = motion > 6 ? 6/motion : 1;
+    const FxVal = dx * impulseScale * cfg.force / (N*N);
+    const FyVal = dy * impulseScale * cfg.force / (N*N);
     for(let y=y0;y<=y1;y++){
       const yN=y*N;
       for(let x=x0;x<=x1;x++){
@@ -376,9 +419,11 @@
         const c=hsv2rgb(h,.85,1);
         r=c[0]; g=c[1]; b=c[2];
       }
+      a = Number.isFinite(a) ? clamp(a, 0, 1) : 0;
       r = br + (r - br) * a;
       g = bg + (g - bg) * a;
       b = bb + (b - bb) * a;
+      if(!Number.isFinite(r) || !Number.isFinite(g) || !Number.isFinite(b)){ r=br; g=bg; b=bb; }
       px[p]=(r*255)|0; px[p+1]=(g*255)|0; px[p+2]=(b*255)|0; px[p+3]=255; }
     sctx.putImageData(img,0,0);
 

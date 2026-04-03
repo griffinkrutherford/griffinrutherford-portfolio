@@ -169,8 +169,25 @@
             font-size: 1.35em;
             line-height: 1.5;
             letter-spacing: 0.01em;
+            font-weight: 700;
             margin: 15px 0;
             color: #e10600;
+        }
+
+        .math-inline {
+            display: inline-block;
+            font-family: 'STIX Two Math', 'STIX Two Text', 'Times New Roman', serif;
+            font-size: 1.08em;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .answer .math-inline,
+        .question-text .math-inline,
+        .info-box .math-inline {
+            color: #fff;
         }
 
         .speaker-bio {
@@ -715,13 +732,15 @@
     </div>
 
     <script>
+        const mi = (value) => `<span class="math-inline">${value}</span>`;
+
         const answerMap = {
             algebra: {
-                1: "Slope between two points: (y2 - y1) / (x2 - x1).",
+                1: `Slope between two points: ${mi('(y₂ - y₁) / (x₂ - x₁)')}.`,
                 2: "A zero slope means the line is flat (horizontal).",
-                3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
-                4: "The line is horizontal, so the slope is 0.",
-                5: "Left of the vertex the slope is negative, at the vertex it is 0, and to the right it is positive.",
+                3: `For ${mi('ax² + bx + c')}, the vertex x-coordinate is ${mi('x = -b / (2a)')}.`,
+                4: `The line is horizontal, so the slope is ${mi('0')}.`,
+                5: `Left of the vertex the slope is negative, at the vertex it is ${mi('0')}, and to the right it is positive.`,
                 6: "Min/max points help you optimize real problems like cost, pollution, or profit.",
                 7: "Local minimum — less pollution is better.",
                 8: "Most real problems depend on several variables, so 2D graphs are too simple.",
@@ -733,19 +752,19 @@
                 14: "Example: We learned slope/derivatives, and today we used them to find minima, which is how AI optimizes its predictions."
             },
             calculus: {
-                1: "Slope at a point is the derivative: f'(x) or dy/dx.",
-                2: "A zero slope means a horizontal tangent, often a local max or min (f'(x) = 0).",
-                3: "For ax² + bx + c, the vertex x-coordinate is x = -b / (2a).",
-                4: "That line is horizontal, so the slope is 0. The vertex is a local minimum where f'(x) = 0.",
-                5: "For an upward-opening parabola, f'(x) < 0 on the left, f'(x) = 0 at the vertex, and f'(x) > 0 on the right.",
-                6: "Local minima/maxima are critical points (where f'(x) = 0 or undefined) used for optimization in real systems.",
+                1: `Slope at a point is the derivative: ${mi("f'(x)")} or ${mi('dy/dx')}.`,
+                2: `A zero slope means a horizontal tangent, often a local max or min (${mi("f'(x) = 0")}).`,
+                3: `For ${mi('ax² + bx + c')}, the vertex x-coordinate is ${mi('x = -b / (2a)')}.`,
+                4: `That line is horizontal, so the slope is ${mi('0')}. The vertex is a local minimum where ${mi("f'(x) = 0")}.`,
+                5: `For an upward-opening parabola, ${mi("f'(x) < 0")} on the left, ${mi("f'(x) = 0")} at the vertex, and ${mi("f'(x) > 0")} on the right.`,
+                6: `Local minima/maxima are critical points (where ${mi("f'(x) = 0")} or undefined) used for optimization in real systems.`,
                 7: "Local minimum — you want to minimize pollution.",
-                8: "Most systems are multivariable, so you need functions of several variables (surfaces) and partial derivatives.",
-                9: "Use the gradient to step in the direction of steepest descent (gradient descent).",
-                10: "Iteratively move opposite the gradient until the gradient is near zero.",
+                8: `Most systems are multivariable, so you need functions of several variables (surfaces) and partial derivatives.`,
+                9: `Use the gradient to step in the direction of steepest descent (${mi('gradient descent')}).`,
+                10: `Iteratively move opposite the gradient until the gradient is near zero.`,
                 11: "Add stochasticity to escape local minima and improve chances of reaching the global minimum.",
                 12: "Small random steps help the optimizer explore the loss surface and avoid getting stuck in a shallow local minimum.",
-                13: "ChatGPT embeds words into high-dimensional vectors and is trained by minimizing loss with gradient descent/SGD.",
+                13: `ChatGPT embeds words into high-dimensional vectors and is trained by minimizing loss with ${mi('gradient descent / SGD')}.`,
                 14: "Example: Derivatives/critical points lead to optimization, which is the core math behind training AI models."
             }
         };
@@ -764,7 +783,7 @@
                 const questionNumber = button.getAttribute('data-question');
                 const answerEl = document.getElementById(`answer-${questionNumber}`);
                 const modeAnswers = answerMap[currentMode] || {};
-                answerEl.textContent = modeAnswers[questionNumber] || "Answer coming soon.";
+                answerEl.innerHTML = modeAnswers[questionNumber] || "Answer coming soon.";
                 answerEl.classList.add('visible');
             });
         });

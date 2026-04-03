@@ -358,15 +358,31 @@
   let img=null, px=null;
   function ensureImage(){ if(!img || img.width!==N || img.height!==N){ small.width=N; small.height=N; img = sctx.createImageData(N,N); px = img.data; } }
   function render(){
-    ensureImage(); const mode=cfg.colorMode; const [mr,mg,mb]=cfg.dyeRGB; let p=0;
+    ensureImage(); const mode=cfg.colorMode; const [mr,mg,mb]=cfg.dyeRGB; const [br,bg,bb]=hex2rgb(bgColor); let p=0;
     for(let i=0;i<ux.length;i++,p+=4){ let r=dyeR[i], g=dyeG[i], b=dyeB[i];
-      if(mode==='mono'){ const k=Math.min(1,r+g+b); r=k*mr; g=k*mg; b=k*mb; }
-      else if(mode==='heat'){ const s = Math.min(1, Math.hypot(ux[i],uy[i])*3.5); const c=hsv2rgb(0.66 - 0.66*s, 1, Math.min(1, s*1.2)); r=c[0]; g=c[1]; b=c[2]; }
-      else { const s = Math.min(1, r+g+b); const h = ((r*0.25 + g*0.55 + b*0.8) + 0.25*Math.hypot(ux[i],uy[i])) % 1; const c=hsv2rgb(h,.85,s); r=c[0]; g=c[1]; b=c[2]; }
+      let a=0;
+      if(mode==='mono'){
+        a=Math.min(1,r+g+b);
+        r=mr; g=mg; b=mb;
+      }
+      else if(mode==='heat'){
+        const s = Math.min(1, Math.hypot(ux[i],uy[i])*3.5);
+        const c=hsv2rgb(0.66 - 0.66*s, 1, Math.min(1, s*1.2));
+        a=s; r=c[0]; g=c[1]; b=c[2];
+      }
+      else {
+        a = Math.min(1, r+g+b);
+        const h = ((r*0.25 + g*0.55 + b*0.8) + 0.25*Math.hypot(ux[i],uy[i])) % 1;
+        const c=hsv2rgb(h,.85,1);
+        r=c[0]; g=c[1]; b=c[2];
+      }
+      r = br + (r - br) * a;
+      g = bg + (g - bg) * a;
+      b = bb + (b - bb) * a;
       px[p]=(r*255)|0; px[p+1]=(g*255)|0; px[p+2]=(b*255)|0; px[p+3]=255; }
     sctx.putImageData(img,0,0);
 
-    const [br,bg,bk]=hex2rgb(bgColor); ctx.fillStyle=`rgb(${(br*255)|0},${(bg*255)|0},${(bk*255)|0})`;
+    ctx.fillStyle=`rgb(${(br*255)|0},${(bg*255)|0},${(bb*255)|0})`;
     ctx.fillRect(0,0,cvs.width,cvs.height); ctx.imageSmoothingEnabled=true; ctx.drawImage(small,0,0,cvs.width,cvs.height);
 
     if(cfg.showVel){ ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1; const step=Math.max(2,(N/24)|0), cw=cvs.width/N, ch=cvs.height/N;

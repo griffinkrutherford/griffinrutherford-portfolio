@@ -840,6 +840,15 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
+.sgd-project-image {
+  width: 88px;
+  height: 88px;
+  max-width: 22%;
+  border-radius: 18px;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
 /* Specific styling for education logos */
 .education-section .education-item .grid-image {
   width: 70px; /* Matches approximate size of 20% of 300px from other sections */
@@ -1600,4 +1609,3 @@ h3 {
         opacity: 1;
     }
 }
-

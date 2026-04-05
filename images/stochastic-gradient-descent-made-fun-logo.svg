@@ -1,30 +1,29 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="redFade" x1="146" y1="330" x2="360" y2="152" gradientUnits="userSpaceOnUse">
+    <linearGradient id="pathRed" x1="176" y1="322" x2="328" y2="164" gradientUnits="userSpaceOnUse">
       <stop stop-color="#FF3B30"/>
       <stop offset="1" stop-color="#C40018"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(256 182) rotate(90) scale(200 220)">
-      <stop stop-color="#FF3B30" stop-opacity="0.24"/>
+    <radialGradient id="redGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(256 212) rotate(90) scale(188 188)">
+      <stop stop-color="#FF3B30" stop-opacity="0.2"/>
       <stop offset="1" stop-color="#FF3B30" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
   <rect x="28" y="28" width="456" height="456" rx="108" fill="#050505"/>
-  <rect x="28" y="28" width="456" height="456" rx="108" stroke="#FF3B30" stroke-width="10"/>
-  <rect x="28" y="28" width="456" height="456" rx="108" fill="url(#glow)"/>
+  <rect x="28" y="28" width="456" height="456" rx="108" stroke="#FF3B30" stroke-width="8"/>
+  <rect x="28" y="28" width="456" height="456" rx="108" fill="url(#redGlow)"/>
 
-  <path d="M116 314C142 252 192 214 256 214C320 214 370 252 396 314" stroke="#F7F7F7" stroke-width="22" stroke-linecap="round"/>
-  <path d="M150 342C172 294 209 266 256 266C303 266 340 294 362 342" stroke="#FF3B30" stroke-width="12" stroke-linecap="round"/>
+  <path d="M134 312C162 250 205 218 256 218C307 218 350 250 378 312" stroke="#FAFAFA" stroke-width="18" stroke-linecap="round"/>
+  <path d="M170 334C192 287 220 266 256 266C292 266 320 287 342 334" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="10" stroke-linecap="round"/>
 
-  <path d="M150 338L198 294L236 314L286 216L322 242L362 178" stroke="url(#redFade)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M184 316L224 278L254 302L298 214L332 182" stroke="url(#pathRed)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <circle cx="150" cy="338" r="12" fill="#FFFFFF"/>
-  <circle cx="198" cy="294" r="12" fill="#FFFFFF"/>
-  <circle cx="236" cy="314" r="12" fill="#FFFFFF"/>
-  <circle cx="286" cy="216" r="12" fill="#FF3B30"/>
-  <circle cx="322" cy="242" r="12" fill="#FFFFFF"/>
-  <circle cx="362" cy="178" r="12" fill="#FF3B30"/>
+  <circle cx="184" cy="316" r="10" fill="#FFFFFF"/>
+  <circle cx="224" cy="278" r="10" fill="#FFFFFF"/>
+  <circle cx="254" cy="302" r="10" fill="#FFFFFF"/>
+  <circle cx="298" cy="214" r="11" fill="#FF3B30"/>
+  <circle cx="332" cy="182" r="11" fill="#FF3B30"/>
 
-  <path d="M254 118L260 134L276 140L260 146L254 162L248 146L232 140L248 134L254 118Z" fill="#FFFFFF"/>
+  <path d="M256 118L261 132L275 137L261 142L256 156L251 142L237 137L251 132L256 118Z" fill="#FFFFFF"/>
 </svg>

@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorenz Attractor - Griffin Rutherford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #060816;
+      --bg-2: #110a26;
+      --bg-3: #1f123d;
+      --panel: rgba(12, 16, 38, 0.82);
+      --panel-strong: rgba(16, 20, 46, 0.96);
+      --border: rgba(130, 154, 255, 0.22);
+      --text: #f5f7ff;
+      --muted: #b7c0eb;
+      --accent-cyan: #57e8ff;
+      --accent-blue: #6f7cff;
+      --accent-pink: #ff5e9a;
+      --accent-gold: #ffd166;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(87, 232, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 80% 0%, rgba(255, 94, 154, 0.18), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(111, 124, 255, 0.18), transparent 26%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 52%, var(--bg-3));
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    .shell {
+      max-width: 1520px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(360px, 460px);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .stage {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px 28px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(90deg, rgba(87, 232, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    }
+
+    .hero-copy {
+      max-width: 820px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--accent-cyan);
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Russo One", system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.85rem);
+      line-height: 1.05;
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      height: fit-content;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(87, 232, 255, 0.38);
+      background: rgba(87, 232, 255, 0.08);
+    }
+
+    .viewport-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 580px;
+      padding: 18px;
+    }
+
+    #view {
+      width: 100%;
+      height: 100%;
+      min-height: 540px;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(111, 124, 255, 0.16), transparent 42%),
+        linear-gradient(180deg, #050712, #090c1c 52%, #04060f);
+    }
+
+    .overlay,
+    .legend {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(8, 11, 26, 0.74);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .overlay {
+      top: 32px;
+      left: 32px;
+      padding: 14px 16px;
+      min-width: 250px;
+    }
+
+    .overlay-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .overlay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .metric-label {
+      display: block;
+      color: rgba(183, 192, 235, 0.72);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
+    }
+
+    .legend {
+      right: 32px;
+      bottom: 32px;
+      padding: 14px 16px;
+      max-width: 320px;
+    }
+
+    .legend h3 {
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      color: var(--accent-gold);
+    }
+
+    .legend p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .legend p:last-child {
+      margin-bottom: 0;
+    }
+
+    .panel {
+      min-height: calc(100vh - 48px);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+        var(--panel);
+    }
+
+    .panel > section {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .panel h2 {
+      font-size: 1.08rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .button-row,
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .button-row button,
+    .preset-row button {
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 14px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button-row button:hover,
+    .preset-row button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .button-row button {
+      background: linear-gradient(135deg, rgba(87, 232, 255, 0.2), rgba(111, 124, 255, 0.24));
+      box-shadow: 0 12px 28px rgba(8, 12, 32, 0.24);
+    }
+
+    .preset-row button {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .preset-row button.active {
+      background: linear-gradient(135deg, rgba(255, 94, 154, 0.18), rgba(111, 124, 255, 0.24));
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 28px rgba(255, 94, 154, 0.16);
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 12px;
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-wide {
+      grid-column: 1 / -1;
+    }
+
+    .control label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .control output {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(87, 232, 255, 0.4), rgba(111, 124, 255, 0.25));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.045);
+      padding: 10px 12px;
+      color: var(--text);
+    }
+
+    .toggle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .switch span {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: background 0.18s ease;
+    }
+
+    .switch span::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffffff, #cdd6ff);
+      transition: transform 0.18s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+    }
+
+    .switch input:checked + span {
+      background: linear-gradient(135deg, rgba(87, 232, 255, 0.55), rgba(111, 124, 255, 0.55));
+    }
+
+    .switch input:checked + span::after {
+      transform: translateX(20px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.04rem;
+      font-variant-numeric: tabular-nums;
+      margin-top: 5px;
+    }
+
+    .equations {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      color: #dbe4ff;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .detail-item {
+      padding: 12px 14px;
+      border-left: 3px solid rgba(87, 232, 255, 0.5);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.93rem;
+    }
+
+    .detail-item strong {
+      color: var(--text);
+    }
+
+    .footnote {
+      color: rgba(183, 192, 235, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 1220px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .stage,
+      .panel {
+        min-height: auto;
+      }
+
+      .panel {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 14px;
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+
+      .viewport-wrap {
+        padding: 12px;
+      }
+
+      .overlay {
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        min-width: 0;
+      }
+
+      .legend {
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        max-width: none;
+      }
+
+      .control-grid,
+      .toggle-grid,
+      .stats-grid,
+      .overlay-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #view {
+        min-height: 470px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card stage">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Chaos Theory / Nonlinear Dynamics</div>
+          <h1>Lorenz Attractor</h1>
+          <p>
+            This simulation integrates the classical Lorenz system with a fixed-step fourth-order Runge-Kutta method,
+            then projects the evolving 3D trajectory onto the screen. A nearby shadow trajectory reveals sensitive
+            dependence on initial conditions: tiny perturbations stay microscopic at first, then separate into visibly
+            different paths while both remain confined to the same butterfly-shaped attractor.
+          </p>
+        </div>
+        <a class="back-link" href="../mathematical-simulations">
+          <span>&larr;</span>
+          <span>Back to Mathematical Simulations</span>
+        </a>
+      </header>
+
+      <div class="viewport-wrap">
+        <div class="overlay" aria-live="polite">
+          <div class="overlay-title">Live State</div>
+          <div class="overlay-grid">
+            <div>
+              <span class="metric-label">Time</span>
+              <span class="metric-value" id="metric-time">0.000</span>
+            </div>
+            <div>
+              <span class="metric-label">Speed</span>
+              <span class="metric-value" id="metric-speed">0.000</span>
+            </div>
+            <div>
+              <span class="metric-label">Shadow Separation</span>
+              <span class="metric-value" id="metric-separation">0.000e+0</span>
+            </div>
+            <div>
+              <span class="metric-label">Stored Samples</span>
+              <span class="metric-value" id="metric-samples">0</span>
+            </div>
+          </div>
+        </div>
+
+        <canvas id="view" aria-label="Lorenz attractor visualization"></canvas>
+
+        <aside class="legend">
+          <h3>How to Read It</h3>
+          <p>The bright cyan path is the main trajectory. The magenta path starts an infinitesimal distance away and tracks divergence without changing the governing equations.</p>
+          <p>Drag to rotate the camera. Use the parameter sliders to move between fixed points, lobe switching, and strongly chaotic flow.</p>
+        </aside>
+      </div>
+    </section>
+
+    <aside class="card panel">
+      <section>
+        <span class="section-kicker">Presets</span>
+        <h2>Reference Regimes</h2>
+        <div class="preset-row">
+          <button type="button" data-preset="classic" class="active">Classic 10 / 28 / 8/3</button>
+          <button type="button" data-preset="settling">Settling 10 / 14 / 8/3</button>
+          <button type="button" data-preset="high">High Energy 10 / 40 / 8/3</button>
+          <button type="button" data-preset="wide">Wide Wings 16 / 45 / 4</button>
+        </div>
+        <p class="footnote">These presets adjust only the Lorenz parameters. Your camera settings and sampling controls remain available for close inspection.</p>
+      </section>
+
+      <section>
+        <span class="section-kicker">Simulation</span>
+        <h2>Dynamics Controls</h2>
+        <div class="button-row">
+          <button id="pause-btn" type="button">Pause</button>
+          <button id="reset-btn" type="button">Reset Trajectory</button>
+          <button id="shadow-btn" type="button">Reseed Shadow</button>
+        </div>
+
+        <div class="control-grid" style="margin-top: 16px;">
+          <div class="control">
+            <label for="sigma">Sigma <output id="sigma-value">10.0</output></label>
+            <input id="sigma" type="range" min="0" max="30" step="0.1" value="10">
+          </div>
+          <div class="control">
+            <label for="rho">Rho <output id="rho-value">28.0</output></label>
+            <input id="rho" type="range" min="0" max="60" step="0.1" value="28">
+          </div>
+          <div class="control">
+            <label for="beta">Beta <output id="beta-value">2.667</output></label>
+            <input id="beta" type="range" min="0.2" max="8" step="0.001" value="2.6666666667">
+          </div>
+          <div class="control">
+            <label for="dt">Time Step <output id="dt-value">0.0050</output></label>
+            <input id="dt" type="range" min="0.001" max="0.02" step="0.0005" value="0.005">
+          </div>
+          <div class="control">
+            <label for="steps">RK4 Steps / Frame <output id="steps-value">6</output></label>
+            <input id="steps" type="range" min="1" max="16" step="1" value="6">
+          </div>
+          <div class="control">
+            <label for="trail">Trail Samples <output id="trail-value">9000</output></label>
+            <input id="trail" type="range" min="1200" max="18000" step="200" value="9000">
+          </div>
+          <div class="control">
+            <label for="x0">Initial x</label>
+            <input id="x0" type="number" value="0.1" step="0.01">
+          </div>
+          <div class="control">
+            <label for="y0">Initial y</label>
+            <input id="y0" type="number" value="0" step="0.01">
+          </div>
+          <div class="control">
+            <label for="z0">Initial z</label>
+            <input id="z0" type="number" value="0" step="0.01">
+          </div>
+          <div class="control">
+            <label for="delta">Shadow Offset <output id="delta-value">1.0e-7</output></label>
+            <input id="delta" type="range" min="-9" max="-3" step="0.25" value="-7">
+          </div>
+        </div>
+        <p class="footnote">Changing the shadow offset updates the nearby comparison trajectory immediately. Editing the initial coordinates affects the next full reset.</p>
+      </section>
+
+      <section>
+        <span class="section-kicker">View</span>
+        <h2>Projection and Rendering</h2>
+        <div class="control-grid">
+          <div class="control">
+            <label for="yaw">Yaw <output id="yaw-value">-0.85</output></label>
+            <input id="yaw" type="range" min="-3.14" max="3.14" step="0.01" value="-0.85">
+          </div>
+          <div class="control">
+            <label for="pitch">Pitch <output id="pitch-value">0.58</output></label>
+            <input id="pitch" type="range" min="-1.2" max="1.2" step="0.01" value="0.58">
+          </div>
+          <div class="control">
+            <label for="zoom">Zoom <output id="zoom-value">10.8</output></label>
+            <input id="zoom" type="range" min="5" max="18" step="0.1" value="10.8">
+          </div>
+          <div class="control">
+            <label for="rotate">Auto-Rotate <output id="rotate-value">0.18</output></label>
+            <input id="rotate" type="range" min="-0.8" max="0.8" step="0.01" value="0.18">
+          </div>
+          <div class="control control-wide">
+            <label for="line-width">Line Width <output id="line-width-value">1.35</output></label>
+            <input id="line-width" type="range" min="0.6" max="3.0" step="0.05" value="1.35">
+          </div>
+        </div>
+
+        <div class="toggle-grid" style="margin-top: 16px;">
+          <div class="toggle">
+            <span>Auto-Rotate</span>
+            <label class="switch">
+              <input id="toggle-autorotate" type="checkbox" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Shadow Trajectory</span>
+            <label class="switch">
+              <input id="toggle-shadow" type="checkbox" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Coordinate Axes</span>
+            <label class="switch">
+              <input id="toggle-axes" type="checkbox" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Equilibria</span>
+            <label class="switch">
+              <input id="toggle-equilibria" type="checkbox" checked>
+              <span></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Readout</span>
+        <h2>State Summary</h2>
+        <div class="stats-grid">
+          <div class="stat">
+            Current Point
+            <strong id="point-stat">(0.00, 0.00, 0.00)</strong>
+          </div>
+          <div class="stat">
+            Flow Divergence
+            <strong id="divergence-stat">-13.667</strong>
+          </div>
+          <div class="stat">
+            Equilibrium Pair
+            <strong id="equilibrium-stat">(+/- 8.49, +/- 8.49, 27.00)</strong>
+          </div>
+          <div class="stat">
+            Integrator
+            <strong id="integrator-stat">RK4, fixed step</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Theory</span>
+        <h2>The Equations</h2>
+        <p>
+          The Lorenz system is a three-dimensional autonomous ODE derived from a simplified convection model. It is
+          deterministic, but for the classical parameter set it exhibits chaos because nearby initial states separate
+          exponentially before the attractor's bounded geometry pulls them back into the same global structure.
+        </p>
+        <div class="equations">
+          <div>dx / dt = sigma (y - x)</div>
+          <div>dy / dt = x (rho - z) - y</div>
+          <div>dz / dt = x y - beta z</div>
+        </div>
+        <div class="detail-list">
+          <div class="detail-item"><strong>Accuracy:</strong> the simulation uses a fixed-step classical fourth-order Runge-Kutta integrator instead of forward Euler, which sharply reduces visual drift for the same step size.</div>
+          <div class="detail-item"><strong>Dissipation:</strong> the vector field has constant divergence <span id="theory-divergence">-(sigma + 1 + beta)</span>, so phase-space volumes contract over time and trajectories settle onto an attractor rather than filling all of 3D space.</div>
+          <div class="detail-item"><strong>Equilibria:</strong> the origin always exists, and when rho &gt; 1 the nonzero equilibrium pair is located at <code>(+/- sqrt(beta (rho - 1)), +/- sqrt(beta (rho - 1)), rho - 1)</code>.</div>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById("view");
+      const ctx = canvas.getContext("2d");
+      const dpr = () => Math.min(2, window.devicePixelRatio || 1);
+      const MAX_SAMPLES = 20000;
+      const BASE_SEPARATION = 1e-7;
+      const CAMERA_DISTANCE = 120;
+      const Z_CENTER = 24;
+
+      const ui = {
+        sigma: document.getElementById("sigma"),
+        rho: document.getElementById("rho"),
+        beta: document.getElementById("beta"),
+        dt: document.getElementById("dt"),
+        steps: document.getElementById("steps"),
+        trail: document.getElementById("trail"),
+        x0: document.getElementById("x0"),
+        y0: document.getElementById("y0"),
+        z0: document.getElementById("z0"),
+        delta: document.getElementById("delta"),
+        yaw: document.getElementById("yaw"),
+        pitch: document.getElementById("pitch"),
+        zoom: document.getElementById("zoom"),
+        rotate: document.getElementById("rotate"),
+        lineWidth: document.getElementById("line-width"),
+        autoRotate: document.getElementById("toggle-autorotate"),
+        shadow: document.getElementById("toggle-shadow"),
+        axes: document.getElementById("toggle-axes"),
+        equilibria: document.getElementById("toggle-equilibria"),
+        pause: document.getElementById("pause-btn"),
+        reset: document.getElementById("reset-btn"),
+        shadowReset: document.getElementById("shadow-btn")
+      };
+
+      const outputs = {
+        sigma: document.getElementById("sigma-value"),
+        rho: document.getElementById("rho-value"),
+        beta: document.getElementById("beta-value"),
+        dt: document.getElementById("dt-value"),
+        steps: document.getElementById("steps-value"),
+        trail: document.getElementById("trail-value"),
+        delta: document.getElementById("delta-value"),
+        yaw: document.getElementById("yaw-value"),
+        pitch: document.getElementById("pitch-value"),
+        zoom: document.getElementById("zoom-value"),
+        rotate: document.getElementById("rotate-value"),
+        lineWidth: document.getElementById("line-width-value")
+      };
+
+      const metrics = {
+        time: document.getElementById("metric-time"),
+        speed: document.getElementById("metric-speed"),
+        separation: document.getElementById("metric-separation"),
+        samples: document.getElementById("metric-samples"),
+        point: document.getElementById("point-stat"),
+        divergence: document.getElementById("divergence-stat"),
+        theoryDivergence: document.getElementById("theory-divergence"),
+        equilibrium: document.getElementById("equilibrium-stat")
+      };
+
+      const presets = {
+        classic: { sigma: 10, rho: 28, beta: 8 / 3, x0: 0.1, y0: 0, z0: 0 },
+        settling: { sigma: 10, rho: 14, beta: 8 / 3, x0: 0.1, y0: 0, z0: 0 },
+        high: { sigma: 10, rho: 40, beta: 8 / 3, x0: 0.1, y0: 0, z0: 0 },
+        wide: { sigma: 16, rho: 45, beta: 4, x0: 0.2, y0: 0, z0: 0 }
+      };
+
+      const buttons = Array.from(document.querySelectorAll("[data-preset]"));
+      const trailX = new Float32Array(MAX_SAMPLES);
+      const trailY = new Float32Array(MAX_SAMPLES);
+      const trailZ = new Float32Array(MAX_SAMPLES);
+      const shadowX = new Float32Array(MAX_SAMPLES);
+      const shadowY = new Float32Array(MAX_SAMPLES);
+      const shadowZ = new Float32Array(MAX_SAMPLES);
+
+      const state = {
+        sigma: 10,
+        rho: 28,
+        beta: 8 / 3,
+        dt: 0.005,
+        stepsPerFrame: 6,
+        trailLength: 9000,
+        yaw: -0.85,
+        pitch: 0.58,
+        zoom: 10.8,
+        rotateSpeed: 0.18,
+        lineWidth: 1.35,
+        autoRotate: true,
+        showShadow: true,
+        showAxes: true,
+        showEquilibria: true
+      };
+
+      const initial = { x: 0.1, y: 0, z: 0 };
+      const primary = { x: initial.x, y: initial.y, z: initial.z, t: 0 };
+      const shadow = { x: initial.x + BASE_SEPARATION, y: initial.y, z: initial.z };
+
+      let sampleHead = 0;
+      let sampleCount = 0;
+      let paused = false;
+      let width = 0;
+      let height = 0;
+      let lastFrame = performance.now();
+      let lastMetricUpdate = 0;
+      let pointerActive = false;
+      let pointerX = 0;
+      let pointerY = 0;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function formatFloat(value, digits = 3) {
+        return Number.isFinite(value) ? value.toFixed(digits) : "0.000";
+      }
+
+      function separationMagnitude() {
+        const dx = primary.x - shadow.x;
+        const dy = primary.y - shadow.y;
+        const dz = primary.z - shadow.z;
+        return Math.hypot(dx, dy, dz);
+      }
+
+      function currentShadowOffset() {
+        return Math.pow(10, parseFloat(ui.delta.value));
+      }
+
+      function updateOutputs() {
+        outputs.sigma.textContent = formatFloat(state.sigma, 1);
+        outputs.rho.textContent = formatFloat(state.rho, 1);
+        outputs.beta.textContent = formatFloat(state.beta, 3);
+        outputs.dt.textContent = state.dt.toFixed(4);
+        outputs.steps.textContent = String(state.stepsPerFrame);
+        outputs.trail.textContent = String(state.trailLength);
+        outputs.delta.textContent = currentShadowOffset().toExponential(1);
+        outputs.yaw.textContent = formatFloat(state.yaw, 2);
+        outputs.pitch.textContent = formatFloat(state.pitch, 2);
+        outputs.zoom.textContent = formatFloat(state.zoom, 1);
+        outputs.rotate.textContent = formatFloat(state.rotateSpeed, 2);
+        outputs.lineWidth.textContent = formatFloat(state.lineWidth, 2);
+      }
+
+      function updateTheory() {
+        const divergence = -(state.sigma + 1 + state.beta);
+        metrics.divergence.textContent = formatFloat(divergence, 3);
+        metrics.theoryDivergence.textContent = `-(${formatFloat(state.sigma, 3)} + 1 + ${formatFloat(state.beta, 3)}) = ${formatFloat(divergence, 3)}`;
+
+        if (state.rho <= 1) {
+          metrics.equilibrium.textContent = "origin only for rho <= 1";
+          return;
+        }
+
+        const eq = Math.sqrt(state.beta * (state.rho - 1));
+        metrics.equilibrium.textContent = `(+/- ${formatFloat(eq, 2)}, +/- ${formatFloat(eq, 2)}, ${formatFloat(state.rho - 1, 2)})`;
+      }
+
+      function syncStateFromInputs() {
+        state.sigma = parseFloat(ui.sigma.value);
+        state.rho = parseFloat(ui.rho.value);
+        state.beta = parseFloat(ui.beta.value);
+        state.dt = parseFloat(ui.dt.value);
+        state.stepsPerFrame = parseInt(ui.steps.value, 10);
+        state.trailLength = parseInt(ui.trail.value, 10);
+        state.yaw = parseFloat(ui.yaw.value);
+        state.pitch = parseFloat(ui.pitch.value);
+        state.zoom = parseFloat(ui.zoom.value);
+        state.rotateSpeed = parseFloat(ui.rotate.value);
+        state.lineWidth = parseFloat(ui.lineWidth.value);
+        state.autoRotate = ui.autoRotate.checked;
+        state.showShadow = ui.shadow.checked;
+        state.showAxes = ui.axes.checked;
+        state.showEquilibria = ui.equilibria.checked;
+        initial.x = parseFloat(ui.x0.value);
+        initial.y = parseFloat(ui.y0.value);
+        initial.z = parseFloat(ui.z0.value);
+        updateOutputs();
+        updateTheory();
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const ratio = dpr();
+        const nextWidth = Math.max(2, Math.round(rect.width * ratio));
+        const nextHeight = Math.max(2, Math.round(rect.height * ratio));
+
+        if (nextWidth === width && nextHeight === height) {
+          return;
+        }
+
+        width = nextWidth;
+        height = nextHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      function addSample() {
+        trailX[sampleHead] = primary.x;
+        trailY[sampleHead] = primary.y;
+        trailZ[sampleHead] = primary.z;
+        shadowX[sampleHead] = shadow.x;
+        shadowY[sampleHead] = shadow.y;
+        shadowZ[sampleHead] = shadow.z;
+        sampleHead = (sampleHead + 1) % MAX_SAMPLES;
+        sampleCount = Math.min(sampleCount + 1, state.trailLength, MAX_SAMPLES);
+      }
+
+      function resetSamples() {
+        sampleHead = 0;
+        sampleCount = 0;
+      }
+
+      function collapseShadowTrail() {
+        for (let i = 0; i < MAX_SAMPLES; i += 1) {
+          shadowX[i] = shadow.x;
+          shadowY[i] = shadow.y;
+          shadowZ[i] = shadow.z;
+        }
+      }
+
+      function reseedShadow() {
+        const epsilon = currentShadowOffset();
+        shadow.x = primary.x + epsilon;
+        shadow.y = primary.y;
+        shadow.z = primary.z;
+        collapseShadowTrail();
+      }
+
+      function resetTrajectory() {
+        primary.x = initial.x;
+        primary.y = initial.y;
+        primary.z = initial.z;
+        primary.t = 0;
+        shadow.x = initial.x + currentShadowOffset();
+        shadow.y = initial.y;
+        shadow.z = initial.z;
+        resetSamples();
+        collapseShadowTrail();
+        addSample();
+      }
+
+      function lorenzDerivative(x, y, z) {
+        return {
+          dx: state.sigma * (y - x),
+          dy: x * (state.rho - z) - y,
+          dz: x * y - state.beta * z
+        };
+      }
+
+      function rk4Step(point, dt) {
+        const x = point.x;
+        const y = point.y;
+        const z = point.z;
+
+        const k1 = lorenzDerivative(x, y, z);
+        const k2 = lorenzDerivative(
+          x + 0.5 * dt * k1.dx,
+          y + 0.5 * dt * k1.dy,
+          z + 0.5 * dt * k1.dz
+        );
+        const k3 = lorenzDerivative(
+          x + 0.5 * dt * k2.dx,
+          y + 0.5 * dt * k2.dy,
+          z + 0.5 * dt * k2.dz
+        );
+        const k4 = lorenzDerivative(
+          x + dt * k3.dx,
+          y + dt * k3.dy,
+          z + dt * k3.dz
+        );
+
+        point.x = x + (dt / 6) * (k1.dx + 2 * k2.dx + 2 * k3.dx + k4.dx);
+        point.y = y + (dt / 6) * (k1.dy + 2 * k2.dy + 2 * k3.dy + k4.dy);
+        point.z = z + (dt / 6) * (k1.dz + 2 * k2.dz + 2 * k3.dz + k4.dz);
+      }
+
+      function updateSystem(elapsedSeconds) {
+        const rotationFactor = clamp(elapsedSeconds, 0, 0.05);
+        if (state.autoRotate) {
+          state.yaw += state.rotateSpeed * rotationFactor;
+          if (state.yaw > Math.PI) state.yaw -= Math.PI * 2;
+          if (state.yaw < -Math.PI) state.yaw += Math.PI * 2;
+          ui.yaw.value = state.yaw.toFixed(2);
+          outputs.yaw.value = formatFloat(state.yaw, 2);
+        }
+
+        if (paused) {
+          return;
+        }
+
+        for (let step = 0; step < state.stepsPerFrame; step += 1) {
+          rk4Step(primary, state.dt);
+          rk4Step(shadow, state.dt);
+          primary.t += state.dt;
+          addSample();
+        }
+
+        if (sampleCount > state.trailLength) {
+          sampleCount = state.trailLength;
+        }
+      }
+
+      function transformPoint(x, y, z) {
+        const cosYaw = Math.cos(state.yaw);
+        const sinYaw = Math.sin(state.yaw);
+        const cosPitch = Math.cos(state.pitch);
+        const sinPitch = Math.sin(state.pitch);
+
+        const centeredZ = z - Z_CENTER;
+        const x1 = cosYaw * x + sinYaw * centeredZ;
+        const z1 = -sinYaw * x + cosYaw * centeredZ;
+        const y2 = cosPitch * y - sinPitch * z1;
+        const z2 = sinPitch * y + cosPitch * z1;
+        const depth = CAMERA_DISTANCE + z2;
+        const perspective = state.zoom * CAMERA_DISTANCE / Math.max(18, depth);
+
+        return {
+          sx: width * 0.5 + x1 * perspective,
+          sy: height * 0.53 - y2 * perspective,
+          depth
+        };
+      }
+
+      function drawBackground() {
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, "#060917");
+        gradient.addColorStop(0.55, "#091023");
+        gradient.addColorStop(1, "#04060f");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+
+        const glow = ctx.createRadialGradient(width * 0.45, height * 0.38, 0, width * 0.45, height * 0.38, width * 0.45);
+        glow.addColorStop(0, "rgba(111, 124, 255, 0.20)");
+        glow.addColorStop(0.4, "rgba(87, 232, 255, 0.08)");
+        glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      function drawLine3D(a, b, color, lineWidth) {
+        const pa = transformPoint(a.x, a.y, a.z);
+        const pb = transformPoint(b.x, b.y, b.z);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath();
+        ctx.moveTo(pa.sx, pa.sy);
+        ctx.lineTo(pb.sx, pb.sy);
+        ctx.stroke();
+      }
+
+      function drawAxesAndEquilibria() {
+        if (state.showAxes) {
+          drawLine3D({ x: -26, y: 0, z: 0 }, { x: 26, y: 0, z: 0 }, "rgba(87, 232, 255, 0.22)", 1);
+          drawLine3D({ x: 0, y: -26, z: 0 }, { x: 0, y: 26, z: 0 }, "rgba(255, 209, 102, 0.2)", 1);
+          drawLine3D({ x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 52 }, "rgba(255, 94, 154, 0.22)", 1);
+        }
+
+        if (!state.showEquilibria) {
+          return;
+        }
+
+        const points = [{ x: 0, y: 0, z: 0, color: "rgba(255,255,255,0.82)" }];
+        if (state.rho > 1) {
+          const eq = Math.sqrt(state.beta * (state.rho - 1));
+          points.push(
+            { x: eq, y: eq, z: state.rho - 1, color: "rgba(87, 232, 255, 0.85)" },
+            { x: -eq, y: -eq, z: state.rho - 1, color: "rgba(255, 94, 154, 0.85)" }
+          );
+        }
+
+        for (const point of points) {
+          const projected = transformPoint(point.x, point.y, point.z);
+          const radius = clamp(6.5 * CAMERA_DISTANCE / projected.depth, 2.8, 6.5);
+          ctx.beginPath();
+          ctx.arc(projected.sx, projected.sy, radius, 0, Math.PI * 2);
+          ctx.fillStyle = point.color;
+          ctx.fill();
+        }
+      }
+
+      function drawTrail(pathX, pathY, pathZ, lineWidth, hueStart, hueEnd, alphaScale) {
+        if (sampleCount < 2) {
+          return;
+        }
+
+        const stride = Math.max(1, Math.floor(sampleCount / 4200));
+        for (let age = stride; age < sampleCount; age += stride) {
+          const aIndex = (sampleHead - sampleCount + age - stride + MAX_SAMPLES) % MAX_SAMPLES;
+          const bIndex = (sampleHead - sampleCount + age + MAX_SAMPLES) % MAX_SAMPLES;
+          const ageRatio = age / sampleCount;
+          const hue = hueStart + (hueEnd - hueStart) * ageRatio;
+          const alpha = Math.max(0.08, Math.pow(ageRatio, 1.15) * alphaScale);
+          const pa = transformPoint(pathX[aIndex], pathY[aIndex], pathZ[aIndex]);
+          const pb = transformPoint(pathX[bIndex], pathY[bIndex], pathZ[bIndex]);
+
+          ctx.strokeStyle = `hsla(${hue}, 92%, ${62 - ageRatio * 10}%, ${alpha})`;
+          ctx.lineWidth = lineWidth;
+          ctx.beginPath();
+          ctx.moveTo(pa.sx, pa.sy);
+          ctx.lineTo(pb.sx, pb.sy);
+          ctx.stroke();
+        }
+      }
+
+      function drawCurrentMarkers() {
+        const headPoint = transformPoint(primary.x, primary.y, primary.z);
+        const mainRadius = clamp(9 * CAMERA_DISTANCE / headPoint.depth, 3.4, 8);
+        ctx.fillStyle = "rgba(200, 251, 255, 0.98)";
+        ctx.beginPath();
+        ctx.arc(headPoint.sx, headPoint.sy, mainRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (!state.showShadow) {
+          return;
+        }
+
+        const shadowPoint = transformPoint(shadow.x, shadow.y, shadow.z);
+        const shadowRadius = clamp(7.5 * CAMERA_DISTANCE / shadowPoint.depth, 2.8, 6.4);
+        ctx.fillStyle = "rgba(255, 121, 176, 0.95)";
+        ctx.beginPath();
+        ctx.arc(shadowPoint.sx, shadowPoint.sy, shadowRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawScene() {
+        drawBackground();
+        drawAxesAndEquilibria();
+        drawTrail(trailX, trailY, trailZ, state.lineWidth, 188, 332, 0.95);
+        if (state.showShadow) {
+          drawTrail(shadowX, shadowY, shadowZ, Math.max(0.7, state.lineWidth * 0.74), 326, 12, 0.7);
+        }
+        drawCurrentMarkers();
+      }
+
+      function updateMetrics(now) {
+        if (now - lastMetricUpdate < 80) {
+          return;
+        }
+
+        const derivative = lorenzDerivative(primary.x, primary.y, primary.z);
+        const speed = Math.hypot(derivative.dx, derivative.dy, derivative.dz);
+        metrics.time.textContent = primary.t.toFixed(3);
+        metrics.speed.textContent = speed.toFixed(3);
+        metrics.separation.textContent = separationMagnitude().toExponential(3);
+        metrics.samples.textContent = sampleCount.toLocaleString();
+        metrics.point.textContent = `(${formatFloat(primary.x, 2)}, ${formatFloat(primary.y, 2)}, ${formatFloat(primary.z, 2)})`;
+        lastMetricUpdate = now;
+      }
+
+      function render(now) {
+        resizeCanvas();
+        const elapsedSeconds = (now - lastFrame) / 1000;
+        lastFrame = now;
+        updateSystem(elapsedSeconds);
+        drawScene();
+        updateMetrics(now);
+        requestAnimationFrame(render);
+      }
+
+      function activatePreset(name) {
+        const preset = presets[name];
+        if (!preset) {
+          return;
+        }
+
+        ui.sigma.value = String(preset.sigma);
+        ui.rho.value = String(preset.rho);
+        ui.beta.value = String(preset.beta);
+        ui.x0.value = String(preset.x0);
+        ui.y0.value = String(preset.y0);
+        ui.z0.value = String(preset.z0);
+        syncStateFromInputs();
+        resetTrajectory();
+
+        for (const button of buttons) {
+          button.classList.toggle("active", button.dataset.preset === name);
+        }
+      }
+
+      function bindInput(input, handler, eventName = "input") {
+        input.addEventListener(eventName, () => {
+          handler();
+          updateOutputs();
+        });
+      }
+
+      [
+        ui.sigma,
+        ui.rho,
+        ui.beta,
+        ui.dt,
+        ui.steps,
+        ui.trail,
+        ui.yaw,
+        ui.pitch,
+        ui.zoom,
+        ui.rotate,
+        ui.lineWidth,
+        ui.delta
+      ].forEach((input) => bindInput(input, syncStateFromInputs));
+
+      [ui.x0, ui.y0, ui.z0].forEach((input) => {
+        bindInput(input, syncStateFromInputs, "change");
+      });
+
+      [ui.autoRotate, ui.shadow, ui.axes, ui.equilibria].forEach((input) => {
+        input.addEventListener("change", syncStateFromInputs);
+      });
+
+      ui.pause.addEventListener("click", () => {
+        paused = !paused;
+        ui.pause.textContent = paused ? "Resume" : "Pause";
+      });
+
+      ui.reset.addEventListener("click", resetTrajectory);
+      ui.shadowReset.addEventListener("click", reseedShadow);
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => activatePreset(button.dataset.preset));
+      });
+
+      canvas.addEventListener("pointerdown", (event) => {
+        pointerActive = true;
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!pointerActive) {
+          return;
+        }
+
+        const dx = event.clientX - pointerX;
+        const dy = event.clientY - pointerY;
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        state.yaw += dx * 0.0085;
+        state.pitch = clamp(state.pitch + dy * 0.006, -1.2, 1.2);
+        ui.yaw.value = state.yaw.toFixed(2);
+        ui.pitch.value = state.pitch.toFixed(2);
+        updateOutputs();
+      });
+
+      canvas.addEventListener("pointerup", (event) => {
+        pointerActive = false;
+        canvas.releasePointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointercancel", () => {
+        pointerActive = false;
+      });
+
+      canvas.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        state.zoom = clamp(state.zoom - event.deltaY * 0.005, 5, 18);
+        ui.zoom.value = state.zoom.toFixed(1);
+        updateOutputs();
+      }, { passive: false });
+
+      window.addEventListener("resize", resizeCanvas);
+
+      syncStateFromInputs();
+      resetTrajectory();
+      requestAnimationFrame(render);
+    })();
+  </script>
+</body>
+</html>

@@ -97,10 +97,19 @@
         }
         
         .card-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 100%;
+            height: 100%;
             display: block;
-            text-align: center;
+            filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.22));
         }
         
         .card-title {
@@ -199,7 +208,22 @@
         
         <div class="simulations-grid">
             <a href="../lorenz-attractor" class="simulation-card">
-                <span class="card-icon">🌀</span>
+                <span class="card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="lorenz-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#63f0ff"/>
+                                <stop offset="100%" stop-color="#8168ff"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="6" y="6" width="72" height="72" rx="22" fill="rgba(255,255,255,0.12)"/>
+                        <rect x="8" y="8" width="68" height="68" rx="20" fill="url(#lorenz-bg)" fill-opacity="0.18" stroke="rgba(255,255,255,0.34)" stroke-width="1.5"/>
+                        <path d="M25 29c0-8 8-12 15-12 10 0 16 6 16 13 0 5-3 8-8 10-7 3-17 2-17 10 0 5 5 8 11 8 8 0 14-5 17-12" fill="none" stroke="#f7fbff" stroke-width="3.8" stroke-linecap="round"/>
+                        <path d="M59 55c0 7-6 12-14 12-10 0-17-6-17-14 0-5 3-8 9-10 8-3 17-1 17-10 0-4-4-7-9-7-7 0-12 4-15 10" fill="none" stroke="#ffc6e2" stroke-width="3.4" stroke-linecap="round" opacity="0.9"/>
+                        <circle cx="31" cy="27" r="3.2" fill="#63f0ff"/>
+                        <circle cx="56" cy="58" r="3.2" fill="#ffd166"/>
+                    </svg>
+                </span>
                 <h2 class="card-title">Lorenz Attractor</h2>
                 <p class="card-description">
                     Explore the iconic butterfly attractor with accurate RK4 integration, adjustable parameters, live chaos metrics, and interactive 3D camera controls.
@@ -212,7 +236,25 @@
             </a>
 
             <a href="../navier-stokes" class="simulation-card">
-                <span class="card-icon">💧</span>
+                <span class="card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="navier-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#54ecff"/>
+                                <stop offset="100%" stop-color="#4770ff"/>
+                            </linearGradient>
+                            <linearGradient id="navier-flow" x1="20%" y1="15%" x2="80%" y2="85%">
+                                <stop offset="0%" stop-color="#f8fdff"/>
+                                <stop offset="100%" stop-color="#99d7ff"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="6" y="6" width="72" height="72" rx="22" fill="rgba(255,255,255,0.12)"/>
+                        <rect x="8" y="8" width="68" height="68" rx="20" fill="url(#navier-bg)" fill-opacity="0.18" stroke="rgba(255,255,255,0.34)" stroke-width="1.5"/>
+                        <path d="M25 47c6-12 15-18 28-18 7 0 13 2 18 5" fill="none" stroke="url(#navier-flow)" stroke-width="4.2" stroke-linecap="round"/>
+                        <path d="M24 57c7-7 16-10 26-10 10 0 18 3 24 8" fill="none" stroke="#ffd166" stroke-width="3.2" stroke-linecap="round" opacity="0.85"/>
+                        <path d="M45 22c7 6 8 15 1 22-6 6-15 7-21 1 4 11 14 16 24 13 10-3 16-13 14-24-1-4-3-8-7-12-3-3-7-5-11-6z" fill="url(#navier-flow)" fill-opacity="0.88"/>
+                    </svg>
+                </span>
                 <h2 class="card-title">Navier-Stokes Fluid Dynamics</h2>
                 <p class="card-description">
                     Interactive 2D fluid simulation showcasing turbulence, vortices, and flow patterns. 
@@ -226,7 +268,26 @@
             </a>
             
             <a href="../gambling-risk-demonstrator" class="simulation-card">
-                <span class="card-icon">🎲</span>
+                <span class="card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gambler-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff7e8f"/>
+                                <stop offset="100%" stop-color="#ffd166"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="6" y="6" width="72" height="72" rx="22" fill="rgba(255,255,255,0.12)"/>
+                        <rect x="8" y="8" width="68" height="68" rx="20" fill="url(#gambler-bg)" fill-opacity="0.18" stroke="rgba(255,255,255,0.34)" stroke-width="1.5"/>
+                        <rect x="23" y="23" width="20" height="20" rx="6" fill="#f8fbff" fill-opacity="0.92" transform="rotate(-12 33 33)"/>
+                        <rect x="41" y="39" width="20" height="20" rx="6" fill="#f8fbff" fill-opacity="0.92" transform="rotate(12 51 49)"/>
+                        <circle cx="30" cy="30" r="2.4" fill="#5567d8"/>
+                        <circle cx="36" cy="36" r="2.4" fill="#5567d8"/>
+                        <circle cx="48" cy="46" r="2.4" fill="#ff6a7d"/>
+                        <circle cx="54" cy="52" r="2.4" fill="#ff6a7d"/>
+                        <circle cx="48" cy="52" r="2.4" fill="#ff6a7d"/>
+                        <circle cx="54" cy="46" r="2.4" fill="#ff6a7d"/>
+                    </svg>
+                </span>
                 <h2 class="card-title">The Gambler's Dilemma</h2>
                 <p class="card-description">
                     Interactive exploration of risk strategies: one big bet vs many small bets. Features Monte Carlo simulations and mathematical proofs.
@@ -239,7 +300,22 @@
             </a>
             
             <a href="../laplace-equation" class="simulation-card">
-                <span class="card-icon">∇²</span>
+                <span class="card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="laplace-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#61f1ff"/>
+                                <stop offset="100%" stop-color="#ff6ea8"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="6" y="6" width="72" height="72" rx="22" fill="rgba(255,255,255,0.12)"/>
+                        <rect x="8" y="8" width="68" height="68" rx="20" fill="url(#laplace-bg)" fill-opacity="0.18" stroke="rgba(255,255,255,0.34)" stroke-width="1.5"/>
+                        <path d="M25 56c10-18 12-27 18-27 6 0 7 10 16 27" fill="none" stroke="#f9fbff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M48 25h11" stroke="#ffd166" stroke-width="3.6" stroke-linecap="round"/>
+                        <path d="M53.5 19.5v11" stroke="#ffd166" stroke-width="3.6" stroke-linecap="round"/>
+                        <path d="M64 19.5v6.5" stroke="#ffc7dd" stroke-width="3.4" stroke-linecap="round"/>
+                    </svg>
+                </span>
                 <h2 class="card-title">Laplace's Equation</h2>
                 <p class="card-description">
                     Solve harmonic potential fields with fixed-potential conductors, live convergence diagnostics,
@@ -253,7 +329,25 @@
             </a>
             
             <div class="simulation-card coming-soon">
-                <span class="card-icon">🎯</span>
+                <span class="card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="monte-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#8ef7c6"/>
+                                <stop offset="100%" stop-color="#58a3ff"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="6" y="6" width="72" height="72" rx="22" fill="rgba(255,255,255,0.12)"/>
+                        <rect x="8" y="8" width="68" height="68" rx="20" fill="url(#monte-bg)" fill-opacity="0.18" stroke="rgba(255,255,255,0.34)" stroke-width="1.5"/>
+                        <circle cx="42" cy="42" r="20" fill="none" stroke="#f7fbff" stroke-width="4"/>
+                        <circle cx="42" cy="42" r="11" fill="none" stroke="#ffd166" stroke-width="3.2"/>
+                        <circle cx="42" cy="42" r="3.6" fill="#ff6a7d"/>
+                        <path d="M18 58c6-5 11-9 17-12" fill="none" stroke="#8ef7c6" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+                        <circle cx="24" cy="60" r="2.2" fill="#8ef7c6"/>
+                        <circle cx="31" cy="55" r="2.2" fill="#8ef7c6"/>
+                        <circle cx="38" cy="50" r="2.2" fill="#8ef7c6"/>
+                    </svg>
+                </span>
                 <h2 class="card-title">Monte Carlo Methods</h2>
                 <p class="card-description">
                     Statistical simulations for calculating π, option pricing, and other probabilistic problems.

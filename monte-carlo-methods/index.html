@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monte Carlo Methods Studio - Griffin Rutherford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #071018;
+      --bg-2: #0f1b3b;
+      --bg-3: #21144a;
+      --panel: rgba(10, 15, 37, 0.82);
+      --edge: rgba(156, 197, 255, 0.18);
+      --text: #f5f8ff;
+      --muted: #bdc8ef;
+      --accent-cyan: #58e7ff;
+      --accent-blue: #6f7cff;
+      --accent-pink: #ff5b96;
+      --accent-gold: #ffd166;
+      --accent-mint: #83f2b2;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(88, 231, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 84% 4%, rgba(255, 91, 150, 0.16), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(111, 124, 255, 0.16), transparent 28%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 54%, var(--bg-3));
+      padding: 24px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Russo One", system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .shell {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, 460px);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--edge);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .stage {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px 28px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(90deg, rgba(88, 231, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    }
+
+    .hero-copy {
+      max-width: 840px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.04;
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 600;
+      white-space: nowrap;
+      height: fit-content;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(88, 231, 255, 0.38);
+      background: rgba(88, 231, 255, 0.08);
+    }
+
+    .viewport-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 620px;
+      padding: 18px;
+    }
+
+    #view {
+      width: 100%;
+      height: 100%;
+      min-height: 580px;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(111, 124, 255, 0.14), transparent 42%),
+        linear-gradient(180deg, #060913, #091022 54%, #03050d);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .overlay,
+    .legend {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(8, 11, 26, 0.74);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .overlay {
+      top: 32px;
+      left: 32px;
+      min-width: 270px;
+      padding: 14px 16px;
+    }
+
+    .overlay-title,
+    .section-kicker {
+      display: inline-block;
+      color: var(--accent-cyan);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .overlay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .metric-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(188, 199, 238, 0.72);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
+    }
+
+    .legend {
+      right: 32px;
+      bottom: 32px;
+      max-width: 340px;
+      padding: 14px 16px;
+    }
+
+    .legend h3 {
+      font-size: 0.92rem;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+    }
+
+    .legend p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.56;
+    }
+
+    .legend p + p {
+      margin-top: 10px;
+    }
+
+    .panel {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+        rgba(10, 15, 37, 0.84);
+    }
+
+    .panel > section {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .panel h2 {
+      font-size: 1.06rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      line-height: 1.64;
+      font-size: 0.95rem;
+    }
+
+    .button-row,
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .button-row button,
+    .preset-row button {
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 14px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button-row button:hover,
+    .preset-row button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .button-row button {
+      background: linear-gradient(135deg, rgba(88, 231, 255, 0.22), rgba(111, 124, 255, 0.24));
+      box-shadow: 0 12px 28px rgba(8, 12, 32, 0.24);
+    }
+
+    .preset-row button {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .preset-row button.active {
+      background: linear-gradient(135deg, rgba(255, 91, 150, 0.18), rgba(111, 124, 255, 0.24));
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 28px rgba(255, 91, 150, 0.16);
+    }
+
+    .control-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .control {
+      display: grid;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .control label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .control output {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .control small {
+      color: rgba(188, 199, 238, 0.72);
+      line-height: 1.45;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(88, 231, 255, 0.4), rgba(111, 124, 255, 0.25));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 1.04rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sparkline-wrap {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    #history {
+      width: 100%;
+      height: 96px;
+      display: block;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .detail-item {
+      padding: 12px 14px;
+      border-left: 3px solid rgba(88, 231, 255, 0.5);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .detail-item strong {
+      color: var(--text);
+    }
+
+    .equations {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      color: #dbe4ff;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .mode-section {
+      display: none;
+    }
+
+    .mode-section.active {
+      display: block;
+    }
+
+    .footnote {
+      margin-top: 12px;
+      color: rgba(188, 199, 238, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1220px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .stage,
+      .panel {
+        min-height: auto;
+      }
+
+      .panel {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 14px;
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+
+      .viewport-wrap {
+        padding: 12px;
+      }
+
+      .overlay {
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        min-width: 0;
+      }
+
+      .legend {
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        max-width: none;
+      }
+
+      .overlay-grid,
+      .stats-grid,
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #view {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card stage">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Statistics / Random Sampling / Inference</div>
+          <h1>Monte Carlo Methods Studio</h1>
+          <p>
+            This playground turns repeated random sampling into numerical estimation. Switch between
+            <strong>&pi;</strong> estimation, hit-or-miss integration, and risk-neutral option pricing to see how
+            Monte Carlo estimates converge, how confidence intervals shrink, and why variance matters as much
+            as sample count.
+          </p>
+        </div>
+        <a href="../mathematical-simulations" class="back-link">
+          <span>&larr;</span>
+          <span>Back to Mathematical Simulations</span>
+        </a>
+      </header>
+
+      <div class="viewport-wrap">
+        <div class="overlay" aria-live="polite">
+          <div class="overlay-title">Live State</div>
+          <div class="overlay-grid">
+            <div>
+              <span class="metric-label" id="metric-label-estimate">Estimate</span>
+              <span class="metric-value" id="metric-estimate">0</span>
+            </div>
+            <div>
+              <span class="metric-label" id="metric-label-reference">Reference</span>
+              <span class="metric-value" id="metric-reference">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Absolute Error</span>
+              <span class="metric-value" id="metric-error">0</span>
+            </div>
+            <div>
+              <span class="metric-label">95% CI Half-Width</span>
+              <span class="metric-value" id="metric-ci">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Samples</span>
+              <span class="metric-value" id="metric-samples">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Samples / Sec</span>
+              <span class="metric-value" id="metric-rate">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <h3 id="legend-title">What You Are Seeing</h3>
+          <p id="legend-copy-1"></p>
+          <p id="legend-copy-2"></p>
+          <p id="legend-copy-3"></p>
+        </div>
+
+        <canvas id="view" aria-label="Monte Carlo simulation canvas"></canvas>
+      </div>
+    </section>
+
+    <aside class="card panel">
+      <section>
+        <span class="section-kicker">Modes</span>
+        <h2>Monte Carlo Problem Families</h2>
+        <p>Each mode uses random sampling differently: geometry for <strong>&pi;</strong>, area counting for integrals, and risk-neutral path sampling for derivative pricing.</p>
+        <div class="preset-row" style="margin-top: 16px;">
+          <button type="button" class="mode-button active" data-mode="pi">Estimate &pi;</button>
+          <button type="button" class="mode-button" data-mode="integral">Integrate</button>
+          <button type="button" class="mode-button" data-mode="option">Option Pricing</button>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Sampling</span>
+        <h2>Simulation Controls</h2>
+        <div class="button-row">
+          <button type="button" id="toggle-run">Pause Sampling</button>
+          <button type="button" id="reset-mode">Reset Mode</button>
+          <button type="button" id="clear-history">Clear History</button>
+        </div>
+        <div class="control-stack">
+          <div class="control">
+            <label for="samples-per-frame">
+              <span>Samples Per Frame</span>
+              <output id="samples-per-frame-out">300</output>
+            </label>
+            <input type="range" id="samples-per-frame" min="20" max="4000" step="20" value="300">
+            <small>Higher throughput speeds convergence but can make the animation jump instead of breathe.</small>
+          </div>
+          <div class="control">
+            <label for="retained-samples">
+              <span>Retained Visual Samples</span>
+              <output id="retained-samples-out">2400</output>
+            </label>
+            <input type="range" id="retained-samples" min="300" max="6000" step="100" value="2400">
+            <small>The estimator always uses every sample; this slider only limits how many recent samples stay visible on the canvas.</small>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Problem Setup</span>
+        <h2>Mode-Specific Parameters</h2>
+
+        <div class="mode-section active" data-section="pi">
+          <p>The classic <strong>&pi;</strong> experiment samples uniformly in the unit square and checks whether each point falls inside the quarter unit disk.</p>
+          <div class="detail-list">
+            <div class="detail-item"><strong>Estimator.</strong> If the hit probability is <em>p</em>, then <em>&pi; = 4p</em>.</div>
+            <div class="detail-item"><strong>Variance source.</strong> Every point is a Bernoulli trial, so uncertainty shrinks like <em>1 / &radic;n</em>, not linearly.</div>
+          </div>
+        </div>
+
+        <div class="mode-section" data-section="integral">
+          <p>Hit-or-miss integration estimates area by sampling inside a bounding rectangle and counting how many points fall below the chosen function.</p>
+          <div class="control-stack">
+            <div class="control">
+              <label for="integrand">
+                <span>Integrand</span>
+                <output id="integrand-out">sin(&pi;x)</output>
+              </label>
+              <select id="integrand">
+                <option value="sine">sin(&pi;x)</option>
+                <option value="parabola">x^2</option>
+                <option value="sqrt">sqrt(x)</option>
+              </select>
+              <small>All three examples live on <em>[0, 1]</em> and stay within a unit-height bounding box for clean comparison.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="mode-section" data-section="option">
+          <p>This mode prices a European call under the Black-Scholes model by sampling lognormal terminal prices under the risk-neutral measure.</p>
+          <div class="input-grid">
+            <div class="control">
+              <label for="spot">
+                <span>Spot S₀</span>
+                <output id="spot-out">100</output>
+              </label>
+              <input type="range" id="spot" min="40" max="180" step="1" value="100">
+            </div>
+            <div class="control">
+              <label for="strike">
+                <span>Strike K</span>
+                <output id="strike-out">100</output>
+              </label>
+              <input type="range" id="strike" min="40" max="180" step="1" value="100">
+            </div>
+            <div class="control">
+              <label for="vol">
+                <span>Volatility σ</span>
+                <output id="vol-out">0.20</output>
+              </label>
+              <input type="range" id="vol" min="0.05" max="0.80" step="0.01" value="0.20">
+            </div>
+            <div class="control">
+              <label for="rate">
+                <span>Rate r</span>
+                <output id="rate-out">0.05</output>
+              </label>
+              <input type="range" id="rate" min="0.00" max="0.15" step="0.005" value="0.05">
+            </div>
+            <div class="control">
+              <label for="maturity">
+                <span>Maturity T</span>
+                <output id="maturity-out">1.00</output>
+              </label>
+              <input type="range" id="maturity" min="0.25" max="3.00" step="0.05" value="1.00">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Readout</span>
+        <h2>Convergence Diagnostics</h2>
+        <div class="stats-grid">
+          <div class="stat">Current Mode<strong id="stat-mode">π Estimation</strong></div>
+          <div class="stat">Hit Ratio / ITM Ratio<strong id="stat-ratio">0.0000</strong></div>
+          <div class="stat">Sample Variance Proxy<strong id="stat-variance">0.000000</strong></div>
+          <div class="stat">Reference Gap<strong id="stat-gap">0.000000</strong></div>
+          <div class="stat">FPS<strong id="stat-fps">0.0</strong></div>
+          <div class="stat">Retained Samples<strong id="stat-retained">0</strong></div>
+        </div>
+        <div class="sparkline-wrap">
+          <div class="metric-label" style="margin-bottom: 8px;">Estimate History</div>
+          <canvas id="history" width="360" height="96" aria-label="Estimate history plot"></canvas>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Method</span>
+        <h2>Estimator Equations</h2>
+        <div class="equations" id="equations"></div>
+        <div class="detail-list">
+          <div class="detail-item"><strong>Unbiasedness.</strong> Each estimator targets an expectation: hit probability, average function value, or discounted payoff. Sampling noise stays random, not systematically shifted.</div>
+          <div class="detail-item"><strong>Square-root law.</strong> Doubling accuracy typically requires about four times as many samples, which is why variance reduction is a core Monte Carlo design problem.</div>
+          <div class="detail-item"><strong>Reference solution.</strong> Each mode compares the random estimate against either a closed-form truth or a known analytic benchmark so the convergence story stays grounded.</div>
+        </div>
+        <p class="footnote">Accuracy note: option pricing here assumes geometric Brownian motion and a frictionless Black-Scholes setting, so the Monte Carlo result is being compared against the matching model's exact price, not against real market behavior.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("view");
+    const ctx = canvas.getContext("2d");
+    const historyCanvas = document.getElementById("history");
+    const historyCtx = historyCanvas.getContext("2d");
+
+    const ui = {
+      toggleRun: document.getElementById("toggle-run"),
+      resetMode: document.getElementById("reset-mode"),
+      clearHistory: document.getElementById("clear-history"),
+      samplesPerFrame: document.getElementById("samples-per-frame"),
+      retainedSamples: document.getElementById("retained-samples"),
+      integrand: document.getElementById("integrand"),
+      spot: document.getElementById("spot"),
+      strike: document.getElementById("strike"),
+      vol: document.getElementById("vol"),
+      rate: document.getElementById("rate"),
+      maturity: document.getElementById("maturity"),
+      modeButtons: Array.from(document.querySelectorAll(".mode-button")),
+      modeSections: Array.from(document.querySelectorAll(".mode-section")),
+      outputs: {
+        samplesPerFrame: document.getElementById("samples-per-frame-out"),
+        retainedSamples: document.getElementById("retained-samples-out"),
+        integrand: document.getElementById("integrand-out"),
+        spot: document.getElementById("spot-out"),
+        strike: document.getElementById("strike-out"),
+        vol: document.getElementById("vol-out"),
+        rate: document.getElementById("rate-out"),
+        maturity: document.getElementById("maturity-out")
+      },
+      metrics: {
+        estimateLabel: document.getElementById("metric-label-estimate"),
+        estimate: document.getElementById("metric-estimate"),
+        referenceLabel: document.getElementById("metric-label-reference"),
+        reference: document.getElementById("metric-reference"),
+        error: document.getElementById("metric-error"),
+        ci: document.getElementById("metric-ci"),
+        samples: document.getElementById("metric-samples"),
+        rate: document.getElementById("metric-rate"),
+        mode: document.getElementById("stat-mode"),
+        ratio: document.getElementById("stat-ratio"),
+        variance: document.getElementById("stat-variance"),
+        gap: document.getElementById("stat-gap"),
+        fps: document.getElementById("stat-fps"),
+        retained: document.getElementById("stat-retained")
+      },
+      legendTitle: document.getElementById("legend-title"),
+      legendCopy1: document.getElementById("legend-copy-1"),
+      legendCopy2: document.getElementById("legend-copy-2"),
+      legendCopy3: document.getElementById("legend-copy-3"),
+      equations: document.getElementById("equations")
+    };
+
+    const integrands = {
+      sine: {
+        label: "sin(pi x)",
+        fn: (x) => Math.sin(Math.PI * x),
+        exact: 2 / Math.PI,
+        ymax: 1
+      },
+      parabola: {
+        label: "x^2",
+        fn: (x) => x * x,
+        exact: 1 / 3,
+        ymax: 1
+      },
+      sqrt: {
+        label: "sqrt(x)",
+        fn: (x) => Math.sqrt(x),
+        exact: 2 / 3,
+        ymax: 1
+      }
+    };
+
+    const state = {
+      mode: "pi",
+      running: true,
+      samplesPerFrame: Number(ui.samplesPerFrame.value),
+      retainedLimit: Number(ui.retainedSamples.value),
+      integrandKey: ui.integrand.value,
+      option: {
+        spot: Number(ui.spot.value),
+        strike: Number(ui.strike.value),
+        vol: Number(ui.vol.value),
+        rate: Number(ui.rate.value),
+        maturity: Number(ui.maturity.value)
+      },
+      points: [],
+      history: [],
+      totals: {
+        n: 0,
+        hits: 0,
+        sum: 0,
+        sumSq: 0
+      },
+      metrics: {
+        estimate: 0,
+        reference: 0,
+        error: 0,
+        ciHalfWidth: 0,
+        ratio: 0,
+        varianceProxy: 0,
+        retained: 0,
+        rate: 0,
+        fps: 0
+      },
+      lastFrameTime: performance.now()
+    };
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    function normalCdf(x) {
+      const a1 = 0.319381530;
+      const a2 = -0.356563782;
+      const a3 = 1.781477937;
+      const a4 = -1.821255978;
+      const a5 = 1.330274429;
+      const absX = Math.abs(x);
+      const t = 1 / (1 + 0.2316419 * absX);
+      const poly = ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t;
+      const pdf = Math.exp(-0.5 * absX * absX) / Math.sqrt(2 * Math.PI);
+      const cdf = 1 - pdf * poly;
+      return x >= 0 ? cdf : 1 - cdf;
+    }
+
+    function blackScholesCallPrice() {
+      const { spot, strike, vol, rate, maturity } = state.option;
+      const sqrtT = Math.sqrt(maturity);
+      const d1 = (Math.log(spot / strike) + (rate + 0.5 * vol * vol) * maturity) / (vol * sqrtT);
+      const d2 = d1 - vol * sqrtT;
+      return spot * normalCdf(d1) - strike * Math.exp(-rate * maturity) * normalCdf(d2);
+    }
+
+    function currentIntegrand() {
+      return integrands[state.integrandKey];
+    }
+
+    function resetModeData() {
+      state.points = [];
+      state.history = [];
+      state.totals.n = 0;
+      state.totals.hits = 0;
+      state.totals.sum = 0;
+      state.totals.sumSq = 0;
+      computeMetrics();
+    }
+
+    function setOutputs() {
+      ui.outputs.samplesPerFrame.textContent = state.samplesPerFrame.toLocaleString();
+      ui.outputs.retainedSamples.textContent = state.retainedLimit.toLocaleString();
+      ui.outputs.integrand.textContent = currentIntegrand().label;
+      ui.outputs.spot.textContent = state.option.spot.toFixed(0);
+      ui.outputs.strike.textContent = state.option.strike.toFixed(0);
+      ui.outputs.vol.textContent = state.option.vol.toFixed(2);
+      ui.outputs.rate.textContent = state.option.rate.toFixed(2);
+      ui.outputs.maturity.textContent = state.option.maturity.toFixed(2);
+    }
+
+    function resizeCanvases() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width * dpr));
+      const height = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      const historyRect = historyCanvas.getBoundingClientRect();
+      const historyWidth = Math.max(1, Math.round(historyRect.width * dpr));
+      const historyHeight = Math.max(1, Math.round(historyRect.height * dpr));
+      if (historyCanvas.width !== historyWidth || historyCanvas.height !== historyHeight) {
+        historyCanvas.width = historyWidth;
+        historyCanvas.height = historyHeight;
+      }
+    }
+
+    function pushPoint(point) {
+      state.points.push(point);
+      if (state.points.length > state.retainedLimit) {
+        state.points.splice(0, state.points.length - state.retainedLimit);
+      }
+    }
+
+    function addPiSamples(count) {
+      for (let i = 0; i < count; i += 1) {
+        const x = Math.random();
+        const y = Math.random();
+        const hit = x * x + y * y <= 1;
+        state.totals.n += 1;
+        state.totals.hits += hit ? 1 : 0;
+        pushPoint({ x, y, hit });
+      }
+    }
+
+    function addIntegralSamples(count) {
+      const integrand = currentIntegrand();
+      for (let i = 0; i < count; i += 1) {
+        const x = Math.random();
+        const y = Math.random() * integrand.ymax;
+        const fx = integrand.fn(x);
+        const hit = y <= fx;
+        state.totals.n += 1;
+        state.totals.hits += hit ? 1 : 0;
+        pushPoint({ x, y, hit, fx });
+      }
+    }
+
+    function sampleStandardNormal() {
+      let u = 0;
+      let v = 0;
+      while (u === 0) {
+        u = Math.random();
+      }
+      while (v === 0) {
+        v = Math.random();
+      }
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function addOptionSamples(count) {
+      const { spot, strike, vol, rate, maturity } = state.option;
+      const drift = (rate - 0.5 * vol * vol) * maturity;
+      const diffusion = vol * Math.sqrt(maturity);
+      const discount = Math.exp(-rate * maturity);
+
+      for (let i = 0; i < count; i += 1) {
+        const z = sampleStandardNormal();
+        const terminal = spot * Math.exp(drift + diffusion * z);
+        const payoff = discount * Math.max(terminal - strike, 0);
+        state.totals.n += 1;
+        state.totals.hits += terminal > strike ? 1 : 0;
+        state.totals.sum += payoff;
+        state.totals.sumSq += payoff * payoff;
+        pushPoint({ terminal, payoff });
+      }
+    }
+
+    function computeMetrics() {
+      const n = state.totals.n;
+      const z = 1.96;
+      let estimate = 0;
+      let reference = 0;
+      let ratio = 0;
+      let varianceProxy = 0;
+      let ciHalfWidth = 0;
+
+      if (state.mode === "pi") {
+        ratio = n > 0 ? state.totals.hits / n : 0;
+        estimate = 4 * ratio;
+        reference = Math.PI;
+        varianceProxy = n > 0 ? 16 * ratio * (1 - ratio) : 0;
+        ciHalfWidth = n > 0 ? 4 * z * Math.sqrt(ratio * (1 - ratio) / n) : 0;
+      } else if (state.mode === "integral") {
+        const integrand = currentIntegrand();
+        ratio = n > 0 ? state.totals.hits / n : 0;
+        estimate = integrand.ymax * ratio;
+        reference = integrand.exact;
+        varianceProxy = n > 0 ? integrand.ymax * integrand.ymax * ratio * (1 - ratio) : 0;
+        ciHalfWidth = n > 0 ? integrand.ymax * z * Math.sqrt(ratio * (1 - ratio) / n) : 0;
+      } else {
+        const mean = n > 0 ? state.totals.sum / n : 0;
+        const meanSq = n > 0 ? state.totals.sumSq / n : 0;
+        const variance = Math.max(meanSq - mean * mean, 0);
+        estimate = mean;
+        reference = blackScholesCallPrice();
+        ratio = n > 0 ? state.totals.hits / n : 0;
+        varianceProxy = variance;
+        ciHalfWidth = n > 1 ? z * Math.sqrt(variance / n) : 0;
+      }
+
+      state.metrics.estimate = estimate;
+      state.metrics.reference = reference;
+      state.metrics.error = Math.abs(estimate - reference);
+      state.metrics.ciHalfWidth = ciHalfWidth;
+      state.metrics.ratio = ratio;
+      state.metrics.varianceProxy = varianceProxy;
+      state.metrics.retained = state.points.length;
+
+      state.history.push(estimate);
+      if (state.history.length > 240) {
+        state.history.shift();
+      }
+    }
+
+    function updateModeUi() {
+      ui.modeButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.mode === state.mode);
+      });
+      ui.modeSections.forEach((section) => {
+        section.classList.toggle("active", section.dataset.section === state.mode);
+      });
+
+      const modeConfig = {
+        pi: {
+          modeName: "π Estimation",
+          estimateLabel: "π Estimate",
+          referenceLabel: "True π",
+          legendTitle: "Quarter-Circle Sampling",
+          lines: [
+            "Every point is sampled uniformly from the unit square. Green points land inside the quarter circle, while pink points miss.",
+            "The hit probability equals the quarter-circle area, so multiplying the hit ratio by four turns geometry into an estimate for π.",
+            "Notice the estimate stabilizing slowly: Monte Carlo noise falls at the rate of one over the square root of the sample count."
+          ],
+          equations: [
+            "p = P(x^2 + y^2 <= 1),   pi = 4p",
+            "pi-hat = 4 (hits / n)",
+            "SE(pi-hat) approx 4 sqrt(p-hat (1 - p-hat) / n)"
+          ]
+        },
+        integral: {
+          modeName: "Hit-or-Miss Integral",
+          estimateLabel: "Area Estimate",
+          referenceLabel: "Exact Area",
+          legendTitle: "Bounding-Box Integration",
+          lines: [
+            "Points are sampled uniformly from the rectangle [0, 1] x [0, ymax]. Green points fall under the curve; pink points land above it.",
+            "The hit ratio estimates the fraction of the rectangle occupied by the graph's sub-area, so area equals rectangle area times that ratio.",
+            "This method is visually intuitive but variance-heavy; mean-value Monte Carlo is often more efficient for plain integrals."
+          ],
+          equations: [
+            "I = integral_0^1 f(x) dx",
+            "I-hat = ymax (hits / n)",
+            "SE(I-hat) approx ymax sqrt(p-hat (1 - p-hat) / n)"
+          ]
+        },
+        option: {
+          modeName: "European Call Pricing",
+          estimateLabel: "Call Price",
+          referenceLabel: "Black-Scholes",
+          legendTitle: "Risk-Neutral Pricing",
+          lines: [
+            "Each sample draws a terminal stock price from the Black-Scholes lognormal distribution under the risk-neutral drift.",
+            "The histogram shows recent terminal prices. The gold line is the strike, and only the right tail contributes positive call payoff.",
+            "Monte Carlo is especially useful when payoffs or dynamics become too complicated for closed-form formulas, even though this benchmark case has one."
+          ],
+          equations: [
+            "S_T = S_0 exp((r - sigma^2 / 2) T + sigma sqrt(T) Z)",
+            "C-hat = e^(-rT) (1 / n) sum max(S_T - K, 0)",
+            "SE(C-hat) approx s / sqrt(n)"
+          ]
+        }
+      };
+
+      const config = modeConfig[state.mode];
+      ui.metrics.mode.textContent = config.modeName;
+      ui.metrics.estimateLabel.textContent = config.estimateLabel;
+      ui.metrics.referenceLabel.textContent = config.referenceLabel;
+      ui.legendTitle.textContent = config.legendTitle;
+      ui.legendCopy1.textContent = config.lines[0];
+      ui.legendCopy2.textContent = config.lines[1];
+      ui.legendCopy3.textContent = config.lines[2];
+      ui.equations.innerHTML = config.equations.map((line) => "<div>" + line + "</div>").join("");
+    }
+
+    function formatMetric(value) {
+      if (!Number.isFinite(value)) {
+        return "0";
+      }
+      if (Math.abs(value) >= 1000) {
+        return value.toFixed(1);
+      }
+      if (Math.abs(value) >= 10) {
+        return value.toFixed(3);
+      }
+      return value.toFixed(5);
+    }
+
+    function updateMetricsUi() {
+      ui.metrics.estimate.textContent = formatMetric(state.metrics.estimate);
+      ui.metrics.reference.textContent = formatMetric(state.metrics.reference);
+      ui.metrics.error.textContent = formatMetric(state.metrics.error);
+      ui.metrics.ci.textContent = formatMetric(state.metrics.ciHalfWidth);
+      ui.metrics.samples.textContent = state.totals.n.toLocaleString();
+      ui.metrics.rate.textContent = state.metrics.rate.toFixed(0);
+      ui.metrics.ratio.textContent = state.metrics.ratio.toFixed(4);
+      ui.metrics.variance.textContent = state.metrics.varianceProxy.toFixed(6);
+      ui.metrics.gap.textContent = state.metrics.error.toFixed(6);
+      ui.metrics.fps.textContent = state.metrics.fps.toFixed(1);
+      ui.metrics.retained.textContent = state.metrics.retained.toLocaleString();
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, "rgba(255,255,255,0.02)");
+      gradient.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawPiScene() {
+      const pad = Math.min(canvas.width, canvas.height) * 0.11;
+      const size = Math.min(canvas.width, canvas.height) - 2 * pad;
+      const left = (canvas.width - size) / 2;
+      const top = (canvas.height - size) / 2;
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.16)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(left, top, size, size);
+
+      ctx.beginPath();
+      ctx.arc(left, top + size, size, -Math.PI / 2, 0);
+      ctx.strokeStyle = "rgba(255, 209, 102, 0.9)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      for (const point of state.points) {
+        const px = left + point.x * size;
+        const py = top + (1 - point.y) * size;
+        ctx.fillStyle = point.hit ? "rgba(131, 242, 178, 0.85)" : "rgba(255, 91, 150, 0.7)";
+        ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+      }
+      ctx.restore();
+    }
+
+    function drawIntegralScene() {
+      const padX = canvas.width * 0.1;
+      const padY = canvas.height * 0.14;
+      const plotWidth = canvas.width - 2 * padX;
+      const plotHeight = canvas.height - 2 * padY;
+      const bottom = canvas.height - padY;
+      const integrand = currentIntegrand();
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.16)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(padX, padY, plotWidth, plotHeight);
+
+      ctx.beginPath();
+      for (let i = 0; i <= 180; i += 1) {
+        const x = i / 180;
+        const y = integrand.fn(x) / integrand.ymax;
+        const px = padX + x * plotWidth;
+        const py = bottom - y * plotHeight;
+        if (i === 0) {
+          ctx.moveTo(px, py);
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      ctx.lineTo(padX + plotWidth, bottom);
+      ctx.lineTo(padX, bottom);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(88, 231, 255, 0.12)";
+      ctx.fill();
+
+      ctx.beginPath();
+      for (let i = 0; i <= 180; i += 1) {
+        const x = i / 180;
+        const y = integrand.fn(x) / integrand.ymax;
+        const px = padX + x * plotWidth;
+        const py = bottom - y * plotHeight;
+        if (i === 0) {
+          ctx.moveTo(px, py);
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      ctx.strokeStyle = "rgba(255, 209, 102, 0.92)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      for (const point of state.points) {
+        const px = padX + point.x * plotWidth;
+        const py = bottom - (point.y / integrand.ymax) * plotHeight;
+        ctx.fillStyle = point.hit ? "rgba(131, 242, 178, 0.85)" : "rgba(255, 91, 150, 0.7)";
+        ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+      }
+      ctx.restore();
+    }
+
+    function drawOptionScene() {
+      const padX = canvas.width * 0.1;
+      const padY = canvas.height * 0.12;
+      const plotWidth = canvas.width - 2 * padX;
+      const plotHeight = canvas.height - 2 * padY;
+      const bottom = canvas.height - padY;
+      const values = state.points.map((point) => point.terminal);
+      const maxValue = Math.max(state.option.strike * 1.8, ...values, state.option.spot * 1.6);
+      const bins = 28;
+      const counts = new Array(bins).fill(0);
+
+      for (const value of values) {
+        const normalized = clamp(value / maxValue, 0, 0.999999);
+        counts[Math.floor(normalized * bins)] += 1;
+      }
+
+      const peak = Math.max(1, ...counts);
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.16)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(padX, padY, plotWidth, plotHeight);
+
+      for (let i = 0; i < bins; i += 1) {
+        const x = padX + (i / bins) * plotWidth;
+        const width = plotWidth / bins - 2;
+        const height = (counts[i] / peak) * (plotHeight * 0.88);
+        const y = bottom - height;
+        const gradient = ctx.createLinearGradient(0, y, 0, bottom);
+        gradient.addColorStop(0, "rgba(88, 231, 255, 0.95)");
+        gradient.addColorStop(1, "rgba(111, 124, 255, 0.45)");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x + 1, y, width, height);
+      }
+
+      const strikeX = padX + (state.option.strike / maxValue) * plotWidth;
+      ctx.beginPath();
+      ctx.moveTo(strikeX, padY);
+      ctx.lineTo(strikeX, bottom);
+      ctx.strokeStyle = "rgba(255, 209, 102, 0.95)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(255, 209, 102, 0.98)";
+      ctx.font = "600 14px Inter, sans-serif";
+      ctx.fillText("K", strikeX + 8, padY + 18);
+      ctx.restore();
+    }
+
+    function drawHistory() {
+      const width = historyCanvas.width;
+      const height = historyCanvas.height;
+      historyCtx.clearRect(0, 0, width, height);
+
+      const bg = historyCtx.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, "rgba(88, 231, 255, 0.04)");
+      bg.addColorStop(1, "rgba(111, 124, 255, 0.08)");
+      historyCtx.fillStyle = bg;
+      historyCtx.fillRect(0, 0, width, height);
+
+      if (state.history.length < 2) {
+        return;
+      }
+
+      const reference = state.metrics.reference;
+      let minValue = Math.min(reference, ...state.history);
+      let maxValue = Math.max(reference, ...state.history);
+      if (maxValue - minValue < 1e-9) {
+        maxValue += 1;
+        minValue -= 1;
+      }
+      const padding = 0.08 * (maxValue - minValue);
+      minValue -= padding;
+      maxValue += padding;
+
+      const toY = (value) => height - ((value - minValue) / (maxValue - minValue)) * (height - 8) - 4;
+
+      historyCtx.strokeStyle = "rgba(255, 209, 102, 0.8)";
+      historyCtx.lineWidth = Math.max(1, width / 320);
+      historyCtx.beginPath();
+      historyCtx.moveTo(0, toY(reference));
+      historyCtx.lineTo(width, toY(reference));
+      historyCtx.stroke();
+
+      const gradient = historyCtx.createLinearGradient(0, 0, width, 0);
+      gradient.addColorStop(0, "rgba(88, 231, 255, 0.95)");
+      gradient.addColorStop(1, "rgba(255, 91, 150, 0.95)");
+      historyCtx.strokeStyle = gradient;
+      historyCtx.lineWidth = Math.max(1.5, width / 220);
+      historyCtx.beginPath();
+      state.history.forEach((value, index) => {
+        const x = (index / (state.history.length - 1)) * width;
+        const y = toY(value);
+        if (index === 0) {
+          historyCtx.moveTo(x, y);
+        } else {
+          historyCtx.lineTo(x, y);
+        }
+      });
+      historyCtx.stroke();
+    }
+
+    function render() {
+      resizeCanvases();
+      clearCanvas();
+      if (state.mode === "pi") {
+        drawPiScene();
+      } else if (state.mode === "integral") {
+        drawIntegralScene();
+      } else {
+        drawOptionScene();
+      }
+      drawHistory();
+      updateMetricsUi();
+    }
+
+    function sampleFrame() {
+      if (!state.running) {
+        return;
+      }
+      if (state.mode === "pi") {
+        addPiSamples(state.samplesPerFrame);
+      } else if (state.mode === "integral") {
+        addIntegralSamples(state.samplesPerFrame);
+      } else {
+        addOptionSamples(state.samplesPerFrame);
+      }
+      computeMetrics();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      updateModeUi();
+      resetModeData();
+      render();
+    }
+
+    function bindControls() {
+      ui.modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setMode(button.dataset.mode);
+        });
+      });
+
+      ui.toggleRun.addEventListener("click", () => {
+        state.running = !state.running;
+        ui.toggleRun.textContent = state.running ? "Pause Sampling" : "Resume Sampling";
+      });
+
+      ui.resetMode.addEventListener("click", () => {
+        resetModeData();
+        render();
+      });
+
+      ui.clearHistory.addEventListener("click", () => {
+        state.history = [];
+        render();
+      });
+
+      ui.samplesPerFrame.addEventListener("input", () => {
+        state.samplesPerFrame = Number(ui.samplesPerFrame.value);
+        setOutputs();
+      });
+
+      ui.retainedSamples.addEventListener("input", () => {
+        state.retainedLimit = Number(ui.retainedSamples.value);
+        if (state.points.length > state.retainedLimit) {
+          state.points.splice(0, state.points.length - state.retainedLimit);
+        }
+        setOutputs();
+      });
+
+      ui.integrand.addEventListener("change", () => {
+        state.integrandKey = ui.integrand.value;
+        setOutputs();
+        if (state.mode === "integral") {
+          resetModeData();
+        }
+      });
+
+      const optionBindings = [
+        ["spot", "spot"],
+        ["strike", "strike"],
+        ["vol", "vol"],
+        ["rate", "rate"],
+        ["maturity", "maturity"]
+      ];
+
+      optionBindings.forEach(([element, key]) => {
+        ui[element].addEventListener("input", () => {
+          state.option[key] = Number(ui[element].value);
+          setOutputs();
+          if (state.mode === "option") {
+            resetModeData();
+          }
+        });
+      });
+    }
+
+    function frame(now) {
+      const dt = Math.max(1e-3, (now - state.lastFrameTime) / 1000);
+      state.lastFrameTime = now;
+      state.metrics.fps = state.metrics.fps === 0
+        ? 1 / dt
+        : state.metrics.fps * 0.88 + (1 / dt) * 0.12;
+      sampleFrame();
+      state.metrics.rate = state.running ? state.samplesPerFrame / dt : 0;
+      render();
+      requestAnimationFrame(frame);
+    }
+
+    function init() {
+      setOutputs();
+      updateModeUi();
+      bindControls();
+      computeMetrics();
+      render();
+      window.addEventListener("resize", render);
+      requestAnimationFrame(frame);
+    }
+
+    init();
+  </script>
+</body>
+</html>

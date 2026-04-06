@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laplace Equation Field Studio - Griffin Rutherford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #050813;
+      --bg-2: #0c1432;
+      --bg-3: #1a123c;
+      --panel: rgba(10, 15, 37, 0.82);
+      --panel-strong: rgba(14, 19, 45, 0.95);
+      --edge: rgba(156, 197, 255, 0.18);
+      --text: #f5f8ff;
+      --muted: #bdc8ef;
+      --accent-cyan: #58e7ff;
+      --accent-blue: #6f7cff;
+      --accent-pink: #ff5b96;
+      --accent-gold: #ffd166;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(88, 231, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 84% 4%, rgba(255, 91, 150, 0.16), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(111, 124, 255, 0.16), transparent 28%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 54%, var(--bg-3));
+      padding: 24px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Russo One", system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .shell {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, 460px);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--edge);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .stage {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px 28px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(90deg, rgba(88, 231, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    }
+
+    .hero-copy {
+      max-width: 860px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.04;
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 600;
+      white-space: nowrap;
+      height: fit-content;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(88, 231, 255, 0.38);
+      background: rgba(88, 231, 255, 0.08);
+    }
+
+    .viewport-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 620px;
+      padding: 18px;
+    }
+
+    #view {
+      width: 100%;
+      height: 100%;
+      min-height: 580px;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(111, 124, 255, 0.14), transparent 42%),
+        linear-gradient(180deg, #050712, #080d20 54%, #03050d);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .overlay,
+    .legend {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(8, 11, 26, 0.74);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .overlay {
+      top: 32px;
+      left: 32px;
+      min-width: 270px;
+      padding: 14px 16px;
+    }
+
+    .overlay-title,
+    .section-kicker {
+      display: inline-block;
+      color: var(--accent-cyan);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .overlay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .metric-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(188, 199, 238, 0.72);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
+    }
+
+    .legend {
+      right: 32px;
+      bottom: 32px;
+      max-width: 350px;
+      padding: 14px 16px;
+    }
+
+    .legend h3 {
+      font-size: 0.92rem;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+    }
+
+    .legend p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.56;
+    }
+
+    .legend p + p {
+      margin-top: 10px;
+    }
+
+    .panel {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+        var(--panel);
+    }
+
+    .panel > section {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .panel h2 {
+      font-size: 1.06rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      line-height: 1.64;
+      font-size: 0.95rem;
+    }
+
+    .button-row,
+    .preset-row,
+    .tool-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .button-row button,
+    .preset-row button,
+    .tool-row button {
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 14px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button-row button:hover,
+    .preset-row button:hover,
+    .tool-row button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .button-row button {
+      background: linear-gradient(135deg, rgba(88, 231, 255, 0.22), rgba(111, 124, 255, 0.24));
+      box-shadow: 0 12px 28px rgba(8, 12, 32, 0.24);
+    }
+
+    .preset-row button,
+    .tool-row button {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .preset-row button.active,
+    .tool-row button.active {
+      background: linear-gradient(135deg, rgba(255, 91, 150, 0.18), rgba(111, 124, 255, 0.24));
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 28px rgba(255, 91, 150, 0.16);
+    }
+
+    .control-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .control {
+      display: grid;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .control label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .control output {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .control small {
+      color: rgba(188, 199, 238, 0.72);
+      line-height: 1.45;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(88, 231, 255, 0.4), rgba(111, 124, 255, 0.25));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+    }
+
+    .toggle-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .switch span {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: background 0.18s ease;
+    }
+
+    .switch span::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff, #cdd6ff);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+      transition: transform 0.18s ease;
+    }
+
+    .switch input:checked + span {
+      background: linear-gradient(135deg, rgba(88, 231, 255, 0.55), rgba(111, 124, 255, 0.55));
+    }
+
+    .switch input:checked + span::after {
+      transform: translateX(20px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 1.04rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sparkline-wrap {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    #history {
+      width: 100%;
+      height: 96px;
+      display: block;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+    }
+
+    .equations {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      color: #dbe4ff;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .detail-item {
+      padding: 12px 14px;
+      border-left: 3px solid rgba(88, 231, 255, 0.5);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .detail-item strong {
+      color: var(--text);
+    }
+
+    .footnote {
+      margin-top: 12px;
+      color: rgba(188, 199, 238, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .kbd {
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 1220px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .stage,
+      .panel {
+        min-height: auto;
+      }
+
+      .panel {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 14px;
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+
+      .viewport-wrap {
+        padding: 12px;
+      }
+
+      .overlay {
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        min-width: 0;
+      }
+
+      .legend {
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        max-width: none;
+      }
+
+      .overlay-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #view {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card stage">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Potential Theory / Harmonic Fields</div>
+          <h1>Laplace Equation Field Studio</h1>
+          <p>
+            This simulation solves the two-dimensional Dirichlet problem for <strong>Laplace's equation</strong>,
+            <span aria-label="nabla squared phi equals zero">&nabla;<sup>2</sup>&phi; = 0</span>, using red-black Gauss-Seidel
+            relaxation with successive over-relaxation. Paint fixed-potential conductors, shape the outer boundary,
+            and watch the charge-free region settle into a harmonic potential whose field lines follow
+            <span aria-label="E equals negative gradient phi">E = -&nabla;&phi;</span>.
+          </p>
+        </div>
+        <a href="../mathematical-simulations" class="back-link">
+          <span>&larr;</span>
+          <span>Back to Mathematical Simulations</span>
+        </a>
+      </header>
+
+      <div class="viewport-wrap">
+        <div class="overlay" aria-live="polite">
+          <div class="overlay-title">Live State</div>
+          <div class="overlay-grid">
+            <div>
+              <span class="metric-label">Max Residual</span>
+              <span class="metric-value" id="metric-residual">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Sweeps / Sec</span>
+              <span class="metric-value" id="metric-sweeps">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Mean |E|</span>
+              <span class="metric-value" id="metric-mean-field">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Peak |E|</span>
+              <span class="metric-value" id="metric-peak-field">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Probe &phi;</span>
+              <span class="metric-value" id="metric-probe-phi">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Probe |E|</span>
+              <span class="metric-value" id="metric-probe-field">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <h3>How To Read It</h3>
+          <p>Warm colors are positive potential, cool colors are negative potential, and pale midtones sit near zero. Thin contour curves are equipotentials, and the arrow field follows the electric field direction.</p>
+          <p>Outside the painted conductors and fixed outer boundary, the solver enforces the discrete harmonic average: each cell relaxes toward the average of its four nearest neighbors.</p>
+          <p>Use <span class="kbd">drag</span> to paint electrodes and <span class="kbd">scroll</span> over the canvas to change brush size.</p>
+        </div>
+
+        <canvas id="view" aria-label="Laplace equation potential field canvas"></canvas>
+      </div>
+    </section>
+
+    <aside class="card panel">
+      <section>
+        <span class="section-kicker">Presets</span>
+        <h2>Canonical Boundary Value Problems</h2>
+        <p>These presets stay within the Laplace regime by imposing fixed potentials on the box boundary or on idealized conductors, then solving only the charge-free space between them.</p>
+        <div class="preset-row" style="margin-top: 16px;">
+          <button type="button" class="preset-button active" data-preset="plates">Parallel Plates</button>
+          <button type="button" class="preset-button" data-preset="dipole">Dipole</button>
+          <button type="button" class="preset-button" data-preset="quadrupole">Quadrupole</button>
+          <button type="button" class="preset-button" data-preset="edge">Edge Bias</button>
+          <button type="button" class="preset-button" data-preset="disk">Center Disk</button>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Solver</span>
+        <h2>Relaxation Controls</h2>
+        <div class="button-row">
+          <button type="button" id="toggle-run">Pause Solver</button>
+          <button type="button" id="reset-preset">Reset Preset</button>
+          <button type="button" id="clear-interior">Clear Interior</button>
+          <button type="button" id="ground-boundary">Ground Boundary</button>
+        </div>
+        <div class="control-stack">
+          <div class="control">
+            <label for="grid">
+              <span>Grid Resolution</span>
+              <output id="grid-out">160 x 160</output>
+            </label>
+            <input type="range" id="grid" min="96" max="224" step="32" value="160">
+            <small>Higher grids resolve sharper curvature but need more sweeps to converge.</small>
+          </div>
+          <div class="control">
+            <label for="omega">
+              <span>Relaxation Factor</span>
+              <output id="omega-out">1.78</output>
+            </label>
+            <input type="range" id="omega" min="1.00" max="1.95" step="0.01" value="1.78">
+            <small><span aria-label="omega">&omega;</span> = 1 gives plain Gauss-Seidel; values closer to 2 accelerate convergence until instability appears.</small>
+          </div>
+          <div class="control">
+            <label for="iterations">
+              <span>Sweeps Per Frame</span>
+              <output id="iterations-out">8</output>
+            </label>
+            <input type="range" id="iterations" min="1" max="28" step="1" value="8">
+            <small>Each sweep updates both checkerboard parities once.</small>
+          </div>
+          <div class="control">
+            <label for="span">
+              <span>Color Span</span>
+              <output id="span-out">1.15</output>
+            </label>
+            <input type="range" id="span" min="0.25" max="2.50" step="0.05" value="1.15">
+            <small>Sets the symmetric potential range mapped into the diverging color palette.</small>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Electrodes</span>
+        <h2>Paint Fixed Potentials</h2>
+        <p>Painting adds idealized conductors with prescribed potential. The surrounding space then solves Laplace's equation again, so the resulting field is always harmonic away from those fixed cells.</p>
+        <div class="tool-row" style="margin-top: 16px;">
+          <button type="button" class="tool-button active" data-tool="positive">Positive</button>
+          <button type="button" class="tool-button" data-tool="negative">Negative</button>
+          <button type="button" class="tool-button" data-tool="ground">Ground</button>
+          <button type="button" class="tool-button" data-tool="erase">Erase</button>
+        </div>
+        <div class="control-stack">
+          <div class="control">
+            <label for="brush">
+              <span>Brush Radius</span>
+              <output id="brush-out">10 px</output>
+            </label>
+            <input type="range" id="brush" min="2" max="28" step="1" value="10">
+            <small>Radius is measured in grid cells rather than screen pixels so the stencil stays physically consistent.</small>
+          </div>
+          <div class="control">
+            <label for="paint">
+              <span>Electrode Voltage</span>
+              <output id="paint-out">1.00</output>
+            </label>
+            <input type="range" id="paint" min="0.20" max="2.00" step="0.05" value="1.00">
+            <small>The positive and negative tools use this magnitude with opposite sign.</small>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Boundary</span>
+        <h2>Outer Box Potentials</h2>
+        <p>The simulation box is a Dirichlet boundary. These sliders directly fix the outer edge values and immediately re-solve the interior.</p>
+        <div class="control-stack">
+          <div class="control">
+            <label for="top-boundary">
+              <span>Top Edge</span>
+              <output id="top-boundary-out">0.00</output>
+            </label>
+            <input type="range" id="top-boundary" min="-1.50" max="1.50" step="0.05" value="0.00">
+          </div>
+          <div class="control">
+            <label for="right-boundary">
+              <span>Right Edge</span>
+              <output id="right-boundary-out">0.00</output>
+            </label>
+            <input type="range" id="right-boundary" min="-1.50" max="1.50" step="0.05" value="0.00">
+          </div>
+          <div class="control">
+            <label for="bottom-boundary">
+              <span>Bottom Edge</span>
+              <output id="bottom-boundary-out">0.00</output>
+            </label>
+            <input type="range" id="bottom-boundary" min="-1.50" max="1.50" step="0.05" value="0.00">
+          </div>
+          <div class="control">
+            <label for="left-boundary">
+              <span>Left Edge</span>
+              <output id="left-boundary-out">0.00</output>
+            </label>
+            <input type="range" id="left-boundary" min="-1.50" max="1.50" step="0.05" value="0.00">
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Rendering</span>
+        <h2>Visual Layers</h2>
+        <div class="control-stack">
+          <div class="control">
+            <label for="contours">
+              <span>Contour Levels</span>
+              <output id="contours-out">10</output>
+            </label>
+            <input type="range" id="contours" min="3" max="18" step="1" value="10">
+            <small>Equipotential contours are generated with a marching-squares pass over the harmonic field.</small>
+          </div>
+        </div>
+        <div class="toggle-grid">
+          <div class="toggle">
+            <span>Show Contours</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-contours" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Show Field Arrows</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-arrows" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Auto Color Scale</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-autoscale">
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Glow Shading</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-glow" checked>
+              <span></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Readout</span>
+        <h2>Convergence And Diagnostics</h2>
+        <div class="stats-grid">
+          <div class="stat">RMS Residual<strong id="stat-rms">0.000000</strong></div>
+          <div class="stat">Free Cells<strong id="stat-free">0</strong></div>
+          <div class="stat">Fixed Cells<strong id="stat-fixed">0</strong></div>
+          <div class="stat">Max |&phi;|<strong id="stat-maxphi">0.000</strong></div>
+          <div class="stat">Harmonic Cells<strong id="stat-harmonic">0%</strong></div>
+          <div class="stat">FPS<strong id="stat-fps">0.0</strong></div>
+        </div>
+        <div class="sparkline-wrap">
+          <div class="metric-label" style="margin-bottom: 8px;">Residual History (log scale)</div>
+          <canvas id="history" width="360" height="96" aria-label="Convergence history plot"></canvas>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Method</span>
+        <h2>Why This Is Laplace, Not Poisson</h2>
+        <p>This page solves the charge-free region between fixed conductors and fixed walls. If you wanted free charge density inside the domain, the governing equation would become Poisson's equation instead.</p>
+        <div class="equations">
+          <div>&nabla;<sup>2</sup>&phi; = &part;<sup>2</sup>&phi;/&part;x<sup>2</sup> + &part;<sup>2</sup>&phi;/&part;y<sup>2</sup> = 0</div>
+          <div>&phi;<sub>i,j</sub><sup>*</sup> = (&phi;<sub>i+1,j</sub> + &phi;<sub>i-1,j</sub> + &phi;<sub>i,j+1</sub> + &phi;<sub>i,j-1</sub>) / 4</div>
+          <div>&phi;<sub>i,j</sub> &larr; &phi;<sub>i,j</sub> + &omega; (&phi;<sub>i,j</sub><sup>*</sup> - &phi;<sub>i,j</sub>)</div>
+          <div>E = -&nabla;&phi;</div>
+        </div>
+        <div class="detail-list">
+          <div class="detail-item"><strong>Discrete harmonic average.</strong> Every non-fixed cell relaxes toward the average of its four cardinal neighbors, which is the standard five-point finite-difference stencil for the 2D Laplacian.</div>
+          <div class="detail-item"><strong>Red-black ordering.</strong> Alternating checkerboard updates make Gauss-Seidel easy to parallelize conceptually while still using freshly updated values inside each sweep.</div>
+          <div class="detail-item"><strong>Successive over-relaxation.</strong> The <span aria-label="omega">&omega;</span> slider intentionally exposes the classic convergence-speed tradeoff: too low is slow, too high overshoots.</div>
+          <div class="detail-item"><strong>Physical interpretation.</strong> Equipotential contours are orthogonal to the electric field in the continuous limit, so the arrows should cut across contour bands rather than flow along them.</div>
+        </div>
+        <p class="footnote">Accuracy note: painted objects are fixed-potential conductors, not literal point charges. That keeps the solved region within Laplace's equation while still producing canonical electrostatic field patterns.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("view");
+    const ctx = canvas.getContext("2d");
+    const historyCanvas = document.getElementById("history");
+    const historyCtx = historyCanvas.getContext("2d");
+
+    const ui = {
+      grid: document.getElementById("grid"),
+      omega: document.getElementById("omega"),
+      iterations: document.getElementById("iterations"),
+      span: document.getElementById("span"),
+      brush: document.getElementById("brush"),
+      paint: document.getElementById("paint"),
+      contours: document.getElementById("contours"),
+      topBoundary: document.getElementById("top-boundary"),
+      rightBoundary: document.getElementById("right-boundary"),
+      bottomBoundary: document.getElementById("bottom-boundary"),
+      leftBoundary: document.getElementById("left-boundary"),
+      toggleContours: document.getElementById("toggle-contours"),
+      toggleArrows: document.getElementById("toggle-arrows"),
+      toggleAutoscale: document.getElementById("toggle-autoscale"),
+      toggleGlow: document.getElementById("toggle-glow"),
+      toggleRun: document.getElementById("toggle-run"),
+      resetPreset: document.getElementById("reset-preset"),
+      clearInterior: document.getElementById("clear-interior"),
+      groundBoundary: document.getElementById("ground-boundary"),
+      presetButtons: Array.from(document.querySelectorAll(".preset-button")),
+      toolButtons: Array.from(document.querySelectorAll(".tool-button")),
+      outputs: {
+        grid: document.getElementById("grid-out"),
+        omega: document.getElementById("omega-out"),
+        iterations: document.getElementById("iterations-out"),
+        span: document.getElementById("span-out"),
+        brush: document.getElementById("brush-out"),
+        paint: document.getElementById("paint-out"),
+        contours: document.getElementById("contours-out"),
+        topBoundary: document.getElementById("top-boundary-out"),
+        rightBoundary: document.getElementById("right-boundary-out"),
+        bottomBoundary: document.getElementById("bottom-boundary-out"),
+        leftBoundary: document.getElementById("left-boundary-out")
+      },
+      metrics: {
+        residual: document.getElementById("metric-residual"),
+        sweeps: document.getElementById("metric-sweeps"),
+        meanField: document.getElementById("metric-mean-field"),
+        peakField: document.getElementById("metric-peak-field"),
+        probePhi: document.getElementById("metric-probe-phi"),
+        probeField: document.getElementById("metric-probe-field"),
+        rms: document.getElementById("stat-rms"),
+        free: document.getElementById("stat-free"),
+        fixed: document.getElementById("stat-fixed"),
+        maxPhi: document.getElementById("stat-maxphi"),
+        harmonic: document.getElementById("stat-harmonic"),
+        fps: document.getElementById("stat-fps")
+      }
+    };
+
+    const state = {
+      gridSize: Number(ui.grid.value),
+      omega: Number(ui.omega.value),
+      iterationsPerFrame: Number(ui.iterations.value),
+      colorSpan: Number(ui.span.value),
+      brushRadius: Number(ui.brush.value),
+      paintVoltage: Number(ui.paint.value),
+      contourLevels: Number(ui.contours.value),
+      boundary: { top: 0, right: 0, bottom: 0, left: 0 },
+      showContours: ui.toggleContours.checked,
+      showArrows: ui.toggleArrows.checked,
+      autoScale: ui.toggleAutoscale.checked,
+      glow: ui.toggleGlow.checked,
+      paused: false,
+      currentPreset: "plates",
+      lastNamedPreset: "plates",
+      tool: "positive",
+      phi: null,
+      fixed: null,
+      hover: { active: false, x: 0, y: 0, i: -1 },
+      pointerDown: false,
+      metrics: {
+        maxResidual: 0,
+        rmsResidual: 0,
+        meanField: 0,
+        peakField: 0,
+        probePhi: 0,
+        probeField: 0,
+        freeCells: 0,
+        fixedCells: 0,
+        maxAbsPhi: 0,
+        harmonicRatio: 0,
+        sweepsPerSecond: 0,
+        fps: 0
+      },
+      history: [],
+      lastFrameTime: performance.now(),
+      sweepCounter: 0,
+      displayScale: 1,
+      offscreen: document.createElement("canvas")
+    };
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    function setOutputValues() {
+      ui.outputs.grid.textContent = state.gridSize + " x " + state.gridSize;
+      ui.outputs.omega.textContent = state.omega.toFixed(2);
+      ui.outputs.iterations.textContent = String(state.iterationsPerFrame);
+      ui.outputs.span.textContent = state.colorSpan.toFixed(2);
+      ui.outputs.brush.textContent = state.brushRadius + " px";
+      ui.outputs.paint.textContent = state.paintVoltage.toFixed(2);
+      ui.outputs.contours.textContent = String(state.contourLevels);
+      ui.outputs.topBoundary.textContent = state.boundary.top.toFixed(2);
+      ui.outputs.rightBoundary.textContent = state.boundary.right.toFixed(2);
+      ui.outputs.bottomBoundary.textContent = state.boundary.bottom.toFixed(2);
+      ui.outputs.leftBoundary.textContent = state.boundary.left.toFixed(2);
+    }
+
+    function resizeCanvases() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width * dpr));
+      const height = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      const historyRect = historyCanvas.getBoundingClientRect();
+      const historyWidth = Math.max(1, Math.round(historyRect.width * dpr));
+      const historyHeight = Math.max(1, Math.round(historyRect.height * dpr));
+      if (historyCanvas.width !== historyWidth || historyCanvas.height !== historyHeight) {
+        historyCanvas.width = historyWidth;
+        historyCanvas.height = historyHeight;
+      }
+    }
+
+    function createArrays(size) {
+      state.gridSize = size;
+      state.phi = new Float32Array(size * size);
+      state.fixed = new Uint8Array(size * size);
+      state.offscreen.width = size;
+      state.offscreen.height = size;
+    }
+
+    function idx(x, y) {
+      return y * state.gridSize + x;
+    }
+
+    function setFixedCell(x, y, value, kind) {
+      if (x < 0 || y < 0 || x >= state.gridSize || y >= state.gridSize) {
+        return;
+      }
+      const i = idx(x, y);
+      state.fixed[i] = kind;
+      state.phi[i] = value;
+    }
+
+    function clearAll() {
+      state.phi.fill(0);
+      state.fixed.fill(0);
+    }
+
+    function clearInteriorConductors() {
+      const n = state.gridSize;
+      for (let y = 1; y < n - 1; y += 1) {
+        for (let x = 1; x < n - 1; x += 1) {
+          const i = idx(x, y);
+          if (state.fixed[i] === 2) {
+            state.fixed[i] = 0;
+            state.phi[i] = 0;
+          }
+        }
+      }
+    }
+
+    function applyBoundaryValues() {
+      const n = state.gridSize;
+      const { top, right, bottom, left } = state.boundary;
+
+      for (let x = 0; x < n; x += 1) {
+        setFixedCell(x, 0, top, 1);
+        setFixedCell(x, n - 1, bottom, 1);
+      }
+      for (let y = 0; y < n; y += 1) {
+        setFixedCell(0, y, left, 1);
+        setFixedCell(n - 1, y, right, 1);
+      }
+
+      setFixedCell(0, 0, 0.5 * (top + left), 1);
+      setFixedCell(n - 1, 0, 0.5 * (top + right), 1);
+      setFixedCell(0, n - 1, 0.5 * (bottom + left), 1);
+      setFixedCell(n - 1, n - 1, 0.5 * (bottom + right), 1);
+    }
+
+    function fillDisk(cx, cy, radius, value) {
+      const n = state.gridSize;
+      const r2 = radius * radius;
+      const minX = clamp(Math.floor(cx - radius), 1, n - 2);
+      const maxX = clamp(Math.ceil(cx + radius), 1, n - 2);
+      const minY = clamp(Math.floor(cy - radius), 1, n - 2);
+      const maxY = clamp(Math.ceil(cy + radius), 1, n - 2);
+      for (let y = minY; y <= maxY; y += 1) {
+        for (let x = minX; x <= maxX; x += 1) {
+          const dx = x - cx;
+          const dy = y - cy;
+          if (dx * dx + dy * dy <= r2) {
+            setFixedCell(x, y, value, 2);
+          }
+        }
+      }
+    }
+
+    function fillRect(x0, y0, x1, y1, value) {
+      const minX = clamp(Math.floor(Math.min(x0, x1)), 1, state.gridSize - 2);
+      const maxX = clamp(Math.ceil(Math.max(x0, x1)), 1, state.gridSize - 2);
+      const minY = clamp(Math.floor(Math.min(y0, y1)), 1, state.gridSize - 2);
+      const maxY = clamp(Math.ceil(Math.max(y0, y1)), 1, state.gridSize - 2);
+      for (let y = minY; y <= maxY; y += 1) {
+        for (let x = minX; x <= maxX; x += 1) {
+          setFixedCell(x, y, value, 2);
+        }
+      }
+    }
+
+    const presetBuilders = {
+      plates() {
+        state.boundary = { top: 0, right: 0, bottom: 0, left: 0 };
+        applyBoundaryValues();
+        const n = state.gridSize;
+        fillRect(n * 0.22, n * 0.34, n * 0.78, n * 0.37, 1.0);
+        fillRect(n * 0.22, n * 0.63, n * 0.78, n * 0.66, -1.0);
+      },
+      dipole() {
+        state.boundary = { top: 0, right: 0, bottom: 0, left: 0 };
+        applyBoundaryValues();
+        const n = state.gridSize;
+        const r = n * 0.075;
+        fillDisk(n * 0.36, n * 0.5, r, 1.0);
+        fillDisk(n * 0.64, n * 0.5, r, -1.0);
+      },
+      quadrupole() {
+        state.boundary = { top: 0, right: 0, bottom: 0, left: 0 };
+        applyBoundaryValues();
+        const n = state.gridSize;
+        const r = n * 0.065;
+        fillDisk(n * 0.36, n * 0.36, r, 1.0);
+        fillDisk(n * 0.64, n * 0.36, r, -1.0);
+        fillDisk(n * 0.36, n * 0.64, r, -1.0);
+        fillDisk(n * 0.64, n * 0.64, r, 1.0);
+      },
+      edge() {
+        state.boundary = { top: 1.0, right: 0.0, bottom: -1.0, left: 0.0 };
+        applyBoundaryValues();
+      },
+      disk() {
+        state.boundary = { top: 0, right: 0, bottom: 0, left: 0 };
+        applyBoundaryValues();
+        fillDisk(state.gridSize * 0.5, state.gridSize * 0.5, state.gridSize * 0.12, 1.0);
+      }
+    };
+
+    function syncBoundaryInputs() {
+      ui.topBoundary.value = state.boundary.top.toFixed(2);
+      ui.rightBoundary.value = state.boundary.right.toFixed(2);
+      ui.bottomBoundary.value = state.boundary.bottom.toFixed(2);
+      ui.leftBoundary.value = state.boundary.left.toFixed(2);
+      setOutputValues();
+    }
+
+    function setPresetButtons(name) {
+      ui.presetButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.preset === name);
+      });
+    }
+
+    function setToolButtons(name) {
+      ui.toolButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.tool === name);
+      });
+    }
+
+    function applyPreset(name) {
+      clearAll();
+      state.currentPreset = name;
+      state.lastNamedPreset = name;
+      presetBuilders[name]();
+      syncBoundaryInputs();
+      setPresetButtons(name);
+    }
+
+    function markCustomConfiguration() {
+      state.currentPreset = "custom";
+      setPresetButtons("");
+    }
+
+    function rebuildGrid(size) {
+      createArrays(size);
+      if (presetBuilders[state.currentPreset]) {
+        applyPreset(state.currentPreset);
+      } else {
+        clearAll();
+        applyBoundaryValues();
+      }
+      setOutputValues();
+    }
+
+    function performSweep() {
+      const n = state.gridSize;
+      let maxDelta = 0;
+
+      for (let parity = 0; parity < 2; parity += 1) {
+        for (let y = 1; y < n - 1; y += 1) {
+          let x = 1 + ((y + parity) & 1);
+          for (; x < n - 1; x += 2) {
+            const i = idx(x, y);
+            if (state.fixed[i] !== 0) {
+              continue;
+            }
+            const average = 0.25 * (
+              state.phi[i - 1] +
+              state.phi[i + 1] +
+              state.phi[i - n] +
+              state.phi[i + n]
+            );
+            const next = state.phi[i] + state.omega * (average - state.phi[i]);
+            const delta = Math.abs(next - state.phi[i]);
+            if (delta > maxDelta) {
+              maxDelta = delta;
+            }
+            state.phi[i] = next;
+          }
+        }
+      }
+
+      return maxDelta;
+    }
+
+    function evaluateMetrics() {
+      const n = state.gridSize;
+      let maxResidual = 0;
+      let sumResidual2 = 0;
+      let meanField = 0;
+      let peakField = 0;
+      let freeCells = 0;
+      let fixedCells = 0;
+      let maxAbsPhi = 0;
+      let harmonicCells = 0;
+
+      for (let y = 0; y < n; y += 1) {
+        for (let x = 0; x < n; x += 1) {
+          const i = idx(x, y);
+          const phi = state.phi[i];
+          maxAbsPhi = Math.max(maxAbsPhi, Math.abs(phi));
+          if (state.fixed[i]) {
+            fixedCells += 1;
+            continue;
+          }
+          if (x === 0 || y === 0 || x === n - 1 || y === n - 1) {
+            continue;
+          }
+          freeCells += 1;
+          const residual = Math.abs(
+            4 * phi -
+            state.phi[i - 1] -
+            state.phi[i + 1] -
+            state.phi[i - n] -
+            state.phi[i + n]
+          );
+          maxResidual = Math.max(maxResidual, residual);
+          sumResidual2 += residual * residual;
+          if (residual < 1e-3) {
+            harmonicCells += 1;
+          }
+          const ex = -0.5 * (state.phi[i + 1] - state.phi[i - 1]);
+          const ey = -0.5 * (state.phi[i + n] - state.phi[i - n]);
+          const magnitude = Math.hypot(ex, ey);
+          meanField += magnitude;
+          peakField = Math.max(peakField, magnitude);
+        }
+      }
+
+      if (state.hover.active && state.hover.i >= 0) {
+        const i = state.hover.i;
+        const x = state.hover.x;
+        const y = state.hover.y;
+        state.metrics.probePhi = state.phi[i];
+        if (x > 0 && y > 0 && x < n - 1 && y < n - 1) {
+          const ex = -0.5 * (state.phi[i + 1] - state.phi[i - 1]);
+          const ey = -0.5 * (state.phi[i + n] - state.phi[i - n]);
+          state.metrics.probeField = Math.hypot(ex, ey);
+        } else {
+          state.metrics.probeField = 0;
+        }
+      } else {
+        state.metrics.probePhi = 0;
+        state.metrics.probeField = 0;
+      }
+
+      state.metrics.maxResidual = maxResidual;
+      state.metrics.rmsResidual = Math.sqrt(sumResidual2 / Math.max(freeCells, 1));
+      state.metrics.meanField = meanField / Math.max(freeCells, 1);
+      state.metrics.peakField = peakField;
+      state.metrics.freeCells = freeCells;
+      state.metrics.fixedCells = fixedCells;
+      state.metrics.maxAbsPhi = maxAbsPhi;
+      state.metrics.harmonicRatio = harmonicCells / Math.max(freeCells, 1);
+
+      state.history.push(Math.max(maxResidual, 1e-10));
+      if (state.history.length > 240) {
+        state.history.shift();
+      }
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function colorStops(t) {
+      const stops = [
+        { t: 0.0, c: [11, 28, 66] },
+        { t: 0.25, c: [37, 101, 192] },
+        { t: 0.5, c: [241, 242, 247] },
+        { t: 0.75, c: [245, 143, 86] },
+        { t: 1.0, c: [162, 24, 53] }
+      ];
+
+      for (let i = 0; i < stops.length - 1; i += 1) {
+        const left = stops[i];
+        const right = stops[i + 1];
+        if (t <= right.t) {
+          const local = (t - left.t) / (right.t - left.t || 1);
+          return [
+            lerp(left.c[0], right.c[0], local),
+            lerp(left.c[1], right.c[1], local),
+            lerp(left.c[2], right.c[2], local)
+          ];
+        }
+      }
+      return stops[stops.length - 1].c.slice();
+    }
+
+    function renderField() {
+      const n = state.gridSize;
+      const offCtx = state.offscreen.getContext("2d");
+      const image = offCtx.createImageData(n, n);
+      const data = image.data;
+      const displaySpan = state.autoScale
+        ? Math.max(0.2, state.metrics.maxAbsPhi * 0.85)
+        : state.colorSpan;
+      state.displayScale = displaySpan;
+      const glowScale = Math.max(state.metrics.meanField * 2.5, 0.08);
+
+      for (let y = 0; y < n; y += 1) {
+        for (let x = 0; x < n; x += 1) {
+          const i = idx(x, y);
+          const value = clamp(state.phi[i] / displaySpan, -1, 1);
+          const t = 0.5 + 0.5 * value;
+          const color = colorStops(t);
+          let r = color[0];
+          let g = color[1];
+          let b = color[2];
+
+          const left = state.phi[idx(Math.max(x - 1, 0), y)];
+          const right = state.phi[idx(Math.min(x + 1, n - 1), y)];
+          const up = state.phi[idx(x, Math.max(y - 1, 0))];
+          const down = state.phi[idx(x, Math.min(y + 1, n - 1))];
+          const field = Math.hypot(-0.5 * (right - left), -0.5 * (down - up));
+          const glow = state.glow ? Math.min(0.28, 0.28 * field / glowScale) : 0;
+
+          if (state.fixed[i] === 2) {
+            const conductorBoost = state.phi[i] >= 0 ? [38, 10, 14] : [10, 16, 36];
+            r = r * 0.78 + conductorBoost[0];
+            g = g * 0.78 + conductorBoost[1];
+            b = b * 0.78 + conductorBoost[2];
+          }
+
+          const o = i * 4;
+          data[o] = clamp(r + 255 * glow, 0, 255);
+          data[o + 1] = clamp(g + 180 * glow, 0, 255);
+          data[o + 2] = clamp(b + 120 * glow, 0, 255);
+          data[o + 3] = 255;
+        }
+      }
+
+      offCtx.putImageData(image, 0, 0);
+
+      ctx.save();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(state.offscreen, 0, 0, canvas.width, canvas.height);
+
+      const overlay = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      overlay.addColorStop(0, "rgba(255,255,255,0.02)");
+      overlay.addColorStop(0.5, "rgba(255,255,255,0)");
+      overlay.addColorStop(1, "rgba(0,0,0,0.12)");
+      ctx.fillStyle = overlay;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+    }
+
+    function edgePoint(edge, x, y, t) {
+      switch (edge) {
+        case 0: return [x + t, y];
+        case 1: return [x + 1, y + t];
+        case 2: return [x + 1 - t, y + 1];
+        case 3: return [x, y + 1 - t];
+        default: return [x, y];
+      }
+    }
+
+    function drawContourLines() {
+      if (!state.showContours) {
+        return;
+      }
+
+      const n = state.gridSize;
+      const levels = state.contourLevels;
+      const span = state.displayScale;
+      const sx = canvas.width / n;
+      const sy = canvas.height / n;
+      const step = (2 * span) / (levels + 1);
+
+      ctx.save();
+      ctx.lineWidth = Math.max(1, Math.min(sx, sy) * 0.48);
+      ctx.strokeStyle = "rgba(255, 248, 224, 0.36)";
+      ctx.shadowColor = "rgba(255, 209, 102, 0.18)";
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+
+      for (let levelIndex = 1; levelIndex <= levels; levelIndex += 1) {
+        const level = -span + levelIndex * step;
+        for (let y = 0; y < n - 1; y += 1) {
+          for (let x = 0; x < n - 1; x += 1) {
+            const tl = state.phi[idx(x, y)];
+            const tr = state.phi[idx(x + 1, y)];
+            const br = state.phi[idx(x + 1, y + 1)];
+            const bl = state.phi[idx(x, y + 1)];
+            const code =
+              (tl > level ? 8 : 0) |
+              (tr > level ? 4 : 0) |
+              (br > level ? 2 : 0) |
+              (bl > level ? 1 : 0);
+
+            if (code === 0 || code === 15) {
+              continue;
+            }
+
+            const top = edgePoint(0, x, y, clamp((level - tl) / (tr - tl || 1e-9), 0, 1));
+            const right = edgePoint(1, x, y, clamp((level - tr) / (br - tr || 1e-9), 0, 1));
+            const bottom = edgePoint(2, x, y, clamp((level - bl) / (br - bl || 1e-9), 0, 1));
+            const left = edgePoint(3, x, y, clamp((level - tl) / (bl - tl || 1e-9), 0, 1));
+
+            const drawSegment = (a, b) => {
+              ctx.moveTo(a[0] * sx, a[1] * sy);
+              ctx.lineTo(b[0] * sx, b[1] * sy);
+            };
+
+            switch (code) {
+              case 1:
+              case 14:
+                drawSegment(left, bottom);
+                break;
+              case 2:
+              case 13:
+                drawSegment(bottom, right);
+                break;
+              case 3:
+              case 12:
+                drawSegment(left, right);
+                break;
+              case 4:
+              case 11:
+                drawSegment(top, right);
+                break;
+              case 5:
+                drawSegment(top, left);
+                drawSegment(bottom, right);
+                break;
+              case 6:
+              case 9:
+                drawSegment(top, bottom);
+                break;
+              case 7:
+              case 8:
+                drawSegment(top, left);
+                break;
+              case 10:
+                drawSegment(top, right);
+                drawSegment(left, bottom);
+                break;
+            }
+          }
+        }
+      }
+
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawFieldArrows() {
+      if (!state.showArrows) {
+        return;
+      }
+
+      const n = state.gridSize;
+      const spacing = Math.max(10, Math.round(n / 18));
+      const sx = canvas.width / n;
+      const sy = canvas.height / n;
+      const scale = Math.max(state.metrics.meanField * 3.5, 0.12);
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(214, 226, 255, 0.38)";
+      ctx.fillStyle = "rgba(214, 226, 255, 0.45)";
+      ctx.lineWidth = 1.2 * Math.min(sx, sy);
+
+      for (let y = spacing; y < n - spacing; y += spacing) {
+        for (let x = spacing; x < n - spacing; x += spacing) {
+          const i = idx(x, y);
+          if (state.fixed[i] !== 0) {
+            continue;
+          }
+          const ex = -0.5 * (state.phi[i + 1] - state.phi[i - 1]);
+          const ey = -0.5 * (state.phi[i + n] - state.phi[i - n]);
+          const magnitude = Math.hypot(ex, ey);
+          if (magnitude < 1e-4) {
+            continue;
+          }
+
+          const ux = ex / magnitude;
+          const uy = ey / magnitude;
+          const length = Math.min(spacing * 0.42, spacing * (0.12 + 0.42 * magnitude / scale));
+          const px = (x + 0.5) * sx;
+          const py = (y + 0.5) * sy;
+          const tx = px + ux * length * sx;
+          const ty = py + uy * length * sy;
+          const head = Math.max(3, length * 0.26) * Math.min(sx, sy);
+          const nx = -uy;
+          const ny = ux;
+
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(tx, ty);
+          ctx.lineTo(tx - ux * head - nx * head * 0.55, ty - uy * head - ny * head * 0.55);
+          ctx.lineTo(tx - ux * head + nx * head * 0.55, ty - uy * head + ny * head * 0.55);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      ctx.restore();
+    }
+
+    function drawHoverMarker() {
+      if (!state.hover.active) {
+        return;
+      }
+      const n = state.gridSize;
+      const sx = canvas.width / n;
+      const sy = canvas.height / n;
+      const x = (state.hover.x + 0.5) * sx;
+      const y = (state.hover.y + 0.5) * sy;
+      const radius = Math.max(6, state.brushRadius * 0.4 * Math.min(sx, sy));
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawHistory() {
+      const width = historyCanvas.width;
+      const height = historyCanvas.height;
+      historyCtx.clearRect(0, 0, width, height);
+
+      const bg = historyCtx.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, "rgba(88, 231, 255, 0.04)");
+      bg.addColorStop(1, "rgba(111, 124, 255, 0.08)");
+      historyCtx.fillStyle = bg;
+      historyCtx.fillRect(0, 0, width, height);
+
+      if (state.history.length < 2) {
+        return;
+      }
+
+      let minLog = Infinity;
+      let maxLog = -Infinity;
+      const logs = state.history.map((value) => {
+        const logged = Math.log10(value);
+        minLog = Math.min(minLog, logged);
+        maxLog = Math.max(maxLog, logged);
+        return logged;
+      });
+      const range = Math.max(maxLog - minLog, 1e-6);
+
+      historyCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      historyCtx.lineWidth = Math.max(1, width / 360);
+      for (let i = 1; i <= 3; i += 1) {
+        const y = (i / 4) * height;
+        historyCtx.beginPath();
+        historyCtx.moveTo(0, y);
+        historyCtx.lineTo(width, y);
+        historyCtx.stroke();
+      }
+
+      const gradient = historyCtx.createLinearGradient(0, 0, width, 0);
+      gradient.addColorStop(0, "rgba(88, 231, 255, 0.85)");
+      gradient.addColorStop(1, "rgba(255, 91, 150, 0.95)");
+      historyCtx.strokeStyle = gradient;
+      historyCtx.lineWidth = Math.max(1.5, width / 220);
+      historyCtx.beginPath();
+      logs.forEach((value, index) => {
+        const x = (index / (logs.length - 1)) * width;
+        const y = height - ((value - minLog) / range) * (height - 8) - 4;
+        if (index === 0) {
+          historyCtx.moveTo(x, y);
+        } else {
+          historyCtx.lineTo(x, y);
+        }
+      });
+      historyCtx.stroke();
+    }
+
+    function updateMetricsUI() {
+      ui.metrics.residual.textContent = state.metrics.maxResidual.toExponential(2);
+      ui.metrics.sweeps.textContent = state.metrics.sweepsPerSecond.toFixed(0);
+      ui.metrics.meanField.textContent = state.metrics.meanField.toFixed(3);
+      ui.metrics.peakField.textContent = state.metrics.peakField.toFixed(3);
+      ui.metrics.probePhi.textContent = state.metrics.probePhi.toFixed(3);
+      ui.metrics.probeField.textContent = state.metrics.probeField.toFixed(3);
+      ui.metrics.rms.textContent = state.metrics.rmsResidual.toExponential(3);
+      ui.metrics.free.textContent = state.metrics.freeCells.toLocaleString();
+      ui.metrics.fixed.textContent = state.metrics.fixedCells.toLocaleString();
+      ui.metrics.maxPhi.textContent = state.metrics.maxAbsPhi.toFixed(3);
+      ui.metrics.harmonic.textContent = (state.metrics.harmonicRatio * 100).toFixed(1) + "%";
+      ui.metrics.fps.textContent = state.metrics.fps.toFixed(1);
+    }
+
+    function render() {
+      resizeCanvases();
+      renderField();
+      drawContourLines();
+      drawFieldArrows();
+      drawHoverMarker();
+      drawHistory();
+      updateMetricsUI();
+    }
+
+    function updatePointer(event) {
+      const rect = canvas.getBoundingClientRect();
+      const fx = clamp((event.clientX - rect.left) / rect.width, 0, 0.999999);
+      const fy = clamp((event.clientY - rect.top) / rect.height, 0, 0.999999);
+      const x = clamp(Math.floor(fx * state.gridSize), 0, state.gridSize - 1);
+      const y = clamp(Math.floor(fy * state.gridSize), 0, state.gridSize - 1);
+      state.hover.active = true;
+      state.hover.x = x;
+      state.hover.y = y;
+      state.hover.i = idx(x, y);
+    }
+
+    function applyBrush() {
+      if (!state.hover.active) {
+        return;
+      }
+      const { x: cx, y: cy } = state.hover;
+      const radius = state.brushRadius;
+      const r2 = radius * radius;
+      const n = state.gridSize;
+      const value = state.tool === "positive"
+        ? state.paintVoltage
+        : state.tool === "negative"
+          ? -state.paintVoltage
+          : 0;
+
+      for (let y = Math.max(1, cy - radius); y <= Math.min(n - 2, cy + radius); y += 1) {
+        for (let x = Math.max(1, cx - radius); x <= Math.min(n - 2, cx + radius); x += 1) {
+          const dx = x - cx;
+          const dy = y - cy;
+          if (dx * dx + dy * dy > r2) {
+            continue;
+          }
+          const i = idx(x, y);
+          if (state.tool === "erase") {
+            if (state.fixed[i] === 2) {
+              state.fixed[i] = 0;
+              state.phi[i] = 0;
+            }
+          } else {
+            state.fixed[i] = 2;
+            state.phi[i] = value;
+          }
+        }
+      }
+
+      markCustomConfiguration();
+    }
+
+    function settleInstantly(sweeps) {
+      for (let i = 0; i < sweeps; i += 1) {
+        performSweep();
+      }
+      evaluateMetrics();
+      render();
+    }
+
+    function bindControls() {
+      ui.grid.addEventListener("input", () => {
+        state.gridSize = Number(ui.grid.value);
+        setOutputValues();
+      });
+
+      ui.grid.addEventListener("change", () => {
+        rebuildGrid(Number(ui.grid.value));
+        settleInstantly(120);
+      });
+
+      ui.omega.addEventListener("input", () => {
+        state.omega = Number(ui.omega.value);
+        setOutputValues();
+      });
+
+      ui.iterations.addEventListener("input", () => {
+        state.iterationsPerFrame = Number(ui.iterations.value);
+        setOutputValues();
+      });
+
+      ui.span.addEventListener("input", () => {
+        state.colorSpan = Number(ui.span.value);
+        setOutputValues();
+      });
+
+      ui.brush.addEventListener("input", () => {
+        state.brushRadius = Number(ui.brush.value);
+        setOutputValues();
+      });
+
+      ui.paint.addEventListener("input", () => {
+        state.paintVoltage = Number(ui.paint.value);
+        setOutputValues();
+      });
+
+      ui.contours.addEventListener("input", () => {
+        state.contourLevels = Number(ui.contours.value);
+        setOutputValues();
+      });
+
+      const boundaryBindings = [
+        ["topBoundary", "top"],
+        ["rightBoundary", "right"],
+        ["bottomBoundary", "bottom"],
+        ["leftBoundary", "left"]
+      ];
+
+      boundaryBindings.forEach(([elementName, key]) => {
+        ui[elementName].addEventListener("input", () => {
+          state.boundary[key] = Number(ui[elementName].value);
+          applyBoundaryValues();
+          markCustomConfiguration();
+          setOutputValues();
+        });
+      });
+
+      ui.toggleContours.addEventListener("change", () => {
+        state.showContours = ui.toggleContours.checked;
+      });
+      ui.toggleArrows.addEventListener("change", () => {
+        state.showArrows = ui.toggleArrows.checked;
+      });
+      ui.toggleAutoscale.addEventListener("change", () => {
+        state.autoScale = ui.toggleAutoscale.checked;
+      });
+      ui.toggleGlow.addEventListener("change", () => {
+        state.glow = ui.toggleGlow.checked;
+      });
+
+      ui.toggleRun.addEventListener("click", () => {
+        state.paused = !state.paused;
+        ui.toggleRun.textContent = state.paused ? "Resume Solver" : "Pause Solver";
+      });
+
+      ui.resetPreset.addEventListener("click", () => {
+        applyPreset(state.lastNamedPreset);
+        settleInstantly(160);
+      });
+
+      ui.clearInterior.addEventListener("click", () => {
+        clearInteriorConductors();
+        markCustomConfiguration();
+        settleInstantly(100);
+      });
+
+      ui.groundBoundary.addEventListener("click", () => {
+        state.boundary = { top: 0, right: 0, bottom: 0, left: 0 };
+        applyBoundaryValues();
+        markCustomConfiguration();
+        syncBoundaryInputs();
+        settleInstantly(100);
+      });
+
+      ui.presetButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          applyPreset(button.dataset.preset);
+          settleInstantly(180);
+        });
+      });
+
+      ui.toolButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.tool = button.dataset.tool;
+          setToolButtons(state.tool);
+        });
+      });
+    }
+
+    function bindCanvas() {
+      canvas.addEventListener("pointerdown", (event) => {
+        state.pointerDown = true;
+        canvas.setPointerCapture(event.pointerId);
+        updatePointer(event);
+        applyBrush();
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        updatePointer(event);
+        if (state.pointerDown) {
+          applyBrush();
+        }
+      });
+
+      canvas.addEventListener("pointerup", () => {
+        state.pointerDown = false;
+      });
+
+      canvas.addEventListener("pointerleave", () => {
+        state.pointerDown = false;
+        state.hover.active = false;
+      });
+
+      canvas.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        const delta = event.deltaY < 0 ? 1 : -1;
+        state.brushRadius = clamp(state.brushRadius + delta, 2, 28);
+        ui.brush.value = String(state.brushRadius);
+        setOutputValues();
+      }, { passive: false });
+    }
+
+    function frame(now) {
+      const dt = Math.max(1e-3, (now - state.lastFrameTime) / 1000);
+      state.lastFrameTime = now;
+      state.metrics.fps = state.metrics.fps === 0
+        ? 1 / dt
+        : state.metrics.fps * 0.88 + (1 / dt) * 0.12;
+
+      let sweeps = 0;
+      if (!state.paused) {
+        for (let i = 0; i < state.iterationsPerFrame; i += 1) {
+          performSweep();
+          sweeps += 1;
+        }
+      }
+      state.metrics.sweepsPerSecond = sweeps / dt;
+      evaluateMetrics();
+      render();
+      requestAnimationFrame(frame);
+    }
+
+    function init() {
+      setOutputValues();
+      bindControls();
+      bindCanvas();
+      rebuildGrid(state.gridSize);
+      setToolButtons(state.tool);
+      applyPreset("plates");
+      settleInstantly(220);
+      window.addEventListener("resize", render);
+      requestAnimationFrame(frame);
+    }
+
+    init();
+  </script>
+</body>
+</html>

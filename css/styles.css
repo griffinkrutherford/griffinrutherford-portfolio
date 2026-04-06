@@ -842,9 +842,11 @@ h3 {
 
 .sgd-project-image {
   width: 96px;
-  height: 96px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   max-width: 24%;
   border-radius: 20px;
+  display: block;
   object-fit: cover;
   object-position: center 38%;
 }

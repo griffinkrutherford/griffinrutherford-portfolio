@@ -841,12 +841,12 @@ h3 {
 }
 
 .sgd-project-image {
-  width: 88px;
-  height: 88px;
-  max-width: 22%;
-  border-radius: 18px;
+  width: 96px;
+  height: 96px;
+  max-width: 24%;
+  border-radius: 20px;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 38%;
 }
 
 /* Specific styling for education logos */

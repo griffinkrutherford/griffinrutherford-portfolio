@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wave Equation Studio - Griffin Rutherford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #071018;
+      --bg-2: #101b3f;
+      --bg-3: #24134a;
+      --panel: rgba(10, 15, 37, 0.82);
+      --edge: rgba(156, 197, 255, 0.18);
+      --text: #f5f8ff;
+      --muted: #bdc8ef;
+      --accent-cyan: #58e7ff;
+      --accent-blue: #6f7cff;
+      --accent-pink: #ff5b96;
+      --accent-gold: #ffd166;
+      --accent-mint: #84f2b2;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(88, 231, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 84% 4%, rgba(255, 91, 150, 0.16), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(111, 124, 255, 0.16), transparent 28%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 54%, var(--bg-3));
+      padding: 24px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Russo One", system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p { margin: 0; }
+
+    .shell {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, 460px);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--edge);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .stage {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px 28px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(90deg, rgba(88,231,255,.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+
+    .hero-copy { max-width: 840px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.04;
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      font-weight: 600;
+      white-space: nowrap;
+      height: fit-content;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(88,231,255,.38);
+      background: rgba(88,231,255,.08);
+    }
+
+    .viewport-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 620px;
+      padding: 18px;
+    }
+
+    #view {
+      width: 100%;
+      height: 100%;
+      min-height: 580px;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(111,124,255,.14), transparent 42%),
+        linear-gradient(180deg, #060913, #091022 54%, #03050d);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .overlay,
+    .legend {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      background: rgba(8,11,26,.74);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 32px rgba(0,0,0,.28);
+    }
+
+    .overlay {
+      top: 32px;
+      left: 32px;
+      min-width: 270px;
+      padding: 14px 16px;
+    }
+
+    .overlay-title,
+    .section-kicker {
+      display: inline-block;
+      color: var(--accent-cyan);
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 10px;
+    }
+
+    .overlay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .metric-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(188,199,238,.72);
+      font-size: .76rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .01em;
+    }
+
+    .legend {
+      right: 32px;
+      bottom: 32px;
+      max-width: 340px;
+      padding: 14px 16px;
+    }
+
+    .legend h3 {
+      font-size: .92rem;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+    }
+
+    .legend p {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.56;
+    }
+
+    .legend p + p { margin-top: 10px; }
+
+    .panel {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
+        rgba(10,15,37,.84);
+    }
+
+    .panel > section {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+
+    .panel h2 {
+      font-size: 1.06rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      line-height: 1.64;
+      font-size: .95rem;
+    }
+
+    .button-row,
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button, input, select { font: inherit; }
+
+    .button-row button,
+    .preset-row button {
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 14px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+    }
+
+    .button-row button:hover,
+    .preset-row button:hover {
+      transform: translateY(-1px);
+      opacity: .96;
+    }
+
+    .button-row button {
+      background: linear-gradient(135deg, rgba(88,231,255,.22), rgba(111,124,255,.24));
+      box-shadow: 0 12px 28px rgba(8,12,32,.24);
+    }
+
+    .preset-row button {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .preset-row button.active {
+      background: linear-gradient(135deg, rgba(255,91,150,.18), rgba(111,124,255,.24));
+      border-color: rgba(255,255,255,.16);
+      box-shadow: 0 12px 28px rgba(255,91,150,.16);
+    }
+
+    .control-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .control {
+      display: grid;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .control label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .control output {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .control small {
+      color: rgba(188,199,238,.72);
+      line-height: 1.45;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(88,231,255,.4), rgba(111,124,255,.25));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      border: 2px solid rgba(255,255,255,.8);
+      box-shadow: 0 4px 10px rgba(0,0,0,.3);
+      cursor: pointer;
+    }
+
+    .toggle-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: .88rem;
+      font-weight: 600;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .switch span {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: background .18s ease;
+    }
+
+    .switch span::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff, #cdd6ff);
+      box-shadow: 0 4px 10px rgba(0,0,0,.28);
+      transition: transform .18s ease;
+    }
+
+    .switch input:checked + span {
+      background: linear-gradient(135deg, rgba(88,231,255,.55), rgba(111,124,255,.55));
+    }
+
+    .switch input:checked + span::after {
+      transform: translateX(20px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 1.04rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sparkline-wrap {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    #history {
+      width: 100%;
+      height: 96px;
+      display: block;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.04));
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .detail-item {
+      padding: 12px 14px;
+      border-left: 3px solid rgba(88,231,255,.5);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: .93rem;
+      line-height: 1.6;
+    }
+
+    .detail-item strong { color: var(--text); }
+
+    .equations {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      color: #dbe4ff;
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+
+    .warning {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: #ffe7a3;
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.24);
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+
+    .footnote {
+      margin-top: 12px;
+      color: rgba(188,199,238,.72);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1220px) {
+      .shell { grid-template-columns: 1fr; }
+      .stage, .panel { min-height: auto; }
+      .panel { order: 2; }
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 14px; }
+      .hero { flex-direction: column; }
+      .viewport-wrap { padding: 12px; }
+      .overlay {
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        min-width: 0;
+      }
+      .legend {
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        max-width: none;
+      }
+      .overlay-grid, .stats-grid { grid-template-columns: 1fr; }
+      #view { min-height: 500px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card stage">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">PDEs / Vibrations / Finite Difference</div>
+          <h1>Wave Equation Studio</h1>
+          <p>
+            This simulation solves the two-dimensional damped wave equation on a square membrane with fixed edges.
+            Click or drag to strike the surface, seed standing modes, or switch on random raindrops to watch
+            superposition, reflection, and numerical stability play out in real time.
+          </p>
+        </div>
+        <a href="../mathematical-simulations" class="back-link">
+          <span>&larr;</span>
+          <span>Back to Mathematical Simulations</span>
+        </a>
+      </header>
+
+      <div class="viewport-wrap">
+        <div class="overlay" aria-live="polite">
+          <div class="overlay-title">Live State</div>
+          <div class="overlay-grid">
+            <div>
+              <span class="metric-label">Peak |u|</span>
+              <span class="metric-value" id="metric-peak">0</span>
+            </div>
+            <div>
+              <span class="metric-label">RMS Amplitude</span>
+              <span class="metric-value" id="metric-rms">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Energy Proxy</span>
+              <span class="metric-value" id="metric-energy">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Center u</span>
+              <span class="metric-value" id="metric-center">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Courant λ</span>
+              <span class="metric-value" id="metric-courant">0</span>
+            </div>
+            <div>
+              <span class="metric-label">FPS</span>
+              <span class="metric-value" id="metric-fps">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <h3>How To Read It</h3>
+          <p>Warm ridges are positive displacement, cool troughs are negative displacement, and the glossy lighting comes from the local surface slope of the membrane.</p>
+          <p>With the boundary clamped to zero, waves reflect off the square edge, interfere with one another, and can lock into standing patterns when the initial shape matches an eigenmode.</p>
+          <p>Use <strong>drag</strong> to add impulses and <strong>scroll</strong> on the canvas to change brush size.</p>
+        </div>
+
+        <canvas id="view" aria-label="Wave equation membrane canvas"></canvas>
+      </div>
+    </section>
+
+    <aside class="card panel">
+      <section>
+        <span class="section-kicker">Presets</span>
+        <h2>Initial Conditions</h2>
+        <p>These presets emphasize different wave behaviors: localized impulses, mode shapes, and continuous random forcing.</p>
+        <div class="preset-row" style="margin-top: 16px;">
+          <button type="button" class="preset-button active" data-preset="pulse">Center Pulse</button>
+          <button type="button" class="preset-button" data-preset="dual">Dual Pulse</button>
+          <button type="button" class="preset-button" data-preset="mode11">Mode (1,1)</button>
+          <button type="button" class="preset-button" data-preset="mode21">Mode (2,1)</button>
+          <button type="button" class="preset-button" data-preset="mode22">Mode (2,2)</button>
+          <button type="button" class="preset-button" data-preset="rain">Rain Field</button>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Simulation</span>
+        <h2>Time-Stepping Controls</h2>
+        <div class="button-row">
+          <button type="button" id="toggle-run">Pause Simulation</button>
+          <button type="button" id="reset-preset">Reset Preset</button>
+          <button type="button" id="clear-field">Clear Field</button>
+        </div>
+        <div class="control-stack">
+          <div class="control">
+            <label for="grid">
+              <span>Grid Resolution</span>
+              <output id="grid-out">168 x 168</output>
+            </label>
+            <input type="range" id="grid" min="96" max="224" step="32" value="168">
+            <small>Higher grids resolve tighter wavelengths but require smaller effective steps for the same stability margin.</small>
+          </div>
+          <div class="control">
+            <label for="courant">
+              <span>Courant Number λ</span>
+              <output id="courant-out">0.46</output>
+            </label>
+            <input type="range" id="courant" min="0.05" max="0.68" step="0.01" value="0.46">
+            <small>This is the dimensionless ratio <em>c Δt / Δx</em>. In 2D with the five-point Laplacian, stability requires λ &le; 1 / √2.</small>
+          </div>
+          <div class="control">
+            <label for="damping">
+              <span>Damping</span>
+              <output id="damping-out">0.006</output>
+            </label>
+            <input type="range" id="damping" min="0" max="0.05" step="0.001" value="0.006">
+            <small>Damping drains energy from the velocity term, mimicking friction or air losses on the membrane.</small>
+          </div>
+          <div class="control">
+            <label for="steps">
+              <span>Steps Per Frame</span>
+              <output id="steps-out">3</output>
+            </label>
+            <input type="range" id="steps" min="1" max="8" step="1" value="3">
+            <small>Multiple updates per frame let the oscillation move faster without raising the display frame rate.</small>
+          </div>
+        </div>
+        <div class="warning" id="stability-warning" hidden>
+          This Courant number is very close to the 2D stability limit. Expect sharper, less forgiving behavior.
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Forcing</span>
+        <h2>Impulses And Continuous Excitation</h2>
+        <div class="control-stack">
+          <div class="control">
+            <label for="brush">
+              <span>Brush Radius</span>
+              <output id="brush-out">10 px</output>
+            </label>
+            <input type="range" id="brush" min="2" max="28" step="1" value="10">
+            <small>The brush applies a smooth Gaussian displacement profile instead of a hard-edged square impulse.</small>
+          </div>
+          <div class="control">
+            <label for="impulse">
+              <span>Impulse Strength</span>
+              <output id="impulse-out">0.80</output>
+            </label>
+            <input type="range" id="impulse" min="-1.50" max="1.50" step="0.05" value="0.80">
+            <small>Positive values push the membrane up; negative values pluck it downward.</small>
+          </div>
+          <div class="control">
+            <label for="rain-rate">
+              <span>Rain Rate</span>
+              <output id="rain-rate-out">0.18</output>
+            </label>
+            <input type="range" id="rain-rate" min="0" max="1" step="0.01" value="0.18">
+            <small>Controls the probability of a random raindrop impulse on each update step when rain mode is enabled.</small>
+          </div>
+        </div>
+        <div class="toggle-grid">
+          <div class="toggle">
+            <span>Random Rain Forcing</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-rain">
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Glow Lighting</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-glow" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="toggle">
+            <span>Mesh Overlay</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-grid-lines">
+              <span></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Readout</span>
+        <h2>Diagnostics</h2>
+        <div class="stats-grid">
+          <div class="stat">Current Preset<strong id="stat-preset">Center Pulse</strong></div>
+          <div class="stat">Mean Velocity Proxy<strong id="stat-velocity">0.0000</strong></div>
+          <div class="stat">Edge Amplitude<strong id="stat-edge">0.0000</strong></div>
+          <div class="stat">Centerline Nodes<strong id="stat-nodes">0</strong></div>
+          <div class="stat">Painted Impulses<strong id="stat-impulses">0</strong></div>
+          <div class="stat">FPS<strong id="stat-fps">0.0</strong></div>
+        </div>
+        <div class="sparkline-wrap">
+          <div class="metric-label" style="margin-bottom: 8px;">Center Displacement History</div>
+          <canvas id="history" width="360" height="96" aria-label="Center displacement history"></canvas>
+        </div>
+      </section>
+
+      <section>
+        <span class="section-kicker">Method</span>
+        <h2>Discrete Wave Equation</h2>
+        <p>This page solves a damped version of the membrane equation with fixed Dirichlet boundary conditions, using an explicit second-order finite-difference update on a square lattice.</p>
+        <div class="equations">
+          <div>u_tt = c^2 (u_xx + u_yy) - gamma u_t</div>
+          <div>lambda = c Delta t / Delta x</div>
+          <div>u_next = (2 - gamma) u - (1 - gamma) u_prev + lambda^2 Laplacian(u)</div>
+          <div>u = 0 on the boundary</div>
+        </div>
+        <div class="detail-list">
+          <div class="detail-item"><strong>Finite difference stencil.</strong> The Laplacian uses the standard five-point stencil, so each interior cell reacts only to its four cardinal neighbors during an update.</div>
+          <div class="detail-item"><strong>Standing modes.</strong> The mode presets seed sinusoidal shapes that are eigenfunctions of the clamped square membrane, so the pattern oscillates in time while the nodal lines stay fixed.</div>
+          <div class="detail-item"><strong>Stability condition.</strong> In two space dimensions, the explicit scheme becomes unstable once the Courant number exceeds roughly 1 / √2, which is why the λ slider is bounded below that edge.</div>
+        </div>
+        <p class="footnote">Accuracy note: this is a clean square membrane model with unit lattice spacing, fixed boundaries, and simple linear damping. It is not trying to reproduce the full material physics of a drumhead.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("view");
+    const ctx = canvas.getContext("2d");
+    const historyCanvas = document.getElementById("history");
+    const historyCtx = historyCanvas.getContext("2d");
+
+    const ui = {
+      grid: document.getElementById("grid"),
+      courant: document.getElementById("courant"),
+      damping: document.getElementById("damping"),
+      steps: document.getElementById("steps"),
+      brush: document.getElementById("brush"),
+      impulse: document.getElementById("impulse"),
+      rainRate: document.getElementById("rain-rate"),
+      toggleRain: document.getElementById("toggle-rain"),
+      toggleGlow: document.getElementById("toggle-glow"),
+      toggleGridLines: document.getElementById("toggle-grid-lines"),
+      toggleRun: document.getElementById("toggle-run"),
+      resetPreset: document.getElementById("reset-preset"),
+      clearField: document.getElementById("clear-field"),
+      presetButtons: Array.from(document.querySelectorAll(".preset-button")),
+      outputs: {
+        grid: document.getElementById("grid-out"),
+        courant: document.getElementById("courant-out"),
+        damping: document.getElementById("damping-out"),
+        steps: document.getElementById("steps-out"),
+        brush: document.getElementById("brush-out"),
+        impulse: document.getElementById("impulse-out"),
+        rainRate: document.getElementById("rain-rate-out")
+      },
+      metrics: {
+        peak: document.getElementById("metric-peak"),
+        rms: document.getElementById("metric-rms"),
+        energy: document.getElementById("metric-energy"),
+        center: document.getElementById("metric-center"),
+        courant: document.getElementById("metric-courant"),
+        fps: document.getElementById("metric-fps"),
+        preset: document.getElementById("stat-preset"),
+        velocity: document.getElementById("stat-velocity"),
+        edge: document.getElementById("stat-edge"),
+        nodes: document.getElementById("stat-nodes"),
+        impulses: document.getElementById("stat-impulses"),
+        statFps: document.getElementById("stat-fps")
+      },
+      stabilityWarning: document.getElementById("stability-warning")
+    };
+
+    const state = {
+      gridSize: Number(ui.grid.value),
+      courant: Number(ui.courant.value),
+      damping: Number(ui.damping.value),
+      stepsPerFrame: Number(ui.steps.value),
+      brushRadius: Number(ui.brush.value),
+      impulseStrength: Number(ui.impulse.value),
+      rainRate: Number(ui.rainRate.value),
+      rainEnabled: ui.toggleRain.checked,
+      glow: ui.toggleGlow.checked,
+      mesh: ui.toggleGridLines.checked,
+      running: true,
+      preset: "pulse",
+      u: null,
+      uPrev: null,
+      uNext: null,
+      pointsHistory: [],
+      paintCount: 0,
+      hover: { active: false, x: 0, y: 0 },
+      pointerDown: false,
+      lastTime: performance.now(),
+      metrics: {
+        peak: 0,
+        rms: 0,
+        energy: 0,
+        center: 0,
+        velocity: 0,
+        edge: 0,
+        nodes: 0,
+        fps: 0
+      },
+      offscreen: document.createElement("canvas")
+    };
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    function idx(x, y) {
+      return y * state.gridSize + x;
+    }
+
+    function setOutputs() {
+      ui.outputs.grid.textContent = state.gridSize + " x " + state.gridSize;
+      ui.outputs.courant.textContent = state.courant.toFixed(2);
+      ui.outputs.damping.textContent = state.damping.toFixed(3);
+      ui.outputs.steps.textContent = String(state.stepsPerFrame);
+      ui.outputs.brush.textContent = state.brushRadius + " px";
+      ui.outputs.impulse.textContent = state.impulseStrength.toFixed(2);
+      ui.outputs.rainRate.textContent = state.rainRate.toFixed(2);
+      ui.stabilityWarning.hidden = state.courant < 0.62;
+    }
+
+    function resizeCanvases() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width * dpr));
+      const height = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      const historyRect = historyCanvas.getBoundingClientRect();
+      const historyWidth = Math.max(1, Math.round(historyRect.width * dpr));
+      const historyHeight = Math.max(1, Math.round(historyRect.height * dpr));
+      if (historyCanvas.width !== historyWidth || historyCanvas.height !== historyHeight) {
+        historyCanvas.width = historyWidth;
+        historyCanvas.height = historyHeight;
+      }
+    }
+
+    function allocate(size) {
+      state.gridSize = size;
+      state.u = new Float32Array(size * size);
+      state.uPrev = new Float32Array(size * size);
+      state.uNext = new Float32Array(size * size);
+      state.offscreen.width = size;
+      state.offscreen.height = size;
+    }
+
+    function clearArrays() {
+      state.u.fill(0);
+      state.uPrev.fill(0);
+      state.uNext.fill(0);
+      state.pointsHistory = [];
+      state.paintCount = 0;
+    }
+
+    function applyGaussian(cx, cy, radius, amplitude) {
+      const n = state.gridSize;
+      const r2 = radius * radius;
+      const minX = clamp(Math.floor(cx - radius * 2.4), 1, n - 2);
+      const maxX = clamp(Math.ceil(cx + radius * 2.4), 1, n - 2);
+      const minY = clamp(Math.floor(cy - radius * 2.4), 1, n - 2);
+      const maxY = clamp(Math.ceil(cy + radius * 2.4), 1, n - 2);
+
+      for (let y = minY; y <= maxY; y += 1) {
+        for (let x = minX; x <= maxX; x += 1) {
+          const dx = x - cx;
+          const dy = y - cy;
+          const dist2 = dx * dx + dy * dy;
+          const weight = Math.exp(-dist2 / Math.max(r2, 1));
+          const i = idx(x, y);
+          state.u[i] += amplitude * weight;
+          state.uPrev[i] += amplitude * weight;
+        }
+      }
+
+      state.paintCount += 1;
+    }
+
+    function applyMode(mx, my, amplitude) {
+      const n = state.gridSize;
+      for (let y = 1; y < n - 1; y += 1) {
+        const sy = Math.sin(Math.PI * my * y / (n - 1));
+        for (let x = 1; x < n - 1; x += 1) {
+          const sx = Math.sin(Math.PI * mx * x / (n - 1));
+          const value = amplitude * sx * sy;
+          const i = idx(x, y);
+          state.u[i] = value;
+          state.uPrev[i] = value;
+        }
+      }
+    }
+
+    const presetBuilders = {
+      pulse() {
+        applyGaussian(state.gridSize * 0.5, state.gridSize * 0.5, state.gridSize * 0.05, 1.1);
+      },
+      dual() {
+        applyGaussian(state.gridSize * 0.35, state.gridSize * 0.5, state.gridSize * 0.045, 0.95);
+        applyGaussian(state.gridSize * 0.65, state.gridSize * 0.5, state.gridSize * 0.045, -0.95);
+      },
+      mode11() {
+        applyMode(1, 1, 0.9);
+      },
+      mode21() {
+        applyMode(2, 1, 0.82);
+      },
+      mode22() {
+        applyMode(2, 2, 0.78);
+      },
+      rain() {
+        state.rainEnabled = true;
+        ui.toggleRain.checked = true;
+      }
+    };
+
+    function setPresetButtons(name) {
+      ui.presetButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.preset === name);
+      });
+    }
+
+    function setPresetLabel(name) {
+      const labels = {
+        pulse: "Center Pulse",
+        dual: "Dual Pulse",
+        mode11: "Mode (1,1)",
+        mode21: "Mode (2,1)",
+        mode22: "Mode (2,2)",
+        rain: "Rain Field"
+      };
+      ui.metrics.preset.textContent = labels[name] || "Custom";
+    }
+
+    function applyPreset(name) {
+      clearArrays();
+      state.preset = name;
+      state.rainEnabled = false;
+      ui.toggleRain.checked = false;
+      if (presetBuilders[name]) {
+        presetBuilders[name]();
+      }
+      setPresetButtons(name);
+      setPresetLabel(name);
+    }
+
+    function rebuildGrid(size) {
+      allocate(size);
+      applyPreset(state.preset);
+      setOutputs();
+    }
+
+    function enforceBoundary(target) {
+      const n = state.gridSize;
+      for (let x = 0; x < n; x += 1) {
+        target[idx(x, 0)] = 0;
+        target[idx(x, n - 1)] = 0;
+      }
+      for (let y = 0; y < n; y += 1) {
+        target[idx(0, y)] = 0;
+        target[idx(n - 1, y)] = 0;
+      }
+    }
+
+    function rainImpulse() {
+      const count = Math.floor(state.rainRate * 3);
+      const fractional = state.rainRate * 3 - count;
+      const total = count + (Math.random() < fractional ? 1 : 0);
+      for (let i = 0; i < total; i += 1) {
+        const x = 2 + Math.random() * (state.gridSize - 4);
+        const y = 2 + Math.random() * (state.gridSize - 4);
+        const amplitude = (Math.random() * 2 - 1) * 0.55;
+        applyGaussian(x, y, Math.max(2, state.brushRadius * 0.4), amplitude);
+      }
+    }
+
+    function stepSimulation() {
+      const n = state.gridSize;
+      const lambda2 = state.courant * state.courant;
+      const damping = state.damping;
+
+      if (state.rainEnabled) {
+        rainImpulse();
+      }
+
+      for (let y = 1; y < n - 1; y += 1) {
+        for (let x = 1; x < n - 1; x += 1) {
+          const i = idx(x, y);
+          const lap =
+            state.u[i - 1] +
+            state.u[i + 1] +
+            state.u[i - n] +
+            state.u[i + n] -
+            4 * state.u[i];
+          state.uNext[i] =
+            (2 - damping) * state.u[i] -
+            (1 - damping) * state.uPrev[i] +
+            lambda2 * lap;
+        }
+      }
+
+      enforceBoundary(state.uNext);
+      const oldPrev = state.uPrev;
+      state.uPrev = state.u;
+      state.u = state.uNext;
+      state.uNext = oldPrev;
+    }
+
+    function analyzeState() {
+      const n = state.gridSize;
+      let peak = 0;
+      let sumSq = 0;
+      let velocitySumSq = 0;
+      let energy = 0;
+      let edge = 0;
+      const centerIndex = idx((n / 2) | 0, (n / 2) | 0);
+      const center = state.u[centerIndex];
+      let nodes = 0;
+      const midY = (n / 2) | 0;
+
+      for (let y = 1; y < n - 1; y += 1) {
+        for (let x = 1; x < n - 1; x += 1) {
+          const i = idx(x, y);
+          const u = state.u[i];
+          const v = u - state.uPrev[i];
+          const ux = 0.5 * (state.u[i + 1] - state.u[i - 1]);
+          const uy = 0.5 * (state.u[i + n] - state.u[i - n]);
+          peak = Math.max(peak, Math.abs(u));
+          sumSq += u * u;
+          velocitySumSq += v * v;
+          energy += v * v + state.courant * state.courant * (ux * ux + uy * uy);
+        }
+      }
+
+      for (let x = 1; x < n - 1; x += 1) {
+        edge = Math.max(edge, Math.abs(state.u[idx(x, 1)]), Math.abs(state.u[idx(x, n - 2)]));
+      }
+      for (let y = 1; y < n - 1; y += 1) {
+        edge = Math.max(edge, Math.abs(state.u[idx(1, y)]), Math.abs(state.u[idx(n - 2, y)]));
+      }
+
+      for (let x = 2; x < n - 2; x += 1) {
+        const a = state.u[idx(x - 1, midY)];
+        const b = state.u[idx(x, midY)];
+        if ((a <= 0 && b > 0) || (a >= 0 && b < 0)) {
+          nodes += 1;
+        }
+      }
+
+      state.metrics.peak = peak;
+      state.metrics.rms = Math.sqrt(sumSq / Math.max((n - 2) * (n - 2), 1));
+      state.metrics.energy = energy / Math.max((n - 2) * (n - 2), 1);
+      state.metrics.center = center;
+      state.metrics.velocity = Math.sqrt(velocitySumSq / Math.max((n - 2) * (n - 2), 1));
+      state.metrics.edge = edge;
+      state.metrics.nodes = nodes;
+
+      state.pointsHistory.push(center);
+      if (state.pointsHistory.length > 240) {
+        state.pointsHistory.shift();
+      }
+    }
+
+    function colorSample(value, slope, glowBoost) {
+      const t = clamp(0.5 + 0.5 * value, 0, 1);
+      const low = [41, 74, 186];
+      const mid = [240, 245, 255];
+      const high = [255, 112, 162];
+      const base = t < 0.5
+        ? low.map((c, i) => c + (mid[i] - c) * (t / 0.5))
+        : mid.map((c, i) => c + (high[i] - c) * ((t - 0.5) / 0.5));
+      const brightness = 0.82 + 0.42 * slope + glowBoost;
+      return base.map((c) => clamp(c * brightness, 0, 255));
+    }
+
+    function renderField() {
+      const n = state.gridSize;
+      const offCtx = state.offscreen.getContext("2d");
+      const image = offCtx.createImageData(n, n);
+      const data = image.data;
+      const scale = Math.max(state.metrics.peak * 0.95, 0.18);
+
+      for (let y = 0; y < n; y += 1) {
+        for (let x = 0; x < n; x += 1) {
+          const i = idx(x, y);
+          const u = state.u[i] / scale;
+          const left = state.u[idx(Math.max(x - 1, 0), y)];
+          const right = state.u[idx(Math.min(x + 1, n - 1), y)];
+          const up = state.u[idx(x, Math.max(y - 1, 0))];
+          const down = state.u[idx(x, Math.min(y + 1, n - 1))];
+          const nx = left - right;
+          const ny = up - down;
+          const slope = clamp(0.5 + 0.35 * (0.75 * nx + 1.2 * ny), 0, 1);
+          const glowBoost = state.glow ? Math.min(0.22, 0.14 * Math.abs(u) + 0.12 * Math.hypot(nx, ny)) : 0;
+          const color = colorSample(u, slope, glowBoost);
+          const o = i * 4;
+          data[o] = color[0];
+          data[o + 1] = color[1];
+          data[o + 2] = color[2];
+          data[o + 3] = 255;
+        }
+      }
+
+      offCtx.putImageData(image, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(state.offscreen, 0, 0, canvas.width, canvas.height);
+
+      if (state.mesh) {
+        ctx.save();
+        ctx.strokeStyle = "rgba(255,255,255,0.08)";
+        ctx.lineWidth = 1;
+        const spacing = Math.max(12, Math.floor(state.gridSize / 12));
+        for (let x = 0; x < state.gridSize; x += spacing) {
+          const px = x / state.gridSize * canvas.width;
+          ctx.beginPath();
+          ctx.moveTo(px, 0);
+          ctx.lineTo(px, canvas.height);
+          ctx.stroke();
+        }
+        for (let y = 0; y < state.gridSize; y += spacing) {
+          const py = y / state.gridSize * canvas.height;
+          ctx.beginPath();
+          ctx.moveTo(0, py);
+          ctx.lineTo(canvas.width, py);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      if (state.hover.active) {
+        const sx = canvas.width / state.gridSize;
+        const sy = canvas.height / state.gridSize;
+        const radius = Math.max(6, state.brushRadius * 0.45 * Math.min(sx, sy));
+        ctx.save();
+        ctx.strokeStyle = "rgba(255,255,255,0.76)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc((state.hover.x + 0.5) * sx, (state.hover.y + 0.5) * sy, radius, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function drawHistory() {
+      const width = historyCanvas.width;
+      const height = historyCanvas.height;
+      historyCtx.clearRect(0, 0, width, height);
+
+      const bg = historyCtx.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, "rgba(88,231,255,0.04)");
+      bg.addColorStop(1, "rgba(111,124,255,0.08)");
+      historyCtx.fillStyle = bg;
+      historyCtx.fillRect(0, 0, width, height);
+
+      if (state.pointsHistory.length < 2) {
+        return;
+      }
+
+      let maxAbs = 0.1;
+      for (const value of state.pointsHistory) {
+        maxAbs = Math.max(maxAbs, Math.abs(value));
+      }
+
+      historyCtx.strokeStyle = "rgba(255,255,255,0.12)";
+      historyCtx.lineWidth = Math.max(1, width / 360);
+      historyCtx.beginPath();
+      historyCtx.moveTo(0, height / 2);
+      historyCtx.lineTo(width, height / 2);
+      historyCtx.stroke();
+
+      const gradient = historyCtx.createLinearGradient(0, 0, width, 0);
+      gradient.addColorStop(0, "rgba(88,231,255,0.95)");
+      gradient.addColorStop(1, "rgba(255,91,150,0.95)");
+      historyCtx.strokeStyle = gradient;
+      historyCtx.lineWidth = Math.max(1.5, width / 220);
+      historyCtx.beginPath();
+      state.pointsHistory.forEach((value, index) => {
+        const x = (index / (state.pointsHistory.length - 1)) * width;
+        const y = height / 2 - (value / maxAbs) * (height * 0.38);
+        if (index === 0) {
+          historyCtx.moveTo(x, y);
+        } else {
+          historyCtx.lineTo(x, y);
+        }
+      });
+      historyCtx.stroke();
+    }
+
+    function updateMetricsUi() {
+      ui.metrics.peak.textContent = state.metrics.peak.toFixed(4);
+      ui.metrics.rms.textContent = state.metrics.rms.toFixed(4);
+      ui.metrics.energy.textContent = state.metrics.energy.toFixed(4);
+      ui.metrics.center.textContent = state.metrics.center.toFixed(4);
+      ui.metrics.courant.textContent = state.courant.toFixed(3);
+      ui.metrics.fps.textContent = state.metrics.fps.toFixed(1);
+      ui.metrics.velocity.textContent = state.metrics.velocity.toFixed(4);
+      ui.metrics.edge.textContent = state.metrics.edge.toFixed(4);
+      ui.metrics.nodes.textContent = String(state.metrics.nodes);
+      ui.metrics.impulses.textContent = String(state.paintCount);
+      ui.metrics.statFps.textContent = state.metrics.fps.toFixed(1);
+    }
+
+    function render() {
+      resizeCanvases();
+      renderField();
+      drawHistory();
+      updateMetricsUi();
+    }
+
+    function pointerToGrid(event) {
+      const rect = canvas.getBoundingClientRect();
+      const fx = clamp((event.clientX - rect.left) / rect.width, 0, 0.999999);
+      const fy = clamp((event.clientY - rect.top) / rect.height, 0, 0.999999);
+      state.hover.active = true;
+      state.hover.x = clamp(Math.floor(fx * state.gridSize), 1, state.gridSize - 2);
+      state.hover.y = clamp(Math.floor(fy * state.gridSize), 1, state.gridSize - 2);
+    }
+
+    function applyBrush() {
+      applyGaussian(state.hover.x, state.hover.y, state.brushRadius, state.impulseStrength);
+      setPresetButtons("");
+      ui.metrics.preset.textContent = "Custom";
+    }
+
+    function bindControls() {
+      ui.grid.addEventListener("input", () => {
+        state.gridSize = Number(ui.grid.value);
+        setOutputs();
+      });
+
+      ui.grid.addEventListener("change", () => {
+        rebuildGrid(Number(ui.grid.value));
+        analyzeState();
+        render();
+      });
+
+      ui.courant.addEventListener("input", () => {
+        state.courant = Number(ui.courant.value);
+        setOutputs();
+      });
+
+      ui.damping.addEventListener("input", () => {
+        state.damping = Number(ui.damping.value);
+        setOutputs();
+      });
+
+      ui.steps.addEventListener("input", () => {
+        state.stepsPerFrame = Number(ui.steps.value);
+        setOutputs();
+      });
+
+      ui.brush.addEventListener("input", () => {
+        state.brushRadius = Number(ui.brush.value);
+        setOutputs();
+      });
+
+      ui.impulse.addEventListener("input", () => {
+        state.impulseStrength = Number(ui.impulse.value);
+        setOutputs();
+      });
+
+      ui.rainRate.addEventListener("input", () => {
+        state.rainRate = Number(ui.rainRate.value);
+        setOutputs();
+      });
+
+      ui.toggleRain.addEventListener("change", () => {
+        state.rainEnabled = ui.toggleRain.checked;
+      });
+
+      ui.toggleGlow.addEventListener("change", () => {
+        state.glow = ui.toggleGlow.checked;
+      });
+
+      ui.toggleGridLines.addEventListener("change", () => {
+        state.mesh = ui.toggleGridLines.checked;
+      });
+
+      ui.toggleRun.addEventListener("click", () => {
+        state.running = !state.running;
+        ui.toggleRun.textContent = state.running ? "Pause Simulation" : "Resume Simulation";
+      });
+
+      ui.resetPreset.addEventListener("click", () => {
+        applyPreset(state.preset);
+      });
+
+      ui.clearField.addEventListener("click", () => {
+        clearArrays();
+        setPresetButtons("");
+        ui.metrics.preset.textContent = "Cleared";
+      });
+
+      ui.presetButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          applyPreset(button.dataset.preset);
+        });
+      });
+    }
+
+    function bindCanvas() {
+      canvas.addEventListener("pointerdown", (event) => {
+        pointerToGrid(event);
+        state.pointerDown = true;
+        canvas.setPointerCapture(event.pointerId);
+        applyBrush();
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        pointerToGrid(event);
+        if (state.pointerDown) {
+          applyBrush();
+        }
+      });
+
+      canvas.addEventListener("pointerup", () => {
+        state.pointerDown = false;
+      });
+
+      canvas.addEventListener("pointerleave", () => {
+        state.pointerDown = false;
+        state.hover.active = false;
+      });
+
+      canvas.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        const delta = event.deltaY < 0 ? 1 : -1;
+        state.brushRadius = clamp(state.brushRadius + delta, 2, 28);
+        ui.brush.value = String(state.brushRadius);
+        setOutputs();
+      }, { passive: false });
+    }
+
+    function frame(now) {
+      const dt = Math.max(1e-3, (now - state.lastTime) / 1000);
+      state.lastTime = now;
+      state.metrics.fps = state.metrics.fps === 0 ? 1 / dt : state.metrics.fps * 0.88 + (1 / dt) * 0.12;
+
+      if (state.running) {
+        for (let i = 0; i < state.stepsPerFrame; i += 1) {
+          stepSimulation();
+        }
+      }
+
+      analyzeState();
+      render();
+      requestAnimationFrame(frame);
+    }
+
+    function init() {
+      allocate(state.gridSize);
+      setOutputs();
+      bindControls();
+      bindCanvas();
+      applyPreset("pulse");
+      analyzeState();
+      render();
+      window.addEventListener("resize", render);
+      requestAnimationFrame(frame);
+    }
+
+    init();
+  </script>
+</body>
+</html>

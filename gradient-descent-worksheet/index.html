@@ -24,9 +24,34 @@
             line-height: 1.7;
         }
 
+        .home-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 2px solid #e10600;
+            background: rgba(10, 10, 10, 0.92);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .home-link:hover {
+            transform: translateY(-1px);
+            background: rgba(225, 6, 0, 0.12);
+            box-shadow: 0 10px 22px rgba(225, 6, 0, 0.2);
+        }
+
         .container {
             max-width: 900px;
-            margin: 0 auto;
+            margin: 60px auto 0;
             background: #0a0a0a;
             padding: 40px;
             border-radius: 15px;
@@ -334,7 +359,7 @@
             background: #0a0a0a;
             border: 2px solid #e10600;
             border-radius: 12px;
-            padding: 20px;
+            padding: 72px 20px 20px;
             position: relative;
         }
 
@@ -354,13 +379,12 @@
         }
 
         .modal-header {
-            position: sticky;
-            top: 0;
+            position: fixed;
+            top: 28px;
+            right: 28px;
             display: flex;
             justify-content: flex-end;
-            background: #0a0a0a;
-            padding-bottom: 10px;
-            z-index: 1;
+            z-index: 1001;
         }
 
         .modal-close {
@@ -371,6 +395,7 @@
             padding: 8px 12px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
         }
 
         .modal-asset {
@@ -390,7 +415,15 @@
         }
 
         @media (max-width: 768px) {
+            .home-link {
+                top: 14px;
+                left: 14px;
+                padding: 9px 14px;
+                font-size: 0.95em;
+            }
+
             .container {
+                margin-top: 72px;
                 padding: 20px;
             }
 
@@ -409,6 +442,7 @@
     </style>
 </head>
 <body>
+    <a class="home-link" href="../">← Back to Homepage</a>
     <div class="container">
         <div class="header">
             <h1>Stochastic Gradient Descent Made Fun</h1>

@@ -120,12 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     '.quick-links-button',
     '.quick-links-nav',
     '.scroll-arrow',
-    '.experience-item',
-    '.education-item',
-    '.skills-section',
     '.social-links a',
-    '.linkedin-section .ig-post',
-    '.pacman-button-wrapper',
   ];
 
   const LIQUID_GLASS_SURFACE_FNS = {

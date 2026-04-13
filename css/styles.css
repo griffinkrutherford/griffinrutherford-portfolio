@@ -652,7 +652,7 @@ h3 {
     border: 2px solid var(--primary-purple);
     border-radius: 8px;
     padding: 20px;
-    width: 280px;
+    width: 320px;
     max-width: calc(100vw - 40px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
   }
@@ -752,7 +752,7 @@ h3 {
   @media (max-width: 768px) {
     .theme-picker-panel {
       right: -10px;
-      width: 250px;
+      width: 290px;
     }
   }
 
@@ -1055,24 +1055,14 @@ body.liquid-glass-mode .quick-links-button,
 body.liquid-glass-mode .scroll-arrow,
 body.liquid-glass-mode .theme-picker-panel,
 body.liquid-glass-mode .quick-links-nav,
-body.liquid-glass-mode .experience-item,
-body.liquid-glass-mode .education-item,
-body.liquid-glass-mode .skills-section,
-body.liquid-glass-mode .social-links a,
-body.liquid-glass-mode .linkedin-section .ig-post,
-body.liquid-glass-mode .pacman-button-wrapper {
+body.liquid-glass-mode .social-links a {
   box-shadow:
     0 14px 32px var(--liquid-glass-shadow);
 }
 
 body.liquid-glass-mode .theme-picker-panel,
 body.liquid-glass-mode .quick-links-nav,
-body.liquid-glass-mode .experience-item,
-body.liquid-glass-mode .education-item,
-body.liquid-glass-mode .skills-section,
-body.liquid-glass-mode .social-links a,
-body.liquid-glass-mode .linkedin-section .ig-post,
-body.liquid-glass-mode .pacman-button-wrapper {
+body.liquid-glass-mode .social-links a {
   background-color: rgba(20, 14, 34, 0.26);
   backdrop-filter: blur(16px) saturate(1.16);
   -webkit-backdrop-filter: blur(16px) saturate(1.16);
@@ -1099,12 +1089,6 @@ body.liquid-glass-mode .quick-links-nav {
   border-color: rgba(var(--primary-red-rgb), 0.45);
 }
 
-body.liquid-glass-mode .experience-item,
-body.liquid-glass-mode .education-item {
-  border-color: rgba(var(--primary-purple-rgb), 0.38);
-}
-
-body.liquid-glass-mode .skills-section,
 body.liquid-glass-mode .social-links a {
   border-color: rgba(var(--primary-red-rgb), 0.35);
 }

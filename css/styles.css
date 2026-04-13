@@ -7,6 +7,8 @@
     --accent-red: #FF4D7D;
     --primary-red-rgb: 255, 26, 77;
     --primary-purple-rgb: 108, 26, 255;
+    --liquid-glass-tint-color: 255, 255, 255;
+    --liquid-glass-shadow: rgba(7, 10, 26, 0.2);
 }
 
 * {
@@ -753,6 +755,84 @@ h3 {
     }
   }
 
+  .theme-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .theme-toggle-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .theme-toggle-copy span {
+    color: #F8F1FF;
+    font-size: 0.95rem;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+  }
+
+  .theme-toggle-copy small {
+    color: rgba(248, 241, 255, 0.75);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    font-family: Arial, sans-serif;
+  }
+
+  .theme-switch {
+    position: relative;
+    display: inline-flex;
+    width: 54px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .theme-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .theme-switch-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .theme-switch-slider::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s ease;
+  }
+
+  .theme-switch input:checked + .theme-switch-slider {
+    background: linear-gradient(135deg, rgba(var(--primary-purple-rgb), 0.62), rgba(var(--primary-red-rgb), 0.62));
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 18px rgba(var(--primary-purple-rgb), 0.2);
+  }
+
+  .theme-switch input:checked + .theme-switch-slider::before {
+    transform: translateX(24px);
+  }
+
   .experience-section,
   .projects-section,
   .organizations-section {
@@ -928,6 +1008,104 @@ h3 {
 .course-item.highlight-course {
   color: var(--accent-red); /* Matches --accent-red */
   border-color: var(--accent-red); /* Optional: highlight border too */
+}
+
+.liquid-glass-defs {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.liquid-glass-surface {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.liquid-glass-surface::before,
+.liquid-glass-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.liquid-glass-surface::before {
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0.02) 100%),
+    linear-gradient(140deg, rgba(var(--liquid-glass-tint-color), 0.1), rgba(var(--primary-purple-rgb), 0.05));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 24px rgba(255, 255, 255, 0.08);
+}
+
+.liquid-glass-surface::after {
+  z-index: -1;
+  backdrop-filter: var(--liquid-glass-filter-url, blur(16px) saturate(1.16));
+  -webkit-backdrop-filter: var(--liquid-glass-filter-url, blur(16px) saturate(1.16));
+}
+
+.liquid-glass-surface > * {
+  position: relative;
+  z-index: 1;
+}
+
+body.liquid-glass-mode .theme-picker-button,
+body.liquid-glass-mode .quick-links-button,
+body.liquid-glass-mode .scroll-arrow,
+body.liquid-glass-mode .theme-picker-panel,
+body.liquid-glass-mode .theme-action-btn,
+body.liquid-glass-mode .quick-links-nav,
+body.liquid-glass-mode .experience-item,
+body.liquid-glass-mode .education-item,
+body.liquid-glass-mode .skills-section,
+body.liquid-glass-mode .social-links a,
+body.liquid-glass-mode .linkedin-section .ig-post,
+body.liquid-glass-mode .pacman-button-wrapper {
+  box-shadow:
+    0 14px 32px var(--liquid-glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+body.liquid-glass-mode .theme-picker-panel,
+body.liquid-glass-mode .quick-links-nav,
+body.liquid-glass-mode .experience-item,
+body.liquid-glass-mode .education-item,
+body.liquid-glass-mode .skills-section,
+body.liquid-glass-mode .social-links a,
+body.liquid-glass-mode .linkedin-section .ig-post,
+body.liquid-glass-mode .pacman-button-wrapper {
+  background-color: rgba(20, 14, 34, 0.26);
+  backdrop-filter: blur(16px) saturate(1.16);
+  -webkit-backdrop-filter: blur(16px) saturate(1.16);
+}
+
+body.liquid-glass-mode .theme-picker-button,
+body.liquid-glass-mode .quick-links-button,
+body.liquid-glass-mode .scroll-arrow,
+body.liquid-glass-mode .theme-action-btn {
+  backdrop-filter: blur(12px) saturate(1.12);
+  -webkit-backdrop-filter: blur(12px) saturate(1.12);
+}
+
+body.liquid-glass-mode .theme-picker-panel {
+  border-color: rgba(var(--primary-purple-rgb), 0.45);
+}
+
+body.liquid-glass-mode .quick-links-nav {
+  border-color: rgba(var(--primary-red-rgb), 0.45);
+}
+
+body.liquid-glass-mode .experience-item,
+body.liquid-glass-mode .education-item {
+  border-color: rgba(var(--primary-purple-rgb), 0.38);
+}
+
+body.liquid-glass-mode .skills-section,
+body.liquid-glass-mode .social-links a {
+  border-color: rgba(var(--primary-red-rgb), 0.35);
 }
 
 /* ========================================

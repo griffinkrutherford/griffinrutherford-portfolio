@@ -76,7 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (quickLinksButton && quickLinksMenu && quickLinksNav) {
       quickLinksButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        quickLinksMenu.classList.toggle('active');
+        const isOpen = quickLinksMenu.classList.toggle('active');
+        if (isOpen) {
+          schedulePortfolioLiquidGlassRefresh(50);
+        }
       });
       
       // Close menu when clicking outside
@@ -103,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (window.innerWidth <= 768) {
             e.preventDefault();
             submenuParent.classList.toggle('active');
+            schedulePortfolioLiquidGlassRefresh(50);
           }
         });
       }
@@ -110,11 +114,303 @@ document.addEventListener('DOMContentLoaded', function() {
 
   });
 
+  const PORTFOLIO_LIQUID_GLASS_SELECTORS = [
+    '.theme-picker-button',
+    '.theme-picker-panel',
+    '.theme-action-btn',
+    '.quick-links-button',
+    '.quick-links-nav',
+    '.scroll-arrow',
+    '.experience-item',
+    '.education-item',
+    '.skills-section',
+    '.social-links a',
+    '.linkedin-section .ig-post',
+    '.pacman-button-wrapper',
+  ];
+
+  const LIQUID_GLASS_SURFACE_FNS = {
+    convex_squircle: (x) => Math.pow(1 - Math.pow(1 - x, 4), 0.25),
+  };
+
+  let portfolioLiquidGlassInitialized = false;
+  let portfolioLiquidGlassTimer = null;
+
+  function calculateLiquidGlassRefractionProfile(glassThickness, bezelWidth, heightFn, ior, samples = 128) {
+    const eta = 1 / ior;
+
+    function refract(nx, ny) {
+      const dot = ny;
+      const k = 1 - eta * eta * (1 - dot * dot);
+
+      if (k < 0) {
+        return null;
+      }
+
+      const sq = Math.sqrt(k);
+      return [-(eta * dot + sq) * nx, eta - (eta * dot + sq) * ny];
+    }
+
+    const profile = new Float64Array(samples);
+
+    for (let i = 0; i < samples; i++) {
+      const x = i / samples;
+      const y = heightFn(x);
+      const dx = x < 1 ? 0.0001 : -0.0001;
+      const y2 = heightFn(x + dx);
+      const deriv = (y2 - y) / dx;
+      const mag = Math.sqrt(deriv * deriv + 1);
+      const ref = refract(-deriv / mag, -1 / mag);
+
+      if (!ref) {
+        profile[i] = 0;
+        continue;
+      }
+
+      profile[i] = ref[0] * ((y * bezelWidth + glassThickness) / ref[1]);
+    }
+
+    return profile;
+  }
+
+  function generateLiquidGlassDisplacementMap(width, height, radius, bezelWidth, profile, maxDisplacement) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.createImageData(width, height);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 128;
+      data[i + 1] = 128;
+      data[i + 2] = 0;
+      data[i + 3] = 255;
+    }
+
+    const radiusSquared = radius * radius;
+    const outerRadiusSquared = (radius + 1) ** 2;
+    const innerRadiusSquared = Math.max(radius - bezelWidth, 0) ** 2;
+    const bodyWidth = width - radius * 2;
+    const bodyHeight = height - radius * 2;
+    const sampleCount = profile.length;
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const dx = x < radius ? x - radius : x >= width - radius ? x - radius - bodyWidth : 0;
+        const dy = y < radius ? y - radius : y >= height - radius ? y - radius - bodyHeight : 0;
+        const distanceSquared = dx * dx + dy * dy;
+
+        if (distanceSquared > outerRadiusSquared || distanceSquared < innerRadiusSquared) {
+          continue;
+        }
+
+        const distance = Math.sqrt(distanceSquared);
+        const fromSide = radius - distance;
+        const opacity = distanceSquared < radiusSquared
+          ? 1
+          : 1 - (distance - Math.sqrt(radiusSquared)) / (Math.sqrt(outerRadiusSquared) - Math.sqrt(radiusSquared));
+
+        if (opacity <= 0 || distance === 0) {
+          continue;
+        }
+
+        const cos = dx / distance;
+        const sin = dy / distance;
+        const profileIndex = Math.min(((fromSide / bezelWidth) * sampleCount) | 0, sampleCount - 1);
+        const displacement = profile[profileIndex] || 0;
+        const displacementX = (-cos * displacement) / maxDisplacement;
+        const displacementY = (-sin * displacement) / maxDisplacement;
+        const index = (y * width + x) * 4;
+
+        data[index] = (128 + displacementX * 127 * opacity + 0.5) | 0;
+        data[index + 1] = (128 + displacementY * 127 * opacity + 0.5) | 0;
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  }
+
+  function generateLiquidGlassSpecularMap(width, height, radius, bezelWidth, angle = Math.PI / 3) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.createImageData(width, height);
+    const data = imageData.data;
+    data.fill(0);
+
+    const radiusSquared = radius * radius;
+    const outerRadiusSquared = (radius + 1) ** 2;
+    const innerRadiusSquared = Math.max(radius - bezelWidth, 0) ** 2;
+    const bodyWidth = width - radius * 2;
+    const bodyHeight = height - radius * 2;
+    const lightVector = [Math.cos(angle), Math.sin(angle)];
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const dx = x < radius ? x - radius : x >= width - radius ? x - radius - bodyWidth : 0;
+        const dy = y < radius ? y - radius : y >= height - radius ? y - radius - bodyHeight : 0;
+        const distanceSquared = dx * dx + dy * dy;
+
+        if (distanceSquared > outerRadiusSquared || distanceSquared < innerRadiusSquared) {
+          continue;
+        }
+
+        const distance = Math.sqrt(distanceSquared);
+        const fromSide = radius - distance;
+        const opacity = distanceSquared < radiusSquared
+          ? 1
+          : 1 - (distance - Math.sqrt(radiusSquared)) / (Math.sqrt(outerRadiusSquared) - Math.sqrt(radiusSquared));
+
+        if (opacity <= 0 || distance === 0) {
+          continue;
+        }
+
+        const cos = dx / distance;
+        const sin = -dy / distance;
+        const dot = Math.abs(cos * lightVector[0] + sin * lightVector[1]);
+        const edge = Math.sqrt(Math.max(0, 1 - (1 - fromSide) ** 2));
+        const coefficient = dot * edge;
+        const color = (255 * coefficient) | 0;
+        const alpha = (color * coefficient * opacity) | 0;
+        const index = (y * width + x) * 4;
+
+        data[index] = color;
+        data[index + 1] = color;
+        data[index + 2] = color;
+        data[index + 3] = alpha;
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  }
+
+  function getLiquidGlassBorderRadius(element) {
+    const computedStyle = window.getComputedStyle(element);
+    const radius = parseFloat(computedStyle.borderTopLeftRadius) || parseFloat(computedStyle.borderRadius) || 12;
+    return Math.max(8, radius);
+  }
+
+  function getPortfolioLiquidGlassTargets() {
+    const seen = new Set();
+    const elements = [];
+
+    PORTFOLIO_LIQUID_GLASS_SELECTORS.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((element) => {
+        if (seen.has(element)) {
+          return;
+        }
+
+        seen.add(element);
+        elements.push(element);
+      });
+    });
+
+    return elements;
+  }
+
+  function refreshPortfolioLiquidGlass() {
+    const defs = document.getElementById('portfolio-liquid-glass-defs');
+
+    if (!defs || !document.body) {
+      return;
+    }
+
+    const targets = getPortfolioLiquidGlassTargets();
+
+    if (!document.body.classList.contains('liquid-glass-mode')) {
+      defs.innerHTML = '';
+      targets.forEach((element) => {
+        element.classList.remove('liquid-glass-surface');
+        element.style.removeProperty('--liquid-glass-filter-url');
+      });
+      return;
+    }
+
+    const filterMarkup = [];
+
+    targets.forEach((element, index) => {
+      element.classList.add('liquid-glass-surface');
+
+      const rect = element.getBoundingClientRect();
+      const width = Math.round(rect.width);
+      const height = Math.round(rect.height);
+
+      if (width < 24 || height < 24) {
+        element.style.removeProperty('--liquid-glass-filter-url');
+        return;
+      }
+
+      const radius = Math.min(getLiquidGlassBorderRadius(element), width / 2 - 1, height / 2 - 1);
+      const bezelWidth = Math.max(6, Math.min(radius * 0.55, 24));
+      const glassThickness = Math.max(28, Math.min(Math.min(width, height) * 0.42, 72));
+      const heightFn = LIQUID_GLASS_SURFACE_FNS.convex_squircle;
+      const profile = calculateLiquidGlassRefractionProfile(glassThickness, bezelWidth, heightFn, 2.2, 96);
+      const maxDisplacement = Math.max(...Array.from(profile).map(Math.abs)) || 1;
+      const displacementMapUrl = generateLiquidGlassDisplacementMap(width, height, radius, bezelWidth, profile, maxDisplacement);
+      const specularMapUrl = generateLiquidGlassSpecularMap(width, height, radius, bezelWidth * 2.25);
+      const filterId = `portfolio-liquid-glass-${index}`;
+
+      filterMarkup.push(`
+        <filter id="${filterId}" x="0%" y="0%" width="100%" height="100%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.32" result="blurred_source" />
+          <feImage href="${displacementMapUrl}" x="0" y="0" width="${width}" height="${height}" result="disp_map" />
+          <feDisplacementMap in="blurred_source" in2="disp_map"
+            scale="${(maxDisplacement * 0.95).toFixed(3)}" xChannelSelector="R" yChannelSelector="G"
+            result="displaced" />
+          <feColorMatrix in="displaced" type="saturate" values="3.2" result="displaced_sat" />
+          <feImage href="${specularMapUrl}" x="0" y="0" width="${width}" height="${height}" result="spec_layer" />
+          <feComposite in="displaced_sat" in2="spec_layer" operator="in" result="spec_masked" />
+          <feComponentTransfer in="spec_layer" result="spec_faded">
+            <feFuncA type="linear" slope="0.42" />
+          </feComponentTransfer>
+          <feBlend in="spec_masked" in2="displaced" mode="normal" result="with_sat" />
+          <feBlend in="spec_faded" in2="with_sat" mode="normal" />
+        </filter>
+      `);
+
+      element.style.setProperty('--liquid-glass-filter-url', `url(#${filterId})`);
+    });
+
+    defs.innerHTML = filterMarkup.join('');
+  }
+
+  function schedulePortfolioLiquidGlassRefresh(delay = 60) {
+    clearTimeout(portfolioLiquidGlassTimer);
+    portfolioLiquidGlassTimer = setTimeout(refreshPortfolioLiquidGlass, delay);
+  }
+
+  function applyLiquidGlassMode(enabled) {
+    if (!document.body) {
+      return;
+    }
+
+    document.body.classList.toggle('liquid-glass-mode', enabled);
+    localStorage.setItem('liquidGlassMode', String(enabled));
+    schedulePortfolioLiquidGlassRefresh(enabled ? 30 : 0);
+  }
+
+  function initPortfolioLiquidGlass() {
+    if (portfolioLiquidGlassInitialized) {
+      return;
+    }
+
+    portfolioLiquidGlassInitialized = true;
+    window.addEventListener('resize', () => {
+      schedulePortfolioLiquidGlassRefresh(150);
+    });
+    schedulePortfolioLiquidGlassRefresh(30);
+  }
+
   function initThemePicker() {
     const themePickerMenu = document.querySelector('.theme-picker-menu');
     const themePickerButton = document.querySelector('.theme-picker-button');
     const primaryColorInput = document.getElementById('primary-color');
     const secondaryColorInput = document.getElementById('secondary-color');
+    const liquidGlassToggle = document.getElementById('liquid-glass-toggle');
     const resetThemeBtn = document.querySelector('.reset-theme-btn');
     const randomThemeBtn = document.querySelector('.random-theme-btn');
     const rainbowThemeBtn = document.querySelector('.rainbow-theme-btn');
@@ -141,6 +437,9 @@ document.addEventListener('DOMContentLoaded', function() {
       e.stopPropagation();
       const isOpen = themePickerMenu.classList.toggle('active');
       setExpanded(isOpen);
+      if (isOpen) {
+        schedulePortfolioLiquidGlassRefresh(50);
+      }
     });
 
     // Close theme picker when clicking outside
@@ -154,12 +453,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load saved colors from localStorage
     const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6C1AFF';
     const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#FF1A4D';
+    const savedLiquidGlassMode = localStorage.getItem('liquidGlassMode');
+    const liquidGlassEnabled = savedLiquidGlassMode === null ? true : savedLiquidGlassMode === 'true';
 
     primaryColorInput.value = savedPrimaryColor;
     secondaryColorInput.value = savedSecondaryColor;
 
     // Apply saved colors
     applyThemeColors(savedPrimaryColor, savedSecondaryColor);
+    applyLiquidGlassMode(liquidGlassEnabled);
+
+    if (liquidGlassToggle) {
+      liquidGlassToggle.checked = liquidGlassEnabled;
+      liquidGlassToggle.addEventListener('input', (e) => {
+        applyLiquidGlassMode(e.target.checked);
+      });
+    }
 
     // Primary color change handler
     primaryColorInput.addEventListener('input', (e) => {
@@ -257,12 +566,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
       root.style.setProperty('--primary-red-rgb', `${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}`);
       root.style.setProperty('--primary-purple-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
+      root.style.setProperty('--liquid-glass-tint-color', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
+      root.style.setProperty('--liquid-glass-shadow', `rgba(${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}, 0.18)`);
+
+      if (document.body.classList.contains('liquid-glass-mode')) {
+        schedulePortfolioLiquidGlassRefresh(30);
+      }
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThemePicker);
+    document.addEventListener('DOMContentLoaded', () => {
+      initPortfolioLiquidGlass();
+      initThemePicker();
+    });
   } else {
+    initPortfolioLiquidGlass();
     initThemePicker();
   }
 

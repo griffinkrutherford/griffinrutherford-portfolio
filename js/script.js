@@ -447,14 +447,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load saved colors from localStorage
     const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6C1AFF';
     const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#FF1A4D';
-    const savedLiquidGlassMode = localStorage.getItem('liquidGlassMode');
-    const liquidGlassEnabled = savedLiquidGlassMode === null ? true : savedLiquidGlassMode === 'true';
+    const liquidGlassEnabled = false;
 
     primaryColorInput.value = savedPrimaryColor;
     secondaryColorInput.value = savedSecondaryColor;
 
     // Apply saved colors
     applyThemeColors(savedPrimaryColor, savedSecondaryColor);
+    localStorage.setItem('liquidGlassMode', 'false');
     applyLiquidGlassMode(liquidGlassEnabled);
 
     if (liquidGlassToggle) {

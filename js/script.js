@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const PORTFOLIO_LIQUID_GLASS_SELECTORS = [
     '.theme-picker-button',
     '.theme-picker-panel',
-    '.theme-action-btn',
     '.quick-links-button',
     '.quick-links-nav',
     '.scroll-arrow',

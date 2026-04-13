@@ -652,7 +652,8 @@ h3 {
     border: 2px solid var(--primary-purple);
     border-radius: 8px;
     padding: 20px;
-    min-width: 280px;
+    width: 280px;
+    max-width: calc(100vw - 40px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
   }
 
@@ -751,7 +752,7 @@ h3 {
   @media (max-width: 768px) {
     .theme-picker-panel {
       right: -10px;
-      min-width: 250px;
+      width: 250px;
     }
   }
 
@@ -762,7 +763,6 @@ h3 {
     gap: 12px;
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .theme-toggle-copy {
@@ -1034,11 +1034,9 @@ h3 {
 .liquid-glass-surface::before {
   z-index: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0.02) 100%),
-    linear-gradient(140deg, rgba(var(--liquid-glass-tint-color), 0.1), rgba(var(--primary-purple-rgb), 0.05));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    inset 0 0 24px rgba(255, 255, 255, 0.08);
+    radial-gradient(140% 90% at 18% 0%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.03) 38%, transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025) 42%, rgba(255, 255, 255, 0.01) 100%),
+    linear-gradient(140deg, rgba(var(--liquid-glass-tint-color), 0.08), rgba(var(--primary-purple-rgb), 0.035));
 }
 
 .liquid-glass-surface::after {
@@ -1056,7 +1054,6 @@ body.liquid-glass-mode .theme-picker-button,
 body.liquid-glass-mode .quick-links-button,
 body.liquid-glass-mode .scroll-arrow,
 body.liquid-glass-mode .theme-picker-panel,
-body.liquid-glass-mode .theme-action-btn,
 body.liquid-glass-mode .quick-links-nav,
 body.liquid-glass-mode .experience-item,
 body.liquid-glass-mode .education-item,
@@ -1065,8 +1062,7 @@ body.liquid-glass-mode .social-links a,
 body.liquid-glass-mode .linkedin-section .ig-post,
 body.liquid-glass-mode .pacman-button-wrapper {
   box-shadow:
-    0 14px 32px var(--liquid-glass-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    0 14px 32px var(--liquid-glass-shadow);
 }
 
 body.liquid-glass-mode .theme-picker-panel,
@@ -1084,10 +1080,15 @@ body.liquid-glass-mode .pacman-button-wrapper {
 
 body.liquid-glass-mode .theme-picker-button,
 body.liquid-glass-mode .quick-links-button,
-body.liquid-glass-mode .scroll-arrow,
-body.liquid-glass-mode .theme-action-btn {
+body.liquid-glass-mode .scroll-arrow {
   backdrop-filter: blur(12px) saturate(1.12);
   -webkit-backdrop-filter: blur(12px) saturate(1.12);
+}
+
+body.liquid-glass-mode .theme-picker-panel,
+body.liquid-glass-mode .theme-switch-slider,
+body.liquid-glass-mode .quick-links-nav {
+  box-sizing: border-box;
 }
 
 body.liquid-glass-mode .theme-picker-panel {

@@ -219,6 +219,42 @@
       font-weight: 800;
     }
 
+    .contact-panel {
+      width: min(100%, 38rem);
+      justify-self: center;
+      padding: 0.85rem clamp(1rem, 4vw, 1.25rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.75rem;
+    }
+
+    .contact-link {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--ink);
+      font-size: clamp(0.88rem, 2vw, 0.98rem);
+      font-weight: 700;
+      line-height: 1.2;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .contact-link i {
+      flex: 0 0 auto;
+      width: 1.85rem;
+      height: 1.85rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-purple));
+      box-shadow: 0 0 18px rgba(255, 26, 77, 0.28);
+    }
+
     .actions {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
@@ -290,10 +326,9 @@
         min-height: auto;
       }
 
-      h1 {
-        font-size: clamp(2.5rem, 12vw, 4.4rem);
+      .contact-panel {
+        grid-template-columns: 1fr;
       }
-
     }
 
     @media (max-width: 420px) {
@@ -307,6 +342,10 @@
 
       .content-panel {
         padding: 1rem;
+      }
+
+      .contact-panel {
+        padding: 0.85rem 1rem;
       }
 
       .action {
@@ -344,9 +383,20 @@
         <h1 class="portrait-name">Griffin Rutherford</h1>
       </div>
 
+      <div class="contact-panel glass" aria-label="Griffin Rutherford contact details">
+        <a class="contact-link" href="mailto:griffinkrutherford@gmail.com">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <span>griffinkrutherford@gmail.com</span>
+        </a>
+        <a class="contact-link" href="tel:+12149984594">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <span>(214)-998-4594</span>
+        </a>
+      </div>
+
       <div class="content-panel glass">
         <div>
-          <p class="role"><strong>R&D Engineer @ Coherascent Labs and M.S. Computer Science Graduate.</strong> Building a space-themed AI learning app that uses neuro-symbolic AI research to turn handwritten or typed work into personalized feedback, identify where students get stuck, and guide them toward stronger understanding. Also an avid outdoor recreationist passionate about mental and physical health.</p>
+          <p class="role"><strong>R&D Engineer @ Coherascent Labs and M.S. Computer Science Graduate.</strong> Building a space-themed AI learning app called Lune Synth&trade; that uses neuro-symbolic AI research to turn handwritten or typed work into personalized feedback, identify where students get stuck, and guide them toward stronger understanding. Also an avid outdoor recreationist passionate about mental and physical health.</p>
         </div>
 
         <nav class="actions" aria-label="Business card links">

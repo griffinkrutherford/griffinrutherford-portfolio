@@ -810,17 +810,27 @@
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
                 <br><br>
-                Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their **Edibility**. Moving the slider allows you to "scan" through the 4th dimension—words will grow and fade into existence as you reach their specific flavor-profile.
+                Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their hidden 4th dimension. You can choose different "lenses" to see how AI organizes concepts like **Flavor**, **Vibe**, or **Arcane Power**.
                 <div class="wordvec-visualizer" aria-label="4D word vector visualization">
-                    <div class="wordvec-title">4D Word Vector Visualization: The Flavor-Scanner</div>
-                    <p class="wordvec-note">
+                    <div class="wordvec-title" id="wordvec-display-title">4D Word Vector Visualization: The Flavor-Scanner</div>
+                    
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <label for="wordvec-theme-select" style="color: #fff; font-weight: bold; margin-right: 10px;">Choose a 4D Lens:</label>
+                        <select id="wordvec-theme-select" style="background: #151515; color: #fff; border: 1px solid #e10600; padding: 5px 10px; border-radius: 5px;">
+                            <option value="flavor">The Flavor-Scanner (Edibility)</option>
+                            <option value="vibe">The Vibe-Radiator (Social Energy)</option>
+                            <option value="arcane">The Arcane-Chronometer (Magical Power)</option>
+                        </select>
+                    </div>
+
+                    <p class="wordvec-note" id="wordvec-display-note">
                         Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.
                     </p>
                     <div class="wordvec-stage">
                         <canvas id="wordVectorCanvas" width="800" height="520"></canvas>
                     </div>
                     <div class="wordvec-controls">
-                        <label for="wordVectorTime">4th Dimension: Edibility Scanner</label>
+                        <label for="wordVectorTime" id="wordvec-slider-label">4th Dimension: Edibility Scanner</label>
                         <input type="range" id="wordVectorTime" min="0" max="100" value="50">
                         <div class="wordvec-time-label" id="wordVectorTimeLabel">Scanning Edibility: 50%</div>
                         <div class="wordvec-control-row">
@@ -829,7 +839,7 @@
                             <button type="button" class="reset" onclick="resetWordVectorView()">Reset View</button>
                         </div>
                     </div>
-                    <div class="wordvec-legend">
+                    <div class="wordvec-legend" id="wordvec-legend">
                         <span class="legend-item"><span class="legend-dot" style="background: #ff4b3e;"></span>Cosmic / Massive</span>
                         <span class="legend-item"><span class="legend-dot" style="background: #49a7ff;"></span>Microscopic / Life</span>
                         <span class="legend-item"><span class="legend-dot" style="background: #ffd166;"></span>Synthetic / Artifacts</span>
@@ -1405,86 +1415,124 @@
         let wordLastY = 0;
         let wordRotationInterval = null;
 
-        const wordVectorPoints = [
-            {
-                label: 'Black Hole',
-                color: '#ff4b3e',
-                base: [2.2, -1.8, -1.5],
-                edibility: 0
+        const wordVectorThemes = {
+            flavor: {
+                title: '4D Word Vector Visualization: The Flavor-Scanner',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.',
+                sliderLabel: '4th Dimension: Edibility Scanner',
+                scanLabel: 'Scanning Edibility',
+                axes: [
+                    { label: 'Synthetic vs. Bio', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Quantum vs. Galactic', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Ancient vs. Cyber', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Cosmic / Massive', color: '#ff4b3e' },
+                    { label: 'Microscopic / Life', color: '#49a7ff' },
+                    { label: 'Synthetic / Artifacts', color: '#ffd166' },
+                    { label: 'Culinary Concepts', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Black Hole', color: '#ff4b3e', base: [2.2, -1.8, -1.5], dim4: 0 },
+                    { label: 'Supernova', color: '#ff4b3e', base: [2.4, 1.2, 1.3], dim4: 5 },
+                    { label: 'Nebula', color: '#ff4b3e', base: [1.8, 0.4, -0.8], dim4: 15 },
+                    { label: 'Obsidian Dagger', color: '#ffd166', base: [0.3, -1.9, 1.1], dim4: 22 },
+                    { label: 'Microchip', color: '#ffd166', base: [-1.4, -1.5, -0.4], dim4: 30 },
+                    { label: 'Nanobot', color: '#ffd166', base: [-1.9, -0.1, -1.2], dim4: 35 },
+                    { label: 'Mitochondria', color: '#49a7ff', base: [-1.5, 0.8, -1.4], dim4: 45 },
+                    { label: 'Tardigrade', color: '#49a7ff', base: [-1.2, 1.8, 0.2], dim4: 55 },
+                    { label: 'Axolotl', color: '#49a7ff', base: [-0.9, -0.5, 0.6], dim4: 65 },
+                    { label: 'Cyber-Sushi', color: '#64f4ac', base: [-0.6, -0.7, 1.5], dim4: 82 },
+                    { label: 'Honeycomb', color: '#64f4ac', base: [0.2, 0.9, 1.4], dim4: 90 },
+                    { label: 'Mochi', color: '#64f4ac', base: [-0.4, 0.2, 1.8], dim4: 100 }
+                ]
             },
-            {
-                label: 'Supernova',
-                color: '#ff4b3e',
-                base: [2.4, 1.2, 1.3],
-                edibility: 5
+            vibe: {
+                title: '4D Word Vector Visualization: The Vibe-Radiator',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Social Vibe). Watch as concepts radiate energy when you find their "Vibe-frequency".',
+                sliderLabel: '4th Dimension: Vibe-Frequency',
+                scanLabel: 'Social Vibe Energy',
+                axes: [
+                    { label: 'Introvert vs. Extrovert', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Chaos vs. Order', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Digital vs. Physical', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Party / High Energy', color: '#ff4b3e' },
+                    { label: 'Zen / Quiet', color: '#49a7ff' },
+                    { label: 'Awkward / Nervous', color: '#ffd166' },
+                    { label: 'Wholesome / Warm', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Library', color: '#49a7ff', base: [-1.8, 1.5, -0.5], dim4: 10 },
+                    { label: 'Silent Disco', color: '#ffd166', base: [0.2, 1.2, 2.2], dim4: 35 },
+                    { label: 'Cozy Fireplace', color: '#64f4ac', base: [-0.5, 0.8, -1.2], dim4: 85 },
+                    { label: 'Nightclub', color: '#ff4b3e', base: [2.2, 1.9, 1.5], dim4: 95 },
+                    { label: 'Mosh Pit', color: '#ff4b3e', base: [2.5, -1.5, 0.8], dim4: 100 },
+                    { label: 'Zoom Call', color: '#ffd166', base: [-1.2, -1.8, 2.1], dim4: 25 },
+                    { label: 'Meditation', color: '#49a7ff', base: [-2.2, 1.8, -1.8], dim4: 5 },
+                    { label: 'First Date', color: '#ffd166', base: [0.8, -0.5, 0.2], dim4: 60 },
+                    { label: 'Golden Retriever', color: '#64f4ac', base: [1.8, 0.2, -0.5], dim4: 90 },
+                    { label: 'Broken Link', color: '#ffd166', base: [-1.5, -2.2, 2.5], dim4: 0 },
+                    { label: 'Nap', color: '#49a7ff', base: [-2.5, 0.1, -1.2], dim4: 15 }
+                ]
             },
-            {
-                label: 'Nebula',
-                color: '#ff4b3e',
-                base: [1.8, 0.4, -0.8],
-                edibility: 15
-            },
-            {
-                label: 'Obsidian Dagger',
-                color: '#ffd166',
-                base: [0.3, -1.9, 1.1],
-                edibility: 22
-            },
-            {
-                label: 'Microchip',
-                color: '#ffd166',
-                base: [-1.4, -1.5, -0.4],
-                edibility: 30
-            },
-            {
-                label: 'Nanobot',
-                color: '#ffd166',
-                base: [-1.9, -0.1, -1.2],
-                edibility: 35
-            },
-            {
-                label: 'Mitochondria',
-                color: '#49a7ff',
-                base: [-1.5, 0.8, -1.4],
-                edibility: 45
-            },
-            {
-                label: 'Tardigrade',
-                color: '#49a7ff',
-                base: [-1.2, 1.8, 0.2],
-                edibility: 55
-            },
-            {
-                label: 'Axolotl',
-                color: '#49a7ff',
-                base: [-0.9, -0.5, 0.6],
-                edibility: 65
-            },
-            {
-                label: 'Cyber-Sushi',
-                color: '#64f4ac',
-                base: [-0.6, -0.7, 1.5],
-                edibility: 82
-            },
-            {
-                label: 'Honeycomb',
-                color: '#64f4ac',
-                base: [0.2, 0.9, 1.4],
-                edibility: 90
-            },
-            {
-                label: 'Mochi',
-                color: '#64f4ac',
-                base: [-0.4, 0.2, 1.8],
-                edibility: 100
+            arcane: {
+                title: '4D Word Vector Visualization: The Arcane-Chronometer',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Magical Potency). Watch as items sparkle and manifest when their "True Name" is reached.',
+                sliderLabel: '4th Dimension: Arcane Potency',
+                scanLabel: 'Mana Concentration',
+                axes: [
+                    { label: 'Dark vs. Light', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Ancient vs. Modern', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Ethereal vs. Material', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Artifacts / Items', color: '#ff4b3e' },
+                    { label: 'Spells / Energy', color: '#49a7ff' },
+                    { label: 'Entities / Beings', color: '#ffd166' },
+                    { label: 'Sacred Sites', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Rusting Spoon', color: '#ff4b3e', base: [0.5, -1.8, 1.2], dim4: 2 },
+                    { label: 'Dragon Scale', color: '#ff4b3e', base: [1.8, 0.5, -0.5], dim4: 65 },
+                    { label: 'Fireball', color: '#49a7ff', base: [1.2, 1.8, 0.2], dim4: 80 },
+                    { label: 'Necronomicon', color: '#ffd166', base: [-2.2, -1.2, -1.8], dim4: 95 },
+                    { label: 'Phoenix Feather', color: '#ff4b3e', base: [2.5, 1.5, -0.8], dim4: 85 },
+                    { label: 'Stonehenge', color: '#64f4ac', base: [0.2, 0.1, -2.5], dim4: 75 },
+                    { label: 'Mana Potion', color: '#49a7ff', base: [0.8, -0.2, 1.5], dim4: 45 },
+                    { label: 'Lich King', color: '#ffd166', base: [-2.5, -1.8, 0.5], dim4: 100 },
+                    { label: 'Blink Spell', color: '#49a7ff', base: [-0.5, 2.2, 1.8], dim4: 55 },
+                    { label: 'Cathedral', color: '#64f4ac', base: [1.2, 0.8, -2.1], dim4: 50 },
+                    { label: 'Wifi Router', color: '#ff4b3e', base: [-1.5, -2.5, 2.4], dim4: 0 }
+                ]
             }
-        ];
+        };
 
-        const wordAxisPoints = [
-            { label: 'Synthetic vs. Bio', color: '#ffd166', end: [-2.5, 0, 0] },
-            { label: 'Quantum vs. Galactic', color: '#ff4b3e', end: [0, 2.3, 0] },
-            { label: 'Ancient vs. Cyber', color: '#49a7ff', end: [0, 0, 2.4] }
-        ];
+        let currentWordTheme = 'flavor';
+
+        function updateWordTheme() {
+            const theme = wordVectorThemes[currentWordTheme];
+            document.getElementById('wordvec-display-title').textContent = theme.title;
+            document.getElementById('wordvec-display-note').textContent = theme.note;
+            document.getElementById('wordvec-slider-label').textContent = theme.sliderLabel;
+            
+            const legendContainer = document.getElementById('wordvec-legend');
+            legendContainer.innerHTML = '';
+            theme.legend.forEach(item => {
+                const span = document.createElement('span');
+                span.className = 'legend-item';
+                span.innerHTML = `<span class="legend-dot" style="background: ${item.color};"></span>${item.label}`;
+                legendContainer.appendChild(span);
+            });
+
+            drawWordVectorScene();
+        }
+
+        document.getElementById('wordvec-theme-select').addEventListener('change', (e) => {
+            currentWordTheme = e.target.value;
+            updateWordTheme();
+        });
 
         function getWordProgress() {
             return Number(wordVectorTime.value);
@@ -1525,14 +1573,13 @@
         }
 
         function drawWordAxes() {
-            // X axis (Synthetic vs Bio)
-            drawWordLine([2.25, 0, 0], [-2.5, 0, 0], 'rgba(255, 209, 102, 0.5)', 2);
-            // Y axis (Scale)
-            drawWordLine([0, -2.25, 0], [0, 2.3, 0], 'rgba(255, 75, 62, 0.5)', 2);
-            // Z axis (Time/Tech)
-            drawWordLine([0, 0, -2.25], [0, 0, 2.4], 'rgba(73, 167, 255, 0.5)', 2);
+            const theme = wordVectorThemes[currentWordTheme];
+            
+            theme.axes.forEach((axis, i) => {
+                // Determine start point (opposite of end point for symmetry)
+                const start = axis.end.map(c => -c);
+                drawWordLine(start, axis.end, axis.color, 2, 0.4);
 
-            wordAxisPoints.forEach((axis) => {
                 const projected = projectWordVector(axis.end);
                 wordVectorCtx.fillStyle = axis.color;
                 wordVectorCtx.globalAlpha = 0.6;
@@ -1563,16 +1610,16 @@
             wordVectorCtx.fillStyle = gradient;
             wordVectorCtx.fillRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
 
+            const theme = wordVectorThemes[currentWordTheme];
             const scannerValue = getWordProgress();
-            wordVectorTimeLabel.textContent = `Scanning Edibility: ${scannerValue}%`;
+            wordVectorTimeLabel.textContent = `${theme.scanLabel}: ${scannerValue}%`;
 
             drawWordAxes();
 
-            const positions = wordVectorPoints.map((point) => {
-                // Calculate distance from scanner value (Gaussian-like falloff)
-                const distance = Math.abs(point.edibility - scannerValue);
-                const intensity = Math.max(0, 1 - distance / 25); // Range of 25 units
-                const morphFactor = Math.pow(intensity, 2); // Sharper falloff
+            const positions = theme.points.map((point) => {
+                const distance = Math.abs(point.dim4 - scannerValue);
+                const intensity = Math.max(0, 1 - distance / 25);
+                const morphFactor = Math.pow(intensity, 2);
                 
                 return {
                     ...point,
@@ -1586,9 +1633,7 @@
                 .forEach((point) => {
                     if (point.morphFactor <= 0.01) return;
 
-                    // Size and opacity based on morphFactor
-                    // Base size 8, scaled up by edibility and morphFactor
-                    const sizeScale = 1 + (point.edibility / 100) * 1.5; 
+                    const sizeScale = 1 + (point.dim4 / 100) * 1.5; 
                     const radius = (6 + point.projected.perspective * 4) * sizeScale * (0.5 + point.morphFactor * 0.5);
                     
                     wordVectorCtx.save();
@@ -1596,17 +1641,16 @@
                     
                     wordVectorCtx.fillStyle = point.color;
                     wordVectorCtx.shadowColor = point.color;
-                    wordVectorCtx.shadowBlur = 15 * point.morphFactor;
+                    wordVectorCtx.shadowBlur = (currentWordTheme === 'arcane' ? 25 : 15) * point.morphFactor;
                     
                     wordVectorCtx.beginPath();
                     wordVectorCtx.arc(point.projected.x, point.projected.y, radius, 0, Math.PI * 2);
                     wordVectorCtx.fill();
                     
-                    // Add a "core" for highly edible items
-                    if (point.edibility > 70) {
+                    if (point.dim4 > 70) {
                         wordVectorCtx.fillStyle = '#fff';
                         wordVectorCtx.beginPath();
-                        wordVectorCtx.arc(point.projected.x, point.projected.y, radius * 0.3, 0, Math.PI * 2);
+                        wordVectorCtx.arc(point.projected.x, point.projected.y, radius * (currentWordTheme === 'vibe' ? 0.4 : 0.3), 0, Math.PI * 2);
                         wordVectorCtx.fill();
                     }
 
@@ -1619,7 +1663,7 @@
 
             wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
             wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
-            wordVectorCtx.fillText('Scanning the 4th dimension: Opacity and Size reveal the hidden "Flavor" axis', 18, 30);
+            wordVectorCtx.fillText(`Scanning the 4th dimension: ${theme.sliderLabel}`, 18, 30);
         }
 
         function getWordPointerPosition(e) {

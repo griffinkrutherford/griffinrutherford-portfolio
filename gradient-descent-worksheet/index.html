@@ -791,6 +791,30 @@
 
             <button class="reveal-asset" id="show-marbles-gif" type="button">Reveal Marbles Drop</button>
             <img class="question-asset is-hidden" id="marbles-gif" src="assets/q11-marbles.gif" alt="Marbles dropping into a bowl">
+
+            <div class="sgd-simulator">
+                <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
+                <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
+                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). We use <strong>Stochastic Noise</strong>—a fancy way of saying we "shake the bowl"—to help the marbles bounce out of those dents so they can find the real bottom!
+                </p>
+                
+                <div class="sgd-canvas-container" style="height: 450px;">
+                    <canvas id="sgdCanvas" width="800" height="450"></canvas>
+                </div>
+
+                <div class="sgd-controls">
+                    <div>
+                        <label for="sgdProgress" style="color: #fff; font-weight: bold;">Step 1: Release Marbles (Gradient Descent)</label>
+                        <input type="range" id="sgdProgress" min="0" max="100" value="0" style="width: 100%;">
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <button type="button" class="shake-button" id="shakeBowlBtn">Step 2: SHAKE THE BOWL (Add Noise)</button>
+                        <button type="button" class="reset" id="resetSgdBtn">Reset Marbles</button>
+                    </div>
+                    <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Bowl Status: Waiting for marbles...</p>
+                </div>
+            </div>
+
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="11">Submit</button>
             <div class="answer" id="answer-11"></div>
@@ -898,26 +922,13 @@
                 <br><br>
                 What do you think happens when we raise or lower the temperature of the output of ChatGPT? Yes, this is shaking a bowl in a million dimension space.
 
-                <div class="sgd-simulator">
-                    <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
-                    <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
-                        Remember the marbles and the bowl? Below is a 3D version of how AI actually trains. The "True" relationship between words is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). We use <strong>Stochastic Noise</strong>—a fancy way of saying we "shake the bowl"—to help the marbles bounce out of those dents so they can find the real bottom!
+                <div class="wordvec-visualizer">
+                    <div class="wordvec-title">3D Word Convergence: The Training Loop</div>
+                    <p class="wordvec-note">
+                        This continuous animation shows how AI training actually looks in 3D space. Watch as word "marbles" start in random positions (pure noise) and continuously "fall" into their meaningful clusters. Notice the jittery motion—that's the <strong>Stochastic Noise</strong> (temperature) helping them settle!
                     </p>
-                    
-                    <div class="sgd-canvas-container" style="height: 450px;">
-                        <canvas id="sgdCanvas" width="800" height="450"></canvas>
-                    </div>
-
-                    <div class="sgd-controls">
-                        <div>
-                            <label for="sgdProgress" style="color: #fff; font-weight: bold;">Step 1: Start Training (Gradient Descent)</label>
-                            <input type="range" id="sgdProgress" min="0" max="100" value="0" style="width: 100%;">
-                        </div>
-                        <div style="display: flex; justify-content: center; gap: 15px;">
-                            <button type="button" class="shake-button" id="shakeBowlBtn">Step 2: SHAKE THE BOWL (Add Noise)</button>
-                            <button type="button" class="reset" id="resetSgdBtn">Reset Marbles</button>
-                        </div>
-                        <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Bowl Status: Waiting for marbles...</p>
+                    <div class="wordvec-stage">
+                        <canvas id="wordConvergenceCanvas" width="800" height="520"></canvas>
                     </div>
                 </div>
             </div>
@@ -1464,340 +1475,7 @@
             drawGradientDescentSetup();
         }
 
-        // 4D Word Vector Canvas (3D space + time slider)
-        const wordVectorCanvas = document.getElementById('wordVectorCanvas');
-        const wordVectorCtx = wordVectorCanvas.getContext('2d');
-        const wordVectorTime = document.getElementById('wordVectorTime');
-        const wordVectorTimeLabel = document.getElementById('wordVectorTimeLabel');
-        let wordAngleX = -0.45;
-        let wordAngleY = 0.62;
-        let wordDragging = false;
-        let wordLastX = 0;
-        let wordLastY = 0;
-        let wordRotationInterval = null;
-
-        const wordVectorThemes = {
-            flavor: {
-                title: '4D Word Vector Visualization: The Flavor-Scanner',
-                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.',
-                sliderLabel: '4th Dimension: Edibility Scanner',
-                scanLabel: 'Scanning Edibility',
-                axes: [
-                    { label: 'Synthetic vs. Bio', color: '#ffd166', end: [-2.5, 0, 0] },
-                    { label: 'Quantum vs. Galactic', color: '#ff4b3e', end: [0, 2.3, 0] },
-                    { label: 'Ancient vs. Cyber', color: '#49a7ff', end: [0, 0, 2.4] }
-                ],
-                legend: [
-                    { label: 'Cosmic / Massive', color: '#ff4b3e' },
-                    { label: 'Microscopic / Life', color: '#49a7ff' },
-                    { label: 'Synthetic / Artifacts', color: '#ffd166' },
-                    { label: 'Culinary Concepts', color: '#64f4ac' }
-                ],
-                points: [
-                    { label: 'Black Hole', color: '#ff4b3e', base: [2.2, -1.8, -1.5], dim4: 0 },
-                    { label: 'Supernova', color: '#ff4b3e', base: [2.4, 1.2, 1.3], dim4: 5 },
-                    { label: 'Nebula', color: '#ff4b3e', base: [1.8, 0.4, -0.8], dim4: 15 },
-                    { label: 'Obsidian Dagger', color: '#ffd166', base: [0.3, -1.9, 1.1], dim4: 22 },
-                    { label: 'Microchip', color: '#ffd166', base: [-1.4, -1.5, -0.4], dim4: 30 },
-                    { label: 'Nanobot', color: '#ffd166', base: [-1.9, -0.1, -1.2], dim4: 35 },
-                    { label: 'Mitochondria', color: '#49a7ff', base: [-1.5, 0.8, -1.4], dim4: 45 },
-                    { label: 'Tardigrade', color: '#49a7ff', base: [-1.2, 1.8, 0.2], dim4: 55 },
-                    { label: 'Axolotl', color: '#49a7ff', base: [-0.9, -0.5, 0.6], dim4: 65 },
-                    { label: 'Cyber-Sushi', color: '#64f4ac', base: [-0.6, -0.7, 1.5], dim4: 82 },
-                    { label: 'Honeycomb', color: '#64f4ac', base: [0.2, 0.9, 1.4], dim4: 90 },
-                    { label: 'Mochi', color: '#64f4ac', base: [-0.4, 0.2, 1.8], dim4: 100 }
-                ]
-            },
-            vibe: {
-                title: '4D Word Vector Visualization: The Vibe-Radiator',
-                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Social Vibe). Watch as concepts radiate energy when you find their "Vibe-frequency".',
-                sliderLabel: '4th Dimension: Vibe-Frequency',
-                scanLabel: 'Social Vibe Energy',
-                axes: [
-                    { label: 'Introvert vs. Extrovert', color: '#ffd166', end: [-2.5, 0, 0] },
-                    { label: 'Chaos vs. Order', color: '#ff4b3e', end: [0, 2.3, 0] },
-                    { label: 'Digital vs. Physical', color: '#49a7ff', end: [0, 0, 2.4] }
-                ],
-                legend: [
-                    { label: 'Party / High Energy', color: '#ff4b3e' },
-                    { label: 'Zen / Quiet', color: '#49a7ff' },
-                    { label: 'Awkward / Nervous', color: '#ffd166' },
-                    { label: 'Wholesome / Warm', color: '#64f4ac' }
-                ],
-                points: [
-                    { label: 'Library', color: '#49a7ff', base: [-1.8, 1.5, -0.5], dim4: 10 },
-                    { label: 'Silent Disco', color: '#ffd166', base: [0.2, 1.2, 2.2], dim4: 35 },
-                    { label: 'Cozy Fireplace', color: '#64f4ac', base: [-0.5, 0.8, -1.2], dim4: 85 },
-                    { label: 'Nightclub', color: '#ff4b3e', base: [2.2, 1.9, 1.5], dim4: 95 },
-                    { label: 'Mosh Pit', color: '#ff4b3e', base: [2.5, -1.5, 0.8], dim4: 100 },
-                    { label: 'Zoom Call', color: '#ffd166', base: [-1.2, -1.8, 2.1], dim4: 25 },
-                    { label: 'Meditation', color: '#49a7ff', base: [-2.2, 1.8, -1.8], dim4: 5 },
-                    { label: 'First Date', color: '#ffd166', base: [0.8, -0.5, 0.2], dim4: 60 },
-                    { label: 'Golden Retriever', color: '#64f4ac', base: [1.8, 0.2, -0.5], dim4: 90 },
-                    { label: 'Broken Link', color: '#ffd166', base: [-1.5, -2.2, 2.5], dim4: 0 },
-                    { label: 'Nap', color: '#49a7ff', base: [-2.5, 0.1, -1.2], dim4: 15 }
-                ]
-            },
-            arcane: {
-                title: '4D Word Vector Visualization: The Arcane-Chronometer',
-                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Magical Potency). Watch as items sparkle and manifest when their "True Name" is reached.',
-                sliderLabel: '4th Dimension: Arcane Potency',
-                scanLabel: 'Mana Concentration',
-                axes: [
-                    { label: 'Dark vs. Light', color: '#ffd166', end: [-2.5, 0, 0] },
-                    { label: 'Ancient vs. Modern', color: '#ff4b3e', end: [0, 2.3, 0] },
-                    { label: 'Ethereal vs. Material', color: '#49a7ff', end: [0, 0, 2.4] }
-                ],
-                legend: [
-                    { label: 'Artifacts / Items', color: '#ff4b3e' },
-                    { label: 'Spells / Energy', color: '#49a7ff' },
-                    { label: 'Entities / Beings', color: '#ffd166' },
-                    { label: 'Sacred Sites', color: '#64f4ac' }
-                ],
-                points: [
-                    { label: 'Rusting Spoon', color: '#ff4b3e', base: [0.5, -1.8, 1.2], dim4: 2 },
-                    { label: 'Dragon Scale', color: '#ff4b3e', base: [1.8, 0.5, -0.5], dim4: 65 },
-                    { label: 'Fireball', color: '#49a7ff', base: [1.2, 1.8, 0.2], dim4: 80 },
-                    { label: 'Necronomicon', color: '#ffd166', base: [-2.2, -1.2, -1.8], dim4: 95 },
-                    { label: 'Phoenix Feather', color: '#ff4b3e', base: [2.5, 1.5, -0.8], dim4: 85 },
-                    { label: 'Stonehenge', color: '#64f4ac', base: [0.2, 0.1, -2.5], dim4: 75 },
-                    { label: 'Mana Potion', color: '#49a7ff', base: [0.8, -0.2, 1.5], dim4: 45 },
-                    { label: 'Lich King', color: '#ffd166', base: [-2.5, -1.8, 0.5], dim4: 100 },
-                    { label: 'Blink Spell', color: '#49a7ff', base: [-0.5, 2.2, 1.8], dim4: 55 },
-                    { label: 'Cathedral', color: '#64f4ac', base: [1.2, 0.8, -2.1], dim4: 50 },
-                    { label: 'Wifi Router', color: '#ff4b3e', base: [-1.5, -2.5, 2.4], dim4: 0 }
-                ]
-            }
-        };
-
-        let currentWordTheme = 'flavor';
-
-        function updateWordTheme() {
-            const theme = wordVectorThemes[currentWordTheme];
-            document.getElementById('wordvec-display-title').textContent = theme.title;
-            document.getElementById('wordvec-display-note').textContent = theme.note;
-            document.getElementById('wordvec-slider-label').textContent = theme.sliderLabel;
-            
-            const legendContainer = document.getElementById('wordvec-legend');
-            legendContainer.innerHTML = '';
-            theme.legend.forEach(item => {
-                const span = document.createElement('span');
-                span.className = 'legend-item';
-                span.innerHTML = `<span class="legend-dot" style="background: ${item.color};"></span>${item.label}`;
-                legendContainer.appendChild(span);
-            });
-
-            drawWordVectorScene();
-        }
-
-        document.getElementById('wordvec-theme-select').addEventListener('change', (e) => {
-            currentWordTheme = e.target.value;
-            updateWordTheme();
-        });
-
-        function getWordProgress() {
-            return Number(wordVectorTime.value);
-        }
-
-        function projectWordVector(point) {
-            const [x, y, z] = point;
-            const centerX = wordVectorCanvas.width / 2;
-            const centerY = wordVectorCanvas.height / 2 + 12;
-            const scale = 88;
-
-            const y1 = y * Math.cos(wordAngleX) - z * Math.sin(wordAngleX);
-            const z1 = y * Math.sin(wordAngleX) + z * Math.cos(wordAngleX);
-            const x2 = x * Math.cos(wordAngleY) - z1 * Math.sin(wordAngleY);
-            const z2 = x * Math.sin(wordAngleY) + z1 * Math.cos(wordAngleY);
-            const perspective = 420 / (420 + z2 * 48);
-
-            return {
-                x: centerX + x2 * scale * perspective,
-                y: centerY - y1 * scale * perspective,
-                depth: z2,
-                perspective
-            };
-        }
-
-        function drawWordLine(from, to, color, width = 2, alpha = 0.9) {
-            const a = projectWordVector(from);
-            const b = projectWordVector(to);
-            wordVectorCtx.save();
-            wordVectorCtx.globalAlpha = alpha;
-            wordVectorCtx.strokeStyle = color;
-            wordVectorCtx.lineWidth = width;
-            wordVectorCtx.beginPath();
-            wordVectorCtx.moveTo(a.x, a.y);
-            wordVectorCtx.lineTo(b.x, b.y);
-            wordVectorCtx.stroke();
-            wordVectorCtx.restore();
-        }
-
-        function drawWordAxes() {
-            const theme = wordVectorThemes[currentWordTheme];
-            
-            theme.axes.forEach((axis, i) => {
-                // Determine start point (opposite of end point for symmetry)
-                const start = axis.end.map(c => -c);
-                drawWordLine(start, axis.end, axis.color, 2, 0.4);
-
-                const projected = projectWordVector(axis.end);
-                wordVectorCtx.fillStyle = axis.color;
-                wordVectorCtx.globalAlpha = 0.6;
-                wordVectorCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
-                wordVectorCtx.fillText(axis.label, projected.x + 8, projected.y - 8);
-            });
-            wordVectorCtx.globalAlpha = 1;
-
-            const origin = projectWordVector([0, 0, 0]);
-            wordVectorCtx.fillStyle = '#fff';
-            wordVectorCtx.beginPath();
-            wordVectorCtx.arc(origin.x, origin.y, 3, 0, Math.PI * 2);
-            wordVectorCtx.fill();
-        }
-
-        function drawWordVectorScene() {
-            wordVectorCtx.clearRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
-            const gradient = wordVectorCtx.createRadialGradient(
-                wordVectorCanvas.width / 2,
-                wordVectorCanvas.height / 2,
-                40,
-                wordVectorCanvas.width / 2,
-                wordVectorCanvas.height / 2,
-                430
-            );
-            gradient.addColorStop(0, '#151515');
-            gradient.addColorStop(1, '#000');
-            wordVectorCtx.fillStyle = gradient;
-            wordVectorCtx.fillRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
-
-            const theme = wordVectorThemes[currentWordTheme];
-            const scannerValue = getWordProgress();
-            wordVectorTimeLabel.textContent = `${theme.scanLabel}: ${scannerValue}%`;
-
-            drawWordAxes();
-
-            const positions = theme.points.map((point) => {
-                const distance = Math.abs(point.dim4 - scannerValue);
-                const intensity = Math.max(0, 1 - distance / 25);
-                const morphFactor = Math.pow(intensity, 2);
-                
-                return {
-                    ...point,
-                    morphFactor,
-                    projected: projectWordVector(point.base)
-                };
-            });
-
-            positions
-                .sort((a, b) => b.projected.depth - a.projected.depth)
-                .forEach((point) => {
-                    if (point.morphFactor <= 0.01) return;
-
-                    const sizeScale = 1 + (point.dim4 / 100) * 1.5; 
-                    const radius = (6 + point.projected.perspective * 4) * sizeScale * (0.5 + point.morphFactor * 0.5);
-                    
-                    wordVectorCtx.save();
-                    wordVectorCtx.globalAlpha = point.morphFactor;
-                    
-                    wordVectorCtx.fillStyle = point.color;
-                    wordVectorCtx.shadowColor = point.color;
-                    wordVectorCtx.shadowBlur = (currentWordTheme === 'arcane' ? 25 : 15) * point.morphFactor;
-                    
-                    wordVectorCtx.beginPath();
-                    wordVectorCtx.arc(point.projected.x, point.projected.y, radius, 0, Math.PI * 2);
-                    wordVectorCtx.fill();
-                    
-                    if (point.dim4 > 70) {
-                        wordVectorCtx.fillStyle = '#fff';
-                        wordVectorCtx.beginPath();
-                        wordVectorCtx.arc(point.projected.x, point.projected.y, radius * (currentWordTheme === 'vibe' ? 0.4 : 0.3), 0, Math.PI * 2);
-                        wordVectorCtx.fill();
-                    }
-
-                    wordVectorCtx.fillStyle = '#fff';
-                    wordVectorCtx.font = `${700} ${14 + point.morphFactor * 4}px STIX Two Text, Times New Roman, serif`;
-                    wordVectorCtx.fillText(point.label, point.projected.x + radius + 5, point.projected.y + 5);
-                    
-                    wordVectorCtx.restore();
-                });
-
-            wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
-            wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
-            wordVectorCtx.fillText(`Scanning the 4th dimension: ${theme.sliderLabel}`, 18, 30);
-        }
-
-        function getWordPointerPosition(e) {
-            const rect = wordVectorCanvas.getBoundingClientRect();
-            const source = e.touches ? e.touches[0] : e;
-            return {
-                x: (source.clientX - rect.left) * (wordVectorCanvas.width / rect.width),
-                y: (source.clientY - rect.top) * (wordVectorCanvas.height / rect.height)
-            };
-        }
-
-        function startWordDrag(e) {
-            if (e.cancelable) {
-                e.preventDefault();
-            }
-            const position = getWordPointerPosition(e);
-            wordDragging = true;
-            wordLastX = position.x;
-            wordLastY = position.y;
-        }
-
-        function moveWordDrag(e) {
-            if (!wordDragging) return;
-            if (e.cancelable) {
-                e.preventDefault();
-            }
-            const position = getWordPointerPosition(e);
-            wordAngleY += (position.x - wordLastX) * 0.01;
-            wordAngleX += (position.y - wordLastY) * 0.01;
-            wordLastX = position.x;
-            wordLastY = position.y;
-            drawWordVectorScene();
-        }
-
-        function endWordDrag() {
-            wordDragging = false;
-        }
-
-        wordVectorCanvas.addEventListener('mousedown', startWordDrag);
-        wordVectorCanvas.addEventListener('mousemove', moveWordDrag);
-        wordVectorCanvas.addEventListener('mouseup', endWordDrag);
-        wordVectorCanvas.addEventListener('mouseleave', endWordDrag);
-        wordVectorCanvas.addEventListener('touchstart', startWordDrag, { passive: false });
-        wordVectorCanvas.addEventListener('touchmove', moveWordDrag, { passive: false });
-        wordVectorCanvas.addEventListener('touchend', endWordDrag);
-        wordVectorCanvas.addEventListener('touchcancel', endWordDrag);
-
-        wordVectorTime.addEventListener('input', drawWordVectorScene);
-
-        function rotateWordVectors() {
-            if (wordRotationInterval) return;
-            wordRotationInterval = setInterval(() => {
-                wordAngleY += 0.018;
-                drawWordVectorScene();
-            }, 30);
-        }
-
-        function stopWordVectorRotation() {
-            if (wordRotationInterval) {
-                clearInterval(wordRotationInterval);
-                wordRotationInterval = null;
-            }
-        }
-
-        function resetWordVectorView() {
-            stopWordVectorRotation();
-            wordAngleX = -0.45;
-            wordAngleY = 0.62;
-            wordVectorTime.value = 50;
-            drawWordVectorScene();
-        }
-
-        // 3D SGD Training Simulator JS
+        // 3D SGD Training Simulator JS (The Bowl for Q11)
         const sgdCanvas = document.getElementById('sgdCanvas');
         const sgdCtx = sgdCanvas.getContext('2d');
         const sgdProgress = document.getElementById('sgdProgress');
@@ -1811,27 +1489,15 @@
         let sgdLastX = 0;
         let sgdLastY = 0;
 
-        const sgdWords = [
-            { label: 'King', color: '#ff4b3e', target: [1.2, 1.2], trap: [1.2, -1.2] },
-            { label: 'Queen', color: '#ff4b3e', target: [1.2, 1.2], trap: [-1.2, 1.2] },
-            { label: 'Sushi', color: '#64f4ac', target: [-1.5, -1.5], trap: [0, 1.5] },
-            { label: 'Mochi', color: '#64f4ac', target: [-1.5, -1.5], trap: [1.5, 0] }
-        ];
-
         let sgdMarbles = [];
         let sgdShaking = false;
 
         function getSgdHeight(x, y) {
-            // A surface with a global minimum at (-1.5, -1.5) and (1.2, 1.2)
-            // and some local traps
             const global1 = Math.pow(x - 1.2, 2) + Math.pow(y - 1.2, 2);
             const global2 = Math.pow(x + 1.5, 2) + Math.pow(y + 1.5, 2);
-
-            // Local traps (dents)
             const trap1 = 1.5 * Math.exp(-(Math.pow(x - 1.2, 2) + Math.pow(y + 1.2, 2)) * 4);
             const trap2 = 1.5 * Math.exp(-(Math.pow(x + 1.2, 2) + Math.pow(y - 1.2, 2)) * 4);
             const trap3 = 1.5 * Math.exp(-(Math.pow(x, 2) + Math.pow(y - 1.5, 2)) * 4);
-
             return (global1 * global2 * 0.05) - trap1 - trap2 - trap3;
         }
 
@@ -1839,40 +1505,33 @@
             const centerX = sgdCanvas.width / 2;
             const centerY = sgdCanvas.height / 2 + 40;
             const scale = 75;
-
             let y1 = y * Math.cos(sgdAngleX) - z * Math.sin(sgdAngleX);
             let z1 = y * Math.sin(sgdAngleX) + z * Math.cos(sgdAngleX);
             let x2 = x * Math.cos(sgdAngleY) - z1 * Math.sin(sgdAngleY);
             let z2 = x * Math.sin(sgdAngleY) + z1 * Math.cos(sgdAngleY);
             const perspective = 350 / (350 + z2 * 40);
-
-            return {
-                x: centerX + x2 * scale * perspective,
-                y: centerY - y1 * scale * perspective,
-                depth: z2,
-                perspective
-            };
+            return { x: centerX + x2 * scale * perspective, y: centerY - y1 * scale * perspective, depth: z2, perspective };
         }
 
         function initSgdSimulator() {
-            sgdMarbles = sgdWords.map(word => ({
-                ...word,
-                x: (Math.random() - 0.5) * 4,
-                y: (Math.random() - 0.5) * 4,
-                vx: 0,
-                vy: 0,
-                stuck: false
-            }));
+            sgdMarbles = [];
+            for (let i = 0; i < 15; i++) {
+                sgdMarbles.push({
+                    x: (Math.random() - 0.5) * 4,
+                    y: (Math.random() - 0.5) * 4,
+                    vx: 0,
+                    vy: 0,
+                    color: i % 2 === 0 ? '#ff4b3e' : '#49a7ff',
+                    stuck: false
+                });
+            }
             drawSgdScene();
         }
 
         function drawSgdScene() {
             sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
-
-            // Draw background grid (the bowl)
             const gridSize = 2.5;
             const step = 0.25;
-
             for (let x = -gridSize; x <= gridSize; x += step) {
                 sgdCtx.beginPath();
                 sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.25)';
@@ -1900,116 +1559,170 @@
             sgdMarbles.forEach(marble => {
                 const h = getSgdHeight(marble.x, marble.y);
                 const p = projectSgd(marble.x, marble.y, h);
-
-                // Physics: Move downhill
                 if (progress > 0 || sgdShaking) {
                     const eps = 0.01;
                     const gradX = (getSgdHeight(marble.x + eps, marble.y) - h) / eps;
                     const gradY = (getSgdHeight(marble.x, marble.y + eps) - h) / eps;
-
-                    // Shaking adds noise
                     const noise = sgdShaking ? (Math.random() - 0.5) * 0.8 : (Math.random() - 0.5) * 0.02 * progress;
-
                     marble.vx = marble.vx * 0.9 - gradX * 0.01 * progress + noise;
                     marble.vy = marble.vy * 0.9 - gradY * 0.01 * progress + noise;
-
                     marble.x += marble.vx;
                     marble.y += marble.vy;
-
-                    // Boundaries
                     if (Math.abs(marble.x) > 2.5) { marble.x *= 0.95; marble.vx *= -0.5; }
                     if (Math.abs(marble.y) > 2.5) { marble.y *= 0.95; marble.vy *= -0.5; }
-
-                    // Check if stuck in local minimum (trap)
-                    const distToTrap1 = Math.sqrt((marble.x - 1.2)**2 + (marble.y + 1.2)**2);
-                    const distToTrap2 = Math.sqrt((marble.x + 1.2)**2 + (marble.y - 1.2)**2);
-                    const distToTrap3 = Math.sqrt((marble.x - 0)**2 + (marble.y - 1.5)**2);
-
-                    if ((distToTrap1 < 0.2 || distToTrap2 < 0.2 || distToTrap3 < 0.2) && !sgdShaking) {
-                        marble.stuck = true;
-                    } else {
-                        marble.stuck = false;
-                    }
+                    const d1 = Math.sqrt((marble.x - 1.2)**2 + (marble.y + 1.2)**2);
+                    const d2 = Math.sqrt((marble.x + 1.2)**2 + (marble.y - 1.2)**2);
+                    const d3 = Math.sqrt((marble.x - 0)**2 + (marble.y - 1.5)**2);
+                    if ((d1 < 0.2 || d2 < 0.2 || d3 < 0.2) && !sgdShaking) marble.stuck = true;
+                    else marble.stuck = false;
                 }
-
                 if (marble.stuck) stuckCount++;
-
-                // Draw marble
-                const radius = 8 * p.perspective;
+                const radius = 6 * p.perspective;
                 sgdCtx.save();
-                sgdCtx.globalAlpha = 0.9;
+                sgdCtx.globalAlpha = 0.8;
                 sgdCtx.fillStyle = marble.color;
-                sgdCtx.shadowColor = marble.color;
-                sgdCtx.shadowBlur = 10;
                 sgdCtx.beginPath();
                 sgdCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
                 sgdCtx.fill();
-
-                sgdCtx.fillStyle = '#fff';
-                sgdCtx.font = '700 14px STIX Two Text, serif';
-                sgdCtx.fillText(marble.label, p.x + radius + 4, p.y + 4);
                 sgdCtx.restore();
             });
 
-            // Status message
-            if (sgdShaking) {
-                sgdStatus.textContent = 'SHAKING! Noise helps the marbles bounce out of traps...';
-                sgdStatus.style.color = '#ff4b3e';
-            } else if (stuckCount > 0) {
-                sgdStatus.textContent = `Oh no! ${stuckCount} marble(s) are stuck in a dent! Shake the bowl!`;
-                sgdStatus.style.color = '#ff4b3e';
-            } else if (progress > 0.9) {
-                sgdStatus.textContent = 'Success! The marbles found the bottom of the bowl.';
-                sgdStatus.style.color = '#64f4ac';
-            } else if (progress > 0) {
-                sgdStatus.textContent = 'Training... Gravity (Gradient) pulling marbles downhill.';
-                sgdStatus.style.color = '#ffd166';
-            } else {
-                sgdStatus.textContent = 'Bowl Status: Waiting for marbles to roll...';
-                sgdStatus.style.color = '#64f4ac';
-            }
+            if (sgdShaking) { sgdStatus.textContent = 'SHAKING! Noise helps the marbles bounce out of traps...'; sgdStatus.style.color = '#ff4b3e'; }
+            else if (stuckCount > 0) { sgdStatus.textContent = `Oh no! ${stuckCount} marble(s) are stuck in a dent! Shake the bowl!`; sgdStatus.style.color = '#ff4b3e'; }
+            else if (progress > 0.9) { sgdStatus.textContent = 'Success! The marbles found the bottom of the bowl.'; sgdStatus.style.color = '#64f4ac'; }
+            else if (progress > 0) { sgdStatus.textContent = 'Training... Gravity (Gradient) pulling marbles downhill.'; sgdStatus.style.color = '#ffd166'; }
+            else { sgdStatus.textContent = 'Bowl Status: Waiting for marbles to roll...'; sgdStatus.style.color = '#64f4ac'; }
 
-            if (progress > 0 || sgdShaking) {
-                requestAnimationFrame(drawSgdScene);
-            }
+            if (progress > 0 || sgdShaking) requestAnimationFrame(drawSgdScene);
         }
 
-        sgdCanvas.addEventListener('mousedown', (e) => {
-            sgdDragging = true;
-            sgdLastX = e.offsetX;
-            sgdLastY = e.offsetY;
-        });
-        sgdCanvas.addEventListener('mousemove', (e) => {
-            if (sgdDragging) {
-                sgdAngleY += (e.offsetX - sgdLastX) * 0.01;
-                sgdAngleX += (e.offsetY - sgdLastY) * 0.01;
-                sgdLastX = e.offsetX;
-                sgdLastY = e.offsetY;
-                drawSgdScene();
-            }
-        });
+        sgdCanvas.addEventListener('mousedown', (e) => { sgdDragging = true; sgdLastX = e.offsetX; sgdLastY = e.offsetY; });
+        sgdCanvas.addEventListener('mousemove', (e) => { if (sgdDragging) { sgdAngleY += (e.offsetX - sgdLastX) * 0.01; sgdAngleX += (e.offsetY - sgdLastY) * 0.01; sgdLastX = e.offsetX; sgdLastY = e.offsetY; drawSgdScene(); } });
         window.addEventListener('mouseup', () => sgdDragging = false);
-
-        sgdProgress.addEventListener('input', () => {
-            if (sgdProgress.value > 0) drawSgdScene();
-        });
-
+        sgdProgress.addEventListener('input', () => { if (sgdProgress.value > 0) drawSgdScene(); });
         shakeBowlBtn.addEventListener('mousedown', () => { sgdShaking = true; drawSgdScene(); });
         shakeBowlBtn.addEventListener('mouseup', () => sgdShaking = false);
         shakeBowlBtn.addEventListener('touchstart', (e) => { e.preventDefault(); sgdShaking = true; drawSgdScene(); });
         shakeBowlBtn.addEventListener('touchend', () => sgdShaking = false);
+        resetSgdBtn.addEventListener('click', () => { sgdProgress.value = 0; initSgdSimulator(); });
 
-        resetSgdBtn.addEventListener('click', () => {
-            sgdProgress.value = 0;
-            initSgdSimulator();
-        });
+        // 3D Word Convergence Animation (Question 13)
+        const convCanvas = document.getElementById('wordConvergenceCanvas');
+        const convCtx = convCanvas.getContext('2d');
+        let convAngleX = -0.45;
+        let convAngleY = 0.62;
+        let convDragging = false;
+        let convLastX = 0;
+        let convLastY = 0;
 
-        // Initialize all canvases
+        const convTargets = [
+            { label: 'Black Hole', color: '#ff4b3e', target: [2.2, -1.8, -1.5] },
+            { label: 'Supernova', color: '#ff4b3e', target: [2.4, 1.2, 1.3] },
+            { label: 'Axolotl', color: '#49a7ff', target: [-0.9, -0.5, 0.6] },
+            { label: 'Tardigrade', color: '#49a7ff', target: [-1.2, 1.8, 0.2] },
+            { label: 'Obsidian Dagger', color: '#ffd166', target: [0.3, -1.9, 1.1] },
+            { label: 'Nanobot', color: '#ffd166', target: [-1.9, -0.1, -1.2] },
+            { label: 'Mochi', color: '#64f4ac', target: [-0.4, 0.2, 1.8] },
+            { label: 'Cyber-Sushi', color: '#64f4ac', target: [-0.6, -0.7, 1.5] }
+        ];
+
+        let convWords = [];
+        let convLoopTimer = 0;
+        const LOOP_DURATION = 350; 
+
+        function initConvSimulator() {
+            convWords = convTargets.map(t => ({
+                ...t,
+                x: (Math.random() - 0.5) * 8,
+                y: (Math.random() - 0.5) * 8,
+                z: (Math.random() - 0.5) * 8
+            }));
+        }
+
+        function projectConv(x, y, z) {
+            const centerX = convCanvas.width / 2;
+            const centerY = convCanvas.height / 2;
+            const scale = 80;
+            let y1 = y * Math.cos(convAngleX) - z * Math.sin(convAngleX);
+            let z1 = y * Math.sin(convAngleX) + z * Math.cos(convAngleX);
+            let x2 = x * Math.cos(convAngleY) - z1 * Math.sin(convAngleY);
+            let z2 = x * Math.sin(convAngleY) + z1 * Math.cos(convAngleY);
+            const perspective = 400 / (400 + z2 * 45);
+            return { x: centerX + x2 * scale * perspective, y: centerY - y1 * scale * perspective, depth: z2, perspective };
+        }
+
+        function drawConvScene() {
+            convCtx.clearRect(0, 0, convCanvas.width, convCanvas.height);
+            const gradient = convCtx.createRadialGradient(convCanvas.width/2, convCanvas.height/2, 40, convCanvas.width/2, convCanvas.height/2, 430);
+            gradient.addColorStop(0, '#121212'); gradient.addColorStop(1, '#000');
+            convCtx.fillStyle = gradient; convCtx.fillRect(0, 0, convCanvas.width, convCanvas.height);
+
+            convLoopTimer++;
+            if (convLoopTimer > LOOP_DURATION) {
+                convLoopTimer = 0;
+                initConvSimulator();
+            }
+
+            const t = convLoopTimer / (LOOP_DURATION * 0.7);
+            const smoothT = t > 1 ? 1 : t * t * (3 - 2 * t);
+            const isPaused = convLoopTimer > LOOP_DURATION * 0.7;
+
+            // Draw axes
+            const axisLen = 3;
+            const axes = [
+                { end: [axisLen, 0, 0], color: 'rgba(255, 209, 102, 0.2)' },
+                { end: [0, axisLen, 0], color: 'rgba(255, 75, 62, 0.2)' },
+                { end: [0, 0, axisLen], color: 'rgba(73, 167, 255, 0.2)' }
+            ];
+            axes.forEach(a => {
+                const p1 = projectConv(-a.end[0], -a.end[1], -a.end[2]);
+                const p2 = projectConv(a.end[0], a.end[1], a.end[2]);
+                convCtx.strokeStyle = a.color; convCtx.lineWidth = 1; convCtx.beginPath();
+                convCtx.moveTo(p1.x, p1.y); convCtx.lineTo(p2.x, p2.y); convCtx.stroke();
+            });
+
+            const currentPositions = convWords.map(w => {
+                const targetX = w.target[0]; const targetY = w.target[1]; const targetZ = w.target[2];
+                const jitter = isPaused ? 0.01 : (1 - smoothT) * 0.15;
+                const nx = (Math.random() - 0.5) * jitter;
+                const ny = (Math.random() - 0.5) * jitter;
+                const nz = (Math.random() - 0.5) * jitter;
+                const curX = w.x + (targetX - w.x) * smoothT + nx;
+                const curY = w.y + (targetY - w.y) * smoothT + ny;
+                const curZ = w.z + (targetZ - w.z) * smoothT + nz;
+                return { ...w, curX, curY, curZ, projected: projectConv(curX, curY, curZ) };
+            });
+
+            currentPositions.sort((a, b) => b.projected.depth - a.projected.depth).forEach(w => {
+                const p = w.projected;
+                const alpha = isPaused ? 1 : 0.4 + smoothT * 0.6;
+                convCtx.save();
+                convCtx.globalAlpha = alpha;
+                convCtx.fillStyle = w.color;
+                convCtx.shadowColor = w.color;
+                convCtx.shadowBlur = 10 * alpha;
+                const radius = (6 + p.perspective * 4) * (0.8 + smoothT * 0.4);
+                convCtx.beginPath(); convCtx.arc(p.x, p.y, radius, 0, Math.PI * 2); convCtx.fill();
+                convCtx.fillStyle = '#fff';
+                convCtx.font = `700 ${13 + smoothT * 3}px STIX Two Text, serif`;
+                convCtx.fillText(w.label, p.x + radius + 5, p.y + 5);
+                convCtx.restore();
+            });
+            requestAnimationFrame(drawConvScene);
+        }
+
+        convCanvas.addEventListener('mousedown', (e) => { convDragging = true; convLastX = e.offsetX; convLastY = e.offsetY; });
+        convCanvas.addEventListener('mousemove', (e) => { if (convDragging) { convAngleY += (e.offsetX - convLastX) * 0.01; convAngleX += (e.offsetY - convLastY) * 0.01; convLastX = e.offsetX; convLastY = e.offsetY; } });
+        window.addEventListener('mouseup', () => convDragging = false);
+
+        initConvSimulator();
+        drawConvScene();
+
+        // Initialize other canvases
         drawParabola();
         drawQuartic();
         drawParaboloid();
         drawGradientDescentSetup();
-        drawWordVectorScene();
         initSgdSimulator();        </script>
 </body>
 </html>

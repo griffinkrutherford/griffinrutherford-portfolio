@@ -810,19 +810,19 @@
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
                 <br><br>
-                Now let’s add one more visible direction. Below, the words sit in 3D concept space, and the time slider acts like a 4th dimension: as training goes on, words move from messy/random positions toward meaningful relationships.
+                Now let’s add one more dimension. Below, the words sit in 3D concept space, and the slider represents a 4th axis (like "Sentiment" or "Intensity"). Moving the slider allows you to see how words "displace" along this 4th dimension, showing how AI handles relationships in even higher-dimensional space.
                 <div class="wordvec-visualizer" aria-label="4D word vector visualization">
                     <div class="wordvec-title">4D Word Vector Visualization</div>
                     <p class="wordvec-note">
-                        Drag the graph to rotate the 3D space. Move the time slider to watch the same word points organize as the model learns.
+                        Drag the graph to rotate the 3D space. Move the slider to traverse the 4th dimension and see how the points move along a hidden axis.
                     </p>
                     <div class="wordvec-stage">
                         <canvas id="wordVectorCanvas" width="800" height="520"></canvas>
                     </div>
                     <div class="wordvec-controls">
-                        <label for="wordVectorTime">4th Dimension: Training Time</label>
-                        <input type="range" id="wordVectorTime" min="0" max="100" value="72">
-                        <div class="wordvec-time-label" id="wordVectorTimeLabel">Training progress: 72%</div>
+                        <label for="wordVectorTime">4th Dimension: Sentiment / Intensity</label>
+                        <input type="range" id="wordVectorTime" min="0" max="100" value="0">
+                        <div class="wordvec-time-label" id="wordVectorTimeLabel">4th Dimension Value: 0%</div>
                         <div class="wordvec-control-row">
                             <button type="button" onclick="rotateWordVectors()">Auto Rotate</button>
                             <button type="button" class="reset" onclick="stopWordVectorRotation()">Stop</button>
@@ -1409,56 +1409,56 @@
             {
                 label: 'Queen',
                 color: '#ff4b3e',
-                start: [-1.95, 1.35, -1.55],
-                end: [1.8, 1.35, 0.95]
+                base: [1.8, 1.35, 0.95],
+                sentiment: 0.8
             },
             {
                 label: 'King',
                 color: '#ff4b3e',
-                start: [0.35, -1.8, 1.7],
-                end: [1.8, -1.35, 0.95]
+                base: [1.8, -1.35, 0.95],
+                sentiment: 0.8
             },
             {
                 label: 'Monarch',
                 color: '#ff4b3e',
-                start: [1.5, 0.3, -1.3],
-                end: [2.18, 0, 1.05]
+                base: [2.18, 0, 1.05],
+                sentiment: 0.5
             },
             {
                 label: 'Woman',
                 color: '#49a7ff',
-                start: [-0.4, 1.8, 1.35],
-                end: [-1.25, 1.35, -0.35]
+                base: [-1.25, 1.35, -0.35],
+                sentiment: 0.2
             },
             {
                 label: 'Man',
                 color: '#49a7ff',
-                start: [-1.45, -0.1, -1.8],
-                end: [-1.25, -1.35, -0.35]
+                base: [-1.25, -1.35, -0.35],
+                sentiment: 0.2
             },
             {
                 label: 'Sprint',
                 color: '#ffd166',
-                start: [1.15, 1.85, 0.25],
-                end: [-0.35, -0.2, 1.95]
+                base: [-0.35, -0.2, 1.95],
+                sentiment: 0.9
             },
             {
                 label: 'Walk',
                 color: '#ffd166',
-                start: [-1.85, -1.25, 0.8],
-                end: [-0.65, -0.2, 0.75]
+                base: [-0.65, -0.2, 0.75],
+                sentiment: 0.1
             },
             {
                 label: 'Hot',
                 color: '#64f4ac',
-                start: [1.95, -0.75, -0.45],
-                end: [0.2, 1.55, 1.55]
+                base: [0.2, 1.55, 1.55],
+                sentiment: 0.4
             },
             {
                 label: 'Cold',
                 color: '#64f4ac',
-                start: [-0.65, 0.95, 1.9],
-                end: [0.2, 1.55, -1.55]
+                base: [0.2, 1.55, -1.55],
+                sentiment: -0.4
             }
         ];
 
@@ -1468,16 +1468,20 @@
             { label: 'Activity / Temperature', color: '#ffd166', end: [0, 0, 2.35] }
         ];
 
-        function getWordTrainingProgress() {
-            const rawProgress = Number(wordVectorTime.value) / 100;
-            return rawProgress * rawProgress * (3 - 2 * rawProgress);
+        function getWordProgress() {
+            return Number(wordVectorTime.value) / 100;
         }
 
-        function interpolatePoint(start, end, progress) {
+        function getPointIn4D(point, progress) {
+            // Project 4th dimension (Sentiment) onto our 3D view
+            // The 4th axis projection vector in 3D:
+            const axis4Projection = [0.8, 0.8, 0.8]; 
+            const sentimentValue = point.sentiment * progress;
+            
             return [
-                start[0] + (end[0] - start[0]) * progress,
-                start[1] + (end[1] - start[1]) * progress,
-                start[2] + (end[2] - start[2]) * progress
+                point.base[0] + sentimentValue * axis4Projection[0],
+                point.base[1] + sentimentValue * axis4Projection[1],
+                point.base[2] + sentimentValue * axis4Projection[2]
             ];
         }
 
@@ -1549,14 +1553,14 @@
             wordVectorCtx.fillStyle = gradient;
             wordVectorCtx.fillRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
 
-            const progress = getWordTrainingProgress();
+            const progress = getWordProgress();
             const rawPercent = Number(wordVectorTime.value);
-            wordVectorTimeLabel.textContent = `Training progress: ${rawPercent}%`;
+            wordVectorTimeLabel.textContent = `4th Dimension Value: ${rawPercent}%`;
 
             drawWordAxes();
 
             const positions = wordVectorPoints.map((point) => {
-                const location = interpolatePoint(point.start, point.end, progress);
+                const location = getPointIn4D(point, progress);
                 return {
                     ...point,
                     location,
@@ -1592,7 +1596,7 @@
 
             wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
             wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
-            wordVectorCtx.fillText('3 visible axes + time slider = a 4D teaching projection', 18, 30);
+            wordVectorCtx.fillText('3 visible axes + slider (4th axis) = a 4D teaching projection', 18, 30);
         }
 
         function getWordPointerPosition(e) {

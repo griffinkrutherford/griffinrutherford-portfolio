@@ -876,43 +876,6 @@
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
                 <br><br>
-                Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their hidden 4th dimension. You can choose different "lenses" to see how AI organizes concepts like **Flavor**, **Vibe**, or **Arcane Power**.
-                <div class="wordvec-visualizer" aria-label="4D word vector visualization">
-                    <div class="wordvec-title" id="wordvec-display-title">4D Word Vector Visualization: The Flavor-Scanner</div>
-                    
-                    <div style="text-align: center; margin-bottom: 15px;">
-                        <label for="wordvec-theme-select" style="color: #fff; font-weight: bold; margin-right: 10px;">Choose a 4D Lens:</label>
-                        <select id="wordvec-theme-select" style="background: #151515; color: #fff; border: 1px solid #e10600; padding: 5px 10px; border-radius: 5px;">
-                            <option value="flavor">The Flavor-Scanner (Edibility)</option>
-                            <option value="vibe">The Vibe-Radiator (Social Energy)</option>
-                            <option value="arcane">The Arcane-Chronometer (Magical Power)</option>
-                        </select>
-                    </div>
-
-                    <p class="wordvec-note" id="wordvec-display-note">
-                        Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.
-                    </p>
-                    <div class="wordvec-stage">
-                        <canvas id="wordVectorCanvas" width="800" height="520"></canvas>
-                    </div>
-                    <div class="wordvec-controls">
-                        <label for="wordVectorTime" id="wordvec-slider-label">4th Dimension: Edibility Scanner</label>
-                        <input type="range" id="wordVectorTime" min="0" max="100" value="50">
-                        <div class="wordvec-time-label" id="wordVectorTimeLabel">Scanning Edibility: 50%</div>
-                        <div class="wordvec-control-row">
-                            <button type="button" onclick="rotateWordVectors()">Auto Rotate</button>
-                            <button type="button" class="reset" onclick="stopWordVectorRotation()">Stop</button>
-                            <button type="button" class="reset" onclick="resetWordVectorView()">Reset View</button>
-                        </div>
-                    </div>
-                    <div class="wordvec-legend" id="wordvec-legend">
-                        <span class="legend-item"><span class="legend-dot" style="background: #ff4b3e;"></span>Cosmic / Massive</span>
-                        <span class="legend-item"><span class="legend-dot" style="background: #49a7ff;"></span>Microscopic / Life</span>
-                        <span class="legend-item"><span class="legend-dot" style="background: #ffd166;"></span>Synthetic / Artifacts</span>
-                        <span class="legend-item"><span class="legend-dot" style="background: #64f4ac;"></span>Culinary Concepts</span>
-                    </div>
-                </div>
-                <br>
                 So ChatGPT does all of this, but instead of pairs of numbers, it is able to perform these operations on lists of MILLIONS of numbers at a time. This is because there are so many more relationships between words outside of “Royalty” and “Gender Identity” or “Activity Intensity” and “Temperature”.
                 <br><br>
                 So instead of 2D space (with parabolas) or even 3D space (with paraboloids)...
@@ -1797,17 +1760,21 @@
         convCanvas.addEventListener('touchend', endConvDrag);
         convCanvas.addEventListener('touchcancel', endConvDrag);
 
-        initConvSimulator();
-        drawConvScene();
+        // Robust Initialization: Start all animations once the page is fully loaded
+        window.addEventListener('load', () => {
+            // 1. Initial State for 2D/3D static charts
+            drawParabola();
+            drawQuartic();
+            drawParaboloid();
+            drawGradientDescentSetup();
 
-        // Initialize other canvases
-        drawParabola();
-        drawQuartic();
-        drawParaboloid();
-        drawGradientDescentSetup();
-        
-        // Start the loops that aren't purely event-driven
-        drawSgdScene(); 
+            // 2. Initialize and start continuous 3D loops
+            initSgdSimulator();
+            requestAnimationFrame(drawSgdScene);
+            
+            initConvSimulator();
+            requestAnimationFrame(drawConvScene);
+        });
     </script>
 </body>
 </html>

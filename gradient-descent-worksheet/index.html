@@ -1488,8 +1488,8 @@
         let sgdMarbles = [];
         let sgdLoopStart = 0;
         let sgdLastFrame = 0;
-        const sgdLoopDuration = 9200;
-        const sgdFallDuration = 7200;
+        const sgdLoopDuration = 11800;
+        const sgdFallDuration = 11100;
 
         function getSgdHeight(x, y) {
             const bowl = 0.16 * (x * x + y * y);
@@ -1544,15 +1544,15 @@
         function updateSgdMarbles(dt, elapsed) {
             const noiseLevel = Number(sgdNoise.value) / 100;
             const isFalling = elapsed < sgdFallDuration;
-            const gravityStrength = isFalling ? 0.04 : 0.012;
-            const damping = isFalling ? 0.91 : 0.84;
+            const gravityStrength = isFalling ? 0.014 : 0.006;
+            const damping = isFalling ? 0.965 : 0.9;
 
             sgdMarbles.forEach((marble) => {
                 const h = getSgdHeight(marble.x, marble.y);
                 const eps = 0.035;
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
-                const randomKick = isFalling ? noiseLevel * 0.055 : noiseLevel * 0.012;
+                const randomKick = isFalling ? noiseLevel * 0.025 : noiseLevel * 0.008;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 
@@ -1586,7 +1586,7 @@
                 elapsed = 0;
             }
 
-            const dt = Math.min(2.2, Math.max(0.35, (now - sgdLastFrame) / 16.67));
+            const dt = Math.min(1.45, Math.max(0.25, (now - sgdLastFrame) / 16.67));
             sgdLastFrame = now;
             updateSgdMarbles(dt, elapsed);
 

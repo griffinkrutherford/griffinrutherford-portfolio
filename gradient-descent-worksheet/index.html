@@ -899,25 +899,25 @@
                 What do you think happens when we raise or lower the temperature of the output of ChatGPT? Yes, this is shaking a bowl in a million dimension space.
 
                 <div class="sgd-simulator">
-                    <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "Shaking the Bowl"</h3>
+                    <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
                     <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
-                        When AI starts training, word embeddings are totally random (noise). As we train, we use <strong>Gradient Descent</strong> to move them toward meaningful clusters. But sometimes, words get stuck in "shallow bowls" (local minima). We use <strong>Stochasticity</strong> (random shaking) to help them bounce out and find the global minimum—the "True" relationship.
+                        Remember the marbles and the bowl? Below is a 3D version of how AI actually trains. The "True" relationship between words is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). We use <strong>Stochastic Noise</strong>—a fancy way of saying we "shake the bowl"—to help the marbles bounce out of those dents so they can find the real bottom!
                     </p>
                     
-                    <div class="sgd-canvas-container">
-                        <canvas id="sgdCanvas" width="800" height="350"></canvas>
+                    <div class="sgd-canvas-container" style="height: 450px;">
+                        <canvas id="sgdCanvas" width="800" height="450"></canvas>
                     </div>
 
                     <div class="sgd-controls">
                         <div>
-                            <label for="sgdProgress" style="color: #fff; font-weight: bold;">Training Progress (Gradient Descent)</label>
+                            <label for="sgdProgress" style="color: #fff; font-weight: bold;">Step 1: Start Training (Gradient Descent)</label>
                             <input type="range" id="sgdProgress" min="0" max="100" value="0" style="width: 100%;">
                         </div>
                         <div style="display: flex; justify-content: center; gap: 15px;">
-                            <button type="button" class="shake-button" id="shakeBowlBtn">SHAKE THE BOWL (Add Noise)</button>
-                            <button type="button" class="reset" id="resetSgdBtn">Reset Model</button>
+                            <button type="button" class="shake-button" id="shakeBowlBtn">Step 2: SHAKE THE BOWL (Add Noise)</button>
+                            <button type="button" class="reset" id="resetSgdBtn">Reset Marbles</button>
                         </div>
-                        <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Model Status: Random Initialization</p>
+                        <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Bowl Status: Waiting for marbles...</p>
                     </div>
                 </div>
             </div>
@@ -1797,7 +1797,7 @@
             drawWordVectorScene();
         }
 
-        // SGD Training Simulator JS
+        // 3D SGD Training Simulator JS
         const sgdCanvas = document.getElementById('sgdCanvas');
         const sgdCtx = sgdCanvas.getContext('2d');
         const sgdProgress = document.getElementById('sgdProgress');
@@ -1805,23 +1805,62 @@
         const resetSgdBtn = document.getElementById('resetSgdBtn');
         const sgdStatus = document.getElementById('sgdStatus');
 
-        const trainingWords = [
-            { label: 'King', color: '#ff4b3e', target: [150, 100], trap: [100, 180] },
-            { label: 'Queen', color: '#ff4b3e', target: [150, 250], trap: [100, 180] },
-            { label: 'Man', color: '#49a7ff', target: [400, 100], trap: [450, 200] },
-            { label: 'Woman', color: '#49a7ff', target: [400, 250], trap: [450, 200] },
-            { label: 'Sushi', color: '#64f4ac', target: [650, 175], trap: [600, 100] }
+        let sgdAngleX = -0.65;
+        let sgdAngleY = 0.45;
+        let sgdDragging = false;
+        let sgdLastX = 0;
+        let sgdLastY = 0;
+
+        const sgdWords = [
+            { label: 'King', color: '#ff4b3e', target: [1.2, 1.2], trap: [1.2, -1.2] },
+            { label: 'Queen', color: '#ff4b3e', target: [1.2, 1.2], trap: [-1.2, 1.2] },
+            { label: 'Sushi', color: '#64f4ac', target: [-1.5, -1.5], trap: [0, 1.5] },
+            { label: 'Mochi', color: '#64f4ac', target: [-1.5, -1.5], trap: [1.5, 0] }
         ];
 
-        let wordStates = [];
-        let isShaking = false;
-        let shakeTime = 0;
+        let sgdMarbles = [];
+        let sgdShaking = false;
+
+        function getSgdHeight(x, y) {
+            // A surface with a global minimum at (-1.5, -1.5) and (1.2, 1.2)
+            // and some local traps
+            const global1 = Math.pow(x - 1.2, 2) + Math.pow(y - 1.2, 2);
+            const global2 = Math.pow(x + 1.5, 2) + Math.pow(y + 1.5, 2);
+
+            // Local traps (dents)
+            const trap1 = 1.5 * Math.exp(-(Math.pow(x - 1.2, 2) + Math.pow(y + 1.2, 2)) * 4);
+            const trap2 = 1.5 * Math.exp(-(Math.pow(x + 1.2, 2) + Math.pow(y - 1.2, 2)) * 4);
+            const trap3 = 1.5 * Math.exp(-(Math.pow(x, 2) + Math.pow(y - 1.5, 2)) * 4);
+
+            return (global1 * global2 * 0.05) - trap1 - trap2 - trap3;
+        }
+
+        function projectSgd(x, y, z) {
+            const centerX = sgdCanvas.width / 2;
+            const centerY = sgdCanvas.height / 2 + 40;
+            const scale = 75;
+
+            let y1 = y * Math.cos(sgdAngleX) - z * Math.sin(sgdAngleX);
+            let z1 = y * Math.sin(sgdAngleX) + z * Math.cos(sgdAngleX);
+            let x2 = x * Math.cos(sgdAngleY) - z1 * Math.sin(sgdAngleY);
+            let z2 = x * Math.sin(sgdAngleY) + z1 * Math.cos(sgdAngleY);
+            const perspective = 350 / (350 + z2 * 40);
+
+            return {
+                x: centerX + x2 * scale * perspective,
+                y: centerY - y1 * scale * perspective,
+                depth: z2,
+                perspective
+            };
+        }
 
         function initSgdSimulator() {
-            wordStates = trainingWords.map(word => ({
+            sgdMarbles = sgdWords.map(word => ({
                 ...word,
-                x: Math.random() * sgdCanvas.width,
-                y: Math.random() * sgdCanvas.height,
+                x: (Math.random() - 0.5) * 4,
+                y: (Math.random() - 0.5) * 4,
+                vx: 0,
+                vy: 0,
                 stuck: false
             }));
             drawSgdScene();
@@ -1830,108 +1869,135 @@
         function drawSgdScene() {
             sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
 
-            // Draw background "basins" (visual representation of loss surface)
-            trainingWords.forEach(word => {
-                // Global minimum basin
-                const grad = sgdCtx.createRadialGradient(word.target[0], word.target[1], 5, word.target[0], word.target[1], 60);
-                grad.addColorStop(0, 'rgba(100, 244, 172, 0.15)');
-                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                sgdCtx.fillStyle = grad;
-                sgdCtx.beginPath();
-                sgdCtx.arc(word.target[0], word.target[1], 60, 0, Math.PI * 2);
-                sgdCtx.fill();
+            // Draw background grid (the bowl)
+            const gridSize = 2.5;
+            const step = 0.25;
 
-                // Local minimum trap
-                const trapGrad = sgdCtx.createRadialGradient(word.trap[0], word.trap[1], 5, word.trap[0], word.trap[1], 40);
-                trapGrad.addColorStop(0, 'rgba(225, 6, 0, 0.12)');
-                trapGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                sgdCtx.fillStyle = trapGrad;
+            for (let x = -gridSize; x <= gridSize; x += step) {
                 sgdCtx.beginPath();
-                sgdCtx.arc(word.trap[0], word.trap[1], 40, 0, Math.PI * 2);
-                sgdCtx.fill();
-            });
+                sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.25)';
+                for (let y = -gridSize; y <= gridSize; y += step) {
+                    const p = projectSgd(x, y, getSgdHeight(x, y));
+                    if (y === -gridSize) sgdCtx.moveTo(p.x, p.y);
+                    else sgdCtx.lineTo(p.x, p.y);
+                }
+                sgdCtx.stroke();
+            }
+            for (let y = -gridSize; y <= gridSize; y += step) {
+                sgdCtx.beginPath();
+                sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.25)';
+                for (let x = -gridSize; x <= gridSize; x += step) {
+                    const p = projectSgd(x, y, getSgdHeight(x, y));
+                    if (x === -gridSize) sgdCtx.moveTo(p.x, p.y);
+                    else sgdCtx.lineTo(p.x, p.y);
+                }
+                sgdCtx.stroke();
+            }
 
             const progress = Number(sgdProgress.value) / 100;
             let stuckCount = 0;
 
-            wordStates.forEach(word => {
-                // Movement logic
-                if (isShaking) {
-                    word.x += (Math.random() - 0.5) * 60;
-                    word.y += (Math.random() - 0.5) * 60;
-                    word.stuck = false;
-                } else if (progress > 0) {
-                    const distToTrap = Math.sqrt((word.x - word.trap[0])**2 + (word.y - word.trap[1])**2);
-                    const distToTarget = Math.sqrt((word.x - word.target[0])**2 + (word.y - word.target[1])**2);
+            sgdMarbles.forEach(marble => {
+                const h = getSgdHeight(marble.x, marble.y);
+                const p = projectSgd(marble.x, marble.y, h);
 
-                    // Force toward trap if very close
-                    if (distToTrap < 35 && !isShaking) {
-                        word.x += (word.trap[0] - word.x) * 0.1;
-                        word.y += (word.trap[1] - word.y) * 0.1;
-                        word.stuck = true;
+                // Physics: Move downhill
+                if (progress > 0 || sgdShaking) {
+                    const eps = 0.01;
+                    const gradX = (getSgdHeight(marble.x + eps, marble.y) - h) / eps;
+                    const gradY = (getSgdHeight(marble.x, marble.y + eps) - h) / eps;
+
+                    // Shaking adds noise
+                    const noise = sgdShaking ? (Math.random() - 0.5) * 0.8 : (Math.random() - 0.5) * 0.02 * progress;
+
+                    marble.vx = marble.vx * 0.9 - gradX * 0.01 * progress + noise;
+                    marble.vy = marble.vy * 0.9 - gradY * 0.01 * progress + noise;
+
+                    marble.x += marble.vx;
+                    marble.y += marble.vy;
+
+                    // Boundaries
+                    if (Math.abs(marble.x) > 2.5) { marble.x *= 0.95; marble.vx *= -0.5; }
+                    if (Math.abs(marble.y) > 2.5) { marble.y *= 0.95; marble.vy *= -0.5; }
+
+                    // Check if stuck in local minimum (trap)
+                    const distToTrap1 = Math.sqrt((marble.x - 1.2)**2 + (marble.y + 1.2)**2);
+                    const distToTrap2 = Math.sqrt((marble.x + 1.2)**2 + (marble.y - 1.2)**2);
+                    const distToTrap3 = Math.sqrt((marble.x - 0)**2 + (marble.y - 1.5)**2);
+
+                    if ((distToTrap1 < 0.2 || distToTrap2 < 0.2 || distToTrap3 < 0.2) && !sgdShaking) {
+                        marble.stuck = true;
                     } else {
-                        // Regular gradient descent force
-                        word.x += (word.target[0] - word.x) * 0.02 * progress;
-                        word.y += (word.target[1] - word.y) * 0.02 * progress;
+                        marble.stuck = false;
                     }
                 }
 
-                // Keep in bounds
-                word.x = Math.max(20, Math.min(sgdCanvas.width - 20, word.x));
-                word.y = Math.max(20, Math.min(sgdCanvas.height - 20, word.y));
+                if (marble.stuck) stuckCount++;
 
-                if (word.stuck) stuckCount++;
-
-                // Draw word
-                sgdCtx.fillStyle = word.color;
+                // Draw marble
+                const radius = 8 * p.perspective;
+                sgdCtx.save();
+                sgdCtx.globalAlpha = 0.9;
+                sgdCtx.fillStyle = marble.color;
+                sgdCtx.shadowColor = marble.color;
+                sgdCtx.shadowBlur = 10;
                 sgdCtx.beginPath();
-                sgdCtx.arc(word.x, word.y, 8, 0, Math.PI * 2);
+                sgdCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
                 sgdCtx.fill();
 
                 sgdCtx.fillStyle = '#fff';
                 sgdCtx.font = '700 14px STIX Two Text, serif';
-                sgdCtx.fillText(word.label, word.x + 12, word.y + 5);
+                sgdCtx.fillText(marble.label, p.x + radius + 4, p.y + 4);
+                sgdCtx.restore();
             });
 
             // Status message
-            if (isShaking) {
-                sgdStatus.textContent = 'SHAKING! Random Noise helping words escape traps...';
+            if (sgdShaking) {
+                sgdStatus.textContent = 'SHAKING! Noise helps the marbles bounce out of traps...';
                 sgdStatus.style.color = '#ff4b3e';
             } else if (stuckCount > 0) {
-                sgdStatus.textContent = `Model Stuck! ${stuckCount} words are trapped in local minima. SHAKE IT!`;
+                sgdStatus.textContent = `Oh no! ${stuckCount} marble(s) are stuck in a dent! Shake the bowl!`;
                 sgdStatus.style.color = '#ff4b3e';
             } else if (progress > 0.9) {
-                sgdStatus.textContent = 'Training Success! Global Minimum reached.';
+                sgdStatus.textContent = 'Success! The marbles found the bottom of the bowl.';
                 sgdStatus.style.color = '#64f4ac';
             } else if (progress > 0) {
-                sgdStatus.textContent = 'Training... Gradient Descent pulling words into basins.';
+                sgdStatus.textContent = 'Training... Gravity (Gradient) pulling marbles downhill.';
                 sgdStatus.style.color = '#ffd166';
             } else {
-                sgdStatus.textContent = 'Model Status: Random Initialization';
+                sgdStatus.textContent = 'Bowl Status: Waiting for marbles to roll...';
                 sgdStatus.style.color = '#64f4ac';
             }
 
-            if (progress > 0 || isShaking) {
+            if (progress > 0 || sgdShaking) {
                 requestAnimationFrame(drawSgdScene);
             }
         }
+
+        sgdCanvas.addEventListener('mousedown', (e) => {
+            sgdDragging = true;
+            sgdLastX = e.offsetX;
+            sgdLastY = e.offsetY;
+        });
+        sgdCanvas.addEventListener('mousemove', (e) => {
+            if (sgdDragging) {
+                sgdAngleY += (e.offsetX - sgdLastX) * 0.01;
+                sgdAngleX += (e.offsetY - sgdLastY) * 0.01;
+                sgdLastX = e.offsetX;
+                sgdLastY = e.offsetY;
+                drawSgdScene();
+            }
+        });
+        window.addEventListener('mouseup', () => sgdDragging = false);
 
         sgdProgress.addEventListener('input', () => {
             if (sgdProgress.value > 0) drawSgdScene();
         });
 
-        shakeBowlBtn.addEventListener('mousedown', () => {
-            isShaking = true;
-            drawSgdScene();
-        });
-        shakeBowlBtn.addEventListener('mouseup', () => isShaking = false);
-        shakeBowlBtn.addEventListener('mouseleave', () => isShaking = false);
-        shakeBowlBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            isShaking = true;
-            drawSgdScene();
-        });
-        shakeBowlBtn.addEventListener('touchend', () => isShaking = false);
+        shakeBowlBtn.addEventListener('mousedown', () => { sgdShaking = true; drawSgdScene(); });
+        shakeBowlBtn.addEventListener('mouseup', () => sgdShaking = false);
+        shakeBowlBtn.addEventListener('touchstart', (e) => { e.preventDefault(); sgdShaking = true; drawSgdScene(); });
+        shakeBowlBtn.addEventListener('touchend', () => sgdShaking = false);
 
         resetSgdBtn.addEventListener('click', () => {
             sgdProgress.value = 0;
@@ -1944,7 +2010,6 @@
         drawParaboloid();
         drawGradientDescentSetup();
         drawWordVectorScene();
-        initSgdSimulator();
-        </script>
+        initSgdSimulator();        </script>
 </body>
 </html>

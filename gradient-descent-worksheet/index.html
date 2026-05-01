@@ -1488,15 +1488,24 @@
         let sgdMarbles = [];
         let sgdLoopStart = 0;
         let sgdLastFrame = 0;
-        const sgdLoopDuration = 11800;
-        const sgdFallDuration = 11100;
+        const sgdLoopDuration = 22000;
+        const sgdFallDuration = 21200;
+        const sgdWells = [
+            { label: 'Global min', x: 1.15, y: -1.05, depth: 2.65, spread: 1.65, radius: 0.45, color: '#64f4ac', global: true },
+            { label: 'Local min', x: -1.18, y: 0.85, depth: 1.45, spread: 2.45, radius: 0.36, color: '#ffd166' },
+            { label: 'Local min', x: -0.5, y: -1.55, depth: 1.15, spread: 2.85, radius: 0.32, color: '#ffd166' },
+            { label: 'Local min', x: 1.55, y: 1.3, depth: 1.05, spread: 2.7, radius: 0.32, color: '#ffd166' },
+            { label: 'Local min', x: -1.9, y: -0.35, depth: 0.95, spread: 3.0, radius: 0.3, color: '#ffd166' }
+        ];
 
         function getSgdHeight(x, y) {
-            const bowl = 0.16 * (x * x + y * y);
-            const globalMinimum = 2.65 * Math.exp(-(Math.pow(x - 1.15, 2) + Math.pow(y + 1.05, 2)) * 1.65);
-            const localMinimum = 1.5 * Math.exp(-(Math.pow(x + 1.18, 2) + Math.pow(y - 0.85, 2)) * 2.45);
+            const bowl = 0.13 * (x * x + y * y);
+            const wells = sgdWells.reduce((total, well) => {
+                const distanceSquared = Math.pow(x - well.x, 2) + Math.pow(y - well.y, 2);
+                return total + well.depth * Math.exp(-distanceSquared * well.spread);
+            }, 0);
             const ridge = 0.22 * Math.exp(-(Math.pow(x + 0.15, 2) + Math.pow(y + 0.05, 2)) * 3.2);
-            return bowl - globalMinimum - localMinimum + ridge;
+            return bowl - wells + ridge;
         }
 
         function projectSgd(x, y, z) {
@@ -1544,20 +1553,26 @@
         function updateSgdMarbles(dt, elapsed) {
             const noiseLevel = Number(sgdNoise.value) / 100;
             const isFalling = elapsed < sgdFallDuration;
-            const gravityStrength = isFalling ? 0.014 : 0.006;
-            const damping = isFalling ? 0.965 : 0.9;
+            const gravityStrength = isFalling ? 0.0046 : 0.002;
+            const damping = isFalling ? 0.99 : 0.94;
 
             sgdMarbles.forEach((marble) => {
                 const h = getSgdHeight(marble.x, marble.y);
                 const eps = 0.035;
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
-                const randomKick = isFalling ? noiseLevel * 0.025 : noiseLevel * 0.008;
+                const randomKick = isFalling ? noiseLevel * 0.01 : noiseLevel * 0.004;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 
                 marble.vx = marble.vx * damping - gradX * gravityStrength * dt + shakeX * dt;
                 marble.vy = marble.vy * damping - gradY * gravityStrength * dt + shakeY * dt;
+                const speed = Math.hypot(marble.vx, marble.vy);
+                const maxSpeed = isFalling ? 0.026 + noiseLevel * 0.012 : 0.012;
+                if (speed > maxSpeed) {
+                    marble.vx = (marble.vx / speed) * maxSpeed;
+                    marble.vy = (marble.vy / speed) * maxSpeed;
+                }
                 marble.x += marble.vx * dt;
                 marble.y += marble.vy * dt;
 
@@ -1570,9 +1585,7 @@
                     marble.vy *= -0.45;
                 }
 
-                const globalDistance = Math.hypot(marble.x - 1.15, marble.y + 1.05);
-                const localDistance = Math.hypot(marble.x + 1.18, marble.y - 0.85);
-                marble.settled = globalDistance < 0.36 || localDistance < 0.28 || Math.abs(h) > 1.2;
+                marble.settled = sgdWells.some((well) => Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius * 0.82) || Math.abs(h) > 1.2;
             });
         }
 
@@ -1586,7 +1599,7 @@
                 elapsed = 0;
             }
 
-            const dt = Math.min(1.45, Math.max(0.25, (now - sgdLastFrame) / 16.67));
+            const dt = Math.min(0.72, Math.max(0.18, (now - sgdLastFrame) / 16.67));
             sgdLastFrame = now;
             updateSgdMarbles(dt, elapsed);
 
@@ -1620,17 +1633,17 @@
                 sgdCtx.stroke();
             }
 
-            drawSgdTarget(1.15, -1.05, 'Global min', '#64f4ac');
-            drawSgdTarget(-1.18, 0.85, 'Local min', '#ffd166');
+            sgdWells.forEach((well) => {
+                drawSgdTarget(well.x, well.y, well.label, well.color);
+            });
 
             let globalCount = 0;
             let localCount = 0;
             const projectedMarbles = sgdMarbles.map((marble) => {
                 const h = getSgdHeight(marble.x, marble.y);
-                const globalDistance = Math.hypot(marble.x - 1.15, marble.y + 1.05);
-                const localDistance = Math.hypot(marble.x + 1.18, marble.y - 0.85);
-                if (globalDistance < 0.45) globalCount++;
-                if (localDistance < 0.36) localCount++;
+                const settledWell = sgdWells.find((well) => Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
+                if (settledWell?.global) globalCount++;
+                else if (settledWell) localCount++;
                 return { ...marble, projected: projectSgd(marble.x, marble.y, h) };
             });
 

@@ -810,19 +810,19 @@
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
                 <br><br>
-                Now let’s add one more dimension. Below, the words sit in 3D concept space, and the slider represents a 4th axis: **Edibility**. Moving the slider shows how AI calculates a word's relationship to "food-ness" as a hidden displacement in high-dimensional space.
+                Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their **Edibility**. Moving the slider allows you to "scan" through the 4th dimension—words will grow and fade into existence as you reach their specific flavor-profile.
                 <div class="wordvec-visualizer" aria-label="4D word vector visualization">
-                    <div class="wordvec-title">4D Word Vector Visualization: The Flavor-Dimension</div>
+                    <div class="wordvec-title">4D Word Vector Visualization: The Flavor-Scanner</div>
                     <p class="wordvec-note">
-                        Drag to rotate the 3D space. Move the slider to reveal the 4th dimension (Edibility) and watch how the AI separates "snackable" concepts from "lethal" ones.
+                        Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.
                     </p>
                     <div class="wordvec-stage">
                         <canvas id="wordVectorCanvas" width="800" height="520"></canvas>
                     </div>
                     <div class="wordvec-controls">
-                        <label for="wordVectorTime">4th Dimension: Edibility (The "Forbidden Snack" Axis)</label>
-                        <input type="range" id="wordVectorTime" min="0" max="100" value="0">
-                        <div class="wordvec-time-label" id="wordVectorTimeLabel">Edibility Factor: 0%</div>
+                        <label for="wordVectorTime">4th Dimension: Edibility Scanner</label>
+                        <input type="range" id="wordVectorTime" min="0" max="100" value="50">
+                        <div class="wordvec-time-label" id="wordVectorTimeLabel">Scanning Edibility: 50%</div>
                         <div class="wordvec-control-row">
                             <button type="button" onclick="rotateWordVectors()">Auto Rotate</button>
                             <button type="button" class="reset" onclick="stopWordVectorRotation()">Stop</button>
@@ -1410,73 +1410,73 @@
                 label: 'Black Hole',
                 color: '#ff4b3e',
                 base: [2.2, -1.8, -1.5],
-                edibility: -1.2
+                edibility: 0
             },
             {
                 label: 'Supernova',
                 color: '#ff4b3e',
                 base: [2.4, 1.2, 1.3],
-                edibility: -1.0
+                edibility: 5
             },
             {
                 label: 'Nebula',
                 color: '#ff4b3e',
                 base: [1.8, 0.4, -0.8],
-                edibility: -0.5
-            },
-            {
-                label: 'Tardigrade',
-                color: '#49a7ff',
-                base: [-1.2, 1.8, 0.2],
-                edibility: 0.1
-            },
-            {
-                label: 'Mitochondria',
-                color: '#49a7ff',
-                base: [-1.5, 0.8, -1.4],
-                edibility: 0.05
-            },
-            {
-                label: 'Axolotl',
-                color: '#49a7ff',
-                base: [-0.9, -0.5, 0.6],
-                edibility: 0.2
-            },
-            {
-                label: 'Microchip',
-                color: '#ffd166',
-                base: [-1.4, -1.5, -0.4],
-                edibility: -0.8
+                edibility: 15
             },
             {
                 label: 'Obsidian Dagger',
                 color: '#ffd166',
                 base: [0.3, -1.9, 1.1],
-                edibility: -0.9
+                edibility: 22
+            },
+            {
+                label: 'Microchip',
+                color: '#ffd166',
+                base: [-1.4, -1.5, -0.4],
+                edibility: 30
             },
             {
                 label: 'Nanobot',
                 color: '#ffd166',
                 base: [-1.9, -0.1, -1.2],
-                edibility: -1.1
+                edibility: 35
             },
             {
-                label: 'Mochi',
-                color: '#64f4ac',
-                base: [-0.4, 0.2, 1.8],
-                edibility: 1.5
+                label: 'Mitochondria',
+                color: '#49a7ff',
+                base: [-1.5, 0.8, -1.4],
+                edibility: 45
             },
             {
-                label: 'Honeycomb',
-                color: '#64f4ac',
-                base: [0.2, 0.9, 1.4],
-                edibility: 1.4
+                label: 'Tardigrade',
+                color: '#49a7ff',
+                base: [-1.2, 1.8, 0.2],
+                edibility: 55
+            },
+            {
+                label: 'Axolotl',
+                color: '#49a7ff',
+                base: [-0.9, -0.5, 0.6],
+                edibility: 65
             },
             {
                 label: 'Cyber-Sushi',
                 color: '#64f4ac',
                 base: [-0.6, -0.7, 1.5],
-                edibility: 1.2
+                edibility: 82
+            },
+            {
+                label: 'Honeycomb',
+                color: '#64f4ac',
+                base: [0.2, 0.9, 1.4],
+                edibility: 90
+            },
+            {
+                label: 'Mochi',
+                color: '#64f4ac',
+                base: [-0.4, 0.2, 1.8],
+                edibility: 100
             }
         ];
 
@@ -1487,20 +1487,7 @@
         ];
 
         function getWordProgress() {
-            return Number(wordVectorTime.value) / 100;
-        }
-
-        function getPointIn4D(point, progress) {
-            // Project 4th dimension (Edibility) onto our 3D view
-            // Using a slightly different vector for "Edibility" displacement
-            const edibilityAxis = [0.9, -0.6, 1.1]; 
-            const edibilityValue = point.edibility * progress;
-            
-            return [
-                point.base[0] + edibilityValue * edibilityAxis[0],
-                point.base[1] + edibilityValue * edibilityAxis[1],
-                point.base[2] + edibilityValue * edibilityAxis[2]
-            ];
+            return Number(wordVectorTime.value);
         }
 
         function projectWordVector(point) {
@@ -1539,23 +1526,25 @@
 
         function drawWordAxes() {
             // X axis (Synthetic vs Bio)
-            drawWordLine([2.25, 0, 0], [-2.5, 0, 0], 'rgba(255, 209, 102, 0.72)', 2.5);
+            drawWordLine([2.25, 0, 0], [-2.5, 0, 0], 'rgba(255, 209, 102, 0.5)', 2);
             // Y axis (Scale)
-            drawWordLine([0, -2.25, 0], [0, 2.3, 0], 'rgba(255, 75, 62, 0.72)', 2.5);
+            drawWordLine([0, -2.25, 0], [0, 2.3, 0], 'rgba(255, 75, 62, 0.5)', 2);
             // Z axis (Time/Tech)
-            drawWordLine([0, 0, -2.25], [0, 0, 2.4], 'rgba(73, 167, 255, 0.72)', 2.5);
+            drawWordLine([0, 0, -2.25], [0, 0, 2.4], 'rgba(73, 167, 255, 0.5)', 2);
 
             wordAxisPoints.forEach((axis) => {
                 const projected = projectWordVector(axis.end);
                 wordVectorCtx.fillStyle = axis.color;
-                wordVectorCtx.font = '700 17px STIX Two Text, Times New Roman, serif';
+                wordVectorCtx.globalAlpha = 0.6;
+                wordVectorCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
                 wordVectorCtx.fillText(axis.label, projected.x + 8, projected.y - 8);
             });
+            wordVectorCtx.globalAlpha = 1;
 
             const origin = projectWordVector([0, 0, 0]);
             wordVectorCtx.fillStyle = '#fff';
             wordVectorCtx.beginPath();
-            wordVectorCtx.arc(origin.x, origin.y, 4, 0, Math.PI * 2);
+            wordVectorCtx.arc(origin.x, origin.y, 3, 0, Math.PI * 2);
             wordVectorCtx.fill();
         }
 
@@ -1574,48 +1563,63 @@
             wordVectorCtx.fillStyle = gradient;
             wordVectorCtx.fillRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
 
-            const progress = getWordProgress();
-            const rawPercent = Number(wordVectorTime.value);
-            wordVectorTimeLabel.textContent = `Edibility Factor: ${rawPercent}%`;
+            const scannerValue = getWordProgress();
+            wordVectorTimeLabel.textContent = `Scanning Edibility: ${scannerValue}%`;
 
             drawWordAxes();
 
             const positions = wordVectorPoints.map((point) => {
-                const location = getPointIn4D(point, progress);
+                // Calculate distance from scanner value (Gaussian-like falloff)
+                const distance = Math.abs(point.edibility - scannerValue);
+                const intensity = Math.max(0, 1 - distance / 25); // Range of 25 units
+                const morphFactor = Math.pow(intensity, 2); // Sharper falloff
+                
                 return {
                     ...point,
-                    location,
-                    projected: projectWordVector(location)
+                    morphFactor,
+                    projected: projectWordVector(point.base)
                 };
             });
-
-            // Drawing relationships between similar nodes
-            const mochi = positions.find(p => p.label === 'Mochi');
-            const sushi = positions.find(p => p.label === 'Cyber-Sushi');
-            if (mochi && sushi) {
-                drawWordLine(mochi.location, sushi.location, 'rgba(100, 244, 172, 0.3)', 2, 0.6);
-            }
 
             positions
                 .sort((a, b) => b.projected.depth - a.projected.depth)
                 .forEach((point) => {
-                    const radius = 8 + point.projected.perspective * 4;
+                    if (point.morphFactor <= 0.01) return;
+
+                    // Size and opacity based on morphFactor
+                    // Base size 8, scaled up by edibility and morphFactor
+                    const sizeScale = 1 + (point.edibility / 100) * 1.5; 
+                    const radius = (6 + point.projected.perspective * 4) * sizeScale * (0.5 + point.morphFactor * 0.5);
+                    
+                    wordVectorCtx.save();
+                    wordVectorCtx.globalAlpha = point.morphFactor;
+                    
                     wordVectorCtx.fillStyle = point.color;
                     wordVectorCtx.shadowColor = point.color;
-                    wordVectorCtx.shadowBlur = 12;
+                    wordVectorCtx.shadowBlur = 15 * point.morphFactor;
+                    
                     wordVectorCtx.beginPath();
                     wordVectorCtx.arc(point.projected.x, point.projected.y, radius, 0, Math.PI * 2);
                     wordVectorCtx.fill();
-                    wordVectorCtx.shadowBlur = 0;
+                    
+                    // Add a "core" for highly edible items
+                    if (point.edibility > 70) {
+                        wordVectorCtx.fillStyle = '#fff';
+                        wordVectorCtx.beginPath();
+                        wordVectorCtx.arc(point.projected.x, point.projected.y, radius * 0.3, 0, Math.PI * 2);
+                        wordVectorCtx.fill();
+                    }
 
                     wordVectorCtx.fillStyle = '#fff';
-                    wordVectorCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
+                    wordVectorCtx.font = `${700} ${14 + point.morphFactor * 4}px STIX Two Text, Times New Roman, serif`;
                     wordVectorCtx.fillText(point.label, point.projected.x + radius + 5, point.projected.y + 5);
+                    
+                    wordVectorCtx.restore();
                 });
 
             wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
             wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
-            wordVectorCtx.fillText('3 visible axes + slider (Edibility) = 4D Flavor-Projection', 18, 30);
+            wordVectorCtx.fillText('Scanning the 4th dimension: Opacity and Size reveal the hidden "Flavor" axis', 18, 30);
         }
 
         function getWordPointerPosition(e) {

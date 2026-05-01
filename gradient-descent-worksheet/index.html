@@ -1488,24 +1488,25 @@
         let sgdMarbles = [];
         let sgdLoopStart = 0;
         let sgdLastFrame = 0;
-        const sgdLoopDuration = 22000;
-        const sgdFallDuration = 21200;
+        const sgdLoopDuration = 10000; // 10 seconds
+        const sgdFallDuration = 9200; // Almost the whole loop
+        
+        // Shallow local minima and deep global minima
         const sgdWells = [
-            { label: 'Global min', x: 1.15, y: -1.05, depth: 2.65, spread: 1.65, radius: 0.45, color: '#64f4ac', global: true },
-            { label: 'Local min', x: -1.18, y: 0.85, depth: 1.45, spread: 2.45, radius: 0.36, color: '#ffd166' },
-            { label: 'Local min', x: -0.5, y: -1.55, depth: 1.15, spread: 2.85, radius: 0.32, color: '#ffd166' },
-            { label: 'Local min', x: 1.55, y: 1.3, depth: 1.05, spread: 2.7, radius: 0.32, color: '#ffd166' },
-            { label: 'Local min', x: -1.9, y: -0.35, depth: 0.95, spread: 3.0, radius: 0.3, color: '#ffd166' }
+            { label: 'Global Min', x: 1.2, y: 1.2, depth: 2.8, spread: 1.4, radius: 0.45, color: '#64f4ac', global: true },
+            { label: 'Global Min', x: -1.5, y: -1.5, depth: 2.8, spread: 1.4, radius: 0.45, color: '#64f4ac', global: true },
+            { label: 'Local Trap', x: 1.2, y: -1.2, depth: 0.65, spread: 3.8, radius: 0.3, color: '#ffd166' },
+            { label: 'Local Trap', x: -1.2, y: 1.2, depth: 0.65, spread: 3.8, radius: 0.3, color: '#ffd166' },
+            { label: 'Local Trap', x: 0, y: 1.5, depth: 0.55, spread: 4.2, radius: 0.25, color: '#ffd166' }
         ];
 
         function getSgdHeight(x, y) {
-            const bowl = 0.13 * (x * x + y * y);
+            const bowl = 0.1 * (x * x + y * y);
             const wells = sgdWells.reduce((total, well) => {
                 const distanceSquared = Math.pow(x - well.x, 2) + Math.pow(y - well.y, 2);
                 return total + well.depth * Math.exp(-distanceSquared * well.spread);
             }, 0);
-            const ridge = 0.22 * Math.exp(-(Math.pow(x + 0.15, 2) + Math.pow(y + 0.05, 2)) * 3.2);
-            return bowl - wells + ridge;
+            return bowl - wells;
         }
 
         function projectSgd(x, y, z) {
@@ -1522,12 +1523,11 @@
 
         function initSgdSimulator(now = performance.now()) {
             sgdMarbles = [];
-            for (let i = 0; i < 24; i++) {
+            for (let i = 0; i < 20; i++) {
                 sgdMarbles.push({
-                    x: -2.25 + Math.random() * 4.5,
-                    y: -2.25 + Math.random() * 4.5,
-                    vx: 0,
-                    vy: 0,
+                    x: (Math.random() - 0.5) * 4.6,
+                    y: (Math.random() - 0.5) * 4.6,
+                    vx: 0, vy: 0,
                     color: i % 3 === 0 ? '#ff4b3e' : i % 3 === 1 ? '#49a7ff' : '#ffd166',
                     settled: false
                 });
@@ -1540,143 +1540,113 @@
             const p = projectSgd(x, y, getSgdHeight(x, y));
             sgdCtx.save();
             sgdCtx.strokeStyle = color;
-            sgdCtx.fillStyle = color;
-            sgdCtx.lineWidth = 2;
+            sgdCtx.lineWidth = 1.5;
             sgdCtx.beginPath();
-            sgdCtx.arc(p.x, p.y, 14 * p.perspective, 0, Math.PI * 2);
+            sgdCtx.arc(p.x, p.y, 12 * p.perspective, 0, Math.PI * 2);
             sgdCtx.stroke();
-            sgdCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
-            sgdCtx.fillText(label, p.x + 12, p.y - 10);
             sgdCtx.restore();
         }
 
         function updateSgdMarbles(dt, elapsed) {
             const noiseLevel = Number(sgdNoise.value) / 100;
             const isFalling = elapsed < sgdFallDuration;
-            const gravityStrength = isFalling ? 0.0046 : 0.002;
-            const damping = isFalling ? 0.99 : 0.94;
+            const gravityStrength = 0.003; // Reduced intensity
+            const damping = 0.98;
 
             sgdMarbles.forEach((marble) => {
                 const h = getSgdHeight(marble.x, marble.y);
-                const eps = 0.035;
+                const eps = 0.025;
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
-                const randomKick = isFalling ? noiseLevel * 0.01 : noiseLevel * 0.004;
+                
+                const randomKick = noiseLevel * 0.1; 
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 
                 marble.vx = marble.vx * damping - gradX * gravityStrength * dt + shakeX * dt;
                 marble.vy = marble.vy * damping - gradY * gravityStrength * dt + shakeY * dt;
-                const speed = Math.hypot(marble.vx, marble.vy);
-                const maxSpeed = isFalling ? 0.026 + noiseLevel * 0.012 : 0.012;
-                if (speed > maxSpeed) {
-                    marble.vx = (marble.vx / speed) * maxSpeed;
-                    marble.vy = (marble.vy / speed) * maxSpeed;
-                }
+                
                 marble.x += marble.vx * dt;
                 marble.y += marble.vy * dt;
 
-                if (Math.abs(marble.x) > 2.55) {
-                    marble.x = Math.sign(marble.x) * 2.55;
-                    marble.vx *= -0.45;
-                }
-                if (Math.abs(marble.y) > 2.55) {
-                    marble.y = Math.sign(marble.y) * 2.55;
-                    marble.vy *= -0.45;
-                }
+                if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= -0.4; }
+                if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= -0.4; }
 
-                marble.settled = sgdWells.some((well) => Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius * 0.82) || Math.abs(h) > 1.2;
+                marble.settled = sgdWells.some(w => Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
             });
         }
 
         function drawSgdScene(now = performance.now()) {
-            if (!sgdLoopStart) {
-                initSgdSimulator(now);
-            }
+            if (!sgdLoopStart) initSgdSimulator(now);
             let elapsed = now - sgdLoopStart;
-            if (elapsed >= sgdLoopDuration) {
-                initSgdSimulator(now);
-                elapsed = 0;
-            }
+            if (elapsed >= sgdLoopDuration) { initSgdSimulator(now); elapsed = 0; }
 
-            const dt = Math.min(0.72, Math.max(0.18, (now - sgdLastFrame) / 16.67));
+            const dt = Math.min(0.6, (now - sgdLastFrame) / 16.67);
             sgdLastFrame = now;
             updateSgdMarbles(dt, elapsed);
 
             sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
             const bg = sgdCtx.createRadialGradient(sgdCanvas.width / 2, sgdCanvas.height / 2, 40, sgdCanvas.width / 2, sgdCanvas.height / 2, 430);
-            bg.addColorStop(0, '#111');
-            bg.addColorStop(1, '#000');
-            sgdCtx.fillStyle = bg;
-            sgdCtx.fillRect(0, 0, sgdCanvas.width, sgdCanvas.height);
+            bg.addColorStop(0, '#111'); bg.addColorStop(1, '#000');
+            sgdCtx.fillStyle = bg; sgdCtx.fillRect(0, 0, sgdCanvas.width, sgdCanvas.height);
 
+            // Draw bowl grid
             const gridSize = 2.5;
             const step = 0.25;
             for (let x = -gridSize; x <= gridSize; x += step) {
-                sgdCtx.beginPath();
-                sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.25)';
+                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
                 for (let y = -gridSize; y <= gridSize; y += step) {
                     const p = projectSgd(x, y, getSgdHeight(x, y));
-                    if (y === -gridSize) sgdCtx.moveTo(p.x, p.y);
-                    else sgdCtx.lineTo(p.x, p.y);
+                    if (y === -gridSize) sgdCtx.moveTo(p.x, p.y); else sgdCtx.lineTo(p.x, p.y);
                 }
                 sgdCtx.stroke();
             }
             for (let y = -gridSize; y <= gridSize; y += step) {
-                sgdCtx.beginPath();
-                sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.25)';
+                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
                 for (let x = -gridSize; x <= gridSize; x += step) {
                     const p = projectSgd(x, y, getSgdHeight(x, y));
-                    if (x === -gridSize) sgdCtx.moveTo(p.x, p.y);
-                    else sgdCtx.lineTo(p.x, p.y);
+                    if (x === -gridSize) sgdCtx.moveTo(p.x, p.y); else sgdCtx.lineTo(p.x, p.y);
                 }
                 sgdCtx.stroke();
             }
 
-            sgdWells.forEach((well) => {
-                drawSgdTarget(well.x, well.y, well.label, well.color);
-            });
+            sgdWells.forEach(well => drawSgdTarget(well.x, well.y, well.label, well.color));
 
             let globalCount = 0;
             let localCount = 0;
-            const projectedMarbles = sgdMarbles.map((marble) => {
-                const h = getSgdHeight(marble.x, marble.y);
-                const settledWell = sgdWells.find((well) => Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
-                if (settledWell?.global) globalCount++;
-                else if (settledWell) localCount++;
-                return { ...marble, projected: projectSgd(marble.x, marble.y, h) };
+            const projectedMarbles = sgdMarbles.map(marble => {
+                const well = sgdWells.find(w => Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
+                if (well?.global) globalCount++; else if (well) localCount++;
+                return { ...marble, projected: projectSgd(marble.x, marble.y, getSgdHeight(marble.x, marble.y)) };
             });
 
-            projectedMarbles.sort((a, b) => b.projected.depth - a.projected.depth).forEach((marble) => {
+            projectedMarbles.sort((a, b) => b.projected.depth - a.projected.depth).forEach(marble => {
                 const p = marble.projected;
-                const radius = 6.5 * p.perspective;
+                const radius = 6 * p.perspective;
                 sgdCtx.save();
                 sgdCtx.globalAlpha = 0.88;
                 sgdCtx.fillStyle = marble.color;
                 sgdCtx.shadowColor = marble.color;
-                sgdCtx.shadowBlur = marble.settled ? 12 : 4;
-                sgdCtx.beginPath();
-                sgdCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-                sgdCtx.fill();
+                sgdCtx.shadowBlur = marble.settled ? 10 : 4;
+                sgdCtx.beginPath(); sgdCtx.arc(p.x, p.y, radius, 0, Math.PI * 2); sgdCtx.fill();
                 sgdCtx.restore();
             });
 
-            const loopPercent = Math.round((elapsed / sgdLoopDuration) * 100);
             const noisePercent = Number(sgdNoise.value);
-            sgdLoopMeter.style.width = `${loopPercent}%`;
-            sgdNoiseValue.textContent = `Noise: ${noisePercent}%`;
+            sgdLoopMeter.style.width = `${(elapsed / sgdLoopDuration) * 100}%`;
+            sgdNoiseValue.textContent = `Noise Level: ${noisePercent}%`;
 
             if (elapsed > sgdFallDuration) {
-                sgdStatus.textContent = `Cycle ending: ${globalCount} in the global minimum, ${localCount} in the local minimum. Resetting soon...`;
+                sgdStatus.textContent = `Cycle complete: ${globalCount} Global, ${localCount} Local. Resetting...`;
                 sgdStatus.style.color = '#64f4ac';
-            } else if (noisePercent < 12) {
-                sgdStatus.textContent = 'Low noise: marbles roll smoothly, but some can get trapped.';
+            } else if (noisePercent < 15) {
+                sgdStatus.textContent = 'Low Noise: Marbles might get stuck in Local Trap dents.';
                 sgdStatus.style.color = '#ffd166';
-            } else if (noisePercent > 68) {
-                sgdStatus.textContent = 'High noise: lots of exploration, but the marbles may bounce past good minima.';
+            } else if (noisePercent > 70) {
+                sgdStatus.textContent = 'High Noise: Chaos! Marbles might bounce right out of the Global Minima.';
                 sgdStatus.style.color = '#ff4b3e';
             } else {
-                sgdStatus.textContent = 'Balanced noise: marbles can escape shallow traps while still moving downhill.';
+                sgdStatus.textContent = 'Optimal Noise: Shaking helps marbles find the real bottom.';
                 sgdStatus.style.color = '#64f4ac';
             }
 
@@ -1686,33 +1656,12 @@
         function getSgdPointerPosition(e) {
             const rect = sgdCanvas.getBoundingClientRect();
             const source = e.touches ? e.touches[0] : e;
-            return {
-                x: (source.clientX - rect.left) * (sgdCanvas.width / rect.width),
-                y: (source.clientY - rect.top) * (sgdCanvas.height / rect.height)
-            };
+            return { x: (source.clientX - rect.left) * (sgdCanvas.width / rect.width), y: (source.clientY - rect.top) * (sgdCanvas.height / rect.height) };
         }
 
-        function startSgdDrag(e) {
-            if (e.cancelable) e.preventDefault();
-            const point = getSgdPointerPosition(e);
-            sgdDragging = true;
-            sgdLastX = point.x;
-            sgdLastY = point.y;
-        }
-
-        function moveSgdDrag(e) {
-            if (!sgdDragging) return;
-            if (e.cancelable) e.preventDefault();
-            const point = getSgdPointerPosition(e);
-            sgdAngleY += (point.x - sgdLastX) * 0.01;
-            sgdAngleX += (point.y - sgdLastY) * 0.01;
-            sgdLastX = point.x;
-            sgdLastY = point.y;
-        }
-
-        function endSgdDrag() {
-            sgdDragging = false;
-        }
+        function startSgdDrag(e) { if (e.cancelable) e.preventDefault(); const p = getSgdPointerPosition(e); sgdDragging = true; sgdLastX = p.x; sgdLastY = p.y; }
+        function moveSgdDrag(e) { if (!sgdDragging) return; if (e.cancelable) e.preventDefault(); const p = getSgdPointerPosition(e); sgdAngleY += (p.x - sgdLastX) * 0.01; sgdAngleX += (p.y - sgdLastY) * 0.01; sgdLastX = p.x; sgdLastY = p.y; }
+        function endSgdDrag() { sgdDragging = false; }
 
         sgdCanvas.addEventListener('mousedown', startSgdDrag);
         sgdCanvas.addEventListener('mousemove', moveSgdDrag);
@@ -1721,9 +1670,10 @@
         sgdCanvas.addEventListener('touchmove', moveSgdDrag, { passive: false });
         sgdCanvas.addEventListener('touchend', endSgdDrag);
         sgdCanvas.addEventListener('touchcancel', endSgdDrag);
-        sgdNoise.addEventListener('input', () => {
-            sgdNoiseValue.textContent = `Noise: ${sgdNoise.value}%`;
-        });
+        resetSgdBtn.addEventListener('click', () => initSgdSimulator());
+
+        initSgdSimulator();
+        drawSgdScene();
 
         // 3D Word Convergence Animation (Question 13)
         const convCanvas = document.getElementById('wordConvergenceCanvas');
@@ -1747,7 +1697,7 @@
 
         let convWords = [];
         let convLoopTimer = 0;
-        const LOOP_DURATION = 350; 
+        const CONV_LOOP_DURATION = 350; 
 
         function initConvSimulator() {
             convWords = convTargets.map(t => ({
@@ -1777,14 +1727,14 @@
             convCtx.fillStyle = gradient; convCtx.fillRect(0, 0, convCanvas.width, convCanvas.height);
 
             convLoopTimer++;
-            if (convLoopTimer > LOOP_DURATION) {
+            if (convLoopTimer > CONV_LOOP_DURATION) {
                 convLoopTimer = 0;
                 initConvSimulator();
             }
 
-            const t = convLoopTimer / (LOOP_DURATION * 0.7);
+            const t = convLoopTimer / (CONV_LOOP_DURATION * 0.7);
             const smoothT = t > 1 ? 1 : t * t * (3 - 2 * t);
-            const isPaused = convLoopTimer > LOOP_DURATION * 0.7;
+            const isPaused = convLoopTimer > CONV_LOOP_DURATION * 0.7;
 
             // Draw axes
             const axisLen = 3;
@@ -1830,9 +1780,22 @@
             requestAnimationFrame(drawConvScene);
         }
 
-        convCanvas.addEventListener('mousedown', (e) => { convDragging = true; convLastX = e.offsetX; convLastY = e.offsetY; });
-        convCanvas.addEventListener('mousemove', (e) => { if (convDragging) { convAngleY += (e.offsetX - convLastX) * 0.01; convAngleX += (e.offsetY - convLastY) * 0.01; convLastX = e.offsetX; convLastY = e.offsetY; } });
-        window.addEventListener('mouseup', () => convDragging = false);
+        function getConvPointerPosition(e) {
+            const rect = convCanvas.getBoundingClientRect();
+            const source = e.touches ? e.touches[0] : e;
+            return { x: (source.clientX - rect.left) * (convCanvas.width / rect.width), y: (source.clientY - rect.top) * (convCanvas.height / rect.height) };
+        }
+        function startConvDrag(e) { if (e.cancelable) e.preventDefault(); const p = getConvPointerPosition(e); convDragging = true; convLastX = p.x; convLastY = p.y; }
+        function moveConvDrag(e) { if (!convDragging) return; if (e.cancelable) e.preventDefault(); const p = getConvPointerPosition(e); convAngleY += (p.x - convLastX) * 0.01; convAngleX += (p.y - convLastY) * 0.01; convLastX = p.x; convLastY = p.y; }
+        function endConvDrag() { convDragging = false; }
+
+        convCanvas.addEventListener('mousedown', startConvDrag);
+        convCanvas.addEventListener('mousemove', moveConvDrag);
+        window.addEventListener('mouseup', endConvDrag);
+        convCanvas.addEventListener('touchstart', startConvDrag, { passive: false });
+        convCanvas.addEventListener('touchmove', moveConvDrag, { passive: false });
+        convCanvas.addEventListener('touchend', endConvDrag);
+        convCanvas.addEventListener('touchcancel', endConvDrag);
 
         initConvSimulator();
         drawConvScene();
@@ -1842,8 +1805,3 @@
         drawQuartic();
         drawParaboloid();
         drawGradientDescentSetup();
-        initSgdSimulator();
-        requestAnimationFrame(drawSgdScene);
-    </script>
-</body>
-</html>

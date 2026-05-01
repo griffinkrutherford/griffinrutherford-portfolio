@@ -417,6 +417,44 @@
             font-size: 0.92em;
         }
 
+        .sgd-simulator {
+            margin: 24px 0;
+            padding: 20px;
+            border: 2px dashed #49a7ff;
+            border-radius: 12px;
+            background: #080808;
+            text-align: center;
+        }
+
+        .sgd-canvas-container {
+            position: relative;
+            background: #000;
+            border: 1px solid #49a7ff;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+            height: 350px;
+        }
+
+        .sgd-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .shake-button {
+            background: #e10600 !important;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 6, 0, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(225, 6, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 6, 0, 0); }
+        }
+
         .legend-item {
             display: inline-flex;
             align-items: center;
@@ -859,6 +897,29 @@
                 Reminder on our new terms: stochastic is a fancy word for random, and this concept is also referred to as “noise” or “temperature”. Temperature is more widely used in the context of language models like ChatGPT.
                 <br><br>
                 What do you think happens when we raise or lower the temperature of the output of ChatGPT? Yes, this is shaking a bowl in a million dimension space.
+
+                <div class="sgd-simulator">
+                    <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "Shaking the Bowl"</h3>
+                    <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
+                        When AI starts training, word embeddings are totally random (noise). As we train, we use <strong>Gradient Descent</strong> to move them toward meaningful clusters. But sometimes, words get stuck in "shallow bowls" (local minima). We use <strong>Stochasticity</strong> (random shaking) to help them bounce out and find the global minimum—the "True" relationship.
+                    </p>
+                    
+                    <div class="sgd-canvas-container">
+                        <canvas id="sgdCanvas" width="800" height="350"></canvas>
+                    </div>
+
+                    <div class="sgd-controls">
+                        <div>
+                            <label for="sgdProgress" style="color: #fff; font-weight: bold;">Training Progress (Gradient Descent)</label>
+                            <input type="range" id="sgdProgress" min="0" max="100" value="0" style="width: 100%;">
+                        </div>
+                        <div style="display: flex; justify-content: center; gap: 15px;">
+                            <button type="button" class="shake-button" id="shakeBowlBtn">SHAKE THE BOWL (Add Noise)</button>
+                            <button type="button" class="reset" id="resetSgdBtn">Reset Model</button>
+                        </div>
+                        <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Model Status: Random Initialization</p>
+                    </div>
+                </div>
             </div>
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="13">Submit</button>
@@ -1732,9 +1793,150 @@
             stopWordVectorRotation();
             wordAngleX = -0.45;
             wordAngleY = 0.62;
-            wordVectorTime.value = 72;
+            wordVectorTime.value = 50;
             drawWordVectorScene();
         }
+
+        // SGD Training Simulator JS
+        const sgdCanvas = document.getElementById('sgdCanvas');
+        const sgdCtx = sgdCanvas.getContext('2d');
+        const sgdProgress = document.getElementById('sgdProgress');
+        const shakeBowlBtn = document.getElementById('shakeBowlBtn');
+        const resetSgdBtn = document.getElementById('resetSgdBtn');
+        const sgdStatus = document.getElementById('sgdStatus');
+
+        const trainingWords = [
+            { label: 'King', color: '#ff4b3e', target: [150, 100], trap: [100, 180] },
+            { label: 'Queen', color: '#ff4b3e', target: [150, 250], trap: [100, 180] },
+            { label: 'Man', color: '#49a7ff', target: [400, 100], trap: [450, 200] },
+            { label: 'Woman', color: '#49a7ff', target: [400, 250], trap: [450, 200] },
+            { label: 'Sushi', color: '#64f4ac', target: [650, 175], trap: [600, 100] }
+        ];
+
+        let wordStates = [];
+        let isShaking = false;
+        let shakeTime = 0;
+
+        function initSgdSimulator() {
+            wordStates = trainingWords.map(word => ({
+                ...word,
+                x: Math.random() * sgdCanvas.width,
+                y: Math.random() * sgdCanvas.height,
+                stuck: false
+            }));
+            drawSgdScene();
+        }
+
+        function drawSgdScene() {
+            sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
+
+            // Draw background "basins" (visual representation of loss surface)
+            trainingWords.forEach(word => {
+                // Global minimum basin
+                const grad = sgdCtx.createRadialGradient(word.target[0], word.target[1], 5, word.target[0], word.target[1], 60);
+                grad.addColorStop(0, 'rgba(100, 244, 172, 0.15)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                sgdCtx.fillStyle = grad;
+                sgdCtx.beginPath();
+                sgdCtx.arc(word.target[0], word.target[1], 60, 0, Math.PI * 2);
+                sgdCtx.fill();
+
+                // Local minimum trap
+                const trapGrad = sgdCtx.createRadialGradient(word.trap[0], word.trap[1], 5, word.trap[0], word.trap[1], 40);
+                trapGrad.addColorStop(0, 'rgba(225, 6, 0, 0.12)');
+                trapGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                sgdCtx.fillStyle = trapGrad;
+                sgdCtx.beginPath();
+                sgdCtx.arc(word.trap[0], word.trap[1], 40, 0, Math.PI * 2);
+                sgdCtx.fill();
+            });
+
+            const progress = Number(sgdProgress.value) / 100;
+            let stuckCount = 0;
+
+            wordStates.forEach(word => {
+                // Movement logic
+                if (isShaking) {
+                    word.x += (Math.random() - 0.5) * 60;
+                    word.y += (Math.random() - 0.5) * 60;
+                    word.stuck = false;
+                } else if (progress > 0) {
+                    const distToTrap = Math.sqrt((word.x - word.trap[0])**2 + (word.y - word.trap[1])**2);
+                    const distToTarget = Math.sqrt((word.x - word.target[0])**2 + (word.y - word.target[1])**2);
+
+                    // Force toward trap if very close
+                    if (distToTrap < 35 && !isShaking) {
+                        word.x += (word.trap[0] - word.x) * 0.1;
+                        word.y += (word.trap[1] - word.y) * 0.1;
+                        word.stuck = true;
+                    } else {
+                        // Regular gradient descent force
+                        word.x += (word.target[0] - word.x) * 0.02 * progress;
+                        word.y += (word.target[1] - word.y) * 0.02 * progress;
+                    }
+                }
+
+                // Keep in bounds
+                word.x = Math.max(20, Math.min(sgdCanvas.width - 20, word.x));
+                word.y = Math.max(20, Math.min(sgdCanvas.height - 20, word.y));
+
+                if (word.stuck) stuckCount++;
+
+                // Draw word
+                sgdCtx.fillStyle = word.color;
+                sgdCtx.beginPath();
+                sgdCtx.arc(word.x, word.y, 8, 0, Math.PI * 2);
+                sgdCtx.fill();
+
+                sgdCtx.fillStyle = '#fff';
+                sgdCtx.font = '700 14px STIX Two Text, serif';
+                sgdCtx.fillText(word.label, word.x + 12, word.y + 5);
+            });
+
+            // Status message
+            if (isShaking) {
+                sgdStatus.textContent = 'SHAKING! Random Noise helping words escape traps...';
+                sgdStatus.style.color = '#ff4b3e';
+            } else if (stuckCount > 0) {
+                sgdStatus.textContent = `Model Stuck! ${stuckCount} words are trapped in local minima. SHAKE IT!`;
+                sgdStatus.style.color = '#ff4b3e';
+            } else if (progress > 0.9) {
+                sgdStatus.textContent = 'Training Success! Global Minimum reached.';
+                sgdStatus.style.color = '#64f4ac';
+            } else if (progress > 0) {
+                sgdStatus.textContent = 'Training... Gradient Descent pulling words into basins.';
+                sgdStatus.style.color = '#ffd166';
+            } else {
+                sgdStatus.textContent = 'Model Status: Random Initialization';
+                sgdStatus.style.color = '#64f4ac';
+            }
+
+            if (progress > 0 || isShaking) {
+                requestAnimationFrame(drawSgdScene);
+            }
+        }
+
+        sgdProgress.addEventListener('input', () => {
+            if (sgdProgress.value > 0) drawSgdScene();
+        });
+
+        shakeBowlBtn.addEventListener('mousedown', () => {
+            isShaking = true;
+            drawSgdScene();
+        });
+        shakeBowlBtn.addEventListener('mouseup', () => isShaking = false);
+        shakeBowlBtn.addEventListener('mouseleave', () => isShaking = false);
+        shakeBowlBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isShaking = true;
+            drawSgdScene();
+        });
+        shakeBowlBtn.addEventListener('touchend', () => isShaking = false);
+
+        resetSgdBtn.addEventListener('click', () => {
+            sgdProgress.value = 0;
+            initSgdSimulator();
+        });
 
         // Initialize all canvases
         drawParabola();
@@ -1742,6 +1944,7 @@
         drawParaboloid();
         drawGradientDescentSetup();
         drawWordVectorScene();
-    </script>
+        initSgdSimulator();
+        </script>
 </body>
 </html>

@@ -440,19 +440,26 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            max-width: 500px;
+            max-width: 620px;
             margin: 0 auto;
         }
 
-        .shake-button {
-            background: #e10600 !important;
-            animation: pulse 2s infinite;
+        .sgd-loop-track {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: #151515;
+            border: 1px solid rgba(73, 167, 255, 0.65);
+            overflow: hidden;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 6, 0, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(225, 6, 0, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 6, 0, 0); }
+        .sgd-loop-track span {
+            display: block;
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #49a7ff, #64f4ac, #ffd166);
+            transition: width 0.08s linear;
         }
 
         .legend-item {
@@ -789,13 +796,10 @@
                 What could you do to try to get the most marbles in the deepest hole after the marbles are dropped? Could anything be done?
             </div>
 
-            <button class="reveal-asset" id="show-marbles-gif" type="button">Reveal Marbles Drop</button>
-            <img class="question-asset is-hidden" id="marbles-gif" src="assets/q11-marbles.gif" alt="Marbles dropping into a bowl">
-
             <div class="sgd-simulator">
                 <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
                 <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
-                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). We use <strong>Stochastic Noise</strong>—a fancy way of saying we "shake the bowl"—to help the marbles bounce out of those dents so they can find the real bottom!
+                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: a fancy way of saying we "shake the bowl" while the marbles fall.
                 </p>
                 
                 <div class="sgd-canvas-container" style="height: 450px;">
@@ -803,15 +807,15 @@
                 </div>
 
                 <div class="sgd-controls">
+                    <div class="sgd-loop-track" aria-label="Animation loop progress">
+                        <span id="sgdLoopMeter"></span>
+                    </div>
                     <div>
-                        <label for="sgdProgress" style="color: #fff; font-weight: bold;">Step 1: Release Marbles (Gradient Descent)</label>
-                        <input type="range" id="sgdProgress" min="0" max="100" value="0" style="width: 100%;">
+                        <label for="sgdNoise" style="color: #fff; font-weight: bold;">Noise / Shakiness</label>
+                        <input type="range" id="sgdNoise" min="0" max="100" value="28" style="width: 100%;">
+                        <div class="value-display" id="sgdNoiseValue">Noise: 28%</div>
                     </div>
-                    <div style="display: flex; justify-content: center; gap: 15px;">
-                        <button type="button" class="shake-button" id="shakeBowlBtn">Step 2: SHAKE THE BOWL (Add Noise)</button>
-                        <button type="button" class="reset" id="resetSgdBtn">Reset Marbles</button>
-                    </div>
-                    <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; height: 1.2em;">Bowl Status: Waiting for marbles...</p>
+                    <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; min-height: 1.2em;">Loop running: marbles reset automatically.</p>
                 </div>
             </div>
 
@@ -1024,14 +1028,6 @@
                 answerEl.classList.add('visible');
             });
         });
-
-        const revealMarblesButton = document.getElementById('show-marbles-gif');
-        const marblesGif = document.getElementById('marbles-gif');
-        if (revealMarblesButton && marblesGif) {
-            revealMarblesButton.addEventListener('click', () => {
-                marblesGif.classList.remove('is-hidden');
-            });
-        }
 
         const quarticModal = document.getElementById('quartic-modal');
         const quarticOpen = document.getElementById('show-quartic-formula');
@@ -1478,9 +1474,9 @@
         // 3D SGD Training Simulator JS (The Bowl for Q11)
         const sgdCanvas = document.getElementById('sgdCanvas');
         const sgdCtx = sgdCanvas.getContext('2d');
-        const sgdProgress = document.getElementById('sgdProgress');
-        const shakeBowlBtn = document.getElementById('shakeBowlBtn');
-        const resetSgdBtn = document.getElementById('resetSgdBtn');
+        const sgdNoise = document.getElementById('sgdNoise');
+        const sgdNoiseValue = document.getElementById('sgdNoiseValue');
+        const sgdLoopMeter = document.getElementById('sgdLoopMeter');
         const sgdStatus = document.getElementById('sgdStatus');
 
         let sgdAngleX = -0.65;
@@ -1490,15 +1486,17 @@
         let sgdLastY = 0;
 
         let sgdMarbles = [];
-        let sgdShaking = false;
+        let sgdLoopStart = 0;
+        let sgdLastFrame = 0;
+        const sgdLoopDuration = 9200;
+        const sgdFallDuration = 7200;
 
         function getSgdHeight(x, y) {
-            const global1 = Math.pow(x - 1.2, 2) + Math.pow(y - 1.2, 2);
-            const global2 = Math.pow(x + 1.5, 2) + Math.pow(y + 1.5, 2);
-            const trap1 = 1.5 * Math.exp(-(Math.pow(x - 1.2, 2) + Math.pow(y + 1.2, 2)) * 4);
-            const trap2 = 1.5 * Math.exp(-(Math.pow(x + 1.2, 2) + Math.pow(y - 1.2, 2)) * 4);
-            const trap3 = 1.5 * Math.exp(-(Math.pow(x, 2) + Math.pow(y - 1.5, 2)) * 4);
-            return (global1 * global2 * 0.05) - trap1 - trap2 - trap3;
+            const bowl = 0.16 * (x * x + y * y);
+            const globalMinimum = 2.65 * Math.exp(-(Math.pow(x - 1.15, 2) + Math.pow(y + 1.05, 2)) * 1.65);
+            const localMinimum = 1.5 * Math.exp(-(Math.pow(x + 1.18, 2) + Math.pow(y - 0.85, 2)) * 2.45);
+            const ridge = 0.22 * Math.exp(-(Math.pow(x + 0.15, 2) + Math.pow(y + 0.05, 2)) * 3.2);
+            return bowl - globalMinimum - localMinimum + ridge;
         }
 
         function projectSgd(x, y, z) {
@@ -1513,23 +1511,92 @@
             return { x: centerX + x2 * scale * perspective, y: centerY - y1 * scale * perspective, depth: z2, perspective };
         }
 
-        function initSgdSimulator() {
+        function initSgdSimulator(now = performance.now()) {
             sgdMarbles = [];
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 24; i++) {
                 sgdMarbles.push({
-                    x: (Math.random() - 0.5) * 4,
-                    y: (Math.random() - 0.5) * 4,
+                    x: -2.25 + Math.random() * 4.5,
+                    y: -2.25 + Math.random() * 4.5,
                     vx: 0,
                     vy: 0,
-                    color: i % 2 === 0 ? '#ff4b3e' : '#49a7ff',
-                    stuck: false
+                    color: i % 3 === 0 ? '#ff4b3e' : i % 3 === 1 ? '#49a7ff' : '#ffd166',
+                    settled: false
                 });
             }
-            drawSgdScene();
+            sgdLoopStart = now;
+            sgdLastFrame = now;
         }
 
-        function drawSgdScene() {
+        function drawSgdTarget(x, y, label, color) {
+            const p = projectSgd(x, y, getSgdHeight(x, y));
+            sgdCtx.save();
+            sgdCtx.strokeStyle = color;
+            sgdCtx.fillStyle = color;
+            sgdCtx.lineWidth = 2;
+            sgdCtx.beginPath();
+            sgdCtx.arc(p.x, p.y, 14 * p.perspective, 0, Math.PI * 2);
+            sgdCtx.stroke();
+            sgdCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            sgdCtx.fillText(label, p.x + 12, p.y - 10);
+            sgdCtx.restore();
+        }
+
+        function updateSgdMarbles(dt, elapsed) {
+            const noiseLevel = Number(sgdNoise.value) / 100;
+            const isFalling = elapsed < sgdFallDuration;
+            const gravityStrength = isFalling ? 0.04 : 0.012;
+            const damping = isFalling ? 0.91 : 0.84;
+
+            sgdMarbles.forEach((marble) => {
+                const h = getSgdHeight(marble.x, marble.y);
+                const eps = 0.035;
+                const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
+                const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
+                const randomKick = isFalling ? noiseLevel * 0.055 : noiseLevel * 0.012;
+                const shakeX = (Math.random() - 0.5) * randomKick;
+                const shakeY = (Math.random() - 0.5) * randomKick;
+
+                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + shakeX * dt;
+                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + shakeY * dt;
+                marble.x += marble.vx * dt;
+                marble.y += marble.vy * dt;
+
+                if (Math.abs(marble.x) > 2.55) {
+                    marble.x = Math.sign(marble.x) * 2.55;
+                    marble.vx *= -0.45;
+                }
+                if (Math.abs(marble.y) > 2.55) {
+                    marble.y = Math.sign(marble.y) * 2.55;
+                    marble.vy *= -0.45;
+                }
+
+                const globalDistance = Math.hypot(marble.x - 1.15, marble.y + 1.05);
+                const localDistance = Math.hypot(marble.x + 1.18, marble.y - 0.85);
+                marble.settled = globalDistance < 0.36 || localDistance < 0.28 || Math.abs(h) > 1.2;
+            });
+        }
+
+        function drawSgdScene(now = performance.now()) {
+            if (!sgdLoopStart) {
+                initSgdSimulator(now);
+            }
+            let elapsed = now - sgdLoopStart;
+            if (elapsed >= sgdLoopDuration) {
+                initSgdSimulator(now);
+                elapsed = 0;
+            }
+
+            const dt = Math.min(2.2, Math.max(0.35, (now - sgdLastFrame) / 16.67));
+            sgdLastFrame = now;
+            updateSgdMarbles(dt, elapsed);
+
             sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
+            const bg = sgdCtx.createRadialGradient(sgdCanvas.width / 2, sgdCanvas.height / 2, 40, sgdCanvas.width / 2, sgdCanvas.height / 2, 430);
+            bg.addColorStop(0, '#111');
+            bg.addColorStop(1, '#000');
+            sgdCtx.fillStyle = bg;
+            sgdCtx.fillRect(0, 0, sgdCanvas.width, sgdCanvas.height);
+
             const gridSize = 2.5;
             const step = 0.25;
             for (let x = -gridSize; x <= gridSize; x += step) {
@@ -1553,58 +1620,97 @@
                 sgdCtx.stroke();
             }
 
-            const progress = Number(sgdProgress.value) / 100;
-            let stuckCount = 0;
+            drawSgdTarget(1.15, -1.05, 'Global min', '#64f4ac');
+            drawSgdTarget(-1.18, 0.85, 'Local min', '#ffd166');
 
-            sgdMarbles.forEach(marble => {
+            let globalCount = 0;
+            let localCount = 0;
+            const projectedMarbles = sgdMarbles.map((marble) => {
                 const h = getSgdHeight(marble.x, marble.y);
-                const p = projectSgd(marble.x, marble.y, h);
-                if (progress > 0 || sgdShaking) {
-                    const eps = 0.01;
-                    const gradX = (getSgdHeight(marble.x + eps, marble.y) - h) / eps;
-                    const gradY = (getSgdHeight(marble.x, marble.y + eps) - h) / eps;
-                    const noise = sgdShaking ? (Math.random() - 0.5) * 0.8 : (Math.random() - 0.5) * 0.02 * progress;
-                    marble.vx = marble.vx * 0.9 - gradX * 0.01 * progress + noise;
-                    marble.vy = marble.vy * 0.9 - gradY * 0.01 * progress + noise;
-                    marble.x += marble.vx;
-                    marble.y += marble.vy;
-                    if (Math.abs(marble.x) > 2.5) { marble.x *= 0.95; marble.vx *= -0.5; }
-                    if (Math.abs(marble.y) > 2.5) { marble.y *= 0.95; marble.vy *= -0.5; }
-                    const d1 = Math.sqrt((marble.x - 1.2)**2 + (marble.y + 1.2)**2);
-                    const d2 = Math.sqrt((marble.x + 1.2)**2 + (marble.y - 1.2)**2);
-                    const d3 = Math.sqrt((marble.x - 0)**2 + (marble.y - 1.5)**2);
-                    if ((d1 < 0.2 || d2 < 0.2 || d3 < 0.2) && !sgdShaking) marble.stuck = true;
-                    else marble.stuck = false;
-                }
-                if (marble.stuck) stuckCount++;
-                const radius = 6 * p.perspective;
+                const globalDistance = Math.hypot(marble.x - 1.15, marble.y + 1.05);
+                const localDistance = Math.hypot(marble.x + 1.18, marble.y - 0.85);
+                if (globalDistance < 0.45) globalCount++;
+                if (localDistance < 0.36) localCount++;
+                return { ...marble, projected: projectSgd(marble.x, marble.y, h) };
+            });
+
+            projectedMarbles.sort((a, b) => b.projected.depth - a.projected.depth).forEach((marble) => {
+                const p = marble.projected;
+                const radius = 6.5 * p.perspective;
                 sgdCtx.save();
-                sgdCtx.globalAlpha = 0.8;
+                sgdCtx.globalAlpha = 0.88;
                 sgdCtx.fillStyle = marble.color;
+                sgdCtx.shadowColor = marble.color;
+                sgdCtx.shadowBlur = marble.settled ? 12 : 4;
                 sgdCtx.beginPath();
                 sgdCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
                 sgdCtx.fill();
                 sgdCtx.restore();
             });
 
-            if (sgdShaking) { sgdStatus.textContent = 'SHAKING! Noise helps the marbles bounce out of traps...'; sgdStatus.style.color = '#ff4b3e'; }
-            else if (stuckCount > 0) { sgdStatus.textContent = `Oh no! ${stuckCount} marble(s) are stuck in a dent! Shake the bowl!`; sgdStatus.style.color = '#ff4b3e'; }
-            else if (progress > 0.9) { sgdStatus.textContent = 'Success! The marbles found the bottom of the bowl.'; sgdStatus.style.color = '#64f4ac'; }
-            else if (progress > 0) { sgdStatus.textContent = 'Training... Gravity (Gradient) pulling marbles downhill.'; sgdStatus.style.color = '#ffd166'; }
-            else { sgdStatus.textContent = 'Bowl Status: Waiting for marbles to roll...'; sgdStatus.style.color = '#64f4ac'; }
+            const loopPercent = Math.round((elapsed / sgdLoopDuration) * 100);
+            const noisePercent = Number(sgdNoise.value);
+            sgdLoopMeter.style.width = `${loopPercent}%`;
+            sgdNoiseValue.textContent = `Noise: ${noisePercent}%`;
 
-            if (progress > 0 || sgdShaking) requestAnimationFrame(drawSgdScene);
+            if (elapsed > sgdFallDuration) {
+                sgdStatus.textContent = `Cycle ending: ${globalCount} in the global minimum, ${localCount} in the local minimum. Resetting soon...`;
+                sgdStatus.style.color = '#64f4ac';
+            } else if (noisePercent < 12) {
+                sgdStatus.textContent = 'Low noise: marbles roll smoothly, but some can get trapped.';
+                sgdStatus.style.color = '#ffd166';
+            } else if (noisePercent > 68) {
+                sgdStatus.textContent = 'High noise: lots of exploration, but the marbles may bounce past good minima.';
+                sgdStatus.style.color = '#ff4b3e';
+            } else {
+                sgdStatus.textContent = 'Balanced noise: marbles can escape shallow traps while still moving downhill.';
+                sgdStatus.style.color = '#64f4ac';
+            }
+
+            requestAnimationFrame(drawSgdScene);
         }
 
-        sgdCanvas.addEventListener('mousedown', (e) => { sgdDragging = true; sgdLastX = e.offsetX; sgdLastY = e.offsetY; });
-        sgdCanvas.addEventListener('mousemove', (e) => { if (sgdDragging) { sgdAngleY += (e.offsetX - sgdLastX) * 0.01; sgdAngleX += (e.offsetY - sgdLastY) * 0.01; sgdLastX = e.offsetX; sgdLastY = e.offsetY; drawSgdScene(); } });
-        window.addEventListener('mouseup', () => sgdDragging = false);
-        sgdProgress.addEventListener('input', () => { if (sgdProgress.value > 0) drawSgdScene(); });
-        shakeBowlBtn.addEventListener('mousedown', () => { sgdShaking = true; drawSgdScene(); });
-        shakeBowlBtn.addEventListener('mouseup', () => sgdShaking = false);
-        shakeBowlBtn.addEventListener('touchstart', (e) => { e.preventDefault(); sgdShaking = true; drawSgdScene(); });
-        shakeBowlBtn.addEventListener('touchend', () => sgdShaking = false);
-        resetSgdBtn.addEventListener('click', () => { sgdProgress.value = 0; initSgdSimulator(); });
+        function getSgdPointerPosition(e) {
+            const rect = sgdCanvas.getBoundingClientRect();
+            const source = e.touches ? e.touches[0] : e;
+            return {
+                x: (source.clientX - rect.left) * (sgdCanvas.width / rect.width),
+                y: (source.clientY - rect.top) * (sgdCanvas.height / rect.height)
+            };
+        }
+
+        function startSgdDrag(e) {
+            if (e.cancelable) e.preventDefault();
+            const point = getSgdPointerPosition(e);
+            sgdDragging = true;
+            sgdLastX = point.x;
+            sgdLastY = point.y;
+        }
+
+        function moveSgdDrag(e) {
+            if (!sgdDragging) return;
+            if (e.cancelable) e.preventDefault();
+            const point = getSgdPointerPosition(e);
+            sgdAngleY += (point.x - sgdLastX) * 0.01;
+            sgdAngleX += (point.y - sgdLastY) * 0.01;
+            sgdLastX = point.x;
+            sgdLastY = point.y;
+        }
+
+        function endSgdDrag() {
+            sgdDragging = false;
+        }
+
+        sgdCanvas.addEventListener('mousedown', startSgdDrag);
+        sgdCanvas.addEventListener('mousemove', moveSgdDrag);
+        window.addEventListener('mouseup', endSgdDrag);
+        sgdCanvas.addEventListener('touchstart', startSgdDrag, { passive: false });
+        sgdCanvas.addEventListener('touchmove', moveSgdDrag, { passive: false });
+        sgdCanvas.addEventListener('touchend', endSgdDrag);
+        sgdCanvas.addEventListener('touchcancel', endSgdDrag);
+        sgdNoise.addEventListener('input', () => {
+            sgdNoiseValue.textContent = `Noise: ${sgdNoise.value}%`;
+        });
 
         // 3D Word Convergence Animation (Question 13)
         const convCanvas = document.getElementById('wordConvergenceCanvas');
@@ -1723,6 +1829,8 @@
         drawQuartic();
         drawParaboloid();
         drawGradientDescentSetup();
-        initSgdSimulator();        </script>
+        initSgdSimulator();
+        requestAnimationFrame(drawSgdScene);
+    </script>
 </body>
 </html>

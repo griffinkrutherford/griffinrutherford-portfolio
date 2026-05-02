@@ -819,6 +819,9 @@
                 <p style="margin-bottom: 15px;">
                     <strong>Spoiler for Q10:</strong> Computers can think like someone standing at the edge of a paraboloid, and make small steps downward until it knows the slope is flat. Remember that line we drew through the vertex of the parabola from Q4? Computers can figure that out, but in 3D too.
                 </p>
+                <p id="flat-slope-plane-note" style="margin-bottom: 15px;">
+                    In Algebra II mode, we can say the slope is flat when the secant plane has no incline, like a perfectly level sheet across the bowl.
+                </p>
                 <p>
                     Computers really just make a bunch of educated guesses until it gets close enough to the result we want: the lowest point of the paraboloid.
                 </p>
@@ -1069,9 +1072,21 @@
 
         let currentMode = "algebra";
 
+        function updateFlatSlopePlaneNote() {
+            const note = document.getElementById('flat-slope-plane-note');
+            if (!note) return;
+
+            if (currentMode === 'calculus') {
+                note.innerHTML = 'In Calculus mode, we can say the slope is flat when the tangent plane has no incline, like a perfectly level sheet just touching the bowl.';
+            } else {
+                note.innerHTML = 'In Algebra II mode, we can say the slope is flat when the secant plane has no incline, like a perfectly level sheet across the bowl.';
+            }
+        }
+
         document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
+                updateFlatSlopePlaneNote();
                 drawParabola();
                 updateParaboloidPlaneControls();
                 drawParaboloid();

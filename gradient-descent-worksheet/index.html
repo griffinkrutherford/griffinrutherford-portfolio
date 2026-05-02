@@ -1144,20 +1144,26 @@
                 let x2;
                 let y1;
                 let y2;
+                let pointX1;
+                let pointX2;
+                let showReferencePoints = false;
 
                 if (currentMode === 'calculus') {
                     // Tangent line at the vertex (slope = 0)
-                    x1 = centerX - 4 * scale;
-                    x2 = centerX + 4 * scale;
+                    x1 = 28;
+                    x2 = parabolaCanvas.width - 28;
                     y1 = centerY;
                     y2 = centerY;
                 } else {
                     // Secant line through two symmetric points
                     const dist = 2;
-                    x1 = centerX - dist * scale;
-                    x2 = centerX + dist * scale;
+                    pointX1 = centerX - dist * scale;
+                    pointX2 = centerX + dist * scale;
+                    x1 = 28;
+                    x2 = parabolaCanvas.width - 28;
                     y1 = centerY - (dist * dist / 4) * scale;
                     y2 = centerY - (dist * dist / 4) * scale;
+                    showReferencePoints = true;
                 }
 
                 parabolaCtx.strokeStyle = '#e10600';
@@ -1169,32 +1175,29 @@
                 parabolaCtx.stroke();
                 parabolaCtx.setLineDash([]);
 
-                // Draw points
+                // Arrowheads indicate the line continues beyond the visible canvas.
+                const arrowSize = 10;
                 parabolaCtx.fillStyle = '#e10600';
+
                 parabolaCtx.beginPath();
-                parabolaCtx.arc(x1, y1, 5, 0, Math.PI * 2);
-                parabolaCtx.arc(x2, y2, 5, 0, Math.PI * 2);
+                parabolaCtx.moveTo(x1, y1);
+                parabolaCtx.lineTo(x1 + arrowSize, y1 - arrowSize / 2);
+                parabolaCtx.lineTo(x1 + arrowSize, y1 + arrowSize / 2);
+                parabolaCtx.closePath();
                 parabolaCtx.fill();
 
-                if (currentMode === 'calculus') {
-                    // Add arrowheads to indicate an infinite tangent line
-                    const arrowSize = 10;
-                    parabolaCtx.fillStyle = '#e10600';
+                parabolaCtx.beginPath();
+                parabolaCtx.moveTo(x2, y2);
+                parabolaCtx.lineTo(x2 - arrowSize, y2 - arrowSize / 2);
+                parabolaCtx.lineTo(x2 - arrowSize, y2 + arrowSize / 2);
+                parabolaCtx.closePath();
+                parabolaCtx.fill();
 
-                    // Left arrow
+                if (showReferencePoints) {
+                    // Draw the two symmetric points that define the Algebra II secant line.
                     parabolaCtx.beginPath();
-                    parabolaCtx.moveTo(x1, y1);
-                    parabolaCtx.lineTo(x1 + arrowSize, y1 - arrowSize / 2);
-                    parabolaCtx.lineTo(x1 + arrowSize, y1 + arrowSize / 2);
-                    parabolaCtx.closePath();
-                    parabolaCtx.fill();
-
-                    // Right arrow
-                    parabolaCtx.beginPath();
-                    parabolaCtx.moveTo(x2, y2);
-                    parabolaCtx.lineTo(x2 - arrowSize, y2 - arrowSize / 2);
-                    parabolaCtx.lineTo(x2 - arrowSize, y2 + arrowSize / 2);
-                    parabolaCtx.closePath();
+                    parabolaCtx.arc(pointX1, y1, 5, 0, Math.PI * 2);
+                    parabolaCtx.arc(pointX2, y2, 5, 0, Math.PI * 2);
                     parabolaCtx.fill();
                 }
             }

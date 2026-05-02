@@ -1760,21 +1760,28 @@
         convCanvas.addEventListener('touchend', endConvDrag);
         convCanvas.addEventListener('touchcancel', endConvDrag);
 
-        // Robust Initialization: Start all animations once the page is fully loaded
-        window.addEventListener('load', () => {
-            // 1. Initial State for 2D/3D static charts
+        // Fast & Robust Initialization: Start all animations immediately
+        const startAllAnimations = () => {
+            // 1. Static/Interactive charts (Initial draw)
             drawParabola();
             drawQuartic();
             drawParaboloid();
             drawGradientDescentSetup();
 
-            // 2. Initialize and start continuous 3D loops
+            // 2. Continuous 3D loops (Calling once starts the internal requestAnimationFrame chain)
             initSgdSimulator();
-            requestAnimationFrame(drawSgdScene);
+            drawSgdScene(); 
             
             initConvSimulator();
-            requestAnimationFrame(drawConvScene);
-        });
+            drawConvScene();
+        };
+
+        // Run as soon as the DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startAllAnimations);
+        } else {
+            startAllAnimations();
+        }
     </script>
 </body>
 </html>

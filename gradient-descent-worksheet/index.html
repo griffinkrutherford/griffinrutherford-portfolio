@@ -1302,7 +1302,6 @@
             paraboloidCtx.clearRect(0, 0, paraboloidCanvas.width, paraboloidCanvas.height);
             const centerX = paraboloidCanvas.width / 2, centerY = paraboloidCanvas.height / 2;
             const scale = 32, gridSize = 8, gridStep = 0.8;
-            const getZ = (x, y) => 0.15 * (x * x + y * y);
             for (let x = -gridSize; x <= gridSize; x += gridStep) {
                 paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {
@@ -1324,6 +1323,7 @@
         }
 
         // Shared 3D Projection Logic
+        const getZ = (x, y) => 0.15 * (x * x + y * y);
         function project3D(x, y, z, centerX, centerY, scale, pitch, yaw) {
             let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
             let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
@@ -1333,23 +1333,27 @@
             return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
         }
 
-        // Valley Mode Canvas (Question 12)
+        // Valley Mode Canvas (Question 9)
         const valleyCanvas = document.getElementById('valleyCanvas');
-        const valleyCtx = valleyCanvas.getContext('2d');
+        const valleyCtx = valleyCanvas ? valleyCanvas.getContext('2d') : null;
         let vAngleX = -0.95, vAngleY = 0.45, vDragging = false, vLastX = 0, vLastY = 0;
-        valleyCanvas.addEventListener('mousedown', (e) => { vDragging = true; vLastX = e.offsetX; vLastY = e.offsetY; });
-        valleyCanvas.addEventListener('mousemove', (e) => {
-            if (vDragging) {
-                if (e.cancelable) e.preventDefault();
-                vAngleY += (e.offsetX - vLastX) * 0.01;
-                vAngleX = Math.max(-1.57, Math.min(0.1, vAngleX + (e.offsetY - vLastY) * 0.01));
-                vLastX = e.offsetX; vLastY = e.offsetY;
-                drawValleyScene();
-            }
-        });
-        window.addEventListener('mouseup', () => vDragging = false);
+
+        if (valleyCanvas) {
+            valleyCanvas.addEventListener('mousedown', (e) => { vDragging = true; vLastX = e.offsetX; vLastY = e.offsetY; });
+            valleyCanvas.addEventListener('mousemove', (e) => {
+                if (vDragging) {
+                    if (e.cancelable) e.preventDefault();
+                    vAngleY += (e.offsetX - vLastX) * 0.01;
+                    vAngleX = Math.max(-1.57, Math.min(0.1, vAngleX + (e.offsetY - vLastY) * 0.01));
+                    vLastX = e.offsetX; vLastY = e.offsetY;
+                    drawValleyScene();
+                }
+            });
+            window.addEventListener('mouseup', () => vDragging = false);
+        }
 
         function drawValleyScene() {
+            if (!valleyCtx) return;
             valleyCtx.clearRect(0, 0, valleyCanvas.width, valleyCanvas.height);
             const centerX = valleyCanvas.width / 2, centerY = valleyCanvas.height / 2;
             const scale = 32, gridSize = 8, gridStep = 0.8;
@@ -2226,9 +2230,11 @@
 
         // Fast & Robust Initialization: Start all animations immediately
         const startAllAnimations = () => {
+            console.log('Initializing all animations...');
             const tryDraw = (fn, name) => {
                 try {
                     fn();
+                    console.log(`Successfully initialized ${name}`);
                 } catch (e) {
                     console.error(`Error in ${name}:`, e);
                 }
@@ -2245,11 +2251,13 @@
             try {
                 initSgdSimulator();
                 drawSgdScene(); 
+                console.log('Successfully started SGD loop');
             } catch (e) { console.error('Error starting SGD loop:', e); }
             
             try {
                 initConvSimulator();
                 drawConvScene();
+                console.log('Successfully started Conv loop');
             } catch (e) { console.error('Error starting Conv loop:', e); }
 
             tryDraw(drawWordVectorScene, 'drawWordVectorScene');

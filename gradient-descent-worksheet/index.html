@@ -381,6 +381,27 @@
             cursor: grabbing;
         }
 
+        .training-loop-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .training-loop-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .training-loop-panel-title {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95em;
+            line-height: 1.35;
+            text-align: center;
+        }
+
         .wordvec-controls {
             display: grid;
             grid-template-columns: 1fr;
@@ -575,6 +596,10 @@
 
             .question {
                 padding: 15px;
+            }
+
+            .training-loop-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -952,8 +977,19 @@
                     <p class="wordvec-note">
                         This animation is a simplified picture of training. Watch as word "marbles" start in random places and fall into meaningful groups. That is like shaping the bowl so related words naturally land near each other. The jittery motion represents <strong>stochastic noise</strong> during training. Temperature comes later: it controls how much randomness there is between words as ChatGPT generates a response one word at a time.
                     </p>
-                    <div class="wordvec-stage">
-                        <canvas id="wordConvergenceCanvas" width="800" height="520"></canvas>
+                    <div class="training-loop-grid">
+                        <div class="training-loop-panel">
+                            <div class="training-loop-panel-title">Words Falling Into Place</div>
+                            <div class="wordvec-stage">
+                                <canvas id="wordConvergenceCanvas" width="400" height="360"></canvas>
+                            </div>
+                        </div>
+                        <div class="training-loop-panel">
+                            <div class="training-loop-panel-title">The Bowl Being Shaped</div>
+                            <div class="wordvec-stage">
+                                <canvas id="bowlMorphCanvas" width="400" height="360"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2311,6 +2347,111 @@
         convCanvas.addEventListener('touchend', endConvDrag);
         convCanvas.addEventListener('touchcancel', endConvDrag);
 
+        // Bowl-Shaping Animation beside the word convergence visual
+        const bowlMorphCanvas = document.getElementById('bowlMorphCanvas');
+        const bowlMorphCtx = bowlMorphCanvas ? bowlMorphCanvas.getContext('2d') : null;
+        let bowlMorphFrame = 0;
+        const BOWL_MORPH_DURATION = 360;
+        const bowlWells = [
+            { x: -1.4, y: -1.1, depth: 1.2, spread: 1.7, color: '#49a7ff' },
+            { x: 1.2, y: -0.2, depth: 1.5, spread: 1.5, color: '#64f4ac' },
+            { x: 0.1, y: 1.2, depth: 1.05, spread: 1.9, color: '#ffd166' }
+        ];
+
+        function getBowlMorphProgress() {
+            const cycle = (bowlMorphFrame % BOWL_MORPH_DURATION) / BOWL_MORPH_DURATION;
+            const wave = 0.5 - 0.5 * Math.cos(cycle * Math.PI * 2);
+            return wave * wave * (3 - 2 * wave);
+        }
+
+        function getBowlMorphHeight(x, y, progress) {
+            const gentleBowl = 0.06 * (x * x + y * y);
+            const shapedWells = bowlWells.reduce((total, well) => {
+                const distanceSquared = Math.pow(x - well.x, 2) + Math.pow(y - well.y, 2);
+                return total - well.depth * Math.exp(-distanceSquared * well.spread);
+            }, 0);
+            return progress * (gentleBowl + shapedWells);
+        }
+
+        function projectBowlMorph(x, y, z) {
+            const centerX = bowlMorphCanvas.width / 2;
+            const centerY = bowlMorphCanvas.height / 2 + 42;
+            const scale = 58;
+            const pitch = -0.68;
+            const yaw = 0.62 + Math.sin(bowlMorphFrame * 0.012) * 0.14;
+
+            let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
+            let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
+            let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
+            let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
+            const perspective = 300 / (300 + z2 * 34);
+
+            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
+        }
+
+        function drawBowlMorphScene() {
+            if (!bowlMorphCtx) return;
+            bowlMorphFrame++;
+            const progress = getBowlMorphProgress();
+            bowlMorphCtx.clearRect(0, 0, bowlMorphCanvas.width, bowlMorphCanvas.height);
+
+            const bg = bowlMorphCtx.createRadialGradient(
+                bowlMorphCanvas.width / 2,
+                bowlMorphCanvas.height / 2,
+                35,
+                bowlMorphCanvas.width / 2,
+                bowlMorphCanvas.height / 2,
+                300
+            );
+            bg.addColorStop(0, '#131313');
+            bg.addColorStop(1, '#000');
+            bowlMorphCtx.fillStyle = bg;
+            bowlMorphCtx.fillRect(0, 0, bowlMorphCanvas.width, bowlMorphCanvas.height);
+
+            const gridSize = 2.8;
+            const step = 0.24;
+            for (let x = -gridSize; x <= gridSize; x += step) {
+                bowlMorphCtx.beginPath();
+                bowlMorphCtx.strokeStyle = `rgba(100, 244, 172, ${0.14 + progress * 0.22})`;
+                bowlMorphCtx.lineWidth = 1;
+                for (let y = -gridSize; y <= gridSize; y += step) {
+                    const p = projectBowlMorph(x, y, getBowlMorphHeight(x, y, progress));
+                    if (y === -gridSize) bowlMorphCtx.moveTo(p.x, p.y); else bowlMorphCtx.lineTo(p.x, p.y);
+                }
+                bowlMorphCtx.stroke();
+            }
+
+            for (let y = -gridSize; y <= gridSize; y += step) {
+                bowlMorphCtx.beginPath();
+                bowlMorphCtx.strokeStyle = `rgba(73, 167, 255, ${0.13 + progress * 0.2})`;
+                bowlMorphCtx.lineWidth = 1;
+                for (let x = -gridSize; x <= gridSize; x += step) {
+                    const p = projectBowlMorph(x, y, getBowlMorphHeight(x, y, progress));
+                    if (x === -gridSize) bowlMorphCtx.moveTo(p.x, p.y); else bowlMorphCtx.lineTo(p.x, p.y);
+                }
+                bowlMorphCtx.stroke();
+            }
+
+            bowlWells.forEach((well) => {
+                const p = projectBowlMorph(well.x, well.y, getBowlMorphHeight(well.x, well.y, progress));
+                bowlMorphCtx.save();
+                bowlMorphCtx.globalAlpha = 0.18 + progress * 0.7;
+                bowlMorphCtx.strokeStyle = well.color;
+                bowlMorphCtx.lineWidth = 2;
+                bowlMorphCtx.shadowColor = well.color;
+                bowlMorphCtx.shadowBlur = 12 * progress;
+                bowlMorphCtx.beginPath();
+                bowlMorphCtx.arc(p.x, p.y, (10 + progress * 8) * p.perspective, 0, Math.PI * 2);
+                bowlMorphCtx.stroke();
+                bowlMorphCtx.restore();
+            });
+
+            bowlMorphCtx.fillStyle = 'rgba(255, 255, 255, 0.84)';
+            bowlMorphCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            bowlMorphCtx.fillText(progress < 0.5 ? 'Flat starting surface' : 'Bowl shaped by training', 16, 28);
+            requestAnimationFrame(drawBowlMorphScene);
+        }
+
         // Fast & Robust Initialization: Start all animations immediately
         const startAllAnimations = () => {
             console.log('Initializing all animations...');
@@ -2342,6 +2483,11 @@
                 drawConvScene();
                 console.log('Successfully started Conv loop');
             } catch (e) { console.error('Error starting Conv loop:', e); }
+
+            try {
+                drawBowlMorphScene();
+                console.log('Successfully started Bowl Morph loop');
+            } catch (e) { console.error('Error starting Bowl Morph loop:', e); }
 
             tryDraw(drawWordVectorScene, 'drawWordVectorScene');
         };

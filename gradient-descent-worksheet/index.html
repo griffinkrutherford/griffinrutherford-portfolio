@@ -1397,6 +1397,13 @@
             ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+15, hP.y+5); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+14, hP.y+8); ctx.stroke();
         }
 
+        // Gradient Descent Canvas (Question 10)
+        const gdCanvas = document.getElementById('gradientDescentCanvas');
+        const gdCtx = gdCanvas.getContext('2d');
+        let gdAnimating = false;
+        let gdPosition = 6;
+        let gdSteps = [];
+
         function drawGradientDescentSetup() {
             gdCtx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
 
@@ -2174,21 +2181,33 @@
 
         // Fast & Robust Initialization: Start all animations immediately
         const startAllAnimations = () => {
+            const tryDraw = (fn, name) => {
+                try {
+                    fn();
+                } catch (e) {
+                    console.error(`Error in ${name}:`, e);
+                }
+            };
+
             // 1. Static/Interactive charts (Initial draw)
-            drawParabola();
-            drawQuartic();
-            drawParaboloid();
-            drawValleyScene();
-            drawGradientDescentSetup();
+            tryDraw(drawParabola, 'drawParabola');
+            tryDraw(drawQuartic, 'drawQuartic');
+            tryDraw(drawParaboloid, 'drawParaboloid');
+            tryDraw(drawValleyScene, 'drawValleyScene');
+            tryDraw(drawGradientDescentSetup, 'drawGradientDescentSetup');
 
-            // 2. Continuous 3D loops (Calling once starts the internal requestAnimationFrame chain)
-            initSgdSimulator();
-            drawSgdScene(); 
+            // 2. Continuous 3D loops
+            try {
+                initSgdSimulator();
+                drawSgdScene(); 
+            } catch (e) { console.error('Error starting SGD loop:', e); }
             
-            initConvSimulator();
-            drawConvScene();
+            try {
+                initConvSimulator();
+                drawConvScene();
+            } catch (e) { console.error('Error starting Conv loop:', e); }
 
-            drawWordVectorScene();
+            tryDraw(drawWordVectorScene, 'drawWordVectorScene');
         };
 
         // Run as soon as the DOM is ready

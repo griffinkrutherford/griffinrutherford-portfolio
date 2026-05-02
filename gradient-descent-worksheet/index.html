@@ -701,9 +701,6 @@
             <div class="canvas-container">
                 <canvas id="paraboloidCanvas" width="800" height="500"></canvas>
             </div>
-            <div class="controls">
-                <button id="valleyModeBtn" onclick="toggleValleyMode()">Enter Valley Mode</button>
-            </div>
             <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf;">
                 Click and drag to rotate the paraboloid!
             </p>
@@ -813,6 +810,9 @@
                         <label for="sgdNoise" style="color: #fff; font-weight: bold;">Noise / Shakiness</label>
                         <input type="range" id="sgdNoise" min="0" max="100" value="28" style="width: 100%;">
                         <div class="value-display" id="sgdNoiseValue">Noise: 28%</div>
+                        <div style="text-align: center; margin-top: 10px;">
+                            <button type="button" onclick="initSgdSimulator()" style="padding: 5px 15px; font-size: 0.9em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
+                        </div>
                     </div>
                     <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; min-height: 1.2em;">Loop running: marbles reset automatically.</p>
                 </div>
@@ -836,6 +836,21 @@
                 <p style="margin-bottom: 15px;">
                     To summarize, adding a bit of random "shakiness" helps computers better approximate to the best "local minimum" compared to going straight down.
                 </p>
+
+                <!-- Valley Analogy Visualization -->
+                <div class="wordvec-visualizer" style="border-color: #64f4ac; background: #080808; margin-bottom: 25px;">
+                    <div class="wordvec-title" style="color: #64f4ac;">The "Blindfolded in a Valley" Analogy</div>
+                    <p class="wordvec-note">
+                        Imagine being blindfolded in this 3D valley. You can't see the bottom, but you can feel the slope under your feet. By taking steps downhill and adding a bit of "shakiness" (randomness), you avoid getting stuck in small dents (local minima) and find the true lowest point!
+                    </p>
+                    <div class="wordvec-stage" style="border-color: rgba(100, 244, 172, 0.5);">
+                        <canvas id="valleyCanvas" width="800" height="500"></canvas>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 0.85em;">
+                        Drag to orbit the valley. Notice how the person is hidden by the walls when viewed from the side!
+                    </p>
+                </div>
+
                 <p style="margin-bottom: 15px;">
                     Some shakiness is good, but too much causes the marbles to fall out, so we need just the right amount.
                 </p>
@@ -1281,282 +1296,105 @@
             isDragging = false;
         });
 
-        function toggleValleyMode() {
-            isValleyMode = !isValleyMode;
-            const btn = document.getElementById('valleyModeBtn');
-            btn.textContent = isValleyMode ? 'Exit Valley Mode' : 'Enter Valley Mode';
-            btn.classList.toggle('reset', isValleyMode);
-            drawParaboloid();
-        }
-
         function drawParaboloid() {
             paraboloidCtx.clearRect(0, 0, paraboloidCanvas.width, paraboloidCanvas.height);
-
-            const centerX = paraboloidCanvas.width / 2;
-            const centerY = paraboloidCanvas.height / 2;
-            const scale = 32; // Zoomed out
-            const gridSize = 8; 
-            const gridStep = 0.8; 
-
-            // Flattened height function for a "wider" valley
+            const centerX = paraboloidCanvas.width / 2, centerY = paraboloidCanvas.height / 2;
+            const scale = 32, gridSize = 8, gridStep = 0.8;
             const getZ = (x, y) => 0.15 * (x * x + y * y);
-
-            if (isValleyMode) {
-                // Collect and sort everything (terrain + person) for depth (Painter's Algorithm)
-                const renderQueue = [];
-                
-                // 1. Collect Terrain Quads
-                for (let x = -gridSize; x < gridSize; x += gridStep) {
-                    for (let y = -gridSize; y < gridSize; y += gridStep) {
-                        const z_tl = getZ(x, y);
-                        const z_tr = getZ(x + gridStep, y);
-                        const z_br = getZ(x + gridStep, y + gridStep);
-                        const z_bl = getZ(x, y + gridStep);
-
-                        const p_tl = project3D(x, y, z_tl, centerX, centerY, scale);
-                        const p_tr = project3D(x + gridStep, y, z_tr, centerX, centerY, scale);
-                        const p_br = project3D(x + gridStep, y + gridStep, z_br, centerX, centerY, scale);
-                        const p_bl = project3D(x, y + gridStep, z_bl, centerX, centerY, scale);
-
-                        const avgDepth = (p_tl.depth + p_tr.depth + p_br.depth + p_bl.depth) / 4;
-                        const avgHeight = (z_tl + z_tr + z_br + z_bl) / 4;
-
-                        renderQueue.push({
-                            type: 'quad',
-                            points: [p_tl, p_tr, p_br, p_bl],
-                            depth: avgDepth,
-                            height: avgHeight
-                        });
-                    }
-                }
-
-                // 2. Add Person to queue
-                const px = 3.0, py = 3.0, pz = getZ(px, py);
-                const p_base = project3D(px, py, pz, centerX, centerY, scale);
-                renderQueue.push({
-                    type: 'person',
-                    depth: p_base.depth,
-                    px, py, pz
-                });
-
-                // Sort everything back-to-front
-                renderQueue.sort((a, b) => b.depth - a.depth);
-
-                // Helper to draw a 3D line
-                const drawLine3D = (x1, y1, z1, x2, y2, z2, color, width) => {
-                    const p1 = project3D(x1, y1, z1, centerX, centerY, scale);
-                    const p2 = project3D(x2, y2, z2, centerX, centerY, scale);
-                    paraboloidCtx.strokeStyle = color;
-                    paraboloidCtx.lineWidth = width;
-                    paraboloidCtx.lineCap = 'round';
-                    paraboloidCtx.beginPath();
-                    paraboloidCtx.moveTo(p1.x, p1.y);
-                    paraboloidCtx.lineTo(p2.x, p2.y);
-                    paraboloidCtx.stroke();
-                };
-
-                renderQueue.forEach(item => {
-                    if (item.type === 'quad') {
-                        const { points, height } = item;
-                        const grassFactor = Math.min(1, height / 10);
-                        const r = Math.floor(100 * (1 - grassFactor) + 60 * grassFactor);
-                        const g = Math.floor(60 * (1 - grassFactor) + 160 * grassFactor);
-                        const b = Math.floor(40 * (1 - grassFactor) + 60 * grassFactor);
-
-                        paraboloidCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.moveTo(points[0].x, points[0].y);
-                        paraboloidCtx.lineTo(points[1].x, points[1].y);
-                        paraboloidCtx.lineTo(points[2].x, points[2].y);
-                        paraboloidCtx.lineTo(points[3].x, points[3].y);
-                        paraboloidCtx.closePath();
-                        paraboloidCtx.fill();
-
-                        paraboloidCtx.strokeStyle = `rgba(0,0,0,0.15)`;
-                        paraboloidCtx.lineWidth = 0.5;
-                        paraboloidCtx.stroke();
-                    } else if (item.type === 'person') {
-                        const { px, py, pz } = item;
-                        
-                        // Shadow
-                        const sPos = project3D(px, py, pz, centerX, centerY, scale);
-                        paraboloidCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.ellipse(sPos.x, sPos.y, 14, 8, 0, 0, Math.PI * 2);
-                        paraboloidCtx.fill();
-
-                        // Figure
-                        drawLine3D(px, py, pz, px - 0.1, py - 0.1, pz + 0.3, '#f5f5f5', 4);
-                        drawLine3D(px - 0.1, py - 0.1, pz + 0.3, px - 0.15, py - 0.15, pz + 0.6, '#f5f5f5', 3.5);
-                        drawLine3D(px, py, pz, px + 0.1, py + 0.1, pz + 0.3, '#f5f5f5', 4);
-                        drawLine3D(px + 0.1, py + 0.1, pz + 0.3, px + 0.15, py + 0.15, pz + 0.6, '#f5f5f5', 3.5);
-
-                        const torsoBottom = project3D(px, py, pz + 0.6, centerX, centerY, scale);
-                        const torsoTop = project3D(px, py, pz + 1.2, centerX, centerY, scale);
-                        paraboloidCtx.fillStyle = '#e10600';
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.moveTo(torsoBottom.x - 6, torsoBottom.y);
-                        paraboloidCtx.lineTo(torsoBottom.x + 6, torsoBottom.y);
-                        paraboloidCtx.lineTo(torsoTop.x + 10, torsoTop.y);
-                        paraboloidCtx.lineTo(torsoTop.x - 10, torsoTop.y);
-                        paraboloidCtx.closePath();
-                        paraboloidCtx.fill();
-
-                        drawLine3D(px, py, pz + 1.1, px - 0.2, py - 0.2, pz + 0.9, '#f5f5f5', 3);
-                        drawLine3D(px - 0.2, py - 0.2, pz + 0.9, px - 0.3, py - 0.3, pz + 1.1, '#f5f5f5', 2.5);
-                        drawLine3D(px, py, pz + 1.1, px + 0.2, py + 0.2, pz + 0.9, '#f5f5f5', 3);
-                        drawLine3D(px + 0.2, py + 0.2, pz + 0.9, px + 0.3, py + 0.3, pz + 1.1, '#f5f5f5', 2.5);
-
-                        drawLine3D(px, py, pz + 1.2, px, py, pz + 1.3, '#ffdbac', 4);
-                        const headPos = project3D(px, py, pz + 1.5, centerX, centerY, scale);
-                        paraboloidCtx.fillStyle = '#ffdbac';
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.arc(headPos.x, headPos.y, 9, 0, Math.PI * 2);
-                        paraboloidCtx.fill();
-
-                        paraboloidCtx.strokeStyle = '#222';
-                        paraboloidCtx.lineWidth = 5;
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.moveTo(headPos.x - 10, headPos.y - 1);
-                        paraboloidCtx.lineTo(headPos.x + 10, headPos.y - 1);
-                        paraboloidCtx.stroke();
-                        paraboloidCtx.lineWidth = 2;
-                        paraboloidCtx.beginPath();
-                        paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
-                        paraboloidCtx.lineTo(headPos.x + 15, headPos.y + 5);
-                        paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
-                        paraboloidCtx.lineTo(headPos.x + 14, headPos.y + 8);
-                        paraboloidCtx.stroke();
-                    }
-                });
-            } else {
-                for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                    paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-                    paraboloidCtx.lineWidth = 2.2;
-                    paraboloidCtx.beginPath();
-                    for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                        const z = getZ(x, y);
-                        const point = project3D(x, y, z, centerX, centerY, scale);
-                        if (y === -gridSize) paraboloidCtx.moveTo(point.x, point.y);
-                        else paraboloidCtx.lineTo(point.x, point.y);
-                    }
-                    paraboloidCtx.stroke();
-                }
-
+            for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                    paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-                    paraboloidCtx.lineWidth = 2.2;
-                    paraboloidCtx.beginPath();
-                    for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                        const z = getZ(x, y);
-                        const point = project3D(x, y, z, centerX, centerY, scale);
-                        if (x === -gridSize) paraboloidCtx.moveTo(point.x, point.y);
-                        else paraboloidCtx.lineTo(point.x, point.y);
-                    }
-                    paraboloidCtx.stroke();
+                    const p = project3D(x, y, getZ(x, y), centerX, centerY, scale, angleX, angleY);
+                    if (y === -gridSize) paraboloidCtx.moveTo(p.x, p.y); else paraboloidCtx.lineTo(p.x, p.y);
+                }
+                paraboloidCtx.stroke();
+            }
+            for (let y = -gridSize; y <= gridSize; y += gridStep) {
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
+                for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                    const p = project3D(x, y, getZ(x, y), centerX, centerY, scale, angleX, angleY);
+                    if (x === -gridSize) paraboloidCtx.moveTo(p.x, p.y); else paraboloidCtx.lineTo(p.x, p.y);
+                }
+                paraboloidCtx.stroke();
+            }
+            const b = project3D(0, 0, 0, centerX, centerY, scale, angleX, angleY);
+            paraboloidCtx.fillStyle = '#e10600'; paraboloidCtx.beginPath(); paraboloidCtx.arc(b.x, b.y, 10, 0, Math.PI * 2); paraboloidCtx.fill();
+        }
+
+        // Shared 3D Projection Logic
+        function project3D(x, y, z, centerX, centerY, scale, pitch, yaw) {
+            let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
+            let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
+            let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
+            let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
+            const perspective = 200 / (200 + z2);
+            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2 };
+        }
+
+        // Valley Mode Canvas (Question 12)
+        const valleyCanvas = document.getElementById('valleyCanvas');
+        const valleyCtx = valleyCanvas.getContext('2d');
+        let vAngleX = -0.95, vAngleY = 0.45, vDragging = false, vLastX = 0, vLastY = 0;
+        valleyCanvas.addEventListener('mousedown', (e) => { vDragging = true; vLastX = e.offsetX; vLastY = e.offsetY; });
+        valleyCanvas.addEventListener('mousemove', (e) => {
+            if (vDragging) {
+                if (e.cancelable) e.preventDefault();
+                vAngleY += (e.offsetX - vLastX) * 0.01;
+                vAngleX = Math.max(-1.57, Math.min(0.1, vAngleX + (e.offsetY - vLastY) * 0.01));
+                vLastX = e.offsetX; vLastY = e.offsetY;
+                drawValleyScene();
+            }
+        });
+        window.addEventListener('mouseup', () => vDragging = false);
+
+        function drawValleyScene() {
+            valleyCtx.clearRect(0, 0, valleyCanvas.width, valleyCanvas.height);
+            const centerX = valleyCanvas.width / 2, centerY = valleyCanvas.height / 2;
+            const scale = 32, gridSize = 8, gridStep = 0.8;
+            const getZ = (x, y) => 0.15 * (x * x + y * y);
+            const queue = [];
+            for (let x = -gridSize; x < gridSize; x += gridStep) {
+                for (let y = -gridSize; y < gridSize; y += gridStep) {
+                    const p1 = project3D(x, y, getZ(x, y), centerX, centerY, scale, vAngleX, vAngleY);
+                    const p2 = project3D(x + gridStep, y, getZ(x + gridStep, y), centerX, centerY, scale, vAngleX, vAngleY);
+                    const p3 = project3D(x + gridStep, y + gridStep, getZ(x + gridStep, y + gridStep), centerX, centerY, scale, vAngleX, vAngleY);
+                    const p4 = project3D(x, y + gridStep, getZ(x, y + gridStep), centerX, centerY, scale, vAngleX, vAngleY);
+                    queue.push({ type: 'quad', points: [p1, p2, p3, p4], depth: (p1.depth + p2.depth + p3.depth + p4.depth) / 4, height: getZ(x+gridStep/2, y+gridStep/2) });
                 }
             }
-
-            if (isValleyMode) {
-                // Detailed 3D Person standing at (3.0, 3.0)
-                const px = 3.0, py = 3.0, pz = getZ(px, py);
-                
-                const drawLine3D = (x1, y1, z1, x2, y2, z2, color, width) => {
-                    const p1 = project3D(x1, y1, z1, centerX, centerY, scale);
-                    const p2 = project3D(x2, y2, z2, centerX, centerY, scale);
-                    paraboloidCtx.strokeStyle = color;
-                    paraboloidCtx.lineWidth = width;
-                    paraboloidCtx.lineCap = 'round';
-                    paraboloidCtx.beginPath();
-                    paraboloidCtx.moveTo(p1.x, p1.y);
-                    paraboloidCtx.lineTo(p2.x, p2.y);
-                    paraboloidCtx.stroke();
-                };
-
-                // Shadow
-                const sPos = project3D(px, py, pz, centerX, centerY, scale);
-                paraboloidCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-                paraboloidCtx.beginPath();
-                paraboloidCtx.ellipse(sPos.x, sPos.y, 18, 10, 0, 0, Math.PI * 2);
-                paraboloidCtx.fill();
-
-                // Detailed Figure Construction
-                drawLine3D(px, py, pz, px - 0.1, py - 0.1, pz + 0.3, '#f5f5f5', 4); // L Upper Leg
-                drawLine3D(px - 0.1, py - 0.1, pz + 0.3, px - 0.15, py - 0.15, pz + 0.6, '#f5f5f5', 3.5); // L Lower Leg
-                drawLine3D(px, py, pz, px + 0.1, py + 0.1, pz + 0.3, '#f5f5f5', 4); // R Upper Leg
-                drawLine3D(px + 0.1, py + 0.1, pz + 0.3, px + 0.15, py + 0.15, pz + 0.6, '#f5f5f5', 3.5); // R Lower Leg
-
-                const torsoBottom = project3D(px, py, pz + 0.6, centerX, centerY, scale);
-                const torsoTop = project3D(px, py, pz + 1.2, centerX, centerY, scale);
-                paraboloidCtx.fillStyle = '#e10600';
-                paraboloidCtx.beginPath();
-                paraboloidCtx.moveTo(torsoBottom.x - 6, torsoBottom.y);
-                paraboloidCtx.lineTo(torsoBottom.x + 6, torsoBottom.y);
-                paraboloidCtx.lineTo(torsoTop.x + 10, torsoTop.y);
-                paraboloidCtx.lineTo(torsoTop.x - 10, torsoTop.y);
-                paraboloidCtx.closePath();
-                paraboloidCtx.fill();
-
-                drawLine3D(px, py, pz + 1.1, px - 0.2, py - 0.2, pz + 0.9, '#f5f5f5', 3); // L Upper Arm
-                drawLine3D(px - 0.2, py - 0.2, pz + 0.9, px - 0.3, py - 0.3, pz + 1.1, '#f5f5f5', 2.5); // L Lower Arm
-                drawLine3D(px, py, pz + 1.1, px + 0.2, py + 0.2, pz + 0.9, '#f5f5f5', 3); // R Upper Arm
-                drawLine3D(px + 0.2, py + 0.2, pz + 0.9, px + 0.3, py + 0.3, pz + 1.1, '#f5f5f5', 2.5); // R Lower Arm
-
-                drawLine3D(px, py, pz + 1.2, px, py, pz + 1.3, '#ffdbac', 4); // Neck
-                const headPos = project3D(px, py, pz + 1.5, centerX, centerY, scale);
-                paraboloidCtx.fillStyle = '#ffdbac';
-                paraboloidCtx.beginPath();
-                paraboloidCtx.arc(headPos.x, headPos.y, 9, 0, Math.PI * 2);
-                paraboloidCtx.fill();
-
-                paraboloidCtx.strokeStyle = '#222';
-                paraboloidCtx.lineWidth = 5;
-                paraboloidCtx.beginPath();
-                paraboloidCtx.moveTo(headPos.x - 10, headPos.y - 1);
-                paraboloidCtx.lineTo(headPos.x + 10, headPos.y - 1);
-                paraboloidCtx.stroke();
-                paraboloidCtx.lineWidth = 2;
-                paraboloidCtx.beginPath();
-                paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
-                paraboloidCtx.lineTo(headPos.x + 15, headPos.y + 5);
-                paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
-                paraboloidCtx.lineTo(headPos.x + 14, headPos.y + 8);
-                paraboloidCtx.stroke();
-            }
-
-            if (!isValleyMode) {
-                const bottom = project3D(0, 0, 0, centerX, centerY, scale);
-                paraboloidCtx.fillStyle = '#e10600';
-                paraboloidCtx.beginPath();
-                paraboloidCtx.arc(bottom.x, bottom.y, 10, 0, Math.PI * 2);
-                paraboloidCtx.fill();
-            }
+            const px = 3.0, py = 3.0, pz = getZ(px, py), pBase = project3D(px, py, pz, centerX, centerY, scale, vAngleX, vAngleY);
+            queue.push({ type: 'person', depth: pBase.depth, px, py, pz });
+            queue.sort((a, b) => b.depth - a.depth).forEach(item => {
+                if (item.type === 'quad') {
+                    const f = Math.min(1, item.height / 10);
+                    valleyCtx.fillStyle = `rgb(${Math.floor(100*(1-f)+60*f)}, ${Math.floor(60*(1-f)+160*f)}, ${Math.floor(40*(1-f)+60*f)})`;
+                    valleyCtx.beginPath(); item.points.forEach((p, i) => i === 0 ? valleyCtx.moveTo(p.x, p.y) : valleyCtx.lineTo(p.x, p.y)); valleyCtx.closePath(); valleyCtx.fill();
+                    valleyCtx.strokeStyle = 'rgba(0,0,0,0.15)'; valleyCtx.lineWidth = 0.5; valleyCtx.stroke();
+                } else {
+                    drawDetailedPerson(item.px, item.py, item.pz, centerX, centerY, scale, vAngleX, vAngleY, valleyCtx);
+                }
+            });
         }
 
-        function project3D(x, y, z, centerX, centerY, scale) {
-            // Rotate around Y axis (yaw) FIRST to preserve world-vertical orientation
-            let x1 = x * Math.cos(angleY) - y * Math.sin(angleY);
-            let y1 = x * Math.sin(angleY) + y * Math.cos(angleY);
-
-            // Rotate around X axis (pitch) SECOND
-            let y2 = y1 * Math.cos(angleX) - z * Math.sin(angleX);
-            let z2 = y1 * Math.sin(angleX) + z * Math.cos(angleX);
-
-            // Project to 2D
-            const perspective = 200 / (200 + z2);
-
-            return {
-                x: centerX + x1 * scale * perspective,
-                y: centerY - y2 * scale * perspective
+        function drawDetailedPerson(px, py, pz, centerX, centerY, scale, pitch, yaw, ctx) {
+            const line = (x1, y1, z1, x2, y2, z2, c, w) => {
+                const p1 = project3D(x1, y1, z1, centerX, centerY, scale, pitch, yaw);
+                const p2 = project3D(x2, y2, z2, centerX, centerY, scale, pitch, yaw);
+                ctx.strokeStyle = c; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
             };
+            const sPos = project3D(px, py, pz, centerX, centerY, scale, pitch, yaw);
+            ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(sPos.x, sPos.y, 14, 8, 0, 0, Math.PI*2); ctx.fill();
+            line(px, py, pz, px-0.1, py-0.1, pz+0.3, '#f5f5f5', 4); line(px-0.1, py-0.1, pz+0.3, px-0.15, py-0.15, pz+0.6, '#f5f5f5', 3.5);
+            line(px, py, pz, px+0.1, py+0.1, pz+0.3, '#f5f5f5', 4); line(px+0.1, py+0.1, pz+0.3, px+0.15, py+0.15, pz+0.6, '#f5f5f5', 3.5);
+            const tB = project3D(px, py, pz+0.6, centerX, centerY, scale, pitch, yaw), tT = project3D(px, py, pz+1.2, centerX, centerY, scale, pitch, yaw);
+            ctx.fillStyle = '#e10600'; ctx.beginPath(); ctx.moveTo(tB.x-6, tB.y); ctx.lineTo(tB.x+6, tB.y); ctx.lineTo(tT.x+10, tT.y); ctx.lineTo(tT.x-10, tT.y); ctx.closePath(); ctx.fill();
+            line(px, py, pz+1.1, px-0.2, py-0.2, pz+0.9, '#f5f5f5', 3); line(px-0.2, py-0.2, pz+0.9, px-0.3, py-0.3, pz+1.1, '#f5f5f5', 2.5);
+            line(px, py, pz+1.1, px+0.2, py+0.2, pz+0.9, '#f5f5f5', 3); line(px+0.2, py+0.2, pz+0.9, px+0.3, py+0.3, pz+1.1, '#f5f5f5', 2.5);
+            line(px, py, pz+1.2, px, py, pz+1.3, '#ffdbac', 4); const hP = project3D(px, py, pz+1.5, centerX, centerY, scale, pitch, yaw);
+            ctx.fillStyle = '#ffdbac'; ctx.beginPath(); ctx.arc(hP.x, hP.y, 9, 0, Math.PI*2); ctx.fill();
+            ctx.strokeStyle = '#222'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(hP.x-10, hP.y-1); ctx.lineTo(hP.x+10, hP.y-1); ctx.stroke();
+            ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+15, hP.y+5); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+14, hP.y+8); ctx.stroke();
         }
-
-        // Gradient Descent Canvas
-        const gdCanvas = document.getElementById('gradientDescentCanvas');
-        const gdCtx = gdCanvas.getContext('2d');
-        let gdAnimating = false;
-        let gdPosition = 6;
-        let gdSteps = [];
 
         function drawGradientDescentSetup() {
             gdCtx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
@@ -1676,10 +1514,10 @@
         // Shallow local minima and deep global minima
         const sgdWells = [
             { label: 'Global Min', x: 1.2, y: 1.2, depth: 2.8, spread: 1.4, radius: 0.45, color: '#64f4ac', global: true },
-            { label: 'Local Trap', x: -1.5, y: -1.5, depth: 0.45, spread: 2.8, radius: 0.35, color: '#ffd166' },
-            { label: 'Local Trap', x: 1.2, y: -1.2, depth: 0.35, spread: 3.8, radius: 0.3, color: '#ffd166' },
-            { label: 'Local Trap', x: -1.2, y: 1.2, depth: 0.35, spread: 3.8, radius: 0.3, color: '#ffd166' },
-            { label: 'Local Trap', x: 0, y: 1.5, depth: 0.25, spread: 4.2, radius: 0.25, color: '#ffd166' }
+            { label: 'Local Trap', x: -1.5, y: -1.5, depth: 1.25, spread: 2.8, radius: 0.35, color: '#ffd166' },
+            { label: 'Local Trap', x: 1.2, y: -1.2, depth: 0.95, spread: 3.8, radius: 0.3, color: '#ffd166' },
+            { label: 'Local Trap', x: -1.2, y: 1.2, depth: 0.95, spread: 3.8, radius: 0.3, color: '#ffd166' },
+            { label: 'Local Trap', x: 0, y: 1.5, depth: 0.85, spread: 4.2, radius: 0.25, color: '#ffd166' }
         ];
 
         function getSgdHeight(x, y) {
@@ -1756,9 +1594,9 @@
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
                 
-                // Shake decays over the loop so marbles settle like real bouncing balls
+                // Noise decays quicker (cubic decay)
                 const decay = Math.max(0, 1 - elapsed / sgdFallDuration);
-                const randomKick = noiseLevel * 0.1 * decay * decay;
+                const randomKick = noiseLevel * 0.1 * Math.pow(decay, 3); 
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 
@@ -2339,6 +2177,7 @@
             drawParabola();
             drawQuartic();
             drawParaboloid();
+            drawValleyScene();
             drawGradientDescentSetup();
 
             // 2. Continuous 3D loops (Calling once starts the internal requestAnimationFrame chain)

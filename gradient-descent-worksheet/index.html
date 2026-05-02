@@ -1294,7 +1294,7 @@
 
             const centerX = paraboloidCanvas.width / 2;
             const centerY = paraboloidCanvas.height / 2;
-            const scale = 45; 
+            const scale = 32; // Zoomed out
             const gridSize = 8; 
             const gridStep = 0.8; 
 
@@ -1302,8 +1302,10 @@
             const getZ = (x, y) => 0.15 * (x * x + y * y);
 
             if (isValleyMode) {
-                // Collect and sort polygons for depth (Painter's Algorithm) to ensure opacity
-                const quads = [];
+                // Collect and sort everything (terrain + person) for depth (Painter's Algorithm)
+                const renderQueue = [];
+                
+                // 1. Collect Terrain Quads
                 for (let x = -gridSize; x < gridSize; x += gridStep) {
                     for (let y = -gridSize; y < gridSize; y += gridStep) {
                         const z_tl = getZ(x, y);
@@ -1319,7 +1321,8 @@
                         const avgDepth = (p_tl.depth + p_tr.depth + p_br.depth + p_bl.depth) / 4;
                         const avgHeight = (z_tl + z_tr + z_br + z_bl) / 4;
 
-                        quads.push({
+                        renderQueue.push({
+                            type: 'quad',
                             points: [p_tl, p_tr, p_br, p_bl],
                             depth: avgDepth,
                             height: avgHeight
@@ -1327,28 +1330,104 @@
                     }
                 }
 
-                // Sort back-to-front
-                quads.sort((a, b) => b.depth - a.depth);
+                // 2. Add Person to queue
+                const px = 3.0, py = 3.0, pz = getZ(px, py);
+                const p_base = project3D(px, py, pz, centerX, centerY, scale);
+                renderQueue.push({
+                    type: 'person',
+                    depth: p_base.depth,
+                    px, py, pz
+                });
 
-                quads.forEach(quad => {
-                    const { points, height } = quad;
-                    const grassFactor = Math.min(1, height / 10);
-                    const r = Math.floor(100 * (1 - grassFactor) + 60 * grassFactor);
-                    const g = Math.floor(60 * (1 - grassFactor) + 160 * grassFactor);
-                    const b = Math.floor(40 * (1 - grassFactor) + 60 * grassFactor);
+                // Sort everything back-to-front
+                renderQueue.sort((a, b) => b.depth - a.depth);
 
-                    paraboloidCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                // Helper to draw a 3D line
+                const drawLine3D = (x1, y1, z1, x2, y2, z2, color, width) => {
+                    const p1 = project3D(x1, y1, z1, centerX, centerY, scale);
+                    const p2 = project3D(x2, y2, z2, centerX, centerY, scale);
+                    paraboloidCtx.strokeStyle = color;
+                    paraboloidCtx.lineWidth = width;
+                    paraboloidCtx.lineCap = 'round';
                     paraboloidCtx.beginPath();
-                    paraboloidCtx.moveTo(points[0].x, points[0].y);
-                    paraboloidCtx.lineTo(points[1].x, points[1].y);
-                    paraboloidCtx.lineTo(points[2].x, points[2].y);
-                    paraboloidCtx.lineTo(points[3].x, points[3].y);
-                    paraboloidCtx.closePath();
-                    paraboloidCtx.fill();
-
-                    paraboloidCtx.strokeStyle = `rgba(0,0,0,0.15)`;
-                    paraboloidCtx.lineWidth = 0.5;
+                    paraboloidCtx.moveTo(p1.x, p1.y);
+                    paraboloidCtx.lineTo(p2.x, p2.y);
                     paraboloidCtx.stroke();
+                };
+
+                renderQueue.forEach(item => {
+                    if (item.type === 'quad') {
+                        const { points, height } = item;
+                        const grassFactor = Math.min(1, height / 10);
+                        const r = Math.floor(100 * (1 - grassFactor) + 60 * grassFactor);
+                        const g = Math.floor(60 * (1 - grassFactor) + 160 * grassFactor);
+                        const b = Math.floor(40 * (1 - grassFactor) + 60 * grassFactor);
+
+                        paraboloidCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.moveTo(points[0].x, points[0].y);
+                        paraboloidCtx.lineTo(points[1].x, points[1].y);
+                        paraboloidCtx.lineTo(points[2].x, points[2].y);
+                        paraboloidCtx.lineTo(points[3].x, points[3].y);
+                        paraboloidCtx.closePath();
+                        paraboloidCtx.fill();
+
+                        paraboloidCtx.strokeStyle = `rgba(0,0,0,0.15)`;
+                        paraboloidCtx.lineWidth = 0.5;
+                        paraboloidCtx.stroke();
+                    } else if (item.type === 'person') {
+                        const { px, py, pz } = item;
+                        
+                        // Shadow
+                        const sPos = project3D(px, py, pz, centerX, centerY, scale);
+                        paraboloidCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.ellipse(sPos.x, sPos.y, 14, 8, 0, 0, Math.PI * 2);
+                        paraboloidCtx.fill();
+
+                        // Figure
+                        drawLine3D(px, py, pz, px - 0.1, py - 0.1, pz + 0.3, '#f5f5f5', 4);
+                        drawLine3D(px - 0.1, py - 0.1, pz + 0.3, px - 0.15, py - 0.15, pz + 0.6, '#f5f5f5', 3.5);
+                        drawLine3D(px, py, pz, px + 0.1, py + 0.1, pz + 0.3, '#f5f5f5', 4);
+                        drawLine3D(px + 0.1, py + 0.1, pz + 0.3, px + 0.15, py + 0.15, pz + 0.6, '#f5f5f5', 3.5);
+
+                        const torsoBottom = project3D(px, py, pz + 0.6, centerX, centerY, scale);
+                        const torsoTop = project3D(px, py, pz + 1.2, centerX, centerY, scale);
+                        paraboloidCtx.fillStyle = '#e10600';
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.moveTo(torsoBottom.x - 6, torsoBottom.y);
+                        paraboloidCtx.lineTo(torsoBottom.x + 6, torsoBottom.y);
+                        paraboloidCtx.lineTo(torsoTop.x + 10, torsoTop.y);
+                        paraboloidCtx.lineTo(torsoTop.x - 10, torsoTop.y);
+                        paraboloidCtx.closePath();
+                        paraboloidCtx.fill();
+
+                        drawLine3D(px, py, pz + 1.1, px - 0.2, py - 0.2, pz + 0.9, '#f5f5f5', 3);
+                        drawLine3D(px - 0.2, py - 0.2, pz + 0.9, px - 0.3, py - 0.3, pz + 1.1, '#f5f5f5', 2.5);
+                        drawLine3D(px, py, pz + 1.1, px + 0.2, py + 0.2, pz + 0.9, '#f5f5f5', 3);
+                        drawLine3D(px + 0.2, py + 0.2, pz + 0.9, px + 0.3, py + 0.3, pz + 1.1, '#f5f5f5', 2.5);
+
+                        drawLine3D(px, py, pz + 1.2, px, py, pz + 1.3, '#ffdbac', 4);
+                        const headPos = project3D(px, py, pz + 1.5, centerX, centerY, scale);
+                        paraboloidCtx.fillStyle = '#ffdbac';
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.arc(headPos.x, headPos.y, 9, 0, Math.PI * 2);
+                        paraboloidCtx.fill();
+
+                        paraboloidCtx.strokeStyle = '#222';
+                        paraboloidCtx.lineWidth = 5;
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.moveTo(headPos.x - 10, headPos.y - 1);
+                        paraboloidCtx.lineTo(headPos.x + 10, headPos.y - 1);
+                        paraboloidCtx.stroke();
+                        paraboloidCtx.lineWidth = 2;
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
+                        paraboloidCtx.lineTo(headPos.x + 15, headPos.y + 5);
+                        paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
+                        paraboloidCtx.lineTo(headPos.x + 14, headPos.y + 8);
+                        paraboloidCtx.stroke();
+                    }
                 });
             } else {
                 for (let x = -gridSize; x <= gridSize; x += gridStep) {
@@ -1615,7 +1694,7 @@
         function projectSgd(x, y, z) {
             const centerX = sgdCanvas.width / 2;
             const centerY = sgdCanvas.height / 2 + 40;
-            const scale = 75;
+            const scale = 55; // Zoomed out from 75
 
             // Rotate around Y axis (yaw) FIRST to preserve world-vertical orientation
             let x1 = x * Math.cos(sgdAngleY) - y * Math.sin(sgdAngleY);

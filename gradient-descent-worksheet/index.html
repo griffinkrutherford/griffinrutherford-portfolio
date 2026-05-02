@@ -705,6 +705,7 @@
                 <button id="toggle-secant-plane" type="button">Show Secant Plane</button>
                 <button id="toggle-tangent-plane" type="button" class="is-hidden">Show Tangent Plane</button>
             </div>
+            <p class="wordvec-note is-hidden" id="plane-explanation"></p>
             <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf;">
                 Click and drag to rotate the paraboloid!
             </p>
@@ -1280,6 +1281,7 @@
         let showTangentPlane = false;
         const secantPlaneToggle = document.getElementById('toggle-secant-plane');
         const tangentPlaneToggle = document.getElementById('toggle-tangent-plane');
+        const planeExplanation = document.getElementById('plane-explanation');
 
         paraboloidCanvas.addEventListener('mousedown', (e) => {
             isDragging = true;
@@ -1343,6 +1345,19 @@
             tangentPlaneToggle.classList.toggle('is-hidden', currentMode !== 'calculus');
             secantPlaneToggle.textContent = showSecantPlane ? 'Hide Secant Plane' : 'Show Secant Plane';
             tangentPlaneToggle.textContent = showTangentPlane ? 'Hide Tangent Plane' : 'Show Tangent Plane';
+
+            if (!planeExplanation) return;
+
+            if (currentMode === 'algebra' && showSecantPlane) {
+                planeExplanation.innerHTML = '<strong>Secant plane:</strong> a flat sheet that cuts across the 3D surface at matching-height points. It is the 3D version of the vertex line from Question 4: instead of drawing a line across a parabola, we draw a flat plane across the bowl.';
+                planeExplanation.classList.remove('is-hidden');
+            } else if (currentMode === 'calculus' && showTangentPlane) {
+                planeExplanation.innerHTML = '<strong>Tangent plane:</strong> a flat sheet that just touches the surface at the vertex and shows what "flat slope" looks like in 3D. It is the 3D version of the vertex line from Question 4.';
+                planeExplanation.classList.remove('is-hidden');
+            } else {
+                planeExplanation.innerHTML = '';
+                planeExplanation.classList.add('is-hidden');
+            }
         }
 
         if (secantPlaneToggle) {

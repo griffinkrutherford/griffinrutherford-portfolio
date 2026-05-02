@@ -1295,97 +1295,165 @@
             const centerX = paraboloidCanvas.width / 2;
             const centerY = paraboloidCanvas.height / 2;
             const scale = 40;
-
-            // Draw grid lines
             const gridSize = 5;
             const gridStep = 0.5;
 
-            for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                paraboloidCtx.strokeStyle = isValleyMode ? 'rgba(100, 244, 172, 0.4)' : 'rgba(255, 255, 255, 0.45)';
-                paraboloidCtx.lineWidth = 2.2;
-                paraboloidCtx.beginPath();
+            if (isValleyMode) {
+                // Draw textured valley (grass/dirt) using filled quads
+                for (let x = -gridSize; x < gridSize; x += gridStep) {
+                    for (let y = -gridSize; y < gridSize; y += gridStep) {
+                        const z1 = x * x + y * y;
+                        const z2 = (x + gridStep) * x + y * y; // Error in user mental model, correcting:
+                        const z_tl = x * x + y * y;
+                        const z_tr = (x + gridStep) * (x + gridStep) + y * y;
+                        const z_br = (x + gridStep) * (x + gridStep) + (y + gridStep) * (y + gridStep);
+                        const z_bl = x * x + (y + gridStep) * (y + gridStep);
+
+                        const p_tl = project3D(x, y, z_tl, centerX, centerY, scale);
+                        const p_tr = project3D(x + gridStep, y, z_tr, centerX, centerY, scale);
+                        const p_br = project3D(x + gridStep, y + gridStep, z_br, centerX, centerY, scale);
+                        const p_bl = project3D(x, y + gridStep, z_bl, centerX, centerY, scale);
+
+                        // Calculate "texture" color based on height and some pseudo-randomness
+                        const height = (z_tl + z_tr + z_br + z_bl) / 4;
+                        // Higher is grassier (green), lower is dirtier (brown)
+                        const greenBase = Math.floor(100 + Math.random() * 40);
+                        const brownBase = Math.floor(60 + Math.random() * 30);
+                        
+                        // Mix grass (green) and dirt (brown)
+                        // At z=0 (bottom), more dirt. At z=50 (top), more grass.
+                        const grassFactor = Math.min(1, height / 20);
+                        const r = Math.floor(100 * (1 - grassFactor) + 60 * grassFactor);
+                        const g = Math.floor(60 * (1 - grassFactor) + 160 * grassFactor);
+                        const b = Math.floor(40 * (1 - grassFactor) + 60 * grassFactor);
+
+                        paraboloidCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                        paraboloidCtx.beginPath();
+                        paraboloidCtx.moveTo(p_tl.x, p_tl.y);
+                        paraboloidCtx.lineTo(p_tr.x, p_tr.y);
+                        paraboloidCtx.lineTo(p_br.x, p_br.y);
+                        paraboloidCtx.lineTo(p_bl.x, p_bl.y);
+                        paraboloidCtx.closePath();
+                        paraboloidCtx.fill();
+
+                        // Add subtle blade/detail lines
+                        paraboloidCtx.strokeStyle = `rgba(0,0,0,0.05)`;
+                        paraboloidCtx.lineWidth = 1;
+                        paraboloidCtx.stroke();
+                    }
+                }
+            } else {
+                // Standard Wireframe Mode
+                for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                    paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                    paraboloidCtx.lineWidth = 2.2;
+                    paraboloidCtx.beginPath();
+                    for (let y = -gridSize; y <= gridSize; y += gridStep) {
+                        const z = x * x + y * y;
+                        const point = project3D(x, y, z, centerX, centerY, scale);
+                        if (y === -gridSize) paraboloidCtx.moveTo(point.x, point.y);
+                        else paraboloidCtx.lineTo(point.x, point.y);
+                    }
+                    paraboloidCtx.stroke();
+                }
 
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                    const z = x * x + y * y;
-                    const point = project3D(x, y, z, centerX, centerY, scale);
-
-                    if (y === -gridSize) {
-                        paraboloidCtx.moveTo(point.x, point.y);
-                    } else {
-                        paraboloidCtx.lineTo(point.x, point.y);
+                    paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                    paraboloidCtx.lineWidth = 2.2;
+                    paraboloidCtx.beginPath();
+                    for (let x = -gridSize; x <= gridSize; x += gridStep) {
+                        const z = x * x + y * y;
+                        const point = project3D(x, y, z, centerX, centerY, scale);
+                        if (x === -gridSize) paraboloidCtx.moveTo(point.x, point.y);
+                        else paraboloidCtx.lineTo(point.x, point.y);
                     }
+                    paraboloidCtx.stroke();
                 }
-                paraboloidCtx.stroke();
-            }
-
-            for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                paraboloidCtx.strokeStyle = isValleyMode ? 'rgba(100, 244, 172, 0.4)' : 'rgba(255, 255, 255, 0.45)';
-                paraboloidCtx.lineWidth = 2.2;
-                paraboloidCtx.beginPath();
-
-                for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                    const z = x * x + y * y;
-                    const point = project3D(x, y, z, centerX, centerY, scale);
-
-                    if (x === -gridSize) {
-                        paraboloidCtx.moveTo(point.x, point.y);
-                    } else {
-                        paraboloidCtx.lineTo(point.x, point.y);
-                    }
-                }
-                paraboloidCtx.stroke();
             }
 
             if (isValleyMode) {
-                // Draw stick figure person standing at (1.5, 1.5, 4.5)
+                // Detailed 3D Person standing at (1.5, 1.5)
                 const px = 1.5, py = 1.5, pz = px * px + py * py;
-                const pHeight = 1.2;
                 
-                // Helper to draw a 3D line
                 const drawLine3D = (x1, y1, z1, x2, y2, z2, color, width) => {
                     const p1 = project3D(x1, y1, z1, centerX, centerY, scale);
                     const p2 = project3D(x2, y2, z2, centerX, centerY, scale);
                     paraboloidCtx.strokeStyle = color;
                     paraboloidCtx.lineWidth = width;
+                    paraboloidCtx.lineCap = 'round';
                     paraboloidCtx.beginPath();
                     paraboloidCtx.moveTo(p1.x, p1.y);
                     paraboloidCtx.lineTo(p2.x, p2.y);
                     paraboloidCtx.stroke();
                 };
 
-                // Legs
-                drawLine3D(px, py, pz, px - 0.2, py - 0.2, pz + 0.4, '#ffffff', 3);
-                drawLine3D(px, py, pz, px + 0.2, py + 0.2, pz + 0.4, '#ffffff', 3);
-                
-                // Torso
-                drawLine3D(px, py, pz + 0.4, px, py, pz + 1.0, '#ffffff', 3);
-                
-                // Arms
-                drawLine3D(px, py, pz + 0.8, px - 0.3, py - 0.3, pz + 0.6, '#ffffff', 3);
-                drawLine3D(px, py, pz + 0.8, px + 0.3, py + 0.3, pz + 0.6, '#ffffff', 3);
-                
-                // Head
-                const headPos = project3D(px, py, pz + 1.2, centerX, centerY, scale);
-                paraboloidCtx.fillStyle = '#ffffff';
+                // Shadow
+                const sPos = project3D(px, py, pz, centerX, centerY, scale);
+                paraboloidCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
                 paraboloidCtx.beginPath();
-                paraboloidCtx.arc(headPos.x, headPos.y, 8, 0, Math.PI * 2);
+                paraboloidCtx.ellipse(sPos.x, sPos.y, 15, 8, 0, 0, Math.PI * 2);
                 paraboloidCtx.fill();
 
-                // Blindfold (black line over head)
-                paraboloidCtx.strokeStyle = '#000000';
-                paraboloidCtx.lineWidth = 4;
+                // Detailed Figure Construction
+                // Legs (with knees)
+                drawLine3D(px, py, pz, px - 0.1, py - 0.1, pz + 0.3, '#f5f5f5', 4); // L Upper Leg
+                drawLine3D(px - 0.1, py - 0.1, pz + 0.3, px - 0.15, py - 0.15, pz + 0.6, '#f5f5f5', 3.5); // L Lower Leg
+                
+                drawLine3D(px, py, pz, px + 0.1, py + 0.1, pz + 0.3, '#f5f5f5', 4); // R Upper Leg
+                drawLine3D(px + 0.1, py + 0.1, pz + 0.3, px + 0.15, py + 0.15, pz + 0.6, '#f5f5f5', 3.5); // R Lower Leg
+
+                // Torso (Trapezoid-ish)
+                const torsoBottom = project3D(px, py, pz + 0.6, centerX, centerY, scale);
+                const torsoTop = project3D(px, py, pz + 1.2, centerX, centerY, scale);
+                paraboloidCtx.fillStyle = '#e10600';
                 paraboloidCtx.beginPath();
-                paraboloidCtx.moveTo(headPos.x - 6, headPos.y - 1);
-                paraboloidCtx.lineTo(headPos.x + 6, headPos.y - 1);
+                paraboloidCtx.moveTo(torsoBottom.x - 6, torsoBottom.y);
+                paraboloidCtx.lineTo(torsoBottom.x + 6, torsoBottom.y);
+                paraboloidCtx.lineTo(torsoTop.x + 10, torsoTop.y);
+                paraboloidCtx.lineTo(torsoTop.x - 10, torsoTop.y);
+                paraboloidCtx.closePath();
+                paraboloidCtx.fill();
+
+                // Arms (with elbows)
+                drawLine3D(px, py, pz + 1.1, px - 0.2, py - 0.2, pz + 0.9, '#f5f5f5', 3); // L Upper Arm
+                drawLine3D(px - 0.2, py - 0.2, pz + 0.9, px - 0.3, py - 0.3, pz + 1.1, '#f5f5f5', 2.5); // L Lower Arm
+                
+                drawLine3D(px, py, pz + 1.1, px + 0.2, py + 0.2, pz + 0.9, '#f5f5f5', 3); // R Upper Arm
+                drawLine3D(px + 0.2, py + 0.2, pz + 0.9, px + 0.3, py + 0.3, pz + 1.1, '#f5f5f5', 2.5); // R Lower Arm
+
+                // Head and Neck
+                drawLine3D(px, py, pz + 1.2, px, py, pz + 1.3, '#ffdbac', 4); // Neck
+                const headPos = project3D(px, py, pz + 1.5, centerX, centerY, scale);
+                paraboloidCtx.fillStyle = '#ffdbac';
+                paraboloidCtx.beginPath();
+                paraboloidCtx.arc(headPos.x, headPos.y, 9, 0, Math.PI * 2);
+                paraboloidCtx.fill();
+
+                // Detailed Blindfold
+                paraboloidCtx.strokeStyle = '#222';
+                paraboloidCtx.lineWidth = 5;
+                paraboloidCtx.beginPath();
+                paraboloidCtx.moveTo(headPos.x - 10, headPos.y - 1);
+                paraboloidCtx.lineTo(headPos.x + 10, headPos.y - 1);
+                paraboloidCtx.stroke();
+                // Blindfold knot/tails
+                paraboloidCtx.lineWidth = 2;
+                paraboloidCtx.beginPath();
+                paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
+                paraboloidCtx.lineTo(headPos.x + 15, headPos.y + 5);
+                paraboloidCtx.moveTo(headPos.x + 9, headPos.y);
+                paraboloidCtx.lineTo(headPos.x + 14, headPos.y + 8);
                 paraboloidCtx.stroke();
             }
 
-            // Draw bottom point
-            const bottom = project3D(0, 0, 0, centerX, centerY, scale);
-            paraboloidCtx.fillStyle = '#e10600';
-            paraboloidCtx.beginPath();
-            paraboloidCtx.arc(bottom.x, bottom.y, 10, 0, Math.PI * 2);
-            paraboloidCtx.fill();
+            // Draw bottom point (only if not in valley mode or draw as a flag?)
+            if (!isValleyMode) {
+                const bottom = project3D(0, 0, 0, centerX, centerY, scale);
+                paraboloidCtx.fillStyle = '#e10600';
+                paraboloidCtx.beginPath();
+                paraboloidCtx.arc(bottom.x, bottom.y, 10, 0, Math.PI * 2);
+                paraboloidCtx.fill();
+            }
         }
 
         function project3D(x, y, z, centerX, centerY, scale) {

@@ -1,4 +1,4 @@
-// Basic JavaScript for the Malestrum podcast website
+// Basic JavaScript for the Malestrum: The Third Phase podcast website
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('nav a, .footer-nav a');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const emailInput = this.querySelector('input[type="email"]');
             if (emailInput.value) {
                 // Show success message
-                alert('Thank you for subscribing to the Malestrum newsletter!');
+                alert('Thank you for subscribing to the Malestrum: The Third Phase newsletter!');
                 emailInput.value = '';
             }
         });

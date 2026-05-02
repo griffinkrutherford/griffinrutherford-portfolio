@@ -2351,34 +2351,55 @@
         const bowlMorphCanvas = document.getElementById('bowlMorphCanvas');
         const bowlMorphCtx = bowlMorphCanvas ? bowlMorphCanvas.getContext('2d') : null;
         let bowlMorphFrame = 0;
-        const BOWL_MORPH_DURATION = 360;
-        const bowlWells = [
-            { x: -1.4, y: -1.1, depth: 1.2, spread: 1.7, color: '#49a7ff' },
-            { x: 1.2, y: -0.2, depth: 1.5, spread: 1.5, color: '#64f4ac' },
-            { x: 0.1, y: 1.2, depth: 1.05, spread: 1.9, color: '#ffd166' }
+        const BOWL_MORPH_DURATION = 420;
+        const bowlBasins = [
+            { x: -1.7, y: -1.1, depth: 0.9, spreadX: 1.5, spreadY: 1.0, color: '#49a7ff' },
+            { x: -0.6, y: 1.4, depth: 0.7, spreadX: 1.0, spreadY: 1.6, color: '#ffd166' },
+            { x: 0.8, y: -1.5, depth: 0.75, spreadX: 1.2, spreadY: 1.2, color: '#ff4b3e' },
+            { x: 1.45, y: 0.75, depth: 1.25, spreadX: 1.6, spreadY: 1.1, color: '#64f4ac' },
+            { x: 0.05, y: 0.05, depth: 0.45, spreadX: 2.2, spreadY: 2.2, color: '#cfcfcf' }
+        ];
+        const bowlRidges = [
+            { x: -0.25, y: -0.25, height: 0.42, spreadX: 0.28, spreadY: 2.0, angle: -0.72 },
+            { x: 0.9, y: 0.0, height: 0.32, spreadX: 0.36, spreadY: 1.35, angle: 0.9 }
         ];
 
         function getBowlMorphProgress() {
             const cycle = (bowlMorphFrame % BOWL_MORPH_DURATION) / BOWL_MORPH_DURATION;
-            const wave = 0.5 - 0.5 * Math.cos(cycle * Math.PI * 2);
-            return wave * wave * (3 - 2 * wave);
+            if (cycle < 0.08) return 0;
+            if (cycle > 0.76) return 1;
+
+            const t = (cycle - 0.08) / 0.68;
+            return t * t * (3 - 2 * t);
+        }
+
+        function ellipticalFalloff(x, y, feature) {
+            const dx = x - feature.x;
+            const dy = y - feature.y;
+            const angle = feature.angle || 0;
+            const rx = dx * Math.cos(angle) - dy * Math.sin(angle);
+            const ry = dx * Math.sin(angle) + dy * Math.cos(angle);
+            return Math.exp(-(rx * rx * feature.spreadX + ry * ry * feature.spreadY));
         }
 
         function getBowlMorphHeight(x, y, progress) {
-            const gentleBowl = 0.06 * (x * x + y * y);
-            const shapedWells = bowlWells.reduce((total, well) => {
-                const distanceSquared = Math.pow(x - well.x, 2) + Math.pow(y - well.y, 2);
-                return total - well.depth * Math.exp(-distanceSquared * well.spread);
+            const broadBowl = 0.045 * (x * x + y * y);
+            const basins = bowlBasins.reduce((total, basin) => {
+                return total - basin.depth * ellipticalFalloff(x, y, basin);
             }, 0);
-            return progress * (gentleBowl + shapedWells);
+            const ridges = bowlRidges.reduce((total, ridge) => {
+                return total + ridge.height * ellipticalFalloff(x, y, ridge);
+            }, 0);
+            const ripples = 0.08 * Math.sin(2.4 * x + 0.8 * y) + 0.06 * Math.cos(1.4 * x - 2.1 * y);
+            return progress * (broadBowl + basins + ridges + ripples);
         }
 
         function projectBowlMorph(x, y, z) {
             const centerX = bowlMorphCanvas.width / 2;
-            const centerY = bowlMorphCanvas.height / 2 + 42;
-            const scale = 58;
-            const pitch = -0.68;
-            const yaw = 0.62 + Math.sin(bowlMorphFrame * 0.012) * 0.14;
+            const centerY = bowlMorphCanvas.height / 2 + 20;
+            const scale = 62;
+            const pitch = -1.16;
+            const yaw = 0.48 + Math.sin(bowlMorphFrame * 0.01) * 0.08;
 
             let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
             let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
@@ -2432,13 +2453,13 @@
                 bowlMorphCtx.stroke();
             }
 
-            bowlWells.forEach((well) => {
-                const p = projectBowlMorph(well.x, well.y, getBowlMorphHeight(well.x, well.y, progress));
+            bowlBasins.slice(0, 4).forEach((basin) => {
+                const p = projectBowlMorph(basin.x, basin.y, getBowlMorphHeight(basin.x, basin.y, progress));
                 bowlMorphCtx.save();
                 bowlMorphCtx.globalAlpha = 0.18 + progress * 0.7;
-                bowlMorphCtx.strokeStyle = well.color;
+                bowlMorphCtx.strokeStyle = basin.color;
                 bowlMorphCtx.lineWidth = 2;
-                bowlMorphCtx.shadowColor = well.color;
+                bowlMorphCtx.shadowColor = basin.color;
                 bowlMorphCtx.shadowBlur = 12 * progress;
                 bowlMorphCtx.beginPath();
                 bowlMorphCtx.arc(p.x, p.y, (10 + progress * 8) * p.perspective, 0, Math.PI * 2);
@@ -2448,7 +2469,9 @@
 
             bowlMorphCtx.fillStyle = 'rgba(255, 255, 255, 0.84)';
             bowlMorphCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
-            bowlMorphCtx.fillText(progress < 0.5 ? 'Flat starting surface' : 'Bowl shaped by training', 16, 28);
+            const cycle = (bowlMorphFrame % BOWL_MORPH_DURATION) / BOWL_MORPH_DURATION;
+            const label = cycle < 0.08 ? 'New training run: flat surface' : progress < 1 ? 'Training shapes the bowl' : 'Trained bowl holds its shape';
+            bowlMorphCtx.fillText(label, 16, 28);
             requestAnimationFrame(drawBowlMorphScene);
         }
 

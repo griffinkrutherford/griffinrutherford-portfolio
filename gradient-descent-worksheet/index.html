@@ -1353,20 +1353,20 @@
         }
 
         function project3D(x, y, z, centerX, centerY, scale) {
-            // Rotate around X axis
-            let y1 = y * Math.cos(angleX) - z * Math.sin(angleX);
-            let z1 = y * Math.sin(angleX) + z * Math.cos(angleX);
+            // Rotate around Y axis (yaw) FIRST to preserve world-vertical orientation
+            let x1 = x * Math.cos(angleY) - y * Math.sin(angleY);
+            let y1 = x * Math.sin(angleY) + y * Math.cos(angleY);
 
-            // Rotate around Y axis
-            let x2 = x * Math.cos(angleY) - z1 * Math.sin(angleY);
-            let z2 = x * Math.sin(angleY) + z1 * Math.cos(angleY);
+            // Rotate around X axis (pitch) SECOND
+            let y2 = y1 * Math.cos(angleX) - z * Math.sin(angleX);
+            let z2 = y1 * Math.sin(angleX) + z * Math.cos(angleX);
 
             // Project to 2D
             const perspective = 200 / (200 + z2);
 
             return {
-                x: centerX + x2 * scale * perspective,
-                y: centerY - y1 * scale * perspective
+                x: centerX + x1 * scale * perspective,
+                y: centerY - y2 * scale * perspective
             };
         }
 
@@ -1514,12 +1514,17 @@
             const centerX = sgdCanvas.width / 2;
             const centerY = sgdCanvas.height / 2 + 40;
             const scale = 75;
-            let y1 = y * Math.cos(sgdAngleX) - z * Math.sin(sgdAngleX);
-            let z1 = y * Math.sin(sgdAngleX) + z * Math.cos(sgdAngleX);
-            let x2 = x * Math.cos(sgdAngleY) - z1 * Math.sin(sgdAngleY);
-            let z2 = x * Math.sin(sgdAngleY) + z1 * Math.cos(sgdAngleY);
+
+            // Rotate around Y axis (yaw) FIRST to preserve world-vertical orientation
+            let x1 = x * Math.cos(sgdAngleY) - y * Math.sin(sgdAngleY);
+            let y1 = x * Math.sin(sgdAngleY) + y * Math.cos(sgdAngleY);
+
+            // Rotate around X axis (pitch) SECOND
+            let y2 = y1 * Math.cos(sgdAngleX) - z * Math.sin(sgdAngleX);
+            let z2 = y1 * Math.sin(sgdAngleX) + z * Math.cos(sgdAngleX);
+
             const perspective = 350 / (350 + z2 * 40);
-            return { x: centerX + x2 * scale * perspective, y: centerY - y1 * scale * perspective, depth: z2, perspective };
+            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
         }
 
         function initSgdSimulator(now = performance.now()) {

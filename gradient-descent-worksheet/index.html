@@ -829,6 +829,7 @@
                             <button type="button" onclick="initSgdSimulator()" style="padding: 5px 15px; font-size: 0.9em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
                         </div>
                     </div>
+                    <div id="sgdCounter" style="color: #64f4ac; font-weight: bold; font-size: 1.1em; margin-top: 5px;">Marbles in Global Minimum: 0</div>
                     <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; min-height: 1.2em;">Loop running: marbles reset automatically.</p>
                 </div>
             </div>
@@ -1506,6 +1507,7 @@
         const sgdNoiseValue = document.getElementById('sgdNoiseValue');
         const sgdLoopMeter = document.getElementById('sgdLoopMeter');
         const sgdStatus = document.getElementById('sgdStatus');
+        const sgdCounter = document.getElementById('sgdCounter');
 
         let sgdAngleX = -0.65;
         let sgdAngleY = 0.45;
@@ -1617,7 +1619,8 @@
                 if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= -0.4; }
                 if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= -0.4; }
 
-                marble.settled = sgdWells.some(w => Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
+                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                marble.settled = distToGlobal < 0.6 || sgdWells.some(w => !w.global && Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
             });
         }
 
@@ -1661,7 +1664,15 @@
             let localCount = 0;
             const projectedMarbles = sgdMarbles.map(marble => {
                 const well = sgdWells.find(w => Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
-                if (well?.global) globalCount++; else if (well) localCount++;
+                
+                // Use a relatively lax threshold (0.6) for the global minimum counter
+                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                if (distToGlobal < 0.6) {
+                    globalCount++;
+                } else if (well && !well.global) {
+                    localCount++;
+                }
+                
                 return { ...marble, projected: projectSgd(marble.x, marble.y, getSgdHeight(marble.x, marble.y)) };
             });
 
@@ -1680,6 +1691,7 @@
             const noisePercent = Number(sgdNoise.value);
             sgdLoopMeter.style.width = `${(elapsed / sgdLoopDuration) * 100}%`;
             sgdNoiseValue.textContent = `Noise Level: ${noisePercent}%`;
+            sgdCounter.textContent = `Marbles in Global Minimum: ${globalCount}`;
 
             if (elapsed > sgdFallDuration) {
                 sgdStatus.textContent = `Cycle complete: ${globalCount} Global, ${localCount} Local. Resetting...`;

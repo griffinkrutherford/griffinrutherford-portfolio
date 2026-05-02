@@ -843,7 +843,7 @@
             <div class="sgd-simulator">
                 <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
                 <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
-                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: the middle gives a useful shake that fades over time, while the far right keeps shaking too long.
+                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: the middle gives a useful shake that fades over time, while the far right can shake marbles right out of the bowl.
                 </p>
                 <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
                     A little shaking helps the marbles escape shallow dents, but the shaking has to calm down. If the bowl keeps shaking forever, the marbles never settle into the best spot.
@@ -1751,7 +1751,9 @@
                     noisePhase: Math.random() * Math.PI * 2,
                     noiseSpin: 0.0015 + Math.random() * 0.0025,
                     color: i % 3 === 0 ? '#ff4b3e' : i % 3 === 1 ? '#49a7ff' : '#ffd166',
-                    settled: false
+                    settled: false,
+                    fallenOut: false,
+                    fallAge: 0
                 });
             }
             sgdLoopStart = now;
@@ -1776,8 +1778,16 @@
             const isFalling = elapsed < sgdFallDuration;
             const gravityStrength = 0.003; // Reduced intensity
             const damping = 0.98;
+            const canFallOut = noisePercent >= 75;
 
             sgdMarbles.forEach((marble) => {
+                if (marble.fallenOut) {
+                    marble.fallAge += dt;
+                    marble.x += marble.vx * dt * 0.18;
+                    marble.y += marble.vy * dt * 0.18;
+                    return;
+                }
+
                 const eps = 0.025;
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
@@ -1794,19 +1804,23 @@
                 const directionalKick = highNoisePower * 0.04 * (isFalling ? 1 : 0.45);
                 const gustX = Math.cos(gustAngle) * directionalKick;
                 const gustY = Math.sin(gustAngle) * directionalKick;
-                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
-                const repelStrength = highNoisePower * Math.max(0, 1.4 - distToGlobal) * 0.03;
-                const repelX = distToGlobal > 0.001 ? ((marble.x - 1.2) / distToGlobal) * repelStrength : 0;
-                const repelY = distToGlobal > 0.001 ? ((marble.y - 1.2) / distToGlobal) * repelStrength : 0;
 
-                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + (shakeX + gustX + repelX) * dt;
-                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + (shakeY + gustY + repelY) * dt;
+                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + (shakeX + gustX) * dt;
+                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + (shakeY + gustY) * dt;
                 
                 marble.x += marble.vx * dt;
                 marble.y += marble.vy * dt;
 
-                if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= -0.4; }
-                if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= -0.4; }
+                if (canFallOut && Math.hypot(marble.x, marble.y) > 2.78) {
+                    marble.fallenOut = true;
+                    marble.settled = false;
+                    marble.vx *= 1.35;
+                    marble.vy *= 1.35;
+                    return;
+                }
+
+                if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= canFallOut ? 0.9 : -0.4; }
+                if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= canFallOut ? 0.9 : -0.4; }
 
                 const settledDistToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
                 marble.settled = settledDistToGlobal < 0.6 || sgdWells.some(w => !w.global && Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
@@ -1851,7 +1865,15 @@
 
             let globalCount = 0;
             let localCount = 0;
+            let fallenOutCount = 0;
             const projectedMarbles = sgdMarbles.map(marble => {
+                if (marble.fallenOut) {
+                    fallenOutCount++;
+                    const edgeX = Math.max(-2.8, Math.min(2.8, marble.x));
+                    const edgeY = Math.max(-2.8, Math.min(2.8, marble.y));
+                    return { ...marble, projected: projectSgd(edgeX, edgeY, getSgdHeight(edgeX, edgeY) + 0.4 + marble.fallAge * 0.05) };
+                }
+
                 const well = sgdWells.find(w => Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
                 
                 // Use a relatively lax threshold (0.6) for the global minimum counter
@@ -1869,7 +1891,7 @@
                 const p = marble.projected;
                 const radius = 6 * p.perspective;
                 sgdCtx.save();
-                sgdCtx.globalAlpha = 0.88;
+                sgdCtx.globalAlpha = marble.fallenOut ? Math.max(0.16, 0.72 - marble.fallAge * 0.035) : 0.88;
                 sgdCtx.fillStyle = marble.color;
                 sgdCtx.shadowColor = marble.color;
                 sgdCtx.shadowBlur = marble.settled ? 10 : 4;
@@ -1883,13 +1905,13 @@
             sgdCounter.textContent = `Marbles in Global Minimum: ${globalCount}`;
 
             if (elapsed > sgdFallDuration) {
-                sgdStatus.textContent = `Cycle complete: ${globalCount} Global, ${localCount} Local. Resetting...`;
+                sgdStatus.textContent = `Cycle complete: ${globalCount} Global, ${localCount} Local, ${fallenOutCount} Fell Out. Resetting...`;
                 sgdStatus.style.color = '#64f4ac';
             } else if (noisePercent < 20) {
                 sgdStatus.textContent = 'Low Noise: Marbles might get stuck in Local Trap dents.';
                 sgdStatus.style.color = '#ffd166';
             } else if (noisePercent > 55) {
-                sgdStatus.textContent = 'Sustained Noise: The bowl keeps shaking, so marbles may not settle cleanly.';
+                sgdStatus.textContent = noisePercent >= 75 ? 'Too Much Noise: Marbles can shake right out of the bowl.' : 'Sustained Noise: The bowl keeps shaking, so marbles may not settle cleanly.';
                 sgdStatus.style.color = '#ff4b3e';
             } else {
                 sgdStatus.textContent = 'Optimal Noise: The shake helps early, then fades so marbles can settle.';

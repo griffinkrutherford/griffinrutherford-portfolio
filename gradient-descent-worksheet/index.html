@@ -701,8 +701,15 @@
             <div class="canvas-container">
                 <canvas id="paraboloidCanvas" width="800" height="500"></canvas>
             </div>
+            <div class="controls">
+                <button id="toggle-secant-plane" type="button">Show Secant Plane</button>
+                <button id="toggle-tangent-plane" type="button" class="is-hidden">Show Tangent Plane</button>
+            </div>
             <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf;">
                 Click and drag to rotate the paraboloid!
+            </p>
+            <p class="wordvec-note">
+                The vertex line from Question 4 becomes a 3D idea here: Algebra II uses a secant plane through matching-height points, while Calculus zooms in until that secant becomes the tangent plane.
             </p>
 
             <div class="question-text" style="margin-top: 20px;">
@@ -857,7 +864,7 @@
                     Some shakiness is good, but too much causes the marbles to fall out, so we need just the right amount.
                 </p>
                 <p>
-                    In the world of AI, this "shakiness" is referred to as <strong>"noise"</strong> or <strong>"temperature"</strong>.
+                    In AI training, this "shakiness" is usually called <strong>noise</strong> or <strong>stochasticity</strong>. That training process is like shaping the bowl so the words can fall into useful places. <strong>Temperature</strong> is different: it matters later, when ChatGPT is actually writing its response.
                 </p>
                 <p style="margin-top: 15px;">
                     Instead of marbles in weird bowl holes, instead picture the depth of the hole as reducing pollution, saving resources, etc.
@@ -938,14 +945,14 @@
                 <br><br>
                 Remember when we talked about dropping marbles in bowls and shaking a little bit? ChatGPT does this while working in a dimensional space WE CAN’T EVEN COMPREHEND!! Long story short, ChatGPT’s outputs are based on sets of predictions that use information from relationships between words. Accuracy, comprehension, and output from these AI models can be thought of as a more complicated version of finding a local minimum, like the vertex of a parabola.
                 <br><br>
-                Reminder on our new terms: stochastic is a fancy word for random, and this concept is also referred to as “noise” or “temperature”. Temperature is more widely used in the context of language models like ChatGPT.
+                Reminder on our new terms: stochastic is a fancy word for random. During training, noise helps shape the million-dimensional bowl so words can fall into places that make sense.
                 <br><br>
-                What do you think happens when we raise or lower the temperature of the output of ChatGPT? Yes, this is shaking a bowl in a million dimension space.
+                Temperature is different: after the model has already been trained, it controls how much "noise" or randomness there is as ChatGPT chooses one word after another while generating a response.
 
                 <div class="wordvec-visualizer">
                     <div class="wordvec-title">3D Word Convergence: The Training Loop</div>
                     <p class="wordvec-note">
-                        This continuous animation shows how AI training actually looks in 3D space. Watch as word "marbles" start in random positions (pure noise) and continuously "fall" into their meaningful clusters. Notice the jittery motion—that's the <strong>Stochastic Noise</strong> (temperature) helping them settle!
+                        This animation is a simplified picture of training. Watch as word "marbles" start in random places and fall into meaningful groups. That is like shaping the bowl so related words naturally land near each other. The jittery motion represents <strong>stochastic noise</strong> during training. Temperature comes later: it controls how much randomness there is between words as ChatGPT generates a response one word at a time.
                     </p>
                     <div class="wordvec-stage">
                         <canvas id="wordConvergenceCanvas" width="800" height="520"></canvas>
@@ -1032,6 +1039,8 @@
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
                 drawParabola();
+                updateParaboloidPlaneControls();
+                drawParaboloid();
             });
         });
 
@@ -1267,6 +1276,10 @@
         let lastMouseX = 0;
         let lastMouseY = 0;
         let isValleyMode = false;
+        let showSecantPlane = false;
+        let showTangentPlane = false;
+        const secantPlaneToggle = document.getElementById('toggle-secant-plane');
+        const tangentPlaneToggle = document.getElementById('toggle-tangent-plane');
 
         paraboloidCanvas.addEventListener('mousedown', (e) => {
             isDragging = true;
@@ -1298,10 +1311,69 @@
             isDragging = false;
         });
 
+        function drawSurfacePlane(ctx, centerX, centerY, scale, zValue, fillColor, strokeColor) {
+            const planeSize = 5.6;
+            const corners = [
+                project3D(-planeSize, -planeSize, zValue, centerX, centerY, scale, angleX, angleY),
+                project3D(planeSize, -planeSize, zValue, centerX, centerY, scale, angleX, angleY),
+                project3D(planeSize, planeSize, zValue, centerX, centerY, scale, angleX, angleY),
+                project3D(-planeSize, planeSize, zValue, centerX, centerY, scale, angleX, angleY)
+            ];
+
+            ctx.fillStyle = fillColor;
+            ctx.beginPath();
+            corners.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 6]);
+            ctx.beginPath();
+            corners.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+            ctx.closePath();
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function updateParaboloidPlaneControls() {
+            if (!secantPlaneToggle || !tangentPlaneToggle) return;
+
+            secantPlaneToggle.classList.toggle('is-hidden', currentMode !== 'algebra');
+            tangentPlaneToggle.classList.toggle('is-hidden', currentMode !== 'calculus');
+            secantPlaneToggle.textContent = showSecantPlane ? 'Hide Secant Plane' : 'Show Secant Plane';
+            tangentPlaneToggle.textContent = showTangentPlane ? 'Hide Tangent Plane' : 'Show Tangent Plane';
+        }
+
+        if (secantPlaneToggle) {
+            secantPlaneToggle.addEventListener('click', () => {
+                showSecantPlane = !showSecantPlane;
+                updateParaboloidPlaneControls();
+                drawParaboloid();
+            });
+        }
+
+        if (tangentPlaneToggle) {
+            tangentPlaneToggle.addEventListener('click', () => {
+                showTangentPlane = !showTangentPlane;
+                updateParaboloidPlaneControls();
+                drawParaboloid();
+            });
+        }
+
         function drawParaboloid() {
             paraboloidCtx.clearRect(0, 0, paraboloidCanvas.width, paraboloidCanvas.height);
             const centerX = paraboloidCanvas.width / 2, centerY = paraboloidCanvas.height / 2;
             const scale = 32, gridSize = 8, gridStep = 0.8;
+
+            if (currentMode === 'algebra' && showSecantPlane) {
+                drawSurfacePlane(paraboloidCtx, centerX, centerY, scale, getZ(3, 0), 'rgba(100, 244, 172, 0.22)', 'rgba(100, 244, 172, 0.9)');
+            }
+
+            if (currentMode === 'calculus' && showTangentPlane) {
+                drawSurfacePlane(paraboloidCtx, centerX, centerY, scale, 0, 'rgba(73, 167, 255, 0.22)', 'rgba(73, 167, 255, 0.95)');
+            }
+
             for (let x = -gridSize; x <= gridSize; x += gridStep) {
                 paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {

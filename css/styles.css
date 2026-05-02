@@ -1025,11 +1025,11 @@ body.liquid-glass-mode .social-links a {
    90s MODE STYLES - TOTALLY RADICAL! 
    ======================================== */
 
-/* 90s Toggle Button */
+/* 90s Toggle Button - Matrix Re-themed */
 .nineties-toggle-btn {
-    background: linear-gradient(45deg, #FF00FF, #00FFFF);
-    border: none;
-    color: #000;
+    background: #000;
+    border: 1px solid #00FF41;
+    color: #00FF41;
     padding: 12px 15px;
     cursor: pointer;
     font-weight: bold;
@@ -1038,11 +1038,16 @@ body.liquid-glass-mode .social-links a {
     width: 100%;
     text-align: left;
     font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: 0 0 5px #00FF41;
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.2);
 }
 
 .nineties-toggle-btn:hover {
     transform: scale(1.02);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+    box-shadow: 0 0 15px #00FF41;
+    background: #003300;
+    color: #fff;
 }
 
 /* 90s Mode Wrapper */

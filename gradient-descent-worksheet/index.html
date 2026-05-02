@@ -730,7 +730,7 @@
                     <canvas id="valleyCanvas" width="800" height="500"></canvas>
                 </div>
                 <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 0.85em;">
-                    Drag to orbit the valley. Notice how the person is hidden by the walls when viewed from the side!
+                    Drag to orbit the valley. The person stays visible as you compare the terrain from different angles.
                 </p>
             </div>
 
@@ -1369,18 +1369,14 @@
             }
             const px = 3.0, py = 3.0, pz = getZ(px, py);
             const projBase = project3D(px, py, pz, centerX, centerY, scale, vAngleX, vAngleY);
-            queue.push({ type: 'person', depth: projBase.depth, projBase });
 
             queue.sort((a, b) => b.depth - a.depth).forEach(item => {
-                if (item.type === 'quad') {
-                    const f = Math.min(1, item.height / 10);
-                    valleyCtx.fillStyle = `rgb(${Math.floor(100*(1-f)+60*f)}, ${Math.floor(60*(1-f)+160*f)}, ${Math.floor(40*(1-f)+60*f)})`;
-                    valleyCtx.beginPath(); item.points.forEach((p, i) => i === 0 ? valleyCtx.moveTo(p.x, p.y) : valleyCtx.lineTo(p.x, p.y)); valleyCtx.closePath(); valleyCtx.fill();
-                    valleyCtx.strokeStyle = 'rgba(0,0,0,0.15)'; valleyCtx.lineWidth = 0.5; valleyCtx.stroke();
-                } else {
-                    drawDetailedPerson(item.projBase, valleyCtx);
-                }
+                const f = Math.min(1, item.height / 10);
+                valleyCtx.fillStyle = `rgb(${Math.floor(100*(1-f)+60*f)}, ${Math.floor(60*(1-f)+160*f)}, ${Math.floor(40*(1-f)+60*f)})`;
+                valleyCtx.beginPath(); item.points.forEach((p, i) => i === 0 ? valleyCtx.moveTo(p.x, p.y) : valleyCtx.lineTo(p.x, p.y)); valleyCtx.closePath(); valleyCtx.fill();
+                valleyCtx.strokeStyle = 'rgba(0,0,0,0.15)'; valleyCtx.lineWidth = 0.5; valleyCtx.stroke();
             });
+            drawDetailedPerson(projBase, valleyCtx);
         }
 
         function drawDetailedPerson(p, ctx) {

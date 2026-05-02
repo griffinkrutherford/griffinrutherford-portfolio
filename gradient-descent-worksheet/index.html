@@ -1710,10 +1710,20 @@
 
         function initSgdSimulator(now = performance.now()) {
             sgdMarbles = [];
+            const traps = sgdWells.filter(w => !w.global);
+            
             for (let i = 0; i < 20; i++) {
+                // Bias: 75% start near local traps, 25% near global or random
+                const useTrap = Math.random() < 0.75 && traps.length > 0;
+                const well = useTrap 
+                    ? traps[Math.floor(Math.random() * traps.length)] 
+                    : sgdWells[Math.floor(Math.random() * sgdWells.length)];
+
+                // Offset scatter
+                const scatter = 0.8;
                 sgdMarbles.push({
-                    x: (Math.random() - 0.5) * 4.6,
-                    y: (Math.random() - 0.5) * 4.6,
+                    x: well.x + (Math.random() - 0.5) * scatter,
+                    y: well.y + (Math.random() - 0.5) * scatter,
                     vx: 0, vy: 0,
                     color: i % 3 === 0 ? '#ff4b3e' : i % 3 === 1 ? '#49a7ff' : '#ffd166',
                     settled: false

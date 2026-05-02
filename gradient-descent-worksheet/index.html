@@ -719,6 +719,21 @@
             <div class="question-text">
                 Let's say you could walk inside that paraboloid above, but you must be blindfolded. If you didn't exactly know where the bottom is, how would you figure out where the lowest point is? What concept from the start of the lesson helps us solve this question? Hint: There is no equation for this problem.
             </div>
+
+            <!-- Valley Analogy Visualization -->
+            <div class="wordvec-visualizer" style="border-color: #64f4ac; background: #080808; margin-bottom: 25px;">
+                <div class="wordvec-title" style="color: #64f4ac;">The "Blindfolded in a Valley" Analogy</div>
+                <p class="wordvec-note">
+                    Imagine being blindfolded in this 3D valley. You can't see the bottom, but you can feel the slope under your feet. By taking steps downhill and adding a bit of "shakiness" (randomness), you avoid getting stuck in small dents (local minima) and find the true lowest point!
+                </p>
+                <div class="wordvec-stage" style="border-color: rgba(100, 244, 172, 0.5);">
+                    <canvas id="valleyCanvas" width="800" height="500"></canvas>
+                </div>
+                <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 0.85em;">
+                    Drag to orbit the valley. Notice how the person is hidden by the walls when viewed from the side!
+                </p>
+            </div>
+
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="9">Submit</button>
             <div class="answer" id="answer-9"></div>
@@ -836,20 +851,6 @@
                 <p style="margin-bottom: 15px;">
                     To summarize, adding a bit of random "shakiness" helps computers better approximate to the best "local minimum" compared to going straight down.
                 </p>
-
-                <!-- Valley Analogy Visualization -->
-                <div class="wordvec-visualizer" style="border-color: #64f4ac; background: #080808; margin-bottom: 25px;">
-                    <div class="wordvec-title" style="color: #64f4ac;">The "Blindfolded in a Valley" Analogy</div>
-                    <p class="wordvec-note">
-                        Imagine being blindfolded in this 3D valley. You can't see the bottom, but you can feel the slope under your feet. By taking steps downhill and adding a bit of "shakiness" (randomness), you avoid getting stuck in small dents (local minima) and find the true lowest point!
-                    </p>
-                    <div class="wordvec-stage" style="border-color: rgba(100, 244, 172, 0.5);">
-                        <canvas id="valleyCanvas" width="800" height="500"></canvas>
-                    </div>
-                    <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 0.85em;">
-                        Drag to orbit the valley. Notice how the person is hidden by the walls when viewed from the side!
-                    </p>
-                </div>
 
                 <p style="margin-bottom: 15px;">
                     Some shakiness is good, but too much causes the marbles to fall out, so we need just the right amount.

@@ -1522,7 +1522,9 @@
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
                 
-                const randomKick = noiseLevel * 0.1; 
+                // Shake decays over the loop so marbles settle like real bouncing balls
+                const decay = Math.max(0, 1 - elapsed / sgdFallDuration);
+                const randomKick = noiseLevel * 0.1 * decay * decay;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 

@@ -1330,7 +1330,7 @@
             let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
             let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
             const perspective = 200 / (200 + z2);
-            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2 };
+            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
         }
 
         // Valley Mode Canvas (Question 12)
@@ -1353,7 +1353,6 @@
             valleyCtx.clearRect(0, 0, valleyCanvas.width, valleyCanvas.height);
             const centerX = valleyCanvas.width / 2, centerY = valleyCanvas.height / 2;
             const scale = 32, gridSize = 8, gridStep = 0.8;
-            const getZ = (x, y) => 0.15 * (x * x + y * y);
             const queue = [];
             for (let x = -gridSize; x < gridSize; x += gridStep) {
                 for (let y = -gridSize; y < gridSize; y += gridStep) {
@@ -1364,8 +1363,10 @@
                     queue.push({ type: 'quad', points: [p1, p2, p3, p4], depth: (p1.depth + p2.depth + p3.depth + p4.depth) / 4, height: getZ(x+gridStep/2, y+gridStep/2) });
                 }
             }
-            const px = 3.0, py = 3.0, pz = getZ(px, py), pBase = project3D(px, py, pz, centerX, centerY, scale, vAngleX, vAngleY);
-            queue.push({ type: 'person', depth: pBase.depth, px, py, pz });
+            const px = 3.0, py = 3.0, pz = getZ(px, py);
+            const projBase = project3D(px, py, pz, centerX, centerY, scale, vAngleX, vAngleY);
+            queue.push({ type: 'person', depth: projBase.depth, projBase });
+
             queue.sort((a, b) => b.depth - a.depth).forEach(item => {
                 if (item.type === 'quad') {
                     const f = Math.min(1, item.height / 10);
@@ -1373,29 +1374,61 @@
                     valleyCtx.beginPath(); item.points.forEach((p, i) => i === 0 ? valleyCtx.moveTo(p.x, p.y) : valleyCtx.lineTo(p.x, p.y)); valleyCtx.closePath(); valleyCtx.fill();
                     valleyCtx.strokeStyle = 'rgba(0,0,0,0.15)'; valleyCtx.lineWidth = 0.5; valleyCtx.stroke();
                 } else {
-                    drawDetailedPerson(item.px, item.py, item.pz, centerX, centerY, scale, vAngleX, vAngleY, valleyCtx);
+                    drawDetailedPerson(item.projBase, valleyCtx);
                 }
             });
         }
 
-        function drawDetailedPerson(px, py, pz, centerX, centerY, scale, pitch, yaw, ctx) {
-            const line = (x1, y1, z1, x2, y2, z2, c, w) => {
-                const p1 = project3D(x1, y1, z1, centerX, centerY, scale, pitch, yaw);
-                const p2 = project3D(x2, y2, z2, centerX, centerY, scale, pitch, yaw);
-                ctx.strokeStyle = c; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        function drawDetailedPerson(p, ctx) {
+            const scale = p.perspective;
+            const x = p.x;
+            const y = p.y;
+            
+            // Shadow (drawn on floor)
+            ctx.fillStyle = 'rgba(0,0,0,0.3)'; 
+            ctx.beginPath(); 
+            ctx.ellipse(x, y, 14 * scale, 8 * scale, 0, 0, Math.PI * 2); 
+            ctx.fill();
+
+            // 2D line helper (relative to base)
+            const line = (x1, y1, x2, y2, c, w) => {
+                ctx.strokeStyle = c; ctx.lineWidth = w * scale; ctx.lineCap = 'round';
+                ctx.beginPath(); ctx.moveTo(x + x1 * scale, y - y1 * scale); ctx.lineTo(x + x2 * scale, y - y2 * scale); ctx.stroke();
             };
-            const sPos = project3D(px, py, pz, centerX, centerY, scale, pitch, yaw);
-            ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(sPos.x, sPos.y, 14, 8, 0, 0, Math.PI*2); ctx.fill();
-            line(px, py, pz, px-0.1, py-0.1, pz+0.3, '#f5f5f5', 4); line(px-0.1, py-0.1, pz+0.3, px-0.15, py-0.15, pz+0.6, '#f5f5f5', 3.5);
-            line(px, py, pz, px+0.1, py+0.1, pz+0.3, '#f5f5f5', 4); line(px+0.1, py+0.1, pz+0.3, px+0.15, py+0.15, pz+0.6, '#f5f5f5', 3.5);
-            const tB = project3D(px, py, pz+0.6, centerX, centerY, scale, pitch, yaw), tT = project3D(px, py, pz+1.2, centerX, centerY, scale, pitch, yaw);
-            ctx.fillStyle = '#e10600'; ctx.beginPath(); ctx.moveTo(tB.x-6, tB.y); ctx.lineTo(tB.x+6, tB.y); ctx.lineTo(tT.x+10, tT.y); ctx.lineTo(tT.x-10, tT.y); ctx.closePath(); ctx.fill();
-            line(px, py, pz+1.1, px-0.2, py-0.2, pz+0.9, '#f5f5f5', 3); line(px-0.2, py-0.2, pz+0.9, px-0.3, py-0.3, pz+1.1, '#f5f5f5', 2.5);
-            line(px, py, pz+1.1, px+0.2, py+0.2, pz+0.9, '#f5f5f5', 3); line(px+0.2, py+0.2, pz+0.9, px+0.3, py+0.3, pz+1.1, '#f5f5f5', 2.5);
-            line(px, py, pz+1.2, px, py, pz+1.3, '#ffdbac', 4); const hP = project3D(px, py, pz+1.5, centerX, centerY, scale, pitch, yaw);
-            ctx.fillStyle = '#ffdbac'; ctx.beginPath(); ctx.arc(hP.x, hP.y, 9, 0, Math.PI*2); ctx.fill();
-            ctx.strokeStyle = '#222'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(hP.x-10, hP.y-1); ctx.lineTo(hP.x+10, hP.y-1); ctx.stroke();
-            ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+15, hP.y+5); ctx.moveTo(hP.x+9, hP.y); ctx.lineTo(hP.x+14, hP.y+8); ctx.stroke();
+
+            // Figure - drawn as a 2D vertical plane
+            // Legs
+            line(-4, 0, -2, 20, '#f5f5f5', 4);
+            line(4, 0, 2, 20, '#f5f5f5', 4);
+
+            // Shirt (Trapezoid)
+            ctx.fillStyle = '#e10600';
+            ctx.beginPath();
+            ctx.moveTo(x - 8 * scale, y - 20 * scale);
+            ctx.lineTo(x + 8 * scale, y - 20 * scale);
+            ctx.lineTo(x + 10 * scale, y - 45 * scale);
+            ctx.lineTo(x - 10 * scale, y - 45 * scale);
+            ctx.closePath();
+            ctx.fill();
+
+            // Arms
+            line(-8, 40, -14, 30, '#f5f5f5', 3);
+            line(8, 40, 14, 30, '#f5f5f5', 3);
+
+            // Head and Neck
+            line(0, 45, 0, 50, '#ffdbac', 4);
+            ctx.fillStyle = '#ffdbac';
+            ctx.beginPath();
+            ctx.arc(x, y - 58 * scale, 9 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Blindfold
+            ctx.strokeStyle = '#222';
+            ctx.lineWidth = 5 * scale;
+            ctx.beginPath();
+            ctx.moveTo(x - 10 * scale, y - 59 * scale);
+            ctx.lineTo(x + 10 * scale, y - 59 * scale);
+            ctx.stroke();
         }
 
         // Gradient Descent Canvas (Question 10)

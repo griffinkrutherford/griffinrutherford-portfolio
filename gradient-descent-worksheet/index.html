@@ -1747,6 +1747,9 @@
                     x: well.x + (Math.random() - 0.5) * scatter,
                     y: well.y + (Math.random() - 0.5) * scatter,
                     vx: 0, vy: 0,
+                    noiseAngle: Math.random() * Math.PI * 2,
+                    noisePhase: Math.random() * Math.PI * 2,
+                    noiseSpin: 0.0015 + Math.random() * 0.0025,
                     color: i % 3 === 0 ? '#ff4b3e' : i % 3 === 1 ? '#49a7ff' : '#ffd166',
                     settled: false
                 });
@@ -1775,7 +1778,6 @@
             const damping = 0.98;
 
             sgdMarbles.forEach((marble) => {
-                const h = getSgdHeight(marble.x, marble.y);
                 const eps = 0.025;
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
@@ -1787,9 +1789,18 @@
                 const randomKick = decayingKick + sustainedKick;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
+                const highNoisePower = sustainedNoiseLevel * sustainedNoiseLevel;
+                const gustAngle = marble.noiseAngle + Math.sin(elapsed * marble.noiseSpin + marble.noisePhase) * 0.9;
+                const directionalKick = highNoisePower * 0.04 * (isFalling ? 1 : 0.45);
+                const gustX = Math.cos(gustAngle) * directionalKick;
+                const gustY = Math.sin(gustAngle) * directionalKick;
+                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                const repelStrength = highNoisePower * Math.max(0, 1.4 - distToGlobal) * 0.03;
+                const repelX = distToGlobal > 0.001 ? ((marble.x - 1.2) / distToGlobal) * repelStrength : 0;
+                const repelY = distToGlobal > 0.001 ? ((marble.y - 1.2) / distToGlobal) * repelStrength : 0;
 
-                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + shakeX * dt;
-                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + shakeY * dt;
+                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + (shakeX + gustX + repelX) * dt;
+                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + (shakeY + gustY + repelY) * dt;
                 
                 marble.x += marble.vx * dt;
                 marble.y += marble.vy * dt;
@@ -1797,8 +1808,8 @@
                 if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= -0.4; }
                 if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= -0.4; }
 
-                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
-                marble.settled = distToGlobal < 0.6 || sgdWells.some(w => !w.global && Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
+                const settledDistToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                marble.settled = settledDistToGlobal < 0.6 || sgdWells.some(w => !w.global && Math.hypot(marble.x - w.x, marble.y - w.y) < w.radius);
             });
         }
 

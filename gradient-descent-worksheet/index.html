@@ -843,7 +843,7 @@
             <div class="sgd-simulator">
                 <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
                 <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
-                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: a fancy way of saying we "shake the bowl" while the marbles fall.
+                    Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: the middle gives a useful shake that fades over time, while the far right keeps shaking too long.
                 </p>
                 
                 <div class="sgd-canvas-container" style="height: 450px;">
@@ -1764,7 +1764,9 @@
         }
 
         function updateSgdMarbles(dt, elapsed) {
-            const noiseLevel = Number(sgdNoise.value) / 100;
+            const noisePercent = Number(sgdNoise.value);
+            const decayingNoiseLevel = Math.min(noisePercent, 50) / 50;
+            const sustainedNoiseLevel = Math.max(0, noisePercent - 50) / 50;
             const isFalling = elapsed < sgdFallDuration;
             const gravityStrength = 0.003; // Reduced intensity
             const damping = 0.98;
@@ -1775,9 +1777,11 @@
                 const gradX = (getSgdHeight(marble.x + eps, marble.y) - getSgdHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getSgdHeight(marble.x, marble.y + eps) - getSgdHeight(marble.x, marble.y - eps)) / (2 * eps);
                 
-                // Noise decays quicker (cubic decay)
+                // The left half of the slider decays away; the right half adds persistent shake.
                 const decay = Math.max(0, 1 - elapsed / sgdFallDuration);
-                const randomKick = noiseLevel * 0.1 * Math.pow(decay, 3); 
+                const decayingKick = decayingNoiseLevel * 0.1 * Math.pow(decay, 3);
+                const sustainedKick = sustainedNoiseLevel * 0.045 * (isFalling ? 1 : 0.25);
+                const randomKick = decayingKick + sustainedKick;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
 
@@ -1867,14 +1871,14 @@
             if (elapsed > sgdFallDuration) {
                 sgdStatus.textContent = `Cycle complete: ${globalCount} Global, ${localCount} Local. Resetting...`;
                 sgdStatus.style.color = '#64f4ac';
-            } else if (noisePercent < 15) {
+            } else if (noisePercent < 20) {
                 sgdStatus.textContent = 'Low Noise: Marbles might get stuck in Local Trap dents.';
                 sgdStatus.style.color = '#ffd166';
-            } else if (noisePercent > 70) {
-                sgdStatus.textContent = 'High Noise: Chaos! Marbles might bounce right out of the Global Minima.';
+            } else if (noisePercent > 55) {
+                sgdStatus.textContent = 'Sustained Noise: The bowl keeps shaking, so marbles may not settle cleanly.';
                 sgdStatus.style.color = '#ff4b3e';
             } else {
-                sgdStatus.textContent = 'Optimal Noise: Shaking helps marbles find the real bottom.';
+                sgdStatus.textContent = 'Optimal Noise: The shake helps early, then fades so marbles can settle.';
                 sgdStatus.style.color = '#64f4ac';
             }
 

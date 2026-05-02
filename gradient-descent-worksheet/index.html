@@ -876,6 +876,43 @@
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
                 <br><br>
+                Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their hidden 4th dimension. You can choose different "lenses" to see how AI organizes concepts like **Flavor**, **Vibe**, or **Arcane Power**.
+                <div class="wordvec-visualizer" aria-label="4D word vector visualization">
+                    <div class="wordvec-title" id="wordvec-display-title">4D Word Vector Visualization: The Flavor-Scanner</div>
+                    
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <label for="wordvec-theme-select" style="color: #fff; font-weight: bold; margin-right: 10px;">Choose a 4D Lens:</label>
+                        <select id="wordvec-theme-select" style="background: #151515; color: #fff; border: 1px solid #e10600; padding: 5px 10px; border-radius: 5px;">
+                            <option value="flavor">The Flavor-Scanner (Edibility)</option>
+                            <option value="vibe">The Vibe-Radiator (Social Energy)</option>
+                            <option value="arcane">The Arcane-Chronometer (Magical Power)</option>
+                        </select>
+                    </div>
+
+                    <p class="wordvec-note" id="wordvec-display-note">
+                        Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.
+                    </p>
+                    <div class="wordvec-stage">
+                        <canvas id="wordVectorCanvas" width="800" height="520"></canvas>
+                    </div>
+                    <div class="wordvec-controls">
+                        <label for="wordVectorTime" id="wordvec-slider-label">4th Dimension: Edibility Scanner</label>
+                        <input type="range" id="wordVectorTime" min="0" max="100" value="72">
+                        <div class="wordvec-time-label" id="wordVectorTimeLabel">Scanning Edibility: 72%</div>
+                        <div class="wordvec-control-row">
+                            <button type="button" onclick="rotateWordVectors()">Auto Rotate</button>
+                            <button type="button" class="reset" onclick="stopWordVectorRotation()">Stop</button>
+                            <button type="button" class="reset" onclick="resetWordVectorView()">Reset View</button>
+                        </div>
+                    </div>
+                    <div class="wordvec-legend" id="wordvec-legend">
+                        <span class="legend-item"><span class="legend-dot" style="background: #ff4b3e;"></span>Cosmic / Massive</span>
+                        <span class="legend-item"><span class="legend-dot" style="background: #49a7ff;"></span>Microscopic / Life</span>
+                        <span class="legend-item"><span class="legend-dot" style="background: #ffd166;"></span>Synthetic / Artifacts</span>
+                        <span class="legend-item"><span class="legend-dot" style="background: #64f4ac;"></span>Culinary Concepts</span>
+                    </div>
+                </div>
+                <br>
                 So ChatGPT does all of this, but instead of pairs of numbers, it is able to perform these operations on lists of MILLIONS of numbers at a time. This is because there are so many more relationships between words outside of “Royalty” and “Gender Identity” or “Activity Intensity” and “Temperature”.
                 <br><br>
                 So instead of 2D space (with parabolas) or even 3D space (with paraboloids)...
@@ -1636,6 +1673,338 @@
         sgdCanvas.addEventListener('touchend', endSgdDrag);
         sgdCanvas.addEventListener('touchcancel', endSgdDrag);
 
+        // 4D Word Vector Canvas (3D space + time slider)
+        const wordVectorCanvas = document.getElementById('wordVectorCanvas');
+        const wordVectorCtx = wordVectorCanvas.getContext('2d');
+        const wordVectorTime = document.getElementById('wordVectorTime');
+        const wordVectorTimeLabel = document.getElementById('wordVectorTimeLabel');
+        let wordAngleX = -0.45;
+        let wordAngleY = 0.62;
+        let wordDragging = false;
+        let wordLastX = 0;
+        let wordLastY = 0;
+        let wordRotationInterval = null;
+
+        const wordVectorThemes = {
+            flavor: {
+                title: '4D Word Vector Visualization: The Flavor-Scanner',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Edibility). Watch as words morph into view and grow in size when the "Flavor-Scanner" hits their specific coordinate.',
+                sliderLabel: '4th Dimension: Edibility Scanner',
+                scanLabel: 'Scanning Edibility',
+                axes: [
+                    { label: 'Synthetic vs. Bio', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Quantum vs. Galactic', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Ancient vs. Cyber', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Cosmic / Massive', color: '#ff4b3e' },
+                    { label: 'Microscopic / Life', color: '#49a7ff' },
+                    { label: 'Synthetic / Artifacts', color: '#ffd166' },
+                    { label: 'Culinary Concepts', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Black Hole', color: '#ff4b3e', base: [2.2, -1.8, -1.5], dim4: 0 },
+                    { label: 'Supernova', color: '#ff4b3e', base: [2.4, 1.2, 1.3], dim4: 5 },
+                    { label: 'Nebula', color: '#ff4b3e', base: [1.8, 0.4, -0.8], dim4: 15 },
+                    { label: 'Obsidian Dagger', color: '#ffd166', base: [0.3, -1.9, 1.1], dim4: 22 },
+                    { label: 'Microchip', color: '#ffd166', base: [-1.4, -1.5, -0.4], dim4: 30 },
+                    { label: 'Nanobot', color: '#ffd166', base: [-1.9, -0.1, -1.2], dim4: 35 },
+                    { label: 'Mitochondria', color: '#49a7ff', base: [-1.5, 0.8, -1.4], dim4: 45 },
+                    { label: 'Tardigrade', color: '#49a7ff', base: [-1.2, 1.8, 0.2], dim4: 55 },
+                    { label: 'Axolotl', color: '#49a7ff', base: [-0.9, -0.5, 0.6], dim4: 65 },
+                    { label: 'Cyber-Sushi', color: '#64f4ac', base: [-0.6, -0.7, 1.5], dim4: 82 },
+                    { label: 'Honeycomb', color: '#64f4ac', base: [0.2, 0.9, 1.4], dim4: 90 },
+                    { label: 'Mochi', color: '#64f4ac', base: [-0.4, 0.2, 1.8], dim4: 100 }
+                ]
+            },
+            vibe: {
+                title: '4D Word Vector Visualization: The Vibe-Radiator',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Social Vibe). Watch as concepts radiate energy when you find their "Vibe-frequency".',
+                sliderLabel: '4th Dimension: Vibe-Frequency',
+                scanLabel: 'Social Vibe Energy',
+                axes: [
+                    { label: 'Introvert vs. Extrovert', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Chaos vs. Order', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Digital vs. Physical', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Party / High Energy', color: '#ff4b3e' },
+                    { label: 'Zen / Quiet', color: '#49a7ff' },
+                    { label: 'Awkward / Nervous', color: '#ffd166' },
+                    { label: 'Wholesome / Warm', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Library', color: '#49a7ff', base: [-1.8, 1.5, -0.5], dim4: 10 },
+                    { label: 'Silent Disco', color: '#ffd166', base: [0.2, 1.2, 2.2], dim4: 35 },
+                    { label: 'Cozy Fireplace', color: '#64f4ac', base: [-0.5, 0.8, -1.2], dim4: 85 },
+                    { label: 'Nightclub', color: '#ff4b3e', base: [2.2, 1.9, 1.5], dim4: 95 },
+                    { label: 'Mosh Pit', color: '#ff4b3e', base: [2.5, -1.5, 0.8], dim4: 100 },
+                    { label: 'Zoom Call', color: '#ffd166', base: [-1.2, -1.8, 2.1], dim4: 25 },
+                    { label: 'Meditation', color: '#49a7ff', base: [-2.2, 1.8, -1.8], dim4: 5 },
+                    { label: 'First Date', color: '#ffd166', base: [0.8, -0.5, 0.2], dim4: 60 },
+                    { label: 'Golden Retriever', color: '#64f4ac', base: [1.8, 0.2, -0.5], dim4: 90 },
+                    { label: 'Broken Link', color: '#ffd166', base: [-1.5, -2.2, 2.5], dim4: 0 },
+                    { label: 'Nap', color: '#49a7ff', base: [-2.5, 0.1, -1.2], dim4: 15 }
+                ]
+            },
+            arcane: {
+                title: '4D Word Vector Visualization: The Arcane-Chronometer',
+                note: 'Drag to rotate. Move the slider to scan the 4th dimension (Magical Potency). Watch as items sparkle and manifest when their "True Name" is reached.',
+                sliderLabel: '4th Dimension: Arcane Potency',
+                scanLabel: 'Mana Concentration',
+                axes: [
+                    { label: 'Dark vs. Light', color: '#ffd166', end: [-2.5, 0, 0] },
+                    { label: 'Ancient vs. Modern', color: '#ff4b3e', end: [0, 2.3, 0] },
+                    { label: 'Ethereal vs. Material', color: '#49a7ff', end: [0, 0, 2.4] }
+                ],
+                legend: [
+                    { label: 'Artifacts / Items', color: '#ff4b3e' },
+                    { label: 'Spells / Energy', color: '#49a7ff' },
+                    { label: 'Entities / Beings', color: '#ffd166' },
+                    { label: 'Sacred Sites', color: '#64f4ac' }
+                ],
+                points: [
+                    { label: 'Rusting Spoon', color: '#ff4b3e', base: [0.5, -1.8, 1.2], dim4: 2 },
+                    { label: 'Dragon Scale', color: '#ff4b3e', base: [1.8, 0.5, -0.5], dim4: 65 },
+                    { label: 'Fireball', color: '#49a7ff', base: [1.2, 1.8, 0.2], dim4: 80 },
+                    { label: 'Necronomicon', color: '#ffd166', base: [-2.2, -1.2, -1.8], dim4: 95 },
+                    { label: 'Phoenix Feather', color: '#ff4b3e', base: [2.5, 1.5, -0.8], dim4: 85 },
+                    { label: 'Stonehenge', color: '#64f4ac', base: [0.2, 0.1, -2.5], dim4: 75 },
+                    { label: 'Mana Potion', color: '#49a7ff', base: [0.8, -0.2, 1.5], dim4: 45 },
+                    { label: 'Lich King', color: '#ffd166', base: [-2.5, -1.8, 0.5], dim4: 100 },
+                    { label: 'Blink Spell', color: '#49a7ff', base: [-0.5, 2.2, 1.8], dim4: 55 },
+                    { label: 'Cathedral', color: '#64f4ac', base: [1.2, 0.8, -2.1], dim4: 50 },
+                    { label: 'Wifi Router', color: '#ff4b3e', base: [-1.5, -2.5, 2.4], dim4: 0 }
+                ]
+            }
+        };
+
+        let currentWordTheme = 'flavor';
+
+        function updateWordTheme() {
+            const theme = wordVectorThemes[currentWordTheme];
+            document.getElementById('wordvec-display-title').textContent = theme.title;
+            document.getElementById('wordvec-display-note').textContent = theme.note;
+            document.getElementById('wordvec-slider-label').textContent = theme.sliderLabel;
+            
+            const legendContainer = document.getElementById('wordvec-legend');
+            legendContainer.innerHTML = '';
+            theme.legend.forEach(item => {
+                const span = document.createElement('span');
+                span.className = 'legend-item';
+                span.innerHTML = `<span class="legend-dot" style="background: ${item.color};"></span>${item.label}`;
+                legendContainer.appendChild(span);
+            });
+
+            drawWordVectorScene();
+        }
+
+        document.getElementById('wordvec-theme-select').addEventListener('change', (e) => {
+            currentWordTheme = e.target.value;
+            updateWordTheme();
+        });
+
+        function getWordProgress() {
+            return Number(wordVectorTime.value);
+        }
+
+        function projectWordVector(point) {
+            const [x, y, z] = point;
+            const centerX = wordVectorCanvas.width / 2;
+            const centerY = wordVectorCanvas.height / 2 + 12;
+            const scale = 88;
+
+            const y1 = y * Math.cos(wordAngleX) - z * Math.sin(wordAngleX);
+            const z1 = y * Math.sin(wordAngleX) + z * Math.cos(wordAngleX);
+            const x2 = x * Math.cos(wordAngleY) - z1 * Math.sin(wordAngleY);
+            const z2 = x * Math.sin(wordAngleY) + z1 * Math.cos(wordAngleY);
+            const perspective = 420 / (420 + z2 * 48);
+
+            return {
+                x: centerX + x2 * scale * perspective,
+                y: centerY - y1 * scale * perspective,
+                depth: z2,
+                perspective
+            };
+        }
+
+        function drawWordLine(from, to, color, width = 2, alpha = 0.9) {
+            const a = projectWordVector(from);
+            const b = projectWordVector(to);
+            wordVectorCtx.save();
+            wordVectorCtx.globalAlpha = alpha;
+            wordVectorCtx.strokeStyle = color;
+            wordVectorCtx.lineWidth = width;
+            wordVectorCtx.beginPath();
+            wordVectorCtx.moveTo(a.x, a.y);
+            wordVectorCtx.lineTo(b.x, b.y);
+            wordVectorCtx.stroke();
+            wordVectorCtx.restore();
+        }
+
+        function drawWordAxes() {
+            const theme = wordVectorThemes[currentWordTheme];
+            
+            theme.axes.forEach((axis, i) => {
+                const start = axis.end.map(c => -c);
+                drawWordLine(start, axis.end, axis.color, 2, 0.4);
+
+                const projected = projectWordVector(axis.end);
+                wordVectorCtx.fillStyle = axis.color;
+                wordVectorCtx.globalAlpha = 0.6;
+                wordVectorCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+                wordVectorCtx.fillText(axis.label, projected.x + 8, projected.y - 8);
+            });
+            wordVectorCtx.globalAlpha = 1;
+
+            const origin = projectWordVector([0, 0, 0]);
+            wordVectorCtx.fillStyle = '#fff';
+            wordVectorCtx.beginPath();
+            wordVectorCtx.arc(origin.x, origin.y, 3, 0, Math.PI * 2);
+            wordVectorCtx.fill();
+        }
+
+        function drawWordVectorScene() {
+            wordVectorCtx.clearRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
+            const gradient = wordVectorCtx.createRadialGradient(
+                wordVectorCanvas.width / 2,
+                wordVectorCanvas.height / 2,
+                40,
+                wordVectorCanvas.width / 2,
+                wordVectorCanvas.height / 2,
+                430
+            );
+            gradient.addColorStop(0, '#151515');
+            gradient.addColorStop(1, '#000');
+            wordVectorCtx.fillStyle = gradient;
+            wordVectorCtx.fillRect(0, 0, wordVectorCanvas.width, wordVectorCanvas.height);
+
+            const theme = wordVectorThemes[currentWordTheme];
+            const scannerValue = getWordProgress();
+            wordVectorTimeLabel.textContent = `${theme.scanLabel}: ${scannerValue}%`;
+
+            drawWordAxes();
+
+            const positions = theme.points.map((point) => {
+                const distance = Math.abs(point.dim4 - scannerValue);
+                const intensity = Math.max(0, 1 - distance / 25);
+                const morphFactor = Math.pow(intensity, 2);
+                
+                return {
+                    ...point,
+                    morphFactor,
+                    projected: projectWordVector(point.base)
+                };
+            });
+
+            positions
+                .sort((a, b) => b.projected.depth - a.projected.depth)
+                .forEach((point) => {
+                    if (point.morphFactor <= 0.01) return;
+
+                    const sizeScale = 1 + (point.dim4 / 100) * 1.5; 
+                    const radius = (6 + point.projected.perspective * 4) * sizeScale * (0.5 + point.morphFactor * 0.5);
+                    
+                    wordVectorCtx.save();
+                    wordVectorCtx.globalAlpha = point.morphFactor;
+                    
+                    wordVectorCtx.fillStyle = point.color;
+                    wordVectorCtx.shadowColor = point.color;
+                    wordVectorCtx.shadowBlur = (currentWordTheme === 'arcane' ? 25 : 15) * point.morphFactor;
+                    
+                    wordVectorCtx.beginPath();
+                    wordVectorCtx.arc(point.projected.x, point.projected.y, radius, 0, Math.PI * 2);
+                    wordVectorCtx.fill();
+                    
+                    if (point.dim4 > 70) {
+                        wordVectorCtx.fillStyle = '#fff';
+                        wordVectorCtx.beginPath();
+                        wordVectorCtx.arc(point.projected.x, point.projected.y, radius * (currentWordTheme === 'vibe' ? 0.4 : 0.3), 0, Math.PI * 2);
+                        wordVectorCtx.fill();
+                    }
+
+                    wordVectorCtx.fillStyle = '#fff';
+                    wordVectorCtx.font = `${700} ${14 + point.morphFactor * 4}px STIX Two Text, Times New Roman, serif`;
+                    wordVectorCtx.fillText(point.label, point.projected.x + radius + 5, point.projected.y + 5);
+                    
+                    wordVectorCtx.restore();
+                });
+
+            wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
+            wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
+            wordVectorCtx.fillText(`Scanning the 4th dimension: ${theme.sliderLabel}`, 18, 30);
+        }
+
+        function getWordPointerPosition(e) {
+            const rect = wordVectorCanvas.getBoundingClientRect();
+            const source = e.touches ? e.touches[0] : e;
+            return {
+                x: (source.clientX - rect.left) * (wordVectorCanvas.width / rect.width),
+                y: (source.clientY - rect.top) * (wordVectorCanvas.height / rect.height)
+            };
+        }
+
+        function startWordDrag(e) {
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+            const position = getWordPointerPosition(e);
+            wordDragging = true;
+            wordLastX = position.x;
+            wordLastY = position.y;
+        }
+
+        function moveWordDrag(e) {
+            if (!wordDragging) return;
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+            const position = getWordPointerPosition(e);
+            wordAngleY += (position.x - wordLastX) * 0.01;
+            wordAngleX += (position.y - wordLastY) * 0.01;
+            wordLastX = position.x;
+            wordLastY = position.y;
+            drawWordVectorScene();
+        }
+
+        function endWordDrag() {
+            wordDragging = false;
+        }
+
+        wordVectorCanvas.addEventListener('mousedown', startWordDrag);
+        wordVectorCanvas.addEventListener('mousemove', moveWordDrag);
+        wordVectorCanvas.addEventListener('mouseup', endWordDrag);
+        wordVectorCanvas.addEventListener('mouseleave', endWordDrag);
+        wordVectorCanvas.addEventListener('touchstart', startWordDrag, { passive: false });
+        wordVectorCanvas.addEventListener('touchmove', moveWordDrag, { passive: false });
+        wordVectorCanvas.addEventListener('touchend', endWordDrag);
+        wordVectorCanvas.addEventListener('touchcancel', endWordDrag);
+
+        wordVectorTime.addEventListener('input', drawWordVectorScene);
+
+        function rotateWordVectors() {
+            if (wordRotationInterval) return;
+            wordRotationInterval = setInterval(() => {
+                wordAngleY += 0.018;
+                drawWordVectorScene();
+            }, 30);
+        }
+
+        function stopWordVectorRotation() {
+            if (wordRotationInterval) {
+                clearInterval(wordRotationInterval);
+                wordRotationInterval = null;
+            }
+        }
+
+        function resetWordVectorView() {
+            stopWordVectorRotation();
+            wordAngleX = -0.45;
+            wordAngleY = 0.62;
+            wordVectorTime.value = 72;
+            drawWordVectorScene();
+        }
+
         // 3D Word Convergence Animation (Question 13)
         const convCanvas = document.getElementById('wordConvergenceCanvas');
         const convCtx = convCanvas.getContext('2d');
@@ -1772,6 +2141,8 @@
             
             initConvSimulator();
             drawConvScene();
+
+            drawWordVectorScene();
         };
 
         // Run as soon as the DOM is ready

@@ -1264,7 +1264,8 @@
                 const deltaY = e.offsetY - lastMouseY;
 
                 angleY += deltaX * 0.01;
-                angleX += deltaY * 0.01;
+                // Constrain pitch to [-1.5, 1.5] radians to keep it upright and prevent flipping
+                angleX = Math.max(-1.5, Math.min(1.5, angleX + deltaY * 0.01));
 
                 lastMouseX = e.offsetX;
                 lastMouseY = e.offsetY;
@@ -1662,7 +1663,16 @@
         }
 
         function startSgdDrag(e) { if (e.cancelable) e.preventDefault(); const p = getSgdPointerPosition(e); sgdDragging = true; sgdLastX = p.x; sgdLastY = p.y; }
-        function moveSgdDrag(e) { if (!sgdDragging) return; if (e.cancelable) e.preventDefault(); const p = getSgdPointerPosition(e); sgdAngleY += (p.x - sgdLastX) * 0.01; sgdAngleX += (p.y - sgdLastY) * 0.01; sgdLastX = p.x; sgdLastY = p.y; }
+        function moveSgdDrag(e) { 
+            if (!sgdDragging) return; 
+            if (e.cancelable) e.preventDefault(); 
+            const p = getSgdPointerPosition(e); 
+            sgdAngleY += (p.x - sgdLastX) * 0.01; 
+            // Constrain pitch to [-1.5, 1.5] radians to preserve upright orientation
+            sgdAngleX = Math.max(-1.5, Math.min(1.5, sgdAngleX + (p.y - sgdLastY) * 0.01));
+            sgdLastX = p.x; 
+            sgdLastY = p.y; 
+        }
         function endSgdDrag() { sgdDragging = false; }
 
         sgdCanvas.addEventListener('mousedown', startSgdDrag);

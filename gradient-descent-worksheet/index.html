@@ -1633,10 +1633,6 @@
         sgdCanvas.addEventListener('touchmove', moveSgdDrag, { passive: false });
         sgdCanvas.addEventListener('touchend', endSgdDrag);
         sgdCanvas.addEventListener('touchcancel', endSgdDrag);
-        resetSgdBtn.addEventListener('click', () => initSgdSimulator());
-
-        initSgdSimulator();
-        drawSgdScene();
 
         // 3D Word Convergence Animation (Question 13)
         const convCanvas = document.getElementById('wordConvergenceCanvas');

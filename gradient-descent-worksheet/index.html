@@ -2898,89 +2898,123 @@
         }
 
         function getOutputBowlHeight(x, y) {
-            return getBowlMorphHeight(x, y, 1);
+            return getSgdHeight(x, y);
         }
 
         function projectOutputBowl(x, y, z) {
             const centerX = outputBowlCanvas.width / 2;
-            const centerY = outputBowlCanvas.height / 2 + 26;
-            const scale = 62;
-            const pitch = -1.2;
+            const centerY = outputBowlCanvas.height / 2 + 34;
+            const scale = 48;
+            const pitch = -0.65;
             const yaw = 0.45;
             let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
             let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
             let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
             let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
-            const perspective = 320 / (320 + z2 * 36);
+            const perspective = 350 / (350 + z2 * 40);
             return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
         }
 
         function initOutputMarbles() {
-            outputMarbles = Array.from({ length: 12 }, (_, index) => ({
-                x: -2.3 + Math.random() * 4.6,
-                y: -2.2 + Math.random() * 4.4,
-                vx: 0,
-                vy: 0,
-                fallenOut: false,
-                fallAge: 0,
-                noiseAngle: Math.random() * Math.PI * 2,
-                noiseSpin: 0.04 + Math.random() * 0.08,
-                color: index % 3 === 0 ? '#ff4b3e' : index % 3 === 1 ? '#49a7ff' : '#ffd166'
-            }));
+            const traps = sgdWells.filter(well => !well.global);
+            outputMarbles = Array.from({ length: 18 }, (_, index) => {
+                const useTrap = Math.random() < 0.78 && traps.length > 0;
+                const well = useTrap
+                    ? traps[Math.floor(Math.random() * traps.length)]
+                    : sgdWells[Math.floor(Math.random() * sgdWells.length)];
+                const scatter = useTrap ? 0.52 : 0.78;
+
+                return {
+                    x: well.x + (Math.random() - 0.5) * scatter,
+                    y: well.y + (Math.random() - 0.5) * scatter,
+                    vx: 0,
+                    vy: 0,
+                    fallenOut: false,
+                    fallAge: 0,
+                    settled: false,
+                    noiseAngle: Math.random() * Math.PI * 2,
+                    noisePhase: Math.random() * Math.PI * 2,
+                    noiseSpin: 0.0015 + Math.random() * 0.0025,
+                    color: index % 3 === 0 ? '#ff4b3e' : index % 3 === 1 ? '#49a7ff' : '#ffd166'
+                };
+            });
         }
 
         function updateOutputMarbles() {
             if (outputFrame % 360 === 0 || outputMarbles.length === 0) initOutputMarbles();
             const cycleProgress = (outputFrame % 360) / 360;
+            const elapsed = cycleProgress * sgdFallDuration;
+            const dt = 0.62;
             const temperature = getOutputTemperature();
             const decayingNoise = Math.min(temperature, 50) / 50;
             const sustainedNoise = Math.max(0, temperature - 50) / 50;
-            const highNoise = Math.max(0, temperature - 74) / 26;
-            const calmDown = Math.max(0, 1 - cycleProgress);
-            let fallenCount = 0;
+            const isFalling = cycleProgress < 0.92;
+            const gravityStrength = 0.003;
+            const damping = 0.98;
+            const canFallOut = temperature >= 75;
 
             outputMarbles.forEach(marble => {
                 if (marble.fallenOut) {
-                    marble.fallAge += 1;
-                    marble.x += marble.vx * 0.13;
-                    marble.y += marble.vy * 0.13;
-                    fallenCount++;
+                    marble.fallAge += dt;
+                    marble.x += marble.vx * dt * 0.18;
+                    marble.y += marble.vy * dt * 0.18;
                     return;
                 }
 
-                const eps = 0.03;
+                const eps = 0.025;
                 const gradX = (getOutputBowlHeight(marble.x + eps, marble.y) - getOutputBowlHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getOutputBowlHeight(marble.x, marble.y + eps) - getOutputBowlHeight(marble.x, marble.y - eps)) / (2 * eps);
-                const randomKick = decayingNoise * 0.045 * Math.pow(calmDown, 2) + sustainedNoise * 0.035;
-                const directionalKick = highNoise * 0.08;
-                marble.noiseAngle += marble.noiseSpin;
-                const shakeX = (Math.random() - 0.5) * randomKick + Math.cos(marble.noiseAngle) * directionalKick;
-                const shakeY = (Math.random() - 0.5) * randomKick + Math.sin(marble.noiseAngle) * directionalKick;
+                const decay = Math.max(0, 1 - cycleProgress / 0.92);
+                const decayingKick = decayingNoise * 0.1 * Math.pow(decay, 3);
+                const sustainedKick = sustainedNoise * 0.045 * (isFalling ? 1 : 0.25);
+                const randomKick = decayingKick + sustainedKick;
+                const shakeX = (Math.random() - 0.5) * randomKick;
+                const shakeY = (Math.random() - 0.5) * randomKick;
+                const highNoisePower = sustainedNoise * sustainedNoise;
+                const gustAngle = marble.noiseAngle + Math.sin(elapsed * marble.noiseSpin + marble.noisePhase) * 0.9;
+                const directionalKick = highNoisePower * 0.05 * (isFalling ? 1 : 0.45);
+                const gustX = Math.cos(gustAngle) * directionalKick;
+                const gustY = Math.sin(gustAngle) * directionalKick;
 
-                marble.vx = marble.vx * 0.94 - gradX * 0.18 + shakeX;
-                marble.vy = marble.vy * 0.94 - gradY * 0.18 + shakeY;
-                marble.x += marble.vx * 0.08;
-                marble.y += marble.vy * 0.08;
+                marble.vx = marble.vx * damping - gradX * gravityStrength * dt + (shakeX + gustX) * dt;
+                marble.vy = marble.vy * damping - gradY * gravityStrength * dt + (shakeY + gustY) * dt;
+                marble.x += marble.vx * dt;
+                marble.y += marble.vy * dt;
 
-                const distanceFromCenter = Math.hypot(marble.x, marble.y);
-                if (temperature >= 82 && distanceFromCenter > 2.72) {
+                if (canFallOut && Math.hypot(marble.x, marble.y) > 2.78) {
                     marble.fallenOut = true;
-                    const outSpeed = 0.75 + highNoise * 1.25;
-                    marble.vx = (marble.x / distanceFromCenter) * outSpeed;
-                    marble.vy = (marble.y / distanceFromCenter) * outSpeed;
-                    fallenCount++;
+                    marble.settled = false;
+                    marble.vx *= 1.45;
+                    marble.vy *= 1.45;
                     return;
                 }
 
-                if (Math.abs(marble.x) > 2.7) { marble.x = Math.sign(marble.x) * 2.7; marble.vx *= -0.35; }
-                if (Math.abs(marble.y) > 2.7) { marble.y = Math.sign(marble.y) * 2.7; marble.vy *= -0.35; }
+                if (Math.abs(marble.x) > 2.6) { marble.x = Math.sign(marble.x) * 2.6; marble.vx *= canFallOut ? 0.9 : -0.4; }
+                if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= canFallOut ? 0.9 : -0.4; }
+
+                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                marble.settled = distToGlobal < 0.6 || sgdWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
             });
-            return fallenCount;
+        }
+
+        function drawOutputTarget(well) {
+            const p = projectOutputBowl(well.x, well.y, getOutputBowlHeight(well.x, well.y));
+            outputBowlCtx.save();
+            outputBowlCtx.strokeStyle = well.color;
+            outputBowlCtx.lineWidth = well.global ? 2 : 1.25;
+            outputBowlCtx.globalAlpha = well.global ? 1 : 0.82;
+            outputBowlCtx.beginPath();
+            outputBowlCtx.arc(p.x, p.y, (well.global ? 13 : 10) * p.perspective, 0, Math.PI * 2);
+            outputBowlCtx.stroke();
+            outputBowlCtx.fillStyle = well.color;
+            outputBowlCtx.font = '700 11px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.fillText(well.global ? 'Global' : 'Local', p.x + 8, p.y - 8);
+            outputBowlCtx.restore();
         }
 
         function drawOutputBowlScene() {
             if (!outputBowlCtx) return;
-            const fallenCount = updateOutputMarbles();
+            updateOutputMarbles();
             outputBowlCtx.clearRect(0, 0, outputBowlCanvas.width, outputBowlCanvas.height);
             const bg = outputBowlCtx.createRadialGradient(200, 160, 35, 200, 180, 300);
             bg.addColorStop(0, '#121212');
@@ -2988,10 +3022,10 @@
             outputBowlCtx.fillStyle = bg;
             outputBowlCtx.fillRect(0, 0, outputBowlCanvas.width, outputBowlCanvas.height);
 
-            const gridSize = 2.7;
-            const step = 0.27;
+            const gridSize = 2.5;
+            const step = 0.25;
             for (let x = -gridSize; x <= gridSize; x += step) {
-                outputBowlCtx.strokeStyle = 'rgba(100, 244, 172, 0.24)';
+                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
                 outputBowlCtx.lineWidth = 1;
                 outputBowlCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += step) {
@@ -3011,30 +3045,64 @@
                 outputBowlCtx.stroke();
             }
 
+            sgdWells.forEach(drawOutputTarget);
+
+            let globalCount = 0;
+            let localCount = 0;
+            let fallenCount = 0;
             const projectedMarbles = outputMarbles.map(marble => ({
                 ...marble,
-                projected: projectOutputBowl(marble.x, marble.y, getOutputBowlHeight(marble.x, marble.y))
-            }));
+                projected: marble.fallenOut
+                    ? projectOutputBowl(
+                        Math.max(-2.8, Math.min(2.8, marble.x)),
+                        Math.max(-2.8, Math.min(2.8, marble.y)),
+                        getOutputBowlHeight(Math.max(-2.8, Math.min(2.8, marble.x)), Math.max(-2.8, Math.min(2.8, marble.y))) + 0.4 + marble.fallAge * 0.05
+                    )
+                    : projectOutputBowl(marble.x, marble.y, getOutputBowlHeight(marble.x, marble.y))
+            })).map(marble => {
+                if (marble.fallenOut) {
+                    fallenCount++;
+                    return marble;
+                }
+
+                const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
+                const inLocal = sgdWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
+                if (distToGlobal < 0.6) {
+                    globalCount++;
+                } else if (inLocal) {
+                    localCount++;
+                }
+                return { ...marble, inLocal, inGlobal: distToGlobal < 0.6 };
+            });
+
             projectedMarbles.sort((a, b) => b.projected.depth - a.projected.depth).forEach(marble => {
                 const fallOffset = marble.fallenOut ? marble.fallAge * 1.8 : 0;
                 outputBowlCtx.save();
                 outputBowlCtx.fillStyle = marble.color;
                 outputBowlCtx.shadowColor = marble.color;
-                outputBowlCtx.shadowBlur = marble.fallenOut ? 0 : 8;
+                outputBowlCtx.shadowBlur = marble.settled ? 12 : 5;
                 outputBowlCtx.globalAlpha = marble.fallenOut ? Math.max(0.12, 0.75 - marble.fallAge * 0.018) : 0.9;
                 outputBowlCtx.beginPath();
                 outputBowlCtx.arc(marble.projected.x, marble.projected.y + fallOffset, 6 * marble.projected.perspective, 0, Math.PI * 2);
                 outputBowlCtx.fill();
+                if (marble.inLocal) {
+                    outputBowlCtx.strokeStyle = '#ffd166';
+                    outputBowlCtx.lineWidth = 1.5;
+                    outputBowlCtx.stroke();
+                } else if (marble.inGlobal) {
+                    outputBowlCtx.strokeStyle = '#64f4ac';
+                    outputBowlCtx.lineWidth = 1.5;
+                    outputBowlCtx.stroke();
+                }
                 outputBowlCtx.restore();
             });
 
             outputBowlCtx.fillStyle = 'rgba(255, 255, 255, 0.86)';
             outputBowlCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
             outputBowlCtx.fillText('Temperature shakes the trained bowl', 16, 28);
-            if (fallenCount > 0) {
-                outputBowlCtx.fillStyle = '#ff4b3e';
-                outputBowlCtx.fillText(`${fallenCount} marble${fallenCount === 1 ? '' : 's'} fell out`, 16, outputBowlCanvas.height - 22);
-            }
+            outputBowlCtx.fillStyle = fallenCount > 0 ? '#ff4b3e' : localCount > globalCount ? '#ffd166' : '#64f4ac';
+            outputBowlCtx.font = '700 13px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.fillText(`${globalCount} global  ${localCount} local  ${fallenCount} out`, 16, outputBowlCanvas.height - 22);
         }
 
         if (outputTemperature) {

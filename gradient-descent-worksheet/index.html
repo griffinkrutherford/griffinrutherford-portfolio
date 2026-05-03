@@ -1020,6 +1020,9 @@
                     <label for="outputTemperature">Temperature</label>
                     <input type="range" id="outputTemperature" min="0" max="100" value="38">
                     <div class="wordvec-time-label" id="outputTemperatureLabel">Temperature: 38% - coherent with some variety</div>
+                    <div class="wordvec-control-row">
+                        <button type="button" class="reset" id="restart-output-loop">Restart Loop</button>
+                    </div>
                 </div>
                 <div class="training-loop-grid">
                     <div class="training-loop-panel">
@@ -2713,6 +2716,7 @@
         const outputBowlCtx = outputBowlCanvas ? outputBowlCanvas.getContext('2d') : null;
         const outputTemperature = document.getElementById('outputTemperature');
         const outputTemperatureLabel = document.getElementById('outputTemperatureLabel');
+        const restartOutputLoop = document.getElementById('restart-output-loop');
         let outputFrame = 0;
         let outputMarbles = [];
         const outputSequences = {
@@ -3038,6 +3042,18 @@
                 updateOutputTemperatureLabel();
                 initOutputMarbles();
             });
+        }
+
+        function restartOutputGenerationLoop() {
+            outputFrame = 0;
+            initOutputMarbles();
+            updateOutputTemperatureLabel();
+            drawOutputWordScene();
+            drawOutputBowlScene();
+        }
+
+        if (restartOutputLoop) {
+            restartOutputLoop.addEventListener('click', restartOutputGenerationLoop);
         }
 
         function drawOutputGenerationScene() {

@@ -1170,6 +1170,27 @@
             ctx.fill();
         }
 
+        function drawDoubleArrow(ctx, fromX, fromY, toX, toY, color, width = 3) {
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            const arrowSize = 10;
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = width;
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            [[toX, toY, angle], [fromX, fromY, angle + Math.PI]].forEach(([x, y, headAngle]) => {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - arrowSize * Math.cos(headAngle - Math.PI / 6), y - arrowSize * Math.sin(headAngle - Math.PI / 6));
+                ctx.lineTo(x - arrowSize * Math.cos(headAngle + Math.PI / 6), y - arrowSize * Math.sin(headAngle + Math.PI / 6));
+                ctx.closePath();
+                ctx.fill();
+            });
+        }
+
         function drawSlopeAxes(ctx, canvas) {
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
             ctx.lineWidth = 2;
@@ -1194,7 +1215,6 @@
                 const pointX = 1.1;
                 const pointY = 0.12 * pointX * pointX;
                 const slope = 0.24 * pointX;
-                const tangentHalfWidth = 2.8;
 
                 slopeCtx.strokeStyle = '#e10600';
                 slopeCtx.lineWidth = 3;
@@ -1207,11 +1227,11 @@
                 }
                 slopeCtx.stroke();
 
-                const tangentX1 = pointX - tangentHalfWidth;
-                const tangentX2 = pointX + tangentHalfWidth;
+                const tangentX1 = -4.35;
+                const tangentX2 = 4.35;
                 const tangentY1 = pointY + slope * (tangentX1 - pointX);
                 const tangentY2 = pointY + slope * (tangentX2 - pointX);
-                drawArrow(
+                drawDoubleArrow(
                     slopeCtx,
                     centerX + tangentX1 * scale,
                     centerY - tangentY1 * scale,
@@ -1234,22 +1254,20 @@
                 slopeCtx.fillStyle = '#cfcfcf';
                 slopeCtx.fillText('slope at one point', px + 22, py);
             } else {
-                const x1 = 170;
-                const y1 = 250;
-                const x2 = 560;
-                const y2 = 102;
+                const x1 = 330;
+                const y1 = 230;
+                const x2 = 455;
+                const y2 = 166;
+                const slope = (y2 - y1) / (x2 - x1);
+                const lineStartX = 104;
+                const lineEndX = 698;
+                const lineStartY = y1 + slope * (lineStartX - x1);
+                const lineEndY = y1 + slope * (lineEndX - x1);
 
-                slopeCtx.strokeStyle = '#e10600';
-                slopeCtx.lineWidth = 4;
-                slopeCtx.beginPath();
-                slopeCtx.moveTo(x1, y1);
-                slopeCtx.lineTo(x2, y2);
-                slopeCtx.stroke();
+                drawDoubleArrow(slopeCtx, lineStartX, lineStartY, lineEndX, lineEndY, '#e10600', 4);
 
-                slopeCtx.setLineDash([8, 6]);
-                drawArrow(slopeCtx, x1, y1 + 34, x2, y1 + 34, '#64f4ac');
-                drawArrow(slopeCtx, x2 + 34, y1, x2 + 34, y2, '#49a7ff');
-                slopeCtx.setLineDash([]);
+                drawDoubleArrow(slopeCtx, x1, y1 + 24, x2, y1 + 24, '#64f4ac', 3);
+                drawDoubleArrow(slopeCtx, x2 + 24, y1, x2 + 24, y2, '#49a7ff', 3);
 
                 slopeCtx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
                 slopeCtx.lineWidth = 2;
@@ -1267,12 +1285,12 @@
 
                 slopeCtx.fillStyle = '#64f4ac';
                 slopeCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
-                slopeCtx.fillText('delta x', (x1 + x2) / 2 - 38, y1 + 70);
+                slopeCtx.fillText('△x', (x1 + x2) / 2 - 14, y1 + 62);
                 slopeCtx.fillStyle = '#49a7ff';
-                slopeCtx.fillText('delta y', x2 + 58, (y1 + y2) / 2 + 8);
+                slopeCtx.fillText('△y', x2 + 54, (y1 + y2) / 2 + 8);
                 slopeCtx.fillStyle = '#ffffff';
                 slopeCtx.font = '700 23px STIX Two Math, STIX Two Text, Times New Roman, serif';
-                slopeCtx.fillText('slope = delta y / delta x', 245, 52);
+                slopeCtx.fillText('slope = △y / △x', 292, 52);
             }
         }
 

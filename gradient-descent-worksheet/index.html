@@ -681,7 +681,10 @@
         <div class="question">
             <div class="question-number">5.</div>
             <div class="question-text">
-                How does the slope change from the left to right side of the vertex of any parabola?
+                For the upward-opening parabola <span class="math-inline">y = x²</span>, how does the slope change from the left to right side of the vertex?
+            </div>
+            <div class="canvas-container">
+                <canvas id="slopeChangeCanvas" width="800" height="360"></canvas>
             </div>
             <textarea placeholder="Your answer..."></textarea>
             <button class="submit-answer" data-question="5">Submit</button>
@@ -1123,6 +1126,7 @@
                 currentMode = e.target.value;
                 updateFlatSlopePlaneNote();
                 drawSlopeVisual();
+                drawSlopeChangeVisual();
                 drawParabola();
                 updateParaboloidPlaneControls();
                 drawParaboloid();
@@ -1321,6 +1325,109 @@
                 slopeCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
                 slopeCtx.fillText('Find the relationship between the rise and run.', 190, 52);
             }
+        }
+
+        // Slope Change Canvas (Question 5)
+        const slopeChangeCanvas = document.getElementById('slopeChangeCanvas');
+        const slopeChangeCtx = slopeChangeCanvas.getContext('2d');
+
+        function drawSlopeChangeVisual() {
+            slopeChangeCtx.clearRect(0, 0, slopeChangeCanvas.width, slopeChangeCanvas.height);
+            slopeChangeCtx.fillStyle = '#050505';
+            slopeChangeCtx.fillRect(0, 0, slopeChangeCanvas.width, slopeChangeCanvas.height);
+
+            const centerX = slopeChangeCanvas.width / 2;
+            const centerY = slopeChangeCanvas.height - 72;
+            const scale = 58;
+            const f = (x) => 0.18 * x * x;
+            const toCanvas = (x, y) => ({ x: centerX + x * scale, y: centerY - y * scale });
+
+            slopeChangeCtx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
+            slopeChangeCtx.lineWidth = 2;
+            slopeChangeCtx.beginPath();
+            slopeChangeCtx.moveTo(52, centerY);
+            slopeChangeCtx.lineTo(slopeChangeCanvas.width - 44, centerY);
+            slopeChangeCtx.moveTo(centerX, 34);
+            slopeChangeCtx.lineTo(centerX, slopeChangeCanvas.height - 34);
+            slopeChangeCtx.stroke();
+
+            slopeChangeCtx.strokeStyle = '#e10600';
+            slopeChangeCtx.lineWidth = 3;
+            slopeChangeCtx.beginPath();
+            for (let x = -4.8; x <= 4.8; x += 0.04) {
+                const point = toCanvas(x, f(x));
+                if (x === -4.8) slopeChangeCtx.moveTo(point.x, point.y); else slopeChangeCtx.lineTo(point.x, point.y);
+            }
+            slopeChangeCtx.stroke();
+
+            const drawLineForSlope = (pointX, pointY, slope, color) => {
+                const x1 = -4.95;
+                const x2 = 4.95;
+                const y1 = pointY + slope * (x1 - pointX);
+                const y2 = pointY + slope * (x2 - pointX);
+                const p1 = toCanvas(x1, y1);
+                const p2 = toCanvas(x2, y2);
+                drawDoubleArrow(slopeChangeCtx, p1.x, p1.y, p2.x, p2.y, color, 3);
+            };
+
+            if (currentMode === 'calculus') {
+                const points = [
+                    { x: -2.2, color: '#49a7ff', label: 'Left tangent' },
+                    { x: 2.2, color: '#64f4ac', label: 'Right tangent' }
+                ];
+
+                points.forEach(({ x, color, label }) => {
+                    const y = f(x);
+                    const slope = 0.36 * x;
+                    drawLineForSlope(x, y, slope, color);
+                    const point = toCanvas(x, y);
+                    slopeChangeCtx.fillStyle = '#ffffff';
+                    slopeChangeCtx.beginPath();
+                    slopeChangeCtx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+                    slopeChangeCtx.fill();
+                    slopeChangeCtx.fillStyle = color;
+                    slopeChangeCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
+                    slopeChangeCtx.fillText(label, point.x + (x < 0 ? -118 : 18), point.y - 18);
+                });
+            } else {
+                const secants = [
+                    { a: -3.1, b: -1.8, color: '#49a7ff', label: 'Left secant' },
+                    { a: 1.8, b: 3.1, color: '#64f4ac', label: 'Right secant' }
+                ];
+
+                secants.forEach(({ a, b, color, label }) => {
+                    const yA = f(a);
+                    const yB = f(b);
+                    const slope = (yB - yA) / (b - a);
+                    drawLineForSlope(a, yA, slope, color);
+                    [a, b].forEach((x) => {
+                        const point = toCanvas(x, f(x));
+                        slopeChangeCtx.fillStyle = '#ffffff';
+                        slopeChangeCtx.beginPath();
+                        slopeChangeCtx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                        slopeChangeCtx.fill();
+                    });
+                    const mid = toCanvas((a + b) / 2, (yA + yB) / 2);
+                    slopeChangeCtx.fillStyle = color;
+                    slopeChangeCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
+                    slopeChangeCtx.fillText(label, mid.x + (a < 0 ? -116 : 18), mid.y - 14);
+                });
+            }
+
+            const vertex = toCanvas(0, 0);
+            slopeChangeCtx.fillStyle = '#ffffff';
+            slopeChangeCtx.beginPath();
+            slopeChangeCtx.arc(vertex.x, vertex.y, 6, 0, Math.PI * 2);
+            slopeChangeCtx.fill();
+
+            slopeChangeCtx.fillStyle = '#ffffff';
+            slopeChangeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
+            slopeChangeCtx.fillText('y = x² opens upward', 24, 34);
+            slopeChangeCtx.font = '700 17px STIX Two Text, Times New Roman, serif';
+            slopeChangeCtx.fillStyle = '#49a7ff';
+            slopeChangeCtx.fillText('left side: negative slope', 24, slopeChangeCanvas.height - 28);
+            slopeChangeCtx.fillStyle = '#64f4ac';
+            slopeChangeCtx.fillText('right side: positive slope', slopeChangeCanvas.width - 250, slopeChangeCanvas.height - 28);
         }
 
         // Parabola Canvas
@@ -3206,6 +3313,7 @@
 
             // 1. Static/Interactive charts (Initial draw)
             tryDraw(drawSlopeVisual, 'drawSlopeVisual');
+            tryDraw(drawSlopeChangeVisual, 'drawSlopeChangeVisual');
             tryDraw(drawParabola, 'drawParabola');
             tryDraw(drawQuartic, 'drawQuartic');
             tryDraw(drawParaboloid, 'drawParaboloid');

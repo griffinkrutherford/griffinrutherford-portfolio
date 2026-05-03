@@ -2902,8 +2902,21 @@
             );
         }
 
+        const outputBowlWells = [
+            { label: 'Global Min', x: 1.2, y: 1.2, depth: 2.8, spread: 1.45, radius: 0.48, color: '#64f4ac', global: true },
+            { label: 'Local Trap', x: -1.5, y: -1.5, depth: 0.55, spread: 2.6, radius: 0.32, color: '#ffd166' },
+            { label: 'Local Trap', x: 1.2, y: -1.2, depth: 0.42, spread: 3.5, radius: 0.28, color: '#ffd166' },
+            { label: 'Local Trap', x: -1.2, y: 1.2, depth: 0.42, spread: 3.5, radius: 0.28, color: '#ffd166' },
+            { label: 'Local Trap', x: 0, y: 1.5, depth: 0.34, spread: 4.0, radius: 0.24, color: '#ffd166' }
+        ];
+
         function getOutputBowlHeight(x, y) {
-            return getSgdHeight(x, y);
+            const bowl = 0.1 * (x * x + y * y);
+            const wells = outputBowlWells.reduce((total, well) => {
+                const distanceSquared = Math.pow(x - well.x, 2) + Math.pow(y - well.y, 2);
+                return total + well.depth * Math.exp(-distanceSquared * well.spread);
+            }, 0);
+            return bowl - wells;
         }
 
         function projectOutputBowl(x, y, z) {
@@ -2952,12 +2965,12 @@
         }
 
         function initOutputMarbles() {
-            const traps = sgdWells.filter(well => !well.global);
+            const traps = outputBowlWells.filter(well => !well.global);
             outputMarbles = Array.from({ length: 18 }, (_, index) => {
-                const useTrap = Math.random() < 0.78 && traps.length > 0;
+                const useTrap = Math.random() < 0.68 && traps.length > 0;
                 const well = useTrap
                     ? traps[Math.floor(Math.random() * traps.length)]
-                    : sgdWells[Math.floor(Math.random() * sgdWells.length)];
+                    : outputBowlWells[Math.floor(Math.random() * outputBowlWells.length)];
                 const scatter = useTrap ? 0.52 : 0.78;
 
                 return {
@@ -2985,7 +2998,8 @@
             const decayingNoise = Math.min(temperature, 50) / 50;
             const sustainedNoise = Math.max(0, temperature - 50) / 50;
             const isFalling = cycleProgress < 0.92;
-            const gravityStrength = 0.003;
+            const fade = Math.max(0, 1 - cycleProgress / 0.92);
+            const gravityStrength = 0.0042 * (0.22 + 0.78 * fade);
             const damping = 0.98;
             const canFallOut = temperature >= 75;
 
@@ -3000,15 +3014,14 @@
                 const eps = 0.025;
                 const gradX = (getOutputBowlHeight(marble.x + eps, marble.y) - getOutputBowlHeight(marble.x - eps, marble.y)) / (2 * eps);
                 const gradY = (getOutputBowlHeight(marble.x, marble.y + eps) - getOutputBowlHeight(marble.x, marble.y - eps)) / (2 * eps);
-                const decay = Math.max(0, 1 - cycleProgress / 0.92);
-                const decayingKick = decayingNoise * 0.1 * Math.pow(decay, 3);
-                const sustainedKick = sustainedNoise * 0.045 * (isFalling ? 1 : 0.25);
+                const decayingKick = decayingNoise * 0.12 * Math.pow(fade, 3);
+                const sustainedKick = sustainedNoise * 0.075 * Math.pow(fade, 1.25) * (isFalling ? 1 : 0.15);
                 const randomKick = decayingKick + sustainedKick;
                 const shakeX = (Math.random() - 0.5) * randomKick;
                 const shakeY = (Math.random() - 0.5) * randomKick;
                 const highNoisePower = sustainedNoise * sustainedNoise;
                 const gustAngle = marble.noiseAngle + Math.sin(elapsed * marble.noiseSpin + marble.noisePhase) * 0.9;
-                const directionalKick = highNoisePower * 0.05 * (isFalling ? 1 : 0.45);
+                const directionalKick = highNoisePower * 0.08 * Math.pow(fade, 0.8) * (isFalling ? 1 : 0.2);
                 const gustX = Math.cos(gustAngle) * directionalKick;
                 const gustY = Math.sin(gustAngle) * directionalKick;
 
@@ -3029,7 +3042,7 @@
                 if (Math.abs(marble.y) > 2.6) { marble.y = Math.sign(marble.y) * 2.6; marble.vy *= canFallOut ? 0.9 : -0.4; }
 
                 const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
-                marble.settled = distToGlobal < 0.6 || sgdWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
+                marble.settled = distToGlobal < 0.6 || outputBowlWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
             });
         }
 
@@ -3081,7 +3094,7 @@
                 outputBowlCtx.stroke();
             }
 
-            sgdWells.forEach(drawOutputTarget);
+            outputBowlWells.forEach(drawOutputTarget);
 
             let globalCount = 0;
             let localCount = 0;
@@ -3102,7 +3115,7 @@
                 }
 
                 const distToGlobal = Math.hypot(marble.x - 1.2, marble.y - 1.2);
-                const inLocal = sgdWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
+                const inLocal = outputBowlWells.some(well => !well.global && Math.hypot(marble.x - well.x, marble.y - well.y) < well.radius);
                 if (distToGlobal < 0.6) {
                     globalCount++;
                 } else if (inLocal) {

@@ -1372,8 +1372,8 @@
 
             if (currentMode === 'calculus') {
                 const points = [
-                    { x: -2.2, color: '#49a7ff', label: 'Left tangent' },
-                    { x: 2.2, color: '#64f4ac', label: 'Right tangent' }
+                    { x: -2.2, color: '#49a7ff', label: 'Left slope' },
+                    { x: 2.2, color: '#64f4ac', label: 'Right slope' }
                 ];
 
                 points.forEach(({ x, color, label }) => {
@@ -1391,8 +1391,8 @@
                 });
             } else {
                 const secants = [
-                    { a: -3.1, b: -1.8, color: '#49a7ff', label: 'Left secant' },
-                    { a: 1.8, b: 3.1, color: '#64f4ac', label: 'Right secant' }
+                    { a: -3.1, b: -1.8, color: '#49a7ff', label: 'Left slope' },
+                    { a: 1.8, b: 3.1, color: '#64f4ac', label: 'Right slope' }
                 ];
 
                 secants.forEach(({ a, b, color, label }) => {
@@ -1423,11 +1423,6 @@
             slopeChangeCtx.fillStyle = '#ffffff';
             slopeChangeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
             slopeChangeCtx.fillText('y = x² opens upward', 24, 34);
-            slopeChangeCtx.font = '700 17px STIX Two Text, Times New Roman, serif';
-            slopeChangeCtx.fillStyle = '#49a7ff';
-            slopeChangeCtx.fillText('left side: negative slope', 24, slopeChangeCanvas.height - 28);
-            slopeChangeCtx.fillStyle = '#64f4ac';
-            slopeChangeCtx.fillText('right side: positive slope', slopeChangeCanvas.width - 250, slopeChangeCanvas.height - 28);
         }
 
         // Parabola Canvas

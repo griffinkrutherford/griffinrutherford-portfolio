@@ -816,6 +816,9 @@
                 <button onclick="startGradientDescent()">Start Gradient Descent</button>
                 <button class="reset" onclick="resetGradientDescent()">Reset</button>
             </div>
+            <p class="wordvec-note" id="gradient-descent-slope-note">
+                At each point, we can calculate the slope at that point and use it to decide which downhill step to take.
+            </p>
         </div>
 
         <!-- Question 11 -->
@@ -1121,10 +1124,22 @@
             }
         }
 
+        function updateGradientDescentSlopeNote() {
+            const note = document.getElementById('gradient-descent-slope-note');
+            if (!note) return;
+
+            if (currentMode === 'calculus') {
+                note.innerHTML = 'At each point, we calculate the slope using the derivative at that point, then use it to move downhill a little at a time.';
+            } else {
+                note.innerHTML = 'At each point, we can calculate the slope at that point and use it to move downhill a little at a time.';
+            }
+        }
+
         document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
                 updateFlatSlopePlaneNote();
+                updateGradientDescentSlopeNote();
                 drawSlopeVisual();
                 drawSlopeChangeVisual();
                 drawParabola();
@@ -3307,6 +3322,7 @@
             };
 
             // 1. Static/Interactive charts (Initial draw)
+            tryDraw(updateGradientDescentSlopeNote, 'updateGradientDescentSlopeNote');
             tryDraw(drawSlopeVisual, 'drawSlopeVisual');
             tryDraw(drawSlopeChangeVisual, 'drawSlopeChangeVisual');
             tryDraw(drawParabola, 'drawParabola');

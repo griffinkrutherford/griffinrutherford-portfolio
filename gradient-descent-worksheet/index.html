@@ -631,6 +631,9 @@
             <input type="text" placeholder="Your answer...">
             <button class="submit-answer" data-question="1">Submit</button>
             <div class="answer" id="answer-1"></div>
+            <div class="canvas-container">
+                <canvas id="slopeCanvas" width="800" height="360"></canvas>
+            </div>
         </div>
 
         <!-- Question 2 -->
@@ -1090,6 +1093,7 @@
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
                 updateFlatSlopePlaneNote();
+                drawSlopeVisual();
                 drawParabola();
                 updateParaboloidPlaneControls();
                 drawParaboloid();
@@ -1143,6 +1147,134 @@
                 closeQuarticModal();
             }
         });
+
+        // Slope Visual Canvas (Question 1)
+        const slopeCanvas = document.getElementById('slopeCanvas');
+        const slopeCtx = slopeCanvas.getContext('2d');
+
+        function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            const arrowSize = 10;
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - arrowSize * Math.cos(angle - Math.PI / 6), toY - arrowSize * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(toX - arrowSize * Math.cos(angle + Math.PI / 6), toY - arrowSize * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawSlopeAxes(ctx, canvas) {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(70, canvas.height - 56);
+            ctx.lineTo(canvas.width - 42, canvas.height - 56);
+            ctx.moveTo(70, canvas.height - 56);
+            ctx.lineTo(70, 34);
+            ctx.stroke();
+        }
+
+        function drawSlopeVisual() {
+            slopeCtx.clearRect(0, 0, slopeCanvas.width, slopeCanvas.height);
+            slopeCtx.fillStyle = '#050505';
+            slopeCtx.fillRect(0, 0, slopeCanvas.width, slopeCanvas.height);
+            drawSlopeAxes(slopeCtx, slopeCanvas);
+
+            if (currentMode === 'calculus') {
+                const centerX = slopeCanvas.width / 2;
+                const centerY = slopeCanvas.height / 2 + 34;
+                const scale = 68;
+                const pointX = 1.1;
+                const pointY = 0.12 * pointX * pointX;
+                const slope = 0.24 * pointX;
+                const tangentHalfWidth = 2.8;
+
+                slopeCtx.strokeStyle = '#e10600';
+                slopeCtx.lineWidth = 3;
+                slopeCtx.beginPath();
+                for (let x = -4; x <= 4; x += 0.04) {
+                    const y = 0.12 * x * x;
+                    const canvasX = centerX + x * scale;
+                    const canvasY = centerY - y * scale;
+                    if (x === -4) slopeCtx.moveTo(canvasX, canvasY); else slopeCtx.lineTo(canvasX, canvasY);
+                }
+                slopeCtx.stroke();
+
+                const tangentX1 = pointX - tangentHalfWidth;
+                const tangentX2 = pointX + tangentHalfWidth;
+                const tangentY1 = pointY + slope * (tangentX1 - pointX);
+                const tangentY2 = pointY + slope * (tangentX2 - pointX);
+                drawArrow(
+                    slopeCtx,
+                    centerX + tangentX1 * scale,
+                    centerY - tangentY1 * scale,
+                    centerX + tangentX2 * scale,
+                    centerY - tangentY2 * scale,
+                    '#64f4ac'
+                );
+
+                const px = centerX + pointX * scale;
+                const py = centerY - pointY * scale;
+                slopeCtx.fillStyle = '#ffffff';
+                slopeCtx.beginPath();
+                slopeCtx.arc(px, py, 7, 0, Math.PI * 2);
+                slopeCtx.fill();
+
+                slopeCtx.fillStyle = '#ffffff';
+                slopeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
+                slopeCtx.fillText('Tangent line', px + 22, py - 24);
+                slopeCtx.font = '600 17px STIX Two Text, Times New Roman, serif';
+                slopeCtx.fillStyle = '#cfcfcf';
+                slopeCtx.fillText('slope at one point', px + 22, py);
+            } else {
+                const x1 = 170;
+                const y1 = 250;
+                const x2 = 560;
+                const y2 = 102;
+
+                slopeCtx.strokeStyle = '#e10600';
+                slopeCtx.lineWidth = 4;
+                slopeCtx.beginPath();
+                slopeCtx.moveTo(x1, y1);
+                slopeCtx.lineTo(x2, y2);
+                slopeCtx.stroke();
+
+                slopeCtx.setLineDash([8, 6]);
+                drawArrow(slopeCtx, x1, y1 + 34, x2, y1 + 34, '#64f4ac');
+                drawArrow(slopeCtx, x2 + 34, y1, x2 + 34, y2, '#49a7ff');
+                slopeCtx.setLineDash([]);
+
+                slopeCtx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
+                slopeCtx.lineWidth = 2;
+                slopeCtx.beginPath();
+                slopeCtx.moveTo(x1, y1);
+                slopeCtx.lineTo(x2, y1);
+                slopeCtx.lineTo(x2, y2);
+                slopeCtx.stroke();
+
+                slopeCtx.fillStyle = '#ffffff';
+                slopeCtx.beginPath();
+                slopeCtx.arc(x1, y1, 7, 0, Math.PI * 2);
+                slopeCtx.arc(x2, y2, 7, 0, Math.PI * 2);
+                slopeCtx.fill();
+
+                slopeCtx.fillStyle = '#64f4ac';
+                slopeCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
+                slopeCtx.fillText('delta x', (x1 + x2) / 2 - 38, y1 + 70);
+                slopeCtx.fillStyle = '#49a7ff';
+                slopeCtx.fillText('delta y', x2 + 58, (y1 + y2) / 2 + 8);
+                slopeCtx.fillStyle = '#ffffff';
+                slopeCtx.font = '700 23px STIX Two Math, STIX Two Text, Times New Roman, serif';
+                slopeCtx.fillText('slope = delta y / delta x', 245, 52);
+            }
+        }
 
         // Parabola Canvas
         const parabolaCanvas = document.getElementById('parabolaCanvas');
@@ -2543,6 +2675,7 @@
             };
 
             // 1. Static/Interactive charts (Initial draw)
+            tryDraw(drawSlopeVisual, 'drawSlopeVisual');
             tryDraw(drawParabola, 'drawParabola');
             tryDraw(drawQuartic, 'drawQuartic');
             tryDraw(drawParaboloid, 'drawParaboloid');

@@ -2719,6 +2719,11 @@
         const restartOutputLoop = document.getElementById('restart-output-loop');
         let outputFrame = 0;
         let outputMarbles = [];
+        let outputBowlAngleX = 0.04;
+        let outputBowlAngleY = 0.45;
+        let outputBowlDragging = false;
+        let outputBowlLastX = 0;
+        let outputBowlLastY = 0;
         const outputSequences = {
             low: [
                 { label: 'ChatGPT', point: [-2.2, -1.0, -0.6], color: '#49a7ff' },
@@ -2905,14 +2910,45 @@
             const centerX = outputBowlCanvas.width / 2;
             const centerY = outputBowlCanvas.height / 2 + 34;
             const scale = 48;
-            const pitch = -0.65;
-            const yaw = 0.45;
+            const pitch = outputBowlAngleX;
+            const yaw = outputBowlAngleY;
             let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
             let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
             let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
             let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
             const perspective = 350 / (350 + z2 * 40);
             return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
+        }
+
+        function getOutputBowlPointerPosition(e) {
+            const rect = outputBowlCanvas.getBoundingClientRect();
+            const source = e.touches ? e.touches[0] : e;
+            return {
+                x: (source.clientX - rect.left) * (outputBowlCanvas.width / rect.width),
+                y: (source.clientY - rect.top) * (outputBowlCanvas.height / rect.height)
+            };
+        }
+
+        function startOutputBowlDrag(e) {
+            if (e.cancelable) e.preventDefault();
+            const position = getOutputBowlPointerPosition(e);
+            outputBowlDragging = true;
+            outputBowlLastX = position.x;
+            outputBowlLastY = position.y;
+        }
+
+        function moveOutputBowlDrag(e) {
+            if (!outputBowlDragging) return;
+            if (e.cancelable) e.preventDefault();
+            const position = getOutputBowlPointerPosition(e);
+            outputBowlAngleY += (position.x - outputBowlLastX) * 0.01;
+            outputBowlAngleX = Math.max(-1.45, Math.min(0.08, outputBowlAngleX + (position.y - outputBowlLastY) * 0.01));
+            outputBowlLastX = position.x;
+            outputBowlLastY = position.y;
+        }
+
+        function endOutputBowlDrag() {
+            outputBowlDragging = false;
         }
 
         function initOutputMarbles() {
@@ -3122,6 +3158,17 @@
 
         if (restartOutputLoop) {
             restartOutputLoop.addEventListener('click', restartOutputGenerationLoop);
+        }
+
+        if (outputBowlCanvas) {
+            outputBowlCanvas.addEventListener('mousedown', startOutputBowlDrag);
+            outputBowlCanvas.addEventListener('mousemove', moveOutputBowlDrag);
+            outputBowlCanvas.addEventListener('mouseup', endOutputBowlDrag);
+            outputBowlCanvas.addEventListener('mouseleave', endOutputBowlDrag);
+            outputBowlCanvas.addEventListener('touchstart', startOutputBowlDrag, { passive: false });
+            outputBowlCanvas.addEventListener('touchmove', moveOutputBowlDrag, { passive: false });
+            outputBowlCanvas.addEventListener('touchend', endOutputBowlDrag);
+            outputBowlCanvas.addEventListener('touchcancel', endOutputBowlDrag);
         }
 
         function drawOutputGenerationScene() {

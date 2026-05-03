@@ -1011,6 +1011,26 @@
         <!-- Question 14 -->
         <div class="question">
             <div class="question-number">14.</div>
+            <div class="wordvec-visualizer" aria-label="ChatGPT output generation visualization">
+                <div class="wordvec-title">How ChatGPT Generates an Output</div>
+                <p class="wordvec-note">
+                    After training, the model uses the patterns it learned to choose one word after another. The word space helps represent possible next words, and the shaped bowl is an analogy for the trained model already being ready to guide the output.
+                </p>
+                <div class="training-loop-grid">
+                    <div class="training-loop-panel">
+                        <div class="training-loop-panel-title">Words Selected in Order</div>
+                        <div class="wordvec-stage">
+                            <canvas id="outputWordCanvas" width="400" height="360"></canvas>
+                        </div>
+                    </div>
+                    <div class="training-loop-panel">
+                        <div class="training-loop-panel-title">Trained Bowl Guiding Choices</div>
+                        <div class="wordvec-stage">
+                            <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="question-text">
                 To conclude, we started by talking about how to calculate the slope of a function, and we ended with the insanity of dropping marbles in strange, million-dimension bowls to explain how ChatGPT works. What you are learning in class now aligns with the foundation of not only AI, but how the world works in SO many ways. Below, please connect ONE topic you learned in class to ONE new idea you learned today.
             </div>
@@ -2681,6 +2701,221 @@
             requestAnimationFrame(drawBowlMorphScene);
         }
 
+        // Output Generation Animation (Question 14)
+        const outputWordCanvas = document.getElementById('outputWordCanvas');
+        const outputWordCtx = outputWordCanvas ? outputWordCanvas.getContext('2d') : null;
+        const outputBowlCanvas = document.getElementById('outputBowlCanvas');
+        const outputBowlCtx = outputBowlCanvas ? outputBowlCanvas.getContext('2d') : null;
+        let outputFrame = 0;
+        let outputMarbles = [];
+        const outputSequence = [
+            { label: 'ChatGPT', point: [-2.2, -1.0, -0.6], color: '#49a7ff' },
+            { label: 'chooses', point: [-1.25, 0.9, 0.2], color: '#ffd166' },
+            { label: 'one', point: [-0.35, -0.3, 1.1], color: '#64f4ac' },
+            { label: 'word', point: [0.55, 1.0, -0.2], color: '#ff4b3e' },
+            { label: 'at', point: [1.35, -0.55, 0.7], color: '#ffd166' },
+            { label: 'a', point: [1.95, 0.55, -0.8], color: '#49a7ff' },
+            { label: 'time', point: [2.45, -0.25, 0.3], color: '#64f4ac' }
+        ];
+        const outputExtraWords = [
+            { label: 'maybe', point: [-1.8, 1.6, 1.2], color: '#cfcfcf' },
+            { label: 'next', point: [0.1, -1.65, -1.1], color: '#cfcfcf' },
+            { label: 'idea', point: [1.65, 1.55, 1.25], color: '#cfcfcf' },
+            { label: 'because', point: [-0.9, 0.1, -1.7], color: '#cfcfcf' }
+        ];
+
+        function projectOutputWord(point) {
+            const [x, y, z] = point;
+            const centerX = outputWordCanvas.width / 2;
+            const centerY = outputWordCanvas.height / 2 + 8;
+            const scale = 70;
+            const angleX = -0.5;
+            const angleY = 0.58 + Math.sin(outputFrame * 0.008) * 0.08;
+            const y1 = y * Math.cos(angleX) - z * Math.sin(angleX);
+            const z1 = y * Math.sin(angleX) + z * Math.cos(angleX);
+            const x2 = x * Math.cos(angleY) - z1 * Math.sin(angleY);
+            const z2 = x * Math.sin(angleY) + z1 * Math.cos(angleY);
+            const perspective = 390 / (390 + z2 * 42);
+            return { x: centerX + x2 * scale * perspective, y: centerY - y1 * scale * perspective, depth: z2, perspective };
+        }
+
+        function drawOutputWordScene() {
+            if (!outputWordCtx) return;
+            outputWordCtx.clearRect(0, 0, outputWordCanvas.width, outputWordCanvas.height);
+            const bg = outputWordCtx.createRadialGradient(200, 160, 35, 200, 180, 300);
+            bg.addColorStop(0, '#141414');
+            bg.addColorStop(1, '#000');
+            outputWordCtx.fillStyle = bg;
+            outputWordCtx.fillRect(0, 0, outputWordCanvas.width, outputWordCanvas.height);
+
+            const axisLen = 2.8;
+            [
+                { end: [axisLen, 0, 0], color: 'rgba(255, 209, 102, 0.28)' },
+                { end: [0, axisLen, 0], color: 'rgba(255, 75, 62, 0.24)' },
+                { end: [0, 0, axisLen], color: 'rgba(73, 167, 255, 0.26)' }
+            ].forEach(axis => {
+                const a = projectOutputWord(axis.end.map(value => -value));
+                const b = projectOutputWord(axis.end);
+                outputWordCtx.strokeStyle = axis.color;
+                outputWordCtx.lineWidth = 1.5;
+                outputWordCtx.beginPath();
+                outputWordCtx.moveTo(a.x, a.y);
+                outputWordCtx.lineTo(b.x, b.y);
+                outputWordCtx.stroke();
+            });
+
+            const cycle = outputFrame % 520;
+            const activeIndex = Math.min(outputSequence.length - 1, Math.floor(cycle / 62));
+            const pulse = 0.5 + 0.5 * Math.sin(outputFrame * 0.16);
+            const allWords = outputSequence.concat(outputExtraWords).map((word, index) => ({
+                ...word,
+                sequenceIndex: index < outputSequence.length ? index : -1,
+                projected: projectOutputWord(word.point)
+            }));
+
+            for (let i = 1; i <= activeIndex; i++) {
+                const from = projectOutputWord(outputSequence[i - 1].point);
+                const to = projectOutputWord(outputSequence[i].point);
+                outputWordCtx.strokeStyle = 'rgba(100, 244, 172, 0.52)';
+                outputWordCtx.lineWidth = 2;
+                outputWordCtx.beginPath();
+                outputWordCtx.moveTo(from.x, from.y);
+                outputWordCtx.lineTo(to.x, to.y);
+                outputWordCtx.stroke();
+            }
+
+            allWords.sort((a, b) => b.projected.depth - a.projected.depth).forEach(word => {
+                const selected = word.sequenceIndex === activeIndex;
+                const alreadyChosen = word.sequenceIndex >= 0 && word.sequenceIndex < activeIndex;
+                const available = word.sequenceIndex === activeIndex + 1 || word.sequenceIndex === -1;
+                const alpha = selected ? 1 : alreadyChosen ? 0.78 : available ? 0.36 : 0.16;
+                const radius = selected ? 10 + pulse * 4 : alreadyChosen ? 7 : 5;
+                outputWordCtx.save();
+                outputWordCtx.globalAlpha = alpha;
+                outputWordCtx.fillStyle = word.color;
+                outputWordCtx.shadowColor = word.color;
+                outputWordCtx.shadowBlur = selected ? 18 : 6;
+                outputWordCtx.beginPath();
+                outputWordCtx.arc(word.projected.x, word.projected.y, radius * word.projected.perspective, 0, Math.PI * 2);
+                outputWordCtx.fill();
+                outputWordCtx.fillStyle = '#fff';
+                outputWordCtx.font = `700 ${selected ? 17 : 13}px STIX Two Text, Times New Roman, serif`;
+                outputWordCtx.fillText(word.label, word.projected.x + 10, word.projected.y + 4);
+                outputWordCtx.restore();
+            });
+
+            outputWordCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            outputWordCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            outputWordCtx.fillText('Prior words guide the next choice', 16, 28);
+            outputWordCtx.fillStyle = '#64f4ac';
+            outputWordCtx.font = '800 17px STIX Two Text, Times New Roman, serif';
+            outputWordCtx.fillText(outputSequence.slice(0, activeIndex + 1).map(word => word.label).join(' '), 16, outputWordCanvas.height - 24);
+        }
+
+        function getOutputBowlHeight(x, y) {
+            return getBowlMorphHeight(x, y, 1);
+        }
+
+        function projectOutputBowl(x, y, z) {
+            const centerX = outputBowlCanvas.width / 2;
+            const centerY = outputBowlCanvas.height / 2 + 26;
+            const scale = 62;
+            const pitch = -1.2;
+            const yaw = 0.45;
+            let x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
+            let y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
+            let y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
+            let z2 = y1 * Math.sin(pitch) + z * Math.cos(pitch);
+            const perspective = 320 / (320 + z2 * 36);
+            return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
+        }
+
+        function initOutputMarbles() {
+            outputMarbles = Array.from({ length: 12 }, (_, index) => ({
+                x: -2.3 + Math.random() * 4.6,
+                y: -2.2 + Math.random() * 4.4,
+                vx: 0,
+                vy: 0,
+                color: index % 3 === 0 ? '#ff4b3e' : index % 3 === 1 ? '#49a7ff' : '#ffd166'
+            }));
+        }
+
+        function updateOutputMarbles() {
+            if (outputFrame % 360 === 0 || outputMarbles.length === 0) initOutputMarbles();
+            outputMarbles.forEach(marble => {
+                const eps = 0.03;
+                const gradX = (getOutputBowlHeight(marble.x + eps, marble.y) - getOutputBowlHeight(marble.x - eps, marble.y)) / (2 * eps);
+                const gradY = (getOutputBowlHeight(marble.x, marble.y + eps) - getOutputBowlHeight(marble.x, marble.y - eps)) / (2 * eps);
+                marble.vx = marble.vx * 0.94 - gradX * 0.18;
+                marble.vy = marble.vy * 0.94 - gradY * 0.18;
+                marble.x += marble.vx * 0.08;
+                marble.y += marble.vy * 0.08;
+                if (Math.abs(marble.x) > 2.7) { marble.x = Math.sign(marble.x) * 2.7; marble.vx *= -0.35; }
+                if (Math.abs(marble.y) > 2.7) { marble.y = Math.sign(marble.y) * 2.7; marble.vy *= -0.35; }
+            });
+        }
+
+        function drawOutputBowlScene() {
+            if (!outputBowlCtx) return;
+            updateOutputMarbles();
+            outputBowlCtx.clearRect(0, 0, outputBowlCanvas.width, outputBowlCanvas.height);
+            const bg = outputBowlCtx.createRadialGradient(200, 160, 35, 200, 180, 300);
+            bg.addColorStop(0, '#121212');
+            bg.addColorStop(1, '#000');
+            outputBowlCtx.fillStyle = bg;
+            outputBowlCtx.fillRect(0, 0, outputBowlCanvas.width, outputBowlCanvas.height);
+
+            const gridSize = 2.7;
+            const step = 0.27;
+            for (let x = -gridSize; x <= gridSize; x += step) {
+                outputBowlCtx.strokeStyle = 'rgba(100, 244, 172, 0.24)';
+                outputBowlCtx.lineWidth = 1;
+                outputBowlCtx.beginPath();
+                for (let y = -gridSize; y <= gridSize; y += step) {
+                    const p = projectOutputBowl(x, y, getOutputBowlHeight(x, y));
+                    if (y === -gridSize) outputBowlCtx.moveTo(p.x, p.y); else outputBowlCtx.lineTo(p.x, p.y);
+                }
+                outputBowlCtx.stroke();
+            }
+            for (let y = -gridSize; y <= gridSize; y += step) {
+                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.22)';
+                outputBowlCtx.lineWidth = 1;
+                outputBowlCtx.beginPath();
+                for (let x = -gridSize; x <= gridSize; x += step) {
+                    const p = projectOutputBowl(x, y, getOutputBowlHeight(x, y));
+                    if (x === -gridSize) outputBowlCtx.moveTo(p.x, p.y); else outputBowlCtx.lineTo(p.x, p.y);
+                }
+                outputBowlCtx.stroke();
+            }
+
+            const projectedMarbles = outputMarbles.map(marble => ({
+                ...marble,
+                projected: projectOutputBowl(marble.x, marble.y, getOutputBowlHeight(marble.x, marble.y))
+            }));
+            projectedMarbles.sort((a, b) => b.projected.depth - a.projected.depth).forEach(marble => {
+                outputBowlCtx.save();
+                outputBowlCtx.fillStyle = marble.color;
+                outputBowlCtx.shadowColor = marble.color;
+                outputBowlCtx.shadowBlur = 8;
+                outputBowlCtx.globalAlpha = 0.9;
+                outputBowlCtx.beginPath();
+                outputBowlCtx.arc(marble.projected.x, marble.projected.y, 6 * marble.projected.perspective, 0, Math.PI * 2);
+                outputBowlCtx.fill();
+                outputBowlCtx.restore();
+            });
+
+            outputBowlCtx.fillStyle = 'rgba(255, 255, 255, 0.86)';
+            outputBowlCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.fillText('The bowl is already trained', 16, 28);
+        }
+
+        function drawOutputGenerationScene() {
+            outputFrame++;
+            drawOutputWordScene();
+            drawOutputBowlScene();
+            requestAnimationFrame(drawOutputGenerationScene);
+        }
+
         // Fast & Robust Initialization: Start all animations immediately
         const startAllAnimations = () => {
             console.log('Initializing all animations...');
@@ -2718,6 +2953,12 @@
                 drawBowlMorphScene();
                 console.log('Successfully started Bowl Morph loop');
             } catch (e) { console.error('Error starting Bowl Morph loop:', e); }
+
+            try {
+                initOutputMarbles();
+                drawOutputGenerationScene();
+                console.log('Successfully started Output Generation loop');
+            } catch (e) { console.error('Error starting Output Generation loop:', e); }
 
             tryDraw(drawWordVectorScene, 'drawWordVectorScene');
         };

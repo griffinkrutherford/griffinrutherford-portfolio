@@ -661,7 +661,7 @@
         <!-- Question 4 -->
         <div class="question">
             <div class="question-number">4.</div>
-            <div class="question-text">
+            <div class="question-text" id="q4-question-text">
                 If you connect two dots that are equidistant from the vertex with a line, what is the slope of that line?
             </div>
             <input type="text" placeholder="Your answer...">
@@ -672,7 +672,7 @@
                 <canvas id="parabolaCanvas" width="800" height="400"></canvas>
             </div>
             <div class="controls">
-                <button onclick="showVertexLine()">Show Vertex Line</button>
+                <button id="show-q4-line" onclick="showVertexLine()">Show Vertex Line</button>
                 <button class="reset" onclick="clearParabola()">Clear</button>
             </div>
         </div>
@@ -1054,7 +1054,6 @@
             <p style="margin-top: 20px;">
                 P.S.: What we talked about today is exactly why TikTok and Instagram Reels are so addicting and the Oxford Word of the Year is “Rage Bait”. The “marbles at the bottom of the bowl” for social media have to do with watch time, comments, and shares. Outrage and dishonesty is more effective at this than positivity and the full truth.
             </p>
-            <img class="question-asset" src="../images/brain-rot.jpg" alt="Brain rot illustration">
             <p style="margin-top: 20px; font-weight: bold; text-align: center;">
                 Thank you so much for listening and participating!!
             </p>
@@ -1098,9 +1097,9 @@
                 1: `Slope at a point is the derivative: ${mi("f'(x)")} or ${mi('dy/dx')}.`,
                 2: `A zero slope means a horizontal tangent, often a local max or min (${mi("f'(x) = 0")}).`,
                 3: `For ${mi('ax² + bx + c')}, the vertex x-coordinate is ${mi('x = -b / (2a)')}. In Calculus, we find this by taking the derivative, ${mi("f'(x) = 2ax + b")}, setting it equal to ${mi('0')}, and rearranging to solve for ${mi('x')}.`,
-                4: `That line is horizontal, so the slope is ${mi('0')}. The vertex is a local minimum where ${mi("f'(x) = 0")}.`,
+                4: `The tangent line at the vertex is horizontal, so the slope is ${mi('0')}. The vertex is a local minimum where ${mi("f'(x) = 0")}.`,
                 5: `For an upward-opening parabola, ${mi("f'(x) < 0")} on the left, ${mi("f'(x) = 0")} at the vertex, and ${mi("f'(x) > 0")} on the right.`,
-                6: `Local minima/maxima are critical points (where ${mi("f'(x) = 0")} or undefined) used for optimization in real systems.`,
+                6: `Local minima/maxima are critical points used for optimization in real systems. For this quartic, we could find the local minimum by taking the derivative and finding the roots of that derivative, then checking which critical point gives the lowest nearby value.`,
                 7: "Local minimum — you want to minimize pollution.",
                 8: `Most systems are multivariable, so you need functions of several variables (surfaces) and partial derivatives.`,
                 9: `Use the gradient to step in the direction of steepest descent (${mi('gradient descent')}).`,
@@ -1136,11 +1135,26 @@
             }
         }
 
+        function updateQuestion4Prompt() {
+            const prompt = document.getElementById('q4-question-text');
+            const button = document.getElementById('show-q4-line');
+            if (!prompt) return;
+
+            if (currentMode === 'calculus') {
+                prompt.innerHTML = 'What is the slope of the tangent line at the vertex of this parabola?';
+                if (button) button.textContent = 'Show Tangent Line';
+            } else {
+                prompt.innerHTML = 'If you connect two dots that are equidistant from the vertex with a line, what is the slope of that line?';
+                if (button) button.textContent = 'Show Vertex Line';
+            }
+        }
+
         document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
                 updateFlatSlopePlaneNote();
                 updateGradientDescentSlopeNote();
+                updateQuestion4Prompt();
                 drawSlopeVisual();
                 drawSlopeChangeVisual();
                 drawParabola();
@@ -3325,6 +3339,7 @@
 
             // 1. Static/Interactive charts (Initial draw)
             tryDraw(updateGradientDescentSlopeNote, 'updateGradientDescentSlopeNote');
+            tryDraw(updateQuestion4Prompt, 'updateQuestion4Prompt');
             tryDraw(drawSlopeVisual, 'drawSlopeVisual');
             tryDraw(drawSlopeChangeVisual, 'drawSlopeChangeVisual');
             tryDraw(drawParabola, 'drawParabola');

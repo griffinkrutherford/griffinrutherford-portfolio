@@ -20,8 +20,8 @@
             background: #000;
             color: #fff;
             padding: 20px;
-            font-size: 18px;
-            line-height: 1.7;
+            font-size: 20px;
+            line-height: 1.78;
         }
 
         .home-link {
@@ -50,10 +50,10 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1040px;
             margin: 60px auto 0;
             background: #0a0a0a;
-            padding: 40px;
+            padding: 44px;
             border-radius: 15px;
             border: 2px solid #e10600;
             box-shadow: 0 10px 30px rgba(225, 6, 0, 0.15);
@@ -88,8 +88,8 @@
 
         .question {
             background: rgba(225, 6, 0, 0.08);
-            padding: 25px;
-            margin: 30px 0;
+            padding: 30px;
+            margin: 34px 0;
             border-radius: 10px;
             border-left: 5px solid #e10600;
         }
@@ -97,12 +97,12 @@
         .question-number {
             color: #e10600;
             font-weight: bold;
-            font-size: 1.3em;
+            font-size: 1.42em;
             margin-bottom: 15px;
         }
 
         .question-text {
-            font-size: 1.16em;
+            font-size: 1.22em;
             margin-bottom: 15px;
             line-height: 1.85;
         }
@@ -115,7 +115,7 @@
             border: 2px solid #3a3a3a;
             border-radius: 5px;
             color: #fff;
-            font-size: 1.05em;
+            font-size: 1.12em;
             line-height: 1.6;
             font-family: 'STIX Two Text', 'Times New Roman', serif;
         }
@@ -158,9 +158,9 @@
             background: #e10600;
             color: #fff;
             border: 2px solid #e10600;
-            padding: 12px 24px;
+            padding: 13px 26px;
             border-radius: 25px;
-            font-size: 1em;
+            font-size: 1.08em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -293,7 +293,7 @@
             border-left: 3px solid #e10600;
             border-radius: 6px;
             color: #fff;
-            font-size: 1.02em;
+            font-size: 1.1em;
             line-height: 1.7;
         }
 
@@ -313,7 +313,7 @@
         }
 
         .mode-toggle label {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: 2px solid #e10600;
             border-radius: 999px;
             cursor: pointer;
@@ -340,7 +340,7 @@
 
         .wordvec-visualizer {
             margin: 24px 0;
-            padding: 18px;
+            padding: 22px;
             border: 2px solid #e10600;
             border-radius: 10px;
             background: #050505;
@@ -349,7 +349,7 @@
         .wordvec-title {
             color: #e10600;
             font-weight: 700;
-            font-size: 1.12em;
+            font-size: 1.28em;
             line-height: 1.35;
             margin-bottom: 8px;
             text-align: center;
@@ -357,10 +357,10 @@
 
         .wordvec-note {
             color: #cfcfcf;
-            font-size: 0.95em;
-            line-height: 1.55;
-            margin: 0 auto 14px;
-            max-width: 720px;
+            font-size: 1.08em;
+            line-height: 1.62;
+            margin: 0 auto 16px;
+            max-width: 840px;
             text-align: center;
         }
 
@@ -397,7 +397,7 @@
         .training-loop-panel-title {
             color: #fff;
             font-weight: 700;
-            font-size: 0.95em;
+            font-size: 1.08em;
             line-height: 1.35;
             text-align: center;
         }
@@ -435,12 +435,12 @@
             flex-wrap: wrap;
             margin-top: 12px;
             color: #cfcfcf;
-            font-size: 0.92em;
+            font-size: 1.03em;
         }
 
         .sgd-simulator {
             margin: 24px 0;
-            padding: 20px;
+            padding: 24px;
             border: 2px dashed #49a7ff;
             border-radius: 12px;
             background: #080808;
@@ -461,7 +461,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            max-width: 620px;
+            max-width: 760px;
             margin: 0 auto;
         }
 
@@ -765,7 +765,7 @@
                 <div class="wordvec-stage" style="border-color: rgba(100, 244, 172, 0.5);">
                     <canvas id="valleyCanvas" width="800" height="500"></canvas>
                 </div>
-                <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 0.85em;">
+                <p style="text-align: center; margin-top: 10px; font-style: italic; color: #cfcfcf; font-size: 1em;">
                     Drag to orbit the valley. The person stays visible as you compare the terrain from different angles.
                 </p>
             </div>
@@ -851,10 +851,10 @@
 
             <div class="sgd-simulator">
                 <h3 style="color: #49a7ff; margin-bottom: 10px;">The Training Simulator: "The 3D Marble Bowl"</h3>
-                <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
+                <p style="color: #cfcfcf; font-size: 1.08em; max-width: 840px; margin: 0 auto 15px;">
                     Below is a 3D version of our weird bowl. The "best" result is the deepest part of the bowl (the <strong>Global Minimum</strong>). But sometimes, a marble gets stuck in a shallow dent on the side (a <strong>Local Minimum</strong>). The slider controls <strong>Stochastic Noise</strong>: the middle gives a useful shake that fades over time, while the far right can shake marbles right out of the bowl.
                 </p>
-                <p style="color: #cfcfcf; font-size: 0.95em; max-width: 700px; margin: 0 auto 15px;">
+                <p style="color: #cfcfcf; font-size: 1.08em; max-width: 840px; margin: 0 auto 15px;">
                     A little shaking helps the marbles escape shallow dents, but the shaking has to calm down. If the bowl keeps shaking forever, the marbles never settle into the best spot.
                 </p>
                 
@@ -871,10 +871,10 @@
                         <input type="range" id="sgdNoise" min="0" max="100" value="28" style="width: 100%;">
                         <div class="value-display" id="sgdNoiseValue">Noise: 28%</div>
                         <div style="text-align: center; margin-top: 10px;">
-                            <button type="button" onclick="initSgdSimulator()" style="padding: 5px 15px; font-size: 0.9em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
+                            <button type="button" onclick="initSgdSimulator()" style="padding: 7px 18px; font-size: 1em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
                         </div>
                     </div>
-                    <div id="sgdCounter" style="color: #64f4ac; font-weight: bold; font-size: 1.1em; margin-top: 5px;">Marbles in Global Minimum: 0</div>
+                    <div id="sgdCounter" style="color: #64f4ac; font-weight: bold; font-size: 1.22em; margin-top: 5px;">Marbles in Global Minimum: 0</div>
                     <p id="sgdStatus" style="color: #64f4ac; font-weight: bold; min-height: 1.2em;">Loop running: marbles reset automatically.</p>
                 </div>
             </div>
@@ -1203,10 +1203,10 @@
 
         function drawArrow(ctx, fromX, fromY, toX, toY, color) {
             const angle = Math.atan2(toY - fromY, toX - fromX);
-            const arrowSize = 10;
+            const arrowSize = 12;
             ctx.strokeStyle = color;
             ctx.fillStyle = color;
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 4;
             ctx.beginPath();
             ctx.moveTo(fromX, fromY);
             ctx.lineTo(toX, toY);
@@ -1221,7 +1221,7 @@
 
         function drawDoubleArrow(ctx, fromX, fromY, toX, toY, color, width = 3) {
             const angle = Math.atan2(toY - fromY, toX - fromX);
-            const arrowSize = 10;
+            const arrowSize = 12;
             ctx.strokeStyle = color;
             ctx.fillStyle = color;
             ctx.lineWidth = width;
@@ -1242,7 +1242,7 @@
 
         function drawSlopeAxes(ctx, canvas) {
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.moveTo(70, canvas.height - 56);
             ctx.lineTo(canvas.width - 42, canvas.height - 56);
@@ -1266,7 +1266,7 @@
                 const slope = 0.24 * pointX;
 
                 slopeCtx.strokeStyle = '#e10600';
-                slopeCtx.lineWidth = 3;
+                slopeCtx.lineWidth = 4;
                 slopeCtx.beginPath();
                 for (let x = -4; x <= 4; x += 0.04) {
                     const y = 0.12 * x * x;
@@ -1286,7 +1286,8 @@
                     centerY - tangentY1 * scale,
                     centerX + tangentX2 * scale,
                     centerY - tangentY2 * scale,
-                    '#64f4ac'
+                    '#64f4ac',
+                    4
                 );
 
                 const px = centerX + pointX * scale;
@@ -1297,9 +1298,9 @@
                 slopeCtx.fill();
 
                 slopeCtx.fillStyle = '#ffffff';
-                slopeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
+                slopeCtx.font = '700 24px STIX Two Text, Times New Roman, serif';
                 slopeCtx.fillText('Tangent line', px + 22, py - 24);
-                slopeCtx.font = '600 17px STIX Two Text, Times New Roman, serif';
+                slopeCtx.font = '600 20px STIX Two Text, Times New Roman, serif';
                 slopeCtx.fillStyle = '#cfcfcf';
                 slopeCtx.fillText('slope at one point', px + 22, py);
             } else {
@@ -1313,13 +1314,13 @@
                 const lineStartY = y1 + slope * (lineStartX - x1);
                 const lineEndY = y1 + slope * (lineEndX - x1);
 
-                drawDoubleArrow(slopeCtx, lineStartX, lineStartY, lineEndX, lineEndY, '#e10600', 4);
+                drawDoubleArrow(slopeCtx, lineStartX, lineStartY, lineEndX, lineEndY, '#e10600', 5);
 
-                drawDoubleArrow(slopeCtx, x1, y1 + 24, x2, y1 + 24, '#64f4ac', 3);
-                drawDoubleArrow(slopeCtx, x2 + 24, y1, x2 + 24, y2, '#49a7ff', 3);
+                drawDoubleArrow(slopeCtx, x1, y1 + 24, x2, y1 + 24, '#64f4ac', 4);
+                drawDoubleArrow(slopeCtx, x2 + 24, y1, x2 + 24, y2, '#49a7ff', 4);
 
                 slopeCtx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
-                slopeCtx.lineWidth = 2;
+                slopeCtx.lineWidth = 3;
                 slopeCtx.beginPath();
                 slopeCtx.moveTo(x1, y1);
                 slopeCtx.lineTo(x2, y1);
@@ -1333,12 +1334,12 @@
                 slopeCtx.fill();
 
                 slopeCtx.fillStyle = '#64f4ac';
-                slopeCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
+                slopeCtx.font = '700 26px STIX Two Text, Times New Roman, serif';
                 slopeCtx.fillText('△x', (x1 + x2) / 2 - 14, y1 + 62);
                 slopeCtx.fillStyle = '#49a7ff';
                 slopeCtx.fillText('△y', x2 + 54, (y1 + y2) / 2 + 8);
                 slopeCtx.fillStyle = '#ffffff';
-                slopeCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
+                slopeCtx.font = '700 25px STIX Two Text, Times New Roman, serif';
                 slopeCtx.fillText('Find the relationship between the rise and run.', 190, 52);
             }
         }
@@ -1359,7 +1360,7 @@
             const toCanvas = (x, y) => ({ x: centerX + x * scale, y: centerY - y * scale });
 
             slopeChangeCtx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
-            slopeChangeCtx.lineWidth = 2;
+            slopeChangeCtx.lineWidth = 3;
             slopeChangeCtx.beginPath();
             slopeChangeCtx.moveTo(52, centerY);
             slopeChangeCtx.lineTo(slopeChangeCanvas.width - 44, centerY);
@@ -1368,7 +1369,7 @@
             slopeChangeCtx.stroke();
 
             slopeChangeCtx.strokeStyle = '#e10600';
-            slopeChangeCtx.lineWidth = 3;
+            slopeChangeCtx.lineWidth = 4;
             slopeChangeCtx.beginPath();
             for (let x = -4.8; x <= 4.8; x += 0.04) {
                 const point = toCanvas(x, f(x));
@@ -1383,7 +1384,7 @@
                 const y2 = pointY + slope * (x2 - pointX);
                 const p1 = toCanvas(x1, y1);
                 const p2 = toCanvas(x2, y2);
-                drawDoubleArrow(slopeChangeCtx, p1.x, p1.y, p2.x, p2.y, color, 3);
+                drawDoubleArrow(slopeChangeCtx, p1.x, p1.y, p2.x, p2.y, color, 4);
             };
 
             if (currentMode === 'calculus') {
@@ -1402,7 +1403,7 @@
                     slopeChangeCtx.arc(point.x, point.y, 6, 0, Math.PI * 2);
                     slopeChangeCtx.fill();
                     slopeChangeCtx.fillStyle = color;
-                    slopeChangeCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
+                    slopeChangeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
                     slopeChangeCtx.fillText(label, point.x + (x < 0 ? -118 : 18), point.y - 18);
                 });
             } else {
@@ -1425,7 +1426,7 @@
                     });
                     const mid = toCanvas((a + b) / 2, (yA + yB) / 2);
                     slopeChangeCtx.fillStyle = color;
-                    slopeChangeCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
+                    slopeChangeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
                     slopeChangeCtx.fillText(label, mid.x + (a < 0 ? -116 : 18), mid.y - 14);
                 });
             }
@@ -1437,7 +1438,7 @@
             slopeChangeCtx.fill();
 
             slopeChangeCtx.fillStyle = '#ffffff';
-            slopeChangeCtx.font = '700 20px STIX Two Text, Times New Roman, serif';
+            slopeChangeCtx.font = '700 24px STIX Two Text, Times New Roman, serif';
             slopeChangeCtx.fillText('y = x² opens upward', 24, 34);
         }
 
@@ -1451,7 +1452,7 @@
 
             // Draw axes
             parabolaCtx.strokeStyle = '#ffffff';
-            parabolaCtx.lineWidth = 2;
+            parabolaCtx.lineWidth = 3;
             parabolaCtx.beginPath();
             parabolaCtx.moveTo(0, parabolaCanvas.height / 2);
             parabolaCtx.lineTo(parabolaCanvas.width, parabolaCanvas.height / 2);
@@ -1461,7 +1462,7 @@
 
             // Draw parabola y = x^2
             parabolaCtx.strokeStyle = '#e10600';
-            parabolaCtx.lineWidth = 3;
+            parabolaCtx.lineWidth = 4;
             parabolaCtx.beginPath();
 
             const scale = 50;
@@ -1515,7 +1516,7 @@
                 }
 
                 parabolaCtx.strokeStyle = '#e10600';
-                parabolaCtx.lineWidth = 2;
+                parabolaCtx.lineWidth = 3;
                 parabolaCtx.setLineDash([5, 5]);
                 parabolaCtx.beginPath();
                 parabolaCtx.moveTo(x1, y1);
@@ -1570,7 +1571,7 @@
 
             // Draw axes
             quarticCtx.strokeStyle = '#ffffff';
-            quarticCtx.lineWidth = 2;
+            quarticCtx.lineWidth = 3;
             quarticCtx.beginPath();
             quarticCtx.moveTo(0, quarticCanvas.height / 2);
             quarticCtx.lineTo(quarticCanvas.width, quarticCanvas.height / 2);
@@ -1580,7 +1581,7 @@
 
             // Draw quartic y = x^4 + 2x^3 - 3x^2 + x + 1
             quarticCtx.strokeStyle = '#e10600';
-            quarticCtx.lineWidth = 3;
+            quarticCtx.lineWidth = 4;
             quarticCtx.beginPath();
 
             const scale = 30;
@@ -1610,7 +1611,7 @@
             quarticCtx.fill();
 
             quarticCtx.fillStyle = '#ffffff';
-            quarticCtx.font = 'bold 18px STIX Two Text, Times New Roman, serif';
+            quarticCtx.font = 'bold 22px STIX Two Text, Times New Roman, serif';
             // Keep label inside canvas bounds
             const label = 'Local Min (-2.22, -13.60)';
             const labelWidth = quarticCtx.measureText(label).width;
@@ -1680,7 +1681,7 @@
             ctx.fill();
 
             ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.setLineDash([8, 6]);
             ctx.beginPath();
             corners.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
@@ -1741,7 +1742,7 @@
             }
 
             for (let x = -gridSize; x <= gridSize; x += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.58)'; paraboloidCtx.lineWidth = 3; paraboloidCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += gridStep) {
                     const p = project3D(x, y, getZ(x, y), centerX, centerY, scale, angleX, angleY);
                     if (y === -gridSize) paraboloidCtx.moveTo(p.x, p.y); else paraboloidCtx.lineTo(p.x, p.y);
@@ -1749,7 +1750,7 @@
                 paraboloidCtx.stroke();
             }
             for (let y = -gridSize; y <= gridSize; y += gridStep) {
-                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; paraboloidCtx.lineWidth = 2.2; paraboloidCtx.beginPath();
+                paraboloidCtx.strokeStyle = 'rgba(255, 255, 255, 0.58)'; paraboloidCtx.lineWidth = 3; paraboloidCtx.beginPath();
                 for (let x = -gridSize; x <= gridSize; x += gridStep) {
                     const p = project3D(x, y, getZ(x, y), centerX, centerY, scale, angleX, angleY);
                     if (x === -gridSize) paraboloidCtx.moveTo(p.x, p.y); else paraboloidCtx.lineTo(p.x, p.y);
@@ -1812,7 +1813,7 @@
                 const f = Math.min(1, item.height / 10);
                 valleyCtx.fillStyle = `rgb(${Math.floor(100*(1-f)+60*f)}, ${Math.floor(60*(1-f)+160*f)}, ${Math.floor(40*(1-f)+60*f)})`;
                 valleyCtx.beginPath(); item.points.forEach((p, i) => i === 0 ? valleyCtx.moveTo(p.x, p.y) : valleyCtx.lineTo(p.x, p.y)); valleyCtx.closePath(); valleyCtx.fill();
-                valleyCtx.strokeStyle = 'rgba(0,0,0,0.15)'; valleyCtx.lineWidth = 0.5; valleyCtx.stroke();
+                valleyCtx.strokeStyle = 'rgba(0,0,0,0.28)'; valleyCtx.lineWidth = 1.1; valleyCtx.stroke();
             });
             drawDetailedPerson(projBase, valleyCtx);
         }
@@ -1881,7 +1882,7 @@
 
             // Draw axes
             gdCtx.strokeStyle = '#ffffff';
-            gdCtx.lineWidth = 2;
+            gdCtx.lineWidth = 3;
             gdCtx.beginPath();
             gdCtx.moveTo(0, gdCanvas.height / 2);
             gdCtx.lineTo(gdCanvas.width, gdCanvas.height / 2);
@@ -1891,7 +1892,7 @@
 
             // Draw function
             gdCtx.strokeStyle = '#e10600';
-            gdCtx.lineWidth = 3;
+            gdCtx.lineWidth = 4;
             gdCtx.beginPath();
 
             const scale = 40;
@@ -2061,7 +2062,7 @@
             const p = projectSgd(x, y, getSgdHeight(x, y));
             sgdCtx.save();
             sgdCtx.strokeStyle = color;
-            sgdCtx.lineWidth = 1.5;
+            sgdCtx.lineWidth = 2.5;
             sgdCtx.beginPath();
             sgdCtx.arc(p.x, p.y, 12 * p.perspective, 0, Math.PI * 2);
             sgdCtx.stroke();
@@ -2142,7 +2143,7 @@
             const gridSize = 2.5;
             const step = 0.25;
             for (let x = -gridSize; x <= gridSize; x += step) {
-                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
+                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.34)'; sgdCtx.lineWidth = 1.8;
                 for (let y = -gridSize; y <= gridSize; y += step) {
                     const p = projectSgd(x, y, getSgdHeight(x, y));
                     if (y === -gridSize) sgdCtx.moveTo(p.x, p.y); else sgdCtx.lineTo(p.x, p.y);
@@ -2150,7 +2151,7 @@
                 sgdCtx.stroke();
             }
             for (let y = -gridSize; y <= gridSize; y += step) {
-                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
+                sgdCtx.beginPath(); sgdCtx.strokeStyle = 'rgba(73, 167, 255, 0.34)'; sgdCtx.lineWidth = 1.8;
                 for (let x = -gridSize; x <= gridSize; x += step) {
                     const p = projectSgd(x, y, getSgdHeight(x, y));
                     if (x === -gridSize) sgdCtx.moveTo(p.x, p.y); else sgdCtx.lineTo(p.x, p.y);
@@ -2424,7 +2425,7 @@
                 const projected = projectWordVector(axis.end);
                 wordVectorCtx.fillStyle = axis.color;
                 wordVectorCtx.globalAlpha = 0.6;
-                wordVectorCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+                wordVectorCtx.font = '700 18px STIX Two Text, Times New Roman, serif';
                 wordVectorCtx.fillText(axis.label, projected.x + 8, projected.y - 8);
             });
             wordVectorCtx.globalAlpha = 1;
@@ -2496,14 +2497,14 @@
                     }
 
                     wordVectorCtx.fillStyle = '#fff';
-                    wordVectorCtx.font = `${700} ${14 + point.morphFactor * 4}px STIX Two Text, Times New Roman, serif`;
+                    wordVectorCtx.font = `${700} ${16 + point.morphFactor * 5}px STIX Two Text, Times New Roman, serif`;
                     wordVectorCtx.fillText(point.label, point.projected.x + radius + 5, point.projected.y + 5);
                     
                     wordVectorCtx.restore();
                 });
 
             wordVectorCtx.fillStyle = 'rgba(255, 255, 255, 0.82)';
-            wordVectorCtx.font = '600 15px STIX Two Text, Times New Roman, serif';
+            wordVectorCtx.font = '600 18px STIX Two Text, Times New Roman, serif';
             wordVectorCtx.fillText(`Scanning the 4th dimension: ${theme.sliderLabel}`, 18, 30);
         }
 
@@ -2648,7 +2649,7 @@
             axes.forEach(a => {
                 const p1 = projectConv(-a.end[0], -a.end[1], -a.end[2]);
                 const p2 = projectConv(a.end[0], a.end[1], a.end[2]);
-                convCtx.strokeStyle = a.color; convCtx.lineWidth = 1; convCtx.beginPath();
+                convCtx.strokeStyle = a.color; convCtx.lineWidth = 2; convCtx.beginPath();
                 convCtx.moveTo(p1.x, p1.y); convCtx.lineTo(p2.x, p2.y); convCtx.stroke();
             });
 
@@ -2675,7 +2676,7 @@
                 const radius = (6 + p.perspective * 4) * (0.8 + smoothT * 0.4);
                 convCtx.beginPath(); convCtx.arc(p.x, p.y, radius, 0, Math.PI * 2); convCtx.fill();
                 convCtx.fillStyle = '#fff';
-                convCtx.font = `700 ${13 + smoothT * 3}px STIX Two Text, serif`;
+                convCtx.font = `700 ${16 + smoothT * 4}px STIX Two Text, serif`;
                 convCtx.fillText(w.label, p.x + radius + 5, p.y + 5);
                 convCtx.restore();
             });
@@ -2786,7 +2787,7 @@
             for (let x = -gridSize; x <= gridSize; x += step) {
                 bowlMorphCtx.beginPath();
                 bowlMorphCtx.strokeStyle = `rgba(100, 244, 172, ${0.14 + progress * 0.22})`;
-                bowlMorphCtx.lineWidth = 1;
+                bowlMorphCtx.lineWidth = 1.8;
                 for (let y = -gridSize; y <= gridSize; y += step) {
                     const p = projectBowlMorph(x, y, getBowlMorphHeight(x, y, progress));
                     if (y === -gridSize) bowlMorphCtx.moveTo(p.x, p.y); else bowlMorphCtx.lineTo(p.x, p.y);
@@ -2797,7 +2798,7 @@
             for (let y = -gridSize; y <= gridSize; y += step) {
                 bowlMorphCtx.beginPath();
                 bowlMorphCtx.strokeStyle = `rgba(73, 167, 255, ${0.13 + progress * 0.2})`;
-                bowlMorphCtx.lineWidth = 1;
+                bowlMorphCtx.lineWidth = 1.8;
                 for (let x = -gridSize; x <= gridSize; x += step) {
                     const p = projectBowlMorph(x, y, getBowlMorphHeight(x, y, progress));
                     if (x === -gridSize) bowlMorphCtx.moveTo(p.x, p.y); else bowlMorphCtx.lineTo(p.x, p.y);
@@ -2810,7 +2811,7 @@
                 bowlMorphCtx.save();
                 bowlMorphCtx.globalAlpha = 0.18 + progress * 0.7;
                 bowlMorphCtx.strokeStyle = basin.color;
-                bowlMorphCtx.lineWidth = 2;
+                bowlMorphCtx.lineWidth = 3;
                 bowlMorphCtx.shadowColor = basin.color;
                 bowlMorphCtx.shadowBlur = 12 * progress;
                 bowlMorphCtx.beginPath();
@@ -2820,7 +2821,7 @@
             });
 
             bowlMorphCtx.fillStyle = 'rgba(255, 255, 255, 0.84)';
-            bowlMorphCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            bowlMorphCtx.font = '700 18px STIX Two Text, Times New Roman, serif';
             const cycle = (bowlMorphFrame % BOWL_MORPH_DURATION) / BOWL_MORPH_DURATION;
             const label = cycle < 0.08 ? 'New training run: flat surface' : progress < 1 ? 'Training shapes the bowl' : 'Trained bowl holds its shape';
             bowlMorphCtx.fillText(label, 16, 28);
@@ -2950,7 +2951,7 @@
                 const a = projectOutputWord(axis.end.map(value => -value));
                 const b = projectOutputWord(axis.end);
                 outputWordCtx.strokeStyle = axis.color;
-                outputWordCtx.lineWidth = 1.5;
+                outputWordCtx.lineWidth = 2.5;
                 outputWordCtx.beginPath();
                 outputWordCtx.moveTo(a.x, a.y);
                 outputWordCtx.lineTo(b.x, b.y);
@@ -2970,7 +2971,7 @@
                 const from = projectOutputWord(currentSequence[i - 1].point);
                 const to = projectOutputWord(currentSequence[i].point);
                 outputWordCtx.strokeStyle = 'rgba(100, 244, 172, 0.52)';
-                outputWordCtx.lineWidth = 2;
+                outputWordCtx.lineWidth = 3;
                 outputWordCtx.beginPath();
                 outputWordCtx.moveTo(from.x, from.y);
                 outputWordCtx.lineTo(to.x, to.y);
@@ -2992,7 +2993,7 @@
                 outputWordCtx.arc(word.projected.x, word.projected.y, radius * word.projected.perspective, 0, Math.PI * 2);
                 outputWordCtx.fill();
                 outputWordCtx.fillStyle = '#fff';
-                outputWordCtx.font = `700 ${selected ? 17 : 13}px STIX Two Text, Times New Roman, serif`;
+                outputWordCtx.font = `700 ${selected ? 21 : 16}px STIX Two Text, Times New Roman, serif`;
                 outputWordCtx.fillText(word.label, word.projected.x + 10, word.projected.y + 4);
                 outputWordCtx.restore();
             });
@@ -3008,13 +3009,13 @@
                 outputWordCtx.fillText(text, x, y);
             };
 
-            drawFittedText(getOutputModeText(), 16, 28, outputWordCanvas.width - 32, 15, 700, 'rgba(255, 255, 255, 0.9)');
+            drawFittedText(getOutputModeText(), 16, 30, outputWordCanvas.width - 32, 18, 700, 'rgba(255, 255, 255, 0.9)');
             drawFittedText(
                 currentSequence.slice(0, activeIndex + 1).map(word => word.label).join(' '),
                 16,
                 outputWordCanvas.height - 24,
                 outputWordCanvas.width - 32,
-                17,
+                20,
                 800,
                 '#64f4ac'
             );
@@ -3168,13 +3169,13 @@
             const p = projectOutputBowl(well.x, well.y, getOutputBowlHeight(well.x, well.y));
             outputBowlCtx.save();
             outputBowlCtx.strokeStyle = well.color;
-            outputBowlCtx.lineWidth = well.global ? 2 : 1.25;
+            outputBowlCtx.lineWidth = well.global ? 3 : 2;
             outputBowlCtx.globalAlpha = well.global ? 1 : 0.82;
             outputBowlCtx.beginPath();
             outputBowlCtx.arc(p.x, p.y, (well.global ? 13 : 10) * p.perspective, 0, Math.PI * 2);
             outputBowlCtx.stroke();
             outputBowlCtx.fillStyle = well.color;
-            outputBowlCtx.font = '700 11px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.font = '700 14px STIX Two Text, Times New Roman, serif';
             outputBowlCtx.fillText(well.global ? 'Global' : 'Local', p.x + 8, p.y - 8);
             outputBowlCtx.restore();
         }
@@ -3192,8 +3193,8 @@
             const gridSize = 2.5;
             const step = 0.25;
             for (let x = -gridSize; x <= gridSize; x += step) {
-                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.18)';
-                outputBowlCtx.lineWidth = 1;
+                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.34)';
+                outputBowlCtx.lineWidth = 1.8;
                 outputBowlCtx.beginPath();
                 for (let y = -gridSize; y <= gridSize; y += step) {
                     const p = projectOutputBowl(x, y, getOutputBowlHeight(x, y));
@@ -3202,8 +3203,8 @@
                 outputBowlCtx.stroke();
             }
             for (let y = -gridSize; y <= gridSize; y += step) {
-                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.22)';
-                outputBowlCtx.lineWidth = 1;
+                outputBowlCtx.strokeStyle = 'rgba(73, 167, 255, 0.38)';
+                outputBowlCtx.lineWidth = 1.8;
                 outputBowlCtx.beginPath();
                 for (let x = -gridSize; x <= gridSize; x += step) {
                     const p = projectOutputBowl(x, y, getOutputBowlHeight(x, y));
@@ -3254,21 +3255,21 @@
                 outputBowlCtx.fill();
                 if (marble.inLocal) {
                     outputBowlCtx.strokeStyle = '#ffd166';
-                    outputBowlCtx.lineWidth = 1.5;
+                    outputBowlCtx.lineWidth = 2.2;
                     outputBowlCtx.stroke();
                 } else if (marble.inGlobal) {
                     outputBowlCtx.strokeStyle = '#64f4ac';
-                    outputBowlCtx.lineWidth = 1.5;
+                    outputBowlCtx.lineWidth = 2.2;
                     outputBowlCtx.stroke();
                 }
                 outputBowlCtx.restore();
             });
 
             outputBowlCtx.fillStyle = 'rgba(255, 255, 255, 0.86)';
-            outputBowlCtx.font = '700 15px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.font = '700 18px STIX Two Text, Times New Roman, serif';
             outputBowlCtx.fillText('Temperature shakes the trained bowl', 16, 28);
             outputBowlCtx.fillStyle = fallenCount > 0 ? '#ff4b3e' : localCount > globalCount ? '#ffd166' : '#64f4ac';
-            outputBowlCtx.font = '700 13px STIX Two Text, Times New Roman, serif';
+            outputBowlCtx.font = '700 16px STIX Two Text, Times New Roman, serif';
             outputBowlCtx.fillText(`${globalCount} global  ${localCount} local  ${fallenCount} out`, 16, outputBowlCanvas.height - 22);
         }
 

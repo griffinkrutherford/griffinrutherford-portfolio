@@ -697,6 +697,9 @@
             <div class="question-text">
                 Using this quartic equation as an example: <span class="formula">y = x⁴ + 2x³ − 3x² + x + 1</span>
                 We have something that looks like a vertex, but since it's a higher order polynomial, it's a local minimum: there's no formula for this! It's at (-2.22, -13.60).
+                <div class="wordvec-note is-hidden" id="quartic-calculus-note" style="margin-top: 15px;">
+                    In Calculus mode, we can find the x-values of extrema (local mins/maxes) by taking the derivative and solving where that derivative equals zero.
+                </div>
             </div>
 
             <div class="canvas-container">
@@ -1149,12 +1152,19 @@
             }
         }
 
+        function updateQuarticCalculusNote() {
+            const note = document.getElementById('quartic-calculus-note');
+            if (!note) return;
+            note.classList.toggle('is-hidden', currentMode !== 'calculus');
+        }
+
         document.querySelectorAll('input[name=\"answer-mode\"]').forEach((input) => {
             input.addEventListener('change', (e) => {
                 currentMode = e.target.value;
                 updateFlatSlopePlaneNote();
                 updateGradientDescentSlopeNote();
                 updateQuestion4Prompt();
+                updateQuarticCalculusNote();
                 drawSlopeVisual();
                 drawSlopeChangeVisual();
                 drawParabola();
@@ -3340,6 +3350,7 @@
             // 1. Static/Interactive charts (Initial draw)
             tryDraw(updateGradientDescentSlopeNote, 'updateGradientDescentSlopeNote');
             tryDraw(updateQuestion4Prompt, 'updateQuestion4Prompt');
+            tryDraw(updateQuarticCalculusNote, 'updateQuarticCalculusNote');
             tryDraw(drawSlopeVisual, 'drawSlopeVisual');
             tryDraw(drawSlopeChangeVisual, 'drawSlopeChangeVisual');
             tryDraw(drawParabola, 'drawParabola');

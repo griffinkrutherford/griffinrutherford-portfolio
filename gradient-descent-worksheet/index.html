@@ -1142,7 +1142,7 @@
             if (!note) return;
 
             if (currentMode === 'calculus') {
-                note.innerHTML = 'At each point, we calculate the <strong>slope</strong> using the derivative at that point, then use it to move downhill a little at a time.<br><br><strong>Calculus III fun fact:</strong> it is called gradient descent because a <strong>gradient</strong> is one way to describe derivatives for 3D or higher-dimensional functions. It is basically a list of the derivatives at a point in the different x, y, z, etc. directions.';
+                note.innerHTML = 'At each point, we calculate the <strong>slope</strong> using the derivative at that point, then use it to move downhill a little at a time.<br><br><strong>Calculus III fun fact:</strong> this is called gradient descent because a <strong>gradient</strong> is like the 3D version of a derivative. Instead of one slope, it gives a list of slopes in different directions, like x, y, z, and more. Gradient descent uses that list to decide which way is downhill.';
             } else {
                 note.innerHTML = 'At each point, we can calculate the <strong>slope</strong> at that point and use it to move downhill a little at a time.';
             }

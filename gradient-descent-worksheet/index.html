@@ -1132,9 +1132,9 @@
             if (!note) return;
 
             if (currentMode === 'calculus') {
-                note.innerHTML = 'At each point, we calculate the slope using the derivative at that point, then use it to move downhill a little at a time.';
+                note.innerHTML = 'At each point, we calculate the <strong>slope</strong> using the derivative at that point, then use it to move downhill a little at a time.';
             } else {
-                note.innerHTML = 'At each point, we can calculate the slope at that point and use it to move downhill a little at a time.';
+                note.innerHTML = 'At each point, we can calculate the <strong>slope</strong> at that point and use it to move downhill a little at a time.';
             }
         }
 
@@ -1901,6 +1901,52 @@
         let gdPosition = 6;
         let gdSteps = [];
 
+        function drawGradientDescentSlopeGuide(centerX, centerY, scale) {
+            if (gdPosition === null) return;
+
+            const pointX = gdPosition;
+            const pointY = Math.pow(pointX, 2) / 8;
+            const direction = pointX > 0.08 ? -1 : pointX < -0.08 ? 1 : 1;
+            let slope;
+            let label;
+            let color;
+
+            if (currentMode === 'calculus') {
+                slope = pointX / 4;
+                label = 'Tangent line';
+                color = '#64f4ac';
+            } else {
+                const secantX = pointX + direction * 1.1;
+                const secantY = Math.pow(secantX, 2) / 8;
+                slope = (secantY - pointY) / (secantX - pointX);
+                label = 'Secant line';
+                color = '#49a7ff';
+
+                const secantCanvasX = centerX + secantX * scale;
+                const secantCanvasY = centerY - secantY * scale;
+                gdCtx.fillStyle = '#ffffff';
+                gdCtx.beginPath();
+                gdCtx.arc(secantCanvasX, secantCanvasY, 5, 0, Math.PI * 2);
+                gdCtx.fill();
+            }
+
+            const xStart = pointX - direction * 0.85;
+            const xEnd = pointX + direction * 1.65;
+            const yStart = pointY + slope * (xStart - pointX);
+            const yEnd = pointY + slope * (xEnd - pointX);
+            const startCanvasX = centerX + xStart * scale;
+            const startCanvasY = centerY - yStart * scale;
+            const endCanvasX = centerX + xEnd * scale;
+            const endCanvasY = centerY - yEnd * scale;
+
+            drawArrow(gdCtx, startCanvasX, startCanvasY, endCanvasX, endCanvasY, color);
+            gdCtx.fillStyle = color;
+            gdCtx.font = '700 22px STIX Two Text, Times New Roman, serif';
+            const labelX = Math.max(18, Math.min(endCanvasX + 12, gdCanvas.width - 170));
+            const labelY = Math.max(32, Math.min(endCanvasY - 14, gdCanvas.height - 26));
+            gdCtx.fillText(label, labelX, labelY);
+        }
+
         function drawGradientDescentSetup() {
             gdCtx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
 
@@ -1935,6 +1981,8 @@
                 }
             }
             gdCtx.stroke();
+
+            drawGradientDescentSlopeGuide(centerX, centerY, scale);
 
             // Draw current position
             if (gdPosition !== null) {

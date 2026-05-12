@@ -434,6 +434,13 @@
             flex-wrap: wrap;
         }
 
+        .auto-rotate-button.is-active {
+            background: #64f4ac;
+            border-color: #64f4ac;
+            color: #050505;
+            box-shadow: 0 4px 12px rgba(100, 244, 172, 0.28);
+        }
+
         .wordvec-time-label {
             color: #e10600;
             font-weight: 700;
@@ -883,6 +890,7 @@
                         <input type="range" id="sgdNoise" min="0" max="100" value="28" style="width: 100%;">
                         <div class="value-display" id="sgdNoiseValue">Noise: 28%</div>
                         <div style="text-align: center; margin-top: 10px;">
+                            <button type="button" id="toggle-sgd-autorotate" class="reset auto-rotate-button" aria-pressed="false" style="padding: 7px 18px; font-size: 1em; border-radius: 4px; cursor: pointer;">Auto Rotate</button>
                             <button type="button" onclick="initSgdSimulator()" style="padding: 7px 18px; font-size: 1em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
                         </div>
                     </div>
@@ -1039,6 +1047,7 @@
                     <input type="range" id="outputTemperature" min="0" max="100" value="38">
                     <div class="wordvec-time-label" id="outputTemperatureLabel">Temperature: 38% - coherent with some variety</div>
                     <div class="wordvec-control-row">
+                        <button type="button" id="toggle-output-bowl-autorotate" class="reset auto-rotate-button" aria-pressed="false">Auto Rotate</button>
                         <button type="button" class="reset" id="restart-output-loop">Restart Loop</button>
                     </div>
                 </div>
@@ -2061,12 +2070,14 @@
         const sgdLoopMeter = document.getElementById('sgdLoopMeter');
         const sgdStatus = document.getElementById('sgdStatus');
         const sgdCounter = document.getElementById('sgdCounter');
+        const toggleSgdAutoRotate = document.getElementById('toggle-sgd-autorotate');
 
         let sgdAngleX = -1.16;
         let sgdAngleY = 0.45;
         let sgdDragging = false;
         let sgdLastX = 0;
         let sgdLastY = 0;
+        let sgdAutoRotate = false;
 
         let sgdMarbles = [];
         let sgdLoopStart = 0;
@@ -2213,6 +2224,7 @@
 
             const dt = Math.min(0.6, (now - sgdLastFrame) / 16.67);
             sgdLastFrame = now;
+            if (sgdAutoRotate && !sgdDragging) sgdAngleY += 0.006 * dt;
             updateSgdMarbles(dt, elapsed);
 
             sgdCtx.clearRect(0, 0, sgdCanvas.width, sgdCanvas.height);
@@ -2319,6 +2331,14 @@
         }
         function endSgdDrag() { sgdDragging = false; }
 
+        function setSgdAutoRotate(enabled) {
+            sgdAutoRotate = enabled;
+            if (!toggleSgdAutoRotate) return;
+            toggleSgdAutoRotate.classList.toggle('is-active', enabled);
+            toggleSgdAutoRotate.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+            toggleSgdAutoRotate.textContent = enabled ? 'Stop Rotation' : 'Auto Rotate';
+        }
+
         sgdCanvas.addEventListener('mousedown', startSgdDrag);
         sgdCanvas.addEventListener('mousemove', moveSgdDrag);
         window.addEventListener('mouseup', endSgdDrag);
@@ -2326,6 +2346,9 @@
         sgdCanvas.addEventListener('touchmove', moveSgdDrag, { passive: false });
         sgdCanvas.addEventListener('touchend', endSgdDrag);
         sgdCanvas.addEventListener('touchcancel', endSgdDrag);
+        if (toggleSgdAutoRotate) {
+            toggleSgdAutoRotate.addEventListener('click', () => setSgdAutoRotate(!sgdAutoRotate));
+        }
 
         // 4D Word Vector Canvas (3D space + time slider)
         const wordVectorCanvas = document.getElementById('wordVectorCanvas');
@@ -2917,6 +2940,7 @@
         const outputTemperature = document.getElementById('outputTemperature');
         const outputTemperatureLabel = document.getElementById('outputTemperatureLabel');
         const restartOutputLoop = document.getElementById('restart-output-loop');
+        const toggleOutputBowlAutoRotate = document.getElementById('toggle-output-bowl-autorotate');
         let outputFrame = 0;
         let outputMarbles = [];
         let outputBowlAngleX = -0.95;
@@ -2924,6 +2948,7 @@
         let outputBowlDragging = false;
         let outputBowlLastX = 0;
         let outputBowlLastY = 0;
+        let outputBowlAutoRotate = false;
         const outputSequences = {
             low: [
                 { label: 'ChatGPT', point: [-2.2, -1.0, -0.6], color: '#49a7ff' },
@@ -3164,6 +3189,14 @@
             outputBowlDragging = false;
         }
 
+        function setOutputBowlAutoRotate(enabled) {
+            outputBowlAutoRotate = enabled;
+            if (!toggleOutputBowlAutoRotate) return;
+            toggleOutputBowlAutoRotate.classList.toggle('is-active', enabled);
+            toggleOutputBowlAutoRotate.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+            toggleOutputBowlAutoRotate.textContent = enabled ? 'Stop Rotation' : 'Auto Rotate';
+        }
+
         function initOutputMarbles() {
             const traps = outputBowlWells.filter(well => !well.global);
             outputMarbles = Array.from({ length: 18 }, (_, index) => {
@@ -3373,6 +3406,10 @@
             restartOutputLoop.addEventListener('click', restartOutputGenerationLoop);
         }
 
+        if (toggleOutputBowlAutoRotate) {
+            toggleOutputBowlAutoRotate.addEventListener('click', () => setOutputBowlAutoRotate(!outputBowlAutoRotate));
+        }
+
         if (outputBowlCanvas) {
             outputBowlCanvas.addEventListener('mousedown', startOutputBowlDrag);
             outputBowlCanvas.addEventListener('mousemove', moveOutputBowlDrag);
@@ -3386,6 +3423,7 @@
 
         function drawOutputGenerationScene() {
             outputFrame++;
+            if (outputBowlAutoRotate && !outputBowlDragging) outputBowlAngleY += 0.0045;
             updateOutputTemperatureLabel();
             drawOutputWordScene();
             drawOutputBowlScene();

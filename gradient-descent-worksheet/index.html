@@ -891,7 +891,7 @@
                         <div class="value-display" id="sgdNoiseValue">Noise: 28%</div>
                         <div style="text-align: center; margin-top: 10px;">
                             <button type="button" id="toggle-sgd-autorotate" class="reset auto-rotate-button" aria-pressed="false" style="padding: 7px 18px; font-size: 1em; border-radius: 4px; cursor: pointer;">Auto Rotate</button>
-                            <button type="button" onclick="initSgdSimulator()" style="padding: 7px 18px; font-size: 1em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
+                            <button type="button" onclick="restartSgdSimulator()" style="padding: 7px 18px; font-size: 1em; background: #333; color: #fff; border: 1px solid #64f4ac; border-radius: 4px; cursor: pointer;">Restart Cycle</button>
                         </div>
                     </div>
                     <div id="sgdCounter" style="color: #64f4ac; font-weight: bold; font-size: 1.22em; margin-top: 5px;">Marbles in Global Minimum: 0</div>
@@ -2072,8 +2072,12 @@
         const sgdCounter = document.getElementById('sgdCounter');
         const toggleSgdAutoRotate = document.getElementById('toggle-sgd-autorotate');
 
-        let sgdAngleX = -1.16;
-        let sgdAngleY = 0.45;
+        const SGD_INITIAL_ANGLE_X = -0.82;
+        const SGD_INITIAL_ANGLE_Y = 0.72;
+        const SGD_MIN_ANGLE_X = -1.35;
+        const SGD_MAX_ANGLE_X = -0.35;
+        let sgdAngleX = SGD_INITIAL_ANGLE_X;
+        let sgdAngleY = SGD_INITIAL_ANGLE_Y;
         let sgdDragging = false;
         let sgdLastX = 0;
         let sgdLastY = 0;
@@ -2120,7 +2124,13 @@
             return { x: centerX + x1 * scale * perspective, y: centerY - y2 * scale * perspective, depth: z2, perspective };
         }
 
-        function initSgdSimulator(now = performance.now()) {
+        function resetSgdCamera() {
+            sgdAngleX = SGD_INITIAL_ANGLE_X;
+            sgdAngleY = SGD_INITIAL_ANGLE_Y;
+        }
+
+        function initSgdSimulator(now = performance.now(), resetView = false) {
+            if (resetView) resetSgdCamera();
             sgdMarbles = [];
             const traps = sgdWells.filter(w => !w.global);
             
@@ -2148,6 +2158,10 @@
             }
             sgdLoopStart = now;
             sgdLastFrame = now;
+        }
+
+        function restartSgdSimulator() {
+            initSgdSimulator(performance.now(), true);
         }
 
         function drawSgdTarget(x, y, label, color) {
@@ -2324,8 +2338,7 @@
             if (e.cancelable) e.preventDefault(); 
             const p = getSgdPointerPosition(e); 
             sgdAngleY += (p.x - sgdLastX) * 0.01; 
-            // Limit pitch to [-1.57, 0.1] to keep the camera ABOVE the bowl
-            sgdAngleX = Math.max(-1.57, Math.min(0.1, sgdAngleX + (p.y - sgdLastY) * 0.01));
+            sgdAngleX = Math.max(SGD_MIN_ANGLE_X, Math.min(SGD_MAX_ANGLE_X, sgdAngleX + (p.y - sgdLastY) * 0.01));
             sgdLastX = p.x; 
             sgdLastY = p.y; 
         }
@@ -2943,8 +2956,12 @@
         const toggleOutputBowlAutoRotate = document.getElementById('toggle-output-bowl-autorotate');
         let outputFrame = 0;
         let outputMarbles = [];
-        let outputBowlAngleX = -0.95;
-        let outputBowlAngleY = 0.45;
+        const OUTPUT_BOWL_INITIAL_ANGLE_X = -0.82;
+        const OUTPUT_BOWL_INITIAL_ANGLE_Y = 0.72;
+        const OUTPUT_BOWL_MIN_ANGLE_X = -1.35;
+        const OUTPUT_BOWL_MAX_ANGLE_X = -0.35;
+        let outputBowlAngleX = OUTPUT_BOWL_INITIAL_ANGLE_X;
+        let outputBowlAngleY = OUTPUT_BOWL_INITIAL_ANGLE_Y;
         let outputBowlDragging = false;
         let outputBowlLastX = 0;
         let outputBowlLastY = 0;
@@ -3180,7 +3197,7 @@
             if (e.cancelable) e.preventDefault();
             const position = getOutputBowlPointerPosition(e);
             outputBowlAngleY += (position.x - outputBowlLastX) * 0.01;
-            outputBowlAngleX = Math.max(-1.45, Math.min(0.08, outputBowlAngleX + (position.y - outputBowlLastY) * 0.01));
+            outputBowlAngleX = Math.max(OUTPUT_BOWL_MIN_ANGLE_X, Math.min(OUTPUT_BOWL_MAX_ANGLE_X, outputBowlAngleX + (position.y - outputBowlLastY) * 0.01));
             outputBowlLastX = position.x;
             outputBowlLastY = position.y;
         }
@@ -3195,6 +3212,11 @@
             toggleOutputBowlAutoRotate.classList.toggle('is-active', enabled);
             toggleOutputBowlAutoRotate.setAttribute('aria-pressed', enabled ? 'true' : 'false');
             toggleOutputBowlAutoRotate.textContent = enabled ? 'Stop Rotation' : 'Auto Rotate';
+        }
+
+        function resetOutputBowlCamera() {
+            outputBowlAngleX = OUTPUT_BOWL_INITIAL_ANGLE_X;
+            outputBowlAngleY = OUTPUT_BOWL_INITIAL_ANGLE_Y;
         }
 
         function initOutputMarbles() {
@@ -3395,6 +3417,7 @@
         }
 
         function restartOutputGenerationLoop() {
+            resetOutputBowlCamera();
             outputFrame = 0;
             initOutputMarbles();
             updateOutputTemperatureLabel();
@@ -3456,7 +3479,7 @@
 
             // 2. Continuous 3D loops
             try {
-                initSgdSimulator();
+                initSgdSimulator(performance.now(), true);
                 drawSgdScene(); 
                 console.log('Successfully started SGD loop');
             } catch (e) { console.error('Error starting SGD loop:', e); }
@@ -3473,6 +3496,7 @@
             } catch (e) { console.error('Error starting Bowl Morph loop:', e); }
 
             try {
+                resetOutputBowlCamera();
                 initOutputMarbles();
                 drawOutputGenerationScene();
                 console.log('Successfully started Output Generation loop');

@@ -350,6 +350,20 @@
             background: #0a0a0a;
         }
 
+        .flatland-prelude-assets {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin: 18px auto;
+            max-width: 900px;
+        }
+
+        .flatland-prelude-assets .question-asset {
+            height: 100%;
+            margin: 0;
+            object-fit: cover;
+        }
+
         .wordvec-visualizer {
             margin: 24px 0;
             padding: 22px;
@@ -618,6 +632,10 @@
             }
 
             .training-loop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flatland-prelude-assets {
                 grid-template-columns: 1fr;
             }
         }
@@ -956,6 +974,13 @@
                 <img class="question-asset" src="assets/q13-word2vec-3.png" alt="Word vector example with concept arithmetic">
                 <br><br>
                 Here, we can see how we can perform math operations between word concepts in the way ChatGPT thinks. If we go by the coordinate pairs, we can calculate: Monarch = Queen - Woman.
+                <br><br>
+                Before we jump into four dimensions, it helps to think about <em>Flatland</em>: a world where the inhabitants can only see two dimensions. A 3D object passing through their world would look like a changing 2D slice or shadow, because they can only observe its projection into their space.
+                <div class="flatland-prelude-assets">
+                    <img class="question-asset" src="../images/rob-hocking-math-flatland-projection-thumbnail.jpg" alt="Flatland projection illustration showing a higher-dimensional object as a lower-dimensional view">
+                    <img class="question-asset" src="../images/inhabitants-flatland-class%20critique.jpg" alt="Flatland inhabitants discussing how a higher-dimensional object appears in their two-dimensional world">
+                </div>
+                Vector projection is the same core idea in math: we take something with more information and ask, "How much of it points in this direction?" A word vector can be projected onto axes like royalty, temperature, or activity intensity, and each projection gives us one meaningful part of the full concept.
                 <br><br>
                 Now let’s add one more dimension. Below, the words sit in 3D concept space, but they only "exist" when the slider matches their hidden 4th dimension. You can choose different "lenses" to see how AI organizes concepts like <strong>Flavor</strong>, <strong>Vibe</strong>, or <strong>Arcane Power</strong>.
                 <div class="wordvec-visualizer" aria-label="4D word vector visualization">

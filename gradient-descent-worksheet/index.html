@@ -414,26 +414,10 @@
             align-items: stretch;
         }
 
-        .output-generation-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .output-word-panel {
+        .output-probability-panel {
             max-width: 640px;
-            margin: 0 auto;
+            margin: 14px auto 0;
             width: 100%;
-        }
-
-        .output-probability-bowl-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
-            margin-top: 14px;
-            align-items: stretch;
-        }
-
-        .output-word-panel .wordvec-stage {
-            max-width: 640px;
         }
 
         .training-loop-panel {
@@ -661,14 +645,6 @@
             }
 
             .training-loop-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .output-generation-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .output-probability-bowl-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1114,19 +1090,11 @@
                         <button type="button" class="reset" id="restart-output-loop">Restart Loop</button>
                     </div>
                 </div>
-                <div class="training-loop-grid output-generation-grid">
-                    <div class="training-loop-panel output-word-panel">
+                <div class="training-loop-grid">
+                    <div class="training-loop-panel">
                         <div class="training-loop-panel-title">Words Selected in Order</div>
                         <div class="wordvec-stage">
                             <canvas id="outputWordCanvas" width="400" height="360"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="output-probability-bowl-grid">
-                    <div class="training-loop-panel">
-                        <div class="training-loop-panel-title">Next Word Probability</div>
-                        <div class="wordvec-stage">
-                            <canvas id="outputDistributionCanvas" width="400" height="360"></canvas>
                         </div>
                     </div>
                     <div class="training-loop-panel">
@@ -1134,6 +1102,12 @@
                         <div class="wordvec-stage">
                             <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
                         </div>
+                    </div>
+                </div>
+                <div class="training-loop-panel output-probability-panel">
+                    <div class="training-loop-panel-title">Next Word Probability</div>
+                    <div class="wordvec-stage">
+                        <canvas id="outputDistributionCanvas" width="400" height="360"></canvas>
                     </div>
                 </div>
             </div>

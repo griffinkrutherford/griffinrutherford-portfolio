@@ -414,6 +414,19 @@
             align-items: stretch;
         }
 
+        .output-generation-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .output-bowl-panel {
+            margin-top: 14px;
+        }
+
+        .output-bowl-panel .wordvec-stage {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
         .training-loop-panel {
             display: flex;
             flex-direction: column;
@@ -453,6 +466,13 @@
             border-color: #64f4ac;
             color: #050505;
             box-shadow: 0 4px 12px rgba(100, 244, 172, 0.28);
+        }
+
+        .pause-animation-button.is-paused {
+            background: #ffd166;
+            border-color: #ffd166;
+            color: #050505;
+            box-shadow: 0 4px 12px rgba(255, 209, 102, 0.25);
         }
 
         .wordvec-time-label {
@@ -632,6 +652,10 @@
             }
 
             .training-loop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .output-generation-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1073,10 +1097,11 @@
                     <div class="wordvec-time-label" id="outputTemperatureLabel">Temperature: 38% - coherent with some variety</div>
                     <div class="wordvec-control-row">
                         <button type="button" id="toggle-output-bowl-autorotate" class="reset auto-rotate-button" aria-pressed="false">Auto Rotate</button>
+                        <button type="button" id="toggle-output-animation" class="reset pause-animation-button" aria-pressed="false">Pause Animation</button>
                         <button type="button" class="reset" id="restart-output-loop">Restart Loop</button>
                     </div>
                 </div>
-                <div class="training-loop-grid">
+                <div class="training-loop-grid output-generation-grid">
                     <div class="training-loop-panel">
                         <div class="training-loop-panel-title">Words Selected in Order</div>
                         <div class="wordvec-stage">
@@ -1084,10 +1109,16 @@
                         </div>
                     </div>
                     <div class="training-loop-panel">
-                        <div class="training-loop-panel-title">Trained Bowl Guiding Choices</div>
+                        <div class="training-loop-panel-title">Next Word Probability</div>
                         <div class="wordvec-stage">
-                            <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
+                            <canvas id="outputDistributionCanvas" width="400" height="360"></canvas>
                         </div>
+                    </div>
+                </div>
+                <div class="training-loop-panel output-bowl-panel">
+                    <div class="training-loop-panel-title">Trained Bowl Guiding Choices</div>
+                    <div class="wordvec-stage">
+                        <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
                     </div>
                 </div>
             </div>
@@ -2973,12 +3004,15 @@
         // Output Generation Animation (Question 14)
         const outputWordCanvas = document.getElementById('outputWordCanvas');
         const outputWordCtx = outputWordCanvas ? outputWordCanvas.getContext('2d') : null;
+        const outputDistributionCanvas = document.getElementById('outputDistributionCanvas');
+        const outputDistributionCtx = outputDistributionCanvas ? outputDistributionCanvas.getContext('2d') : null;
         const outputBowlCanvas = document.getElementById('outputBowlCanvas');
         const outputBowlCtx = outputBowlCanvas ? outputBowlCanvas.getContext('2d') : null;
         const outputTemperature = document.getElementById('outputTemperature');
         const outputTemperatureLabel = document.getElementById('outputTemperatureLabel');
         const restartOutputLoop = document.getElementById('restart-output-loop');
         const toggleOutputBowlAutoRotate = document.getElementById('toggle-output-bowl-autorotate');
+        const toggleOutputAnimation = document.getElementById('toggle-output-animation');
         let outputFrame = 0;
         let outputMarbles = [];
         const OUTPUT_BOWL_INITIAL_ANGLE_X = -0.82;
@@ -2991,6 +3025,7 @@
         let outputBowlLastX = 0;
         let outputBowlLastY = 0;
         let outputBowlAutoRotate = false;
+        let outputAnimationPaused = false;
         const outputSequences = {
             low: [
                 { label: 'ChatGPT', point: [-2.2, -1.0, -0.6], color: '#49a7ff' },
@@ -3060,6 +3095,13 @@
             return outputSequences[getOutputMode()] || outputSequences.balanced;
         }
 
+        function getOutputCycleState() {
+            const currentSequence = getCurrentOutputSequence();
+            const cycle = outputFrame % 520;
+            const activeIndex = Math.min(currentSequence.length - 1, Math.floor(cycle / 62));
+            return { currentSequence, activeIndex };
+        }
+
         function updateOutputTemperatureLabel() {
             if (!outputTemperatureLabel) return;
             outputTemperatureLabel.textContent = `Temperature: ${getOutputTemperature()}% - ${getOutputModeText()}`;
@@ -3082,7 +3124,7 @@
 
         function drawOutputWordScene() {
             if (!outputWordCtx) return;
-            const currentSequence = getCurrentOutputSequence();
+            const { currentSequence, activeIndex } = getOutputCycleState();
             outputWordCtx.clearRect(0, 0, outputWordCanvas.width, outputWordCanvas.height);
             const bg = outputWordCtx.createRadialGradient(200, 160, 35, 200, 180, 300);
             bg.addColorStop(0, '#141414');
@@ -3106,8 +3148,6 @@
                 outputWordCtx.stroke();
             });
 
-            const cycle = outputFrame % 520;
-            const activeIndex = Math.min(currentSequence.length - 1, Math.floor(cycle / 62));
             const pulse = 0.5 + 0.5 * Math.sin(outputFrame * 0.16);
             const allWords = currentSequence.concat(outputExtraWords).map((word, index) => ({
                 ...word,
@@ -3167,6 +3207,129 @@
                 800,
                 '#64f4ac'
             );
+        }
+
+        function getOutputDistributionData() {
+            const { currentSequence, activeIndex } = getOutputCycleState();
+            const selectedWord = currentSequence[activeIndex];
+            const previousWords = currentSequence.slice(0, activeIndex).map(word => word.label).join(' ') || 'Start';
+            const labels = new Set([selectedWord.label]);
+            const candidates = [{ label: selectedWord.label, color: selectedWord.color, selected: true, baseLogit: 3.4 }];
+
+            Object.values(outputSequences).forEach(sequence => {
+                const candidate = sequence[activeIndex];
+                if (candidate && !labels.has(candidate.label)) {
+                    labels.add(candidate.label);
+                    candidates.push({
+                        label: candidate.label,
+                        color: candidate.color,
+                        selected: false,
+                        baseLogit: 2.3 - Math.min(0.8, candidates.length * 0.12)
+                    });
+                }
+            });
+
+            outputExtraWords.forEach((word, index) => {
+                if (!labels.has(word.label) && candidates.length < 8) {
+                    labels.add(word.label);
+                    candidates.push({
+                        label: word.label,
+                        color: word.color,
+                        selected: false,
+                        baseLogit: 0.55 + index * 0.13
+                    });
+                }
+            });
+
+            const temperature = getOutputTemperature();
+            const softmaxTemperature = 0.28 + (temperature / 100) * 2.25;
+            const highTemperatureLift = Math.pow(temperature / 100, 1.7) * 0.95;
+            const logits = candidates.map((candidate, index) => {
+                const farOptionLift = candidate.selected ? 0 : highTemperatureLift * (0.45 + index * 0.09);
+                return candidate.baseLogit + farOptionLift;
+            });
+            const maxLogit = Math.max(...logits);
+            const weights = logits.map(logit => Math.exp((logit - maxLogit) / softmaxTemperature));
+            const totalWeight = weights.reduce((total, weight) => total + weight, 0);
+
+            return {
+                previousWords,
+                selectedWord,
+                candidates: candidates.map((candidate, index) => ({
+                    ...candidate,
+                    probability: weights[index] / totalWeight
+                })).sort((a, b) => b.probability - a.probability)
+            };
+        }
+
+        function drawOutputDistributionScene() {
+            if (!outputDistributionCtx) return;
+            const data = getOutputDistributionData();
+            const ctx = outputDistributionCtx;
+            const width = outputDistributionCanvas.width;
+            const height = outputDistributionCanvas.height;
+            const pulse = 0.5 + 0.5 * Math.sin(outputFrame * 0.16);
+
+            ctx.clearRect(0, 0, width, height);
+            const bg = ctx.createRadialGradient(width / 2, 130, 35, width / 2, 180, 310);
+            bg.addColorStop(0, '#161616');
+            bg.addColorStop(1, '#000');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, width, height);
+
+            const drawFittedText = (text, x, y, maxWidth, size, weight, color, align = 'left') => {
+                let fontSize = size;
+                ctx.font = `${weight} ${fontSize}px STIX Two Text, Times New Roman, serif`;
+                while (fontSize > 10 && ctx.measureText(text).width > maxWidth) {
+                    fontSize -= 1;
+                    ctx.font = `${weight} ${fontSize}px STIX Two Text, Times New Roman, serif`;
+                }
+                ctx.fillStyle = color;
+                ctx.textAlign = align;
+                ctx.fillText(text, x, y);
+                ctx.textAlign = 'left';
+            };
+
+            drawFittedText('Softmax: possible next words', 16, 28, width - 32, 18, 800, 'rgba(255, 255, 255, 0.92)');
+            drawFittedText(`After: ${data.previousWords}`, 16, 52, width - 32, 15, 700, 'rgba(207, 207, 207, 0.9)');
+            drawFittedText(`Chosen: ${data.selectedWord.label}`, 16, 78, width - 32, 20, 800, '#64f4ac');
+
+            const barX = 112;
+            const barMaxWidth = width - barX - 64;
+            const startY = 108;
+            const rowHeight = 27;
+            data.candidates.forEach((candidate, index) => {
+                const y = startY + index * rowHeight;
+                const barWidth = Math.max(4, candidate.probability * barMaxWidth);
+                const selectedGlow = candidate.selected ? 0.18 + pulse * 0.22 : 0;
+
+                drawFittedText(candidate.label, 16, y + 15, 82, 15, candidate.selected ? 800 : 700, candidate.selected ? '#fff' : 'rgba(255, 255, 255, 0.78)');
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.fillRect(barX, y, barMaxWidth, 17);
+                ctx.fillStyle = candidate.color;
+                ctx.globalAlpha = candidate.selected ? 0.9 : 0.48;
+                ctx.fillRect(barX, y, barWidth, 17);
+                ctx.globalAlpha = 1;
+
+                if (candidate.selected) {
+                    ctx.strokeStyle = `rgba(100, 244, 172, ${0.62 + selectedGlow})`;
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(barX - 2, y - 2, barWidth + 4, 21);
+                }
+
+                drawFittedText(`${Math.round(candidate.probability * 100)}%`, width - 48, y + 15, 38, 14, 800, candidate.selected ? '#64f4ac' : 'rgba(207, 207, 207, 0.86)', 'right');
+            });
+
+            const temperature = getOutputTemperature();
+            const tempText = temperature < 20
+                ? 'Low temp: one tall bar'
+                : temperature < 55
+                    ? 'Balanced temp: likely words compete'
+                    : temperature < 78
+                        ? 'Higher temp: distribution spreads out'
+                        : 'Very high temp: unlikely words get lifted';
+            drawFittedText(tempText, 16, height - 24, width - 32, 16, 800, '#ffd166');
         }
 
         const outputBowlWells = [
@@ -3237,6 +3400,14 @@
             toggleOutputBowlAutoRotate.classList.toggle('is-active', enabled);
             toggleOutputBowlAutoRotate.setAttribute('aria-pressed', enabled ? 'true' : 'false');
             toggleOutputBowlAutoRotate.textContent = enabled ? 'Stop Rotation' : 'Auto Rotate';
+        }
+
+        function setOutputAnimationPaused(paused) {
+            outputAnimationPaused = paused;
+            if (!toggleOutputAnimation) return;
+            toggleOutputAnimation.classList.toggle('is-paused', paused);
+            toggleOutputAnimation.setAttribute('aria-pressed', paused ? 'true' : 'false');
+            toggleOutputAnimation.textContent = paused ? 'Resume Animation' : 'Pause Animation';
         }
 
         function resetOutputBowlCamera() {
@@ -3341,9 +3512,9 @@
             outputBowlCtx.restore();
         }
 
-        function drawOutputBowlScene() {
+        function drawOutputBowlScene(advance = true) {
             if (!outputBowlCtx) return;
-            updateOutputMarbles();
+            if (advance) updateOutputMarbles();
             outputBowlCtx.clearRect(0, 0, outputBowlCanvas.width, outputBowlCanvas.height);
             const bg = outputBowlCtx.createRadialGradient(200, 160, 35, 200, 180, 300);
             bg.addColorStop(0, '#121212');
@@ -3443,10 +3614,12 @@
 
         function restartOutputGenerationLoop() {
             resetOutputBowlCamera();
+            setOutputAnimationPaused(false);
             outputFrame = 0;
             initOutputMarbles();
             updateOutputTemperatureLabel();
             drawOutputWordScene();
+            drawOutputDistributionScene();
             drawOutputBowlScene();
         }
 
@@ -3456,6 +3629,10 @@
 
         if (toggleOutputBowlAutoRotate) {
             toggleOutputBowlAutoRotate.addEventListener('click', () => setOutputBowlAutoRotate(!outputBowlAutoRotate));
+        }
+
+        if (toggleOutputAnimation) {
+            toggleOutputAnimation.addEventListener('click', () => setOutputAnimationPaused(!outputAnimationPaused));
         }
 
         if (outputBowlCanvas) {
@@ -3470,11 +3647,12 @@
         }
 
         function drawOutputGenerationScene() {
-            outputFrame++;
-            if (outputBowlAutoRotate && !outputBowlDragging) outputBowlAngleY += 0.0045;
+            if (!outputAnimationPaused) outputFrame++;
+            if (!outputAnimationPaused && outputBowlAutoRotate && !outputBowlDragging) outputBowlAngleY += 0.0045;
             updateOutputTemperatureLabel();
             drawOutputWordScene();
-            drawOutputBowlScene();
+            drawOutputDistributionScene();
+            drawOutputBowlScene(!outputAnimationPaused);
             requestAnimationFrame(drawOutputGenerationScene);
         }
 

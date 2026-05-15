@@ -415,16 +415,25 @@
         }
 
         .output-generation-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: 1fr;
         }
 
-        .output-bowl-panel {
-            margin-top: 14px;
-        }
-
-        .output-bowl-panel .wordvec-stage {
+        .output-word-panel {
             max-width: 640px;
             margin: 0 auto;
+            width: 100%;
+        }
+
+        .output-probability-bowl-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+            align-items: stretch;
+        }
+
+        .output-word-panel .wordvec-stage {
+            max-width: 640px;
         }
 
         .training-loop-panel {
@@ -656,6 +665,10 @@
             }
 
             .output-generation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .output-probability-bowl-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1102,23 +1115,25 @@
                     </div>
                 </div>
                 <div class="training-loop-grid output-generation-grid">
-                    <div class="training-loop-panel">
+                    <div class="training-loop-panel output-word-panel">
                         <div class="training-loop-panel-title">Words Selected in Order</div>
                         <div class="wordvec-stage">
                             <canvas id="outputWordCanvas" width="400" height="360"></canvas>
                         </div>
                     </div>
+                </div>
+                <div class="output-probability-bowl-grid">
                     <div class="training-loop-panel">
                         <div class="training-loop-panel-title">Next Word Probability</div>
                         <div class="wordvec-stage">
                             <canvas id="outputDistributionCanvas" width="400" height="360"></canvas>
                         </div>
                     </div>
-                </div>
-                <div class="training-loop-panel output-bowl-panel">
-                    <div class="training-loop-panel-title">Trained Bowl Guiding Choices</div>
-                    <div class="wordvec-stage">
-                        <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
+                    <div class="training-loop-panel">
+                        <div class="training-loop-panel-title">Trained Bowl Guiding Choices</div>
+                        <div class="wordvec-stage">
+                            <canvas id="outputBowlCanvas" width="400" height="360"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>

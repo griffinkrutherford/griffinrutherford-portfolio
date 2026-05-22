@@ -162,26 +162,16 @@
       align-self: center;
       display: grid;
       place-items: center;
-      padding: 0.065in;
-      background:
-        linear-gradient(90deg, rgba(22, 20, 28, 0.16) 1px, transparent 1px) 0 0 / 0.18in 0.18in,
-        linear-gradient(rgba(22, 20, 28, 0.16) 1px, transparent 1px) 0 0 / 0.18in 0.18in,
-        #ffffff;
+      padding: 0.03in;
+      background: #ffffff;
       border: 1px solid var(--ink);
     }
 
-    .qr-placeholder span {
-      display: grid;
-      place-items: center;
+    .qr-code {
+      display: block;
       width: 100%;
       height: 100%;
-      border: 1px dashed rgba(22, 20, 28, 0.58);
-      color: var(--muted);
-      font-size: 5.8pt;
-      font-weight: 800;
-      line-height: 1.05;
-      text-align: center;
-      text-transform: uppercase;
+      object-fit: contain;
     }
 
     .business-card--back {
@@ -353,27 +343,17 @@
       height: 0.72in;
       display: grid;
       place-items: center;
-      padding: 0.055in;
-      background:
-        linear-gradient(90deg, rgba(6, 17, 31, 0.88) 1px, transparent 1px) 0 0 / 0.14in 0.14in,
-        linear-gradient(rgba(6, 17, 31, 0.88) 1px, transparent 1px) 0 0 / 0.14in 0.14in,
-        #ffffff;
+      padding: 0.03in;
+      background: #ffffff;
       border: 1px solid rgba(237, 245, 255, 0.92);
       border-radius: 0.035in;
     }
 
-    .lune-qr-placeholder span {
-      display: grid;
-      place-items: center;
+    .lune-qr-code {
+      display: block;
       width: 100%;
       height: 100%;
-      border: 1px dashed rgba(6, 17, 31, 0.7);
-      color: #243d67;
-      font-size: 5.4pt;
-      font-weight: 800;
-      line-height: 1.05;
-      text-align: center;
-      text-transform: uppercase;
+      object-fit: contain;
     }
 
     .lune-url {
@@ -460,9 +440,9 @@
         </div>
       </section>
 
-      <aside class="side" aria-label="QR code placeholder">
-        <div class="qr-placeholder" aria-label="QR code placeholder">
-          <span>QR<br>Code</span>
+      <aside class="side" aria-label="QR code to Griffin Rutherford online business card">
+        <div class="qr-placeholder">
+          <img class="qr-code" src="qr-griffin-business-card.svg" alt="QR code for https://griffinrutherford.com/business-card/">
         </div>
       </aside>
     </main>
@@ -484,11 +464,11 @@
         </ul>
       </section>
 
-      <aside class="lune-side" aria-label="Lune Synth QR code placeholder">
+      <aside class="lune-side" aria-label="Lune Synth QR code">
         <img class="lune-icon" src="../images/lune-synth-icon-business-card.png" alt="Lune Synth icon">
         <div class="lune-qr-panel">
-          <div class="lune-qr-placeholder" aria-label="QR code placeholder for Lune Synth">
-            <span>QR<br>Code</span>
+          <div class="lune-qr-placeholder">
+            <img class="lune-qr-code" src="qr-lune-synth.svg" alt="QR code for https://coherascentlabs.com/lune-synth/">
           </div>
           <div class="lune-url">Scan for information</div>
         </div>

@@ -76,6 +76,19 @@
       grid-template-columns: minmax(0, 1fr) 0.82in;
     }
 
+    .card-location {
+      position: absolute;
+      top: 0.18in;
+      right: 0.18in;
+      color: var(--purple);
+      font-size: 6.2pt;
+      font-weight: 800;
+      line-height: 1;
+      text-align: right;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     .main {
       min-width: 0;
       display: flex;
@@ -201,14 +214,7 @@
     }
 
     .business-card--back::before {
-      background-image:
-        radial-gradient(0.012in 0.012in at 0.24in 0.28in, rgba(255, 255, 255, 0.86) 98%, transparent 100%),
-        radial-gradient(0.01in 0.01in at 0.78in 0.34in, rgba(100, 168, 255, 0.72) 98%, transparent 100%),
-        radial-gradient(0.012in 0.012in at 1.28in 0.62in, rgba(164, 123, 255, 0.66) 98%, transparent 100%),
-        radial-gradient(0.011in 0.011in at 2.58in 0.26in, rgba(255, 93, 135, 0.72) 98%, transparent 100%),
-        radial-gradient(0.01in 0.01in at 2.92in 1.48in, rgba(255, 255, 255, 0.66) 98%, transparent 100%),
-        radial-gradient(0.009in 0.009in at 0.58in 1.55in, rgba(100, 168, 255, 0.58) 98%, transparent 100%);
-      opacity: 0.95;
+      display: none;
     }
 
     .business-card--back::after {
@@ -419,9 +425,10 @@
 <body>
   <div class="card-stack">
     <main class="business-card business-card--front" aria-label="Griffin Rutherford print business card front">
+      <div class="card-location">Santa Fe, NM</div>
       <section class="main" aria-label="Contact information">
         <div class="identity">
-          <div class="eyebrow">CTO</div>
+          <div class="eyebrow">Chief Technical Officer</div>
           <h1>Griffin Rutherford</h1>
           <p class="title">
             <span>Coherascent Labs</span>

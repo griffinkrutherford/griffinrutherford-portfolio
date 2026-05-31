@@ -116,6 +116,66 @@
       gap: 1rem;
     }
 
+    .lune-text {
+      color: #ff1a4d;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+      text-shadow:
+        0 0 4px rgba(140, 0, 22, 0.95),
+        0 0 12px rgba(140, 0, 22, 0.8),
+        0 0 24px rgba(110, 0, 16, 0.6);
+      animation: lune-glow 2.8s ease-in-out infinite;
+    }
+
+    .lune-feature {
+      justify-self: center;
+      color: #ff1a4d;
+      font-size: clamp(1.75rem, 8vw, 3.6rem);
+      font-weight: 800;
+      line-height: 0.9;
+      text-align: center;
+      text-decoration: none;
+      text-shadow:
+        0 0 5px rgba(255, 26, 77, 1),
+        0 0 16px rgba(255, 26, 77, 0.9),
+        0 0 36px rgba(255, 26, 77, 0.66),
+        0 0 58px rgba(140, 0, 22, 0.5);
+      animation: lune-feature-glow 2.8s ease-in-out infinite;
+    }
+
+    @keyframes lune-glow {
+      0%, 100% {
+        text-shadow:
+          0 0 4px rgba(140, 0, 22, 0.95),
+          0 0 12px rgba(140, 0, 22, 0.8),
+          0 0 24px rgba(110, 0, 16, 0.6);
+      }
+      50% {
+        text-shadow:
+          0 0 7px rgba(160, 0, 26, 1),
+          0 0 18px rgba(140, 0, 22, 0.9),
+          0 0 34px rgba(110, 0, 16, 0.7);
+      }
+    }
+
+    @keyframes lune-feature-glow {
+      0%, 100% {
+        text-shadow:
+          0 0 5px rgba(255, 26, 77, 1),
+          0 0 16px rgba(255, 26, 77, 0.9),
+          0 0 36px rgba(255, 26, 77, 0.66),
+          0 0 58px rgba(140, 0, 22, 0.5);
+      }
+      50% {
+        text-shadow:
+          0 0 8px rgba(255, 77, 125, 1),
+          0 0 24px rgba(255, 26, 77, 0.98),
+          0 0 48px rgba(255, 26, 77, 0.72),
+          0 0 72px rgba(140, 0, 22, 0.58);
+      }
+    }
+
     .glass {
       position: relative;
       overflow: hidden;
@@ -391,6 +451,14 @@
         animation: none;
       }
 
+      .lune-text {
+        animation: none;
+      }
+
+      .lune-feature {
+        animation: none;
+      }
+
       .action {
         transition: none;
       }
@@ -406,6 +474,8 @@
 
   <main class="page">
     <section class="card-shell" aria-label="Griffin Rutherford business card">
+      <a class="lune-feature" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a>
+
       <div class="portrait-panel glass">
         <img src="../images/linkedin-headshot.png" alt="Griffin Rutherford">
         <div class="image-wash" aria-hidden="true"></div>
@@ -432,21 +502,21 @@
 
       <div class="content-panel glass">
         <div>
-          <p class="role"><strong>CTO @ Coherascent Labs and M.S. Computer Science Graduate.</strong> Building <a href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer" style="color: #fff; font-weight: bold; text-decoration: underline; white-space: nowrap;">Lune Synth&trade;</a>, an app that uses a novel way of incorporating neuro-symbolic AI to help users study and refine whatever weak points a student may have. Also an avid outdoor recreationist passionate about mental and physical health.</p>
+          <p class="role"><strong>CTO @ Coherascent Labs and M.S. Computer Science Graduate.</strong> Building <a class="lune-text" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a>, an app that uses a novel way of incorporating neuro-symbolic AI to help users study and refine whatever weak points a student may have. Also an avid outdoor recreationist passionate about mental and physical health.</p>
         </div>
 
         <nav class="actions" aria-label="Business card links">
+          <a class="action" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">
+            <span class="action-text">
+              <b class="lune-text">Lune Synth&trade;</b>
+            </span>
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </a>
           <a class="action" href="../">
             <span class="action-text">
               <b>Portfolio</b>
             </span>
             <i class="fa-solid fa-house" aria-hidden="true"></i>
-          </a>
-          <a class="action" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">
-            <span class="action-text">
-              <b>Lune Synth&trade;</b>
-            </span>
-            <i class="fa-solid fa-moon" aria-hidden="true"></i>
           </a>
           <a class="action" href="https://www.linkedin.com/in/griffinkwanrutherford/" target="_blank" rel="noopener noreferrer">
             <span class="action-text">

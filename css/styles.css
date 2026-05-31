@@ -201,6 +201,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.42rem;
     min-height: 2.5rem;
     padding: 0.62rem 0.95rem;
     border: 1px solid var(--primary-purple);
@@ -212,12 +213,22 @@
     transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
+.lune-learn-more-icon {
+    flex: 0 0 auto;
+    transition: transform 0.2s ease;
+}
+
 .lune-learn-more:hover,
 .lune-learn-more:focus-visible {
     transform: translateY(-2px);
     background: rgba(var(--primary-red-rgb), 0.18);
     border-color: var(--primary-red);
     outline: none;
+}
+
+.lune-learn-more:hover .lune-learn-more-icon,
+.lune-learn-more:focus-visible .lune-learn-more-icon {
+    transform: translate(2px, -2px);
 }
 
 @media (max-width: 560px) {
@@ -1850,6 +1861,10 @@ body.liquid-glass-mode .social-links a {
     }
 
     .lune-learn-more {
+        transition: none;
+    }
+
+    .lune-learn-more-icon {
         transition: none;
     }
 }

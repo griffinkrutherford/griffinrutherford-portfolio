@@ -128,22 +128,6 @@
       animation: lune-glow 2.8s ease-in-out infinite;
     }
 
-    .lune-feature {
-      justify-self: center;
-      color: #ff1a4d;
-      font-size: clamp(1.75rem, 8vw, 3.6rem);
-      font-weight: 800;
-      line-height: 0.9;
-      text-align: center;
-      text-decoration: none;
-      text-shadow:
-        0 0 5px rgba(255, 26, 77, 1),
-        0 0 16px rgba(255, 26, 77, 0.9),
-        0 0 36px rgba(255, 26, 77, 0.66),
-        0 0 58px rgba(140, 0, 22, 0.5);
-      animation: lune-feature-glow 2.8s ease-in-out infinite;
-    }
-
     @keyframes lune-glow {
       0%, 100% {
         text-shadow:
@@ -156,23 +140,6 @@
           0 0 7px rgba(160, 0, 26, 1),
           0 0 18px rgba(140, 0, 22, 0.9),
           0 0 34px rgba(110, 0, 16, 0.7);
-      }
-    }
-
-    @keyframes lune-feature-glow {
-      0%, 100% {
-        text-shadow:
-          0 0 5px rgba(255, 26, 77, 1),
-          0 0 16px rgba(255, 26, 77, 0.9),
-          0 0 36px rgba(255, 26, 77, 0.66),
-          0 0 58px rgba(140, 0, 22, 0.5);
-      }
-      50% {
-        text-shadow:
-          0 0 8px rgba(255, 77, 125, 1),
-          0 0 24px rgba(255, 26, 77, 0.98),
-          0 0 48px rgba(255, 26, 77, 0.72),
-          0 0 72px rgba(140, 0, 22, 0.58);
       }
     }
 
@@ -455,10 +422,6 @@
         animation: none;
       }
 
-      .lune-feature {
-        animation: none;
-      }
-
       .action {
         transition: none;
       }
@@ -474,8 +437,6 @@
 
   <main class="page">
     <section class="card-shell" aria-label="Griffin Rutherford business card">
-      <a class="lune-feature" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a>
-
       <div class="portrait-panel glass">
         <img src="../images/linkedin-headshot.png" alt="Griffin Rutherford">
         <div class="image-wash" aria-hidden="true"></div>

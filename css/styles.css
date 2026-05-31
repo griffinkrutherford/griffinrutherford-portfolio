@@ -125,6 +125,106 @@
     border: 1px solid var(--primary-purple);
 }
 
+.lune-section {
+    margin: 1.5rem 0 2rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem);
+    border: 1px solid rgba(var(--primary-red-rgb), 0.45);
+    border-radius: 10px;
+    background:
+        linear-gradient(145deg, rgba(45, 10, 61, 0.86), rgba(18, 6, 33, 0.94) 52%, rgba(80, 8, 42, 0.72)),
+        var(--content-bg);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 0 36px rgba(var(--primary-red-rgb), 0.12);
+}
+
+.lune-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.lune-section-logo {
+    flex: 0 0 auto;
+    width: clamp(56px, 10vw, 76px);
+    height: clamp(56px, 10vw, 76px);
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.lune-section h3 {
+    margin: 0;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    line-height: 1;
+}
+
+.lune-section-kicker {
+    margin-top: 0.3rem;
+    color: var(--accent-purple);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.lune-section p {
+    color: #F8F1FF;
+    line-height: 1.6;
+}
+
+.lune-section-lede {
+    font-weight: 700;
+}
+
+.lune-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 1rem 0;
+}
+
+.lune-flow span {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(5, 2, 14, 0.35);
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.lune-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.lune-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.62rem 0.95rem;
+    border: 1px solid rgba(var(--primary-red-rgb), 0.48);
+    border-radius: 999px;
+    background: rgba(var(--primary-red-rgb), 0.12);
+    color: #fff;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.lune-actions a:hover,
+.lune-actions a:focus-visible {
+    transform: translateY(-2px);
+    background: rgba(var(--primary-red-rgb), 0.22);
+    border-color: rgba(var(--primary-red-rgb), 0.75);
+    outline: none;
+}
+
 /* Instagram Grid */
 .instagram-grid {
     display: grid;
@@ -1738,5 +1838,9 @@ body.liquid-glass-mode .social-links a {
 @media (prefers-reduced-motion: reduce) {
     .lune-text {
         animation: none;
+    }
+
+    .lune-actions a {
+        transition: none;
     }
 }

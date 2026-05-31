@@ -128,14 +128,9 @@
 .lune-section {
     margin: 1.5rem 0 2rem;
     padding: clamp(1.2rem, 3vw, 1.8rem);
-    border: 1px solid rgba(var(--primary-red-rgb), 0.45);
-    border-radius: 10px;
-    background:
-        linear-gradient(145deg, rgba(45, 10, 61, 0.86), rgba(18, 6, 33, 0.94) 52%, rgba(80, 8, 42, 0.72)),
-        var(--content-bg);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        0 0 36px rgba(var(--primary-red-rgb), 0.12);
+    border: 1px solid var(--primary-purple);
+    border-radius: 8px;
+    background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
 }
 
 .lune-section-header {
@@ -151,8 +146,8 @@
     height: clamp(56px, 10vw, 76px);
     border-radius: 16px;
     object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--primary-purple);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .lune-section h3 {
@@ -188,9 +183,9 @@
 
 .lune-flow span {
     padding: 0.45rem 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(var(--primary-purple-rgb), 0.55);
     border-radius: 999px;
-    background: rgba(5, 2, 14, 0.35);
+    background: rgba(108, 26, 255, 0.12);
     color: #fff;
     font-size: 0.86rem;
     font-weight: 700;
@@ -208,9 +203,9 @@
     justify-content: center;
     min-height: 2.5rem;
     padding: 0.62rem 0.95rem;
-    border: 1px solid rgba(var(--primary-red-rgb), 0.48);
+    border: 1px solid var(--primary-purple);
     border-radius: 999px;
-    background: rgba(var(--primary-red-rgb), 0.12);
+    background: rgba(108, 26, 255, 0.16);
     color: #fff;
     font-weight: 800;
     text-decoration: none;
@@ -220,8 +215,8 @@
 .lune-actions a:hover,
 .lune-actions a:focus-visible {
     transform: translateY(-2px);
-    background: rgba(var(--primary-red-rgb), 0.22);
-    border-color: rgba(var(--primary-red-rgb), 0.75);
+    background: rgba(var(--primary-red-rgb), 0.18);
+    border-color: var(--primary-red);
     outline: none;
 }
 

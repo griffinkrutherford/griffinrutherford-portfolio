@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Griffin Rutherford — building Lune Synth, neuro-symbolic AI that reduces hallucination in language models.">
+  <title>Griffin Rutherford | Lune Synth &amp; Ventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="../images/favicon.png" type="image/png">
+  <style>
+    :root {
+      --ink: #f7fbff;
+      --muted: rgba(247, 251, 255, 0.72);
+      --line: rgba(255, 255, 255, 0.2);
+      --glass: rgba(42, 10, 58, 0.44);
+      --primary-red: #ff1a4d;
+      --primary-purple: #6c1aff;
+      --accent-red: #ff4d7d;
+      --accent-purple: #9d4dff;
+      --night: #1a0a29;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--night);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, Arial, sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(108, 26, 255, 0.58), transparent 28rem),
+        radial-gradient(circle at 86% 18%, rgba(255, 26, 77, 0.52), transparent 27rem),
+        radial-gradient(circle at 70% 90%, rgba(157, 77, 255, 0.36), transparent 26rem),
+        linear-gradient(135deg, #1a0a29 0%, #2d0a3d 45%, #170617 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.1), transparent 24%, rgba(255, 255, 255, 0.08) 48%, transparent 66%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 90px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 90px);
+      mix-blend-mode: screen;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    .liquid-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      filter: blur(2px) saturate(1.25);
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    .liquid-field span {
+      position: absolute;
+      display: block;
+      border-radius: 999px;
+      transform: rotate(-18deg);
+      animation: drift 13s ease-in-out infinite alternate;
+    }
+
+    .liquid-field span:nth-child(1) {
+      width: 32rem;
+      height: 13rem;
+      left: -7rem;
+      top: 10%;
+      background: linear-gradient(90deg, rgba(108, 26, 255, 0.42), rgba(157, 77, 255, 0.2));
+    }
+
+    .liquid-field span:nth-child(2) {
+      width: 24rem;
+      height: 10rem;
+      right: -6rem;
+      top: 40%;
+      background: linear-gradient(90deg, rgba(255, 26, 77, 0.38), rgba(157, 77, 255, 0.2));
+      animation-delay: -5s;
+    }
+
+    .liquid-field span:nth-child(3) {
+      width: 28rem;
+      height: 11rem;
+      left: 24%;
+      bottom: 4%;
+      background: linear-gradient(90deg, rgba(255, 77, 125, 0.28), rgba(108, 26, 255, 0.22));
+      animation-delay: -8s;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 62rem);
+      margin: 0 auto;
+      padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2rem) 4rem;
+      display: grid;
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(1rem, 4vw, 2rem);
+    }
+
+    .hero-photo {
+      width: clamp(5rem, 18vw, 8rem);
+      height: clamp(5rem, 18vw, 8rem);
+      border-radius: 999px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-name {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(1.7rem, 6vw, 2.9rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .hero-role {
+      margin-top: 0.55rem;
+      color: var(--muted);
+      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .hero-role strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .section-label {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---- Glass ---- */
+    .glass {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(42, 10, 58, 0.34) 38%, rgba(255, 26, 77, 0.12)),
+        var(--glass);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -28px 54px rgba(26, 10, 41, 0.28),
+        0 28px 70px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(22px) saturate(1.4);
+      -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    }
+
+    /* ---- Lune Synth spotlight ---- */
+    .spotlight {
+      display: block;
+      padding: clamp(1.4rem, 4vw, 2.4rem);
+      color: var(--ink);
+      text-decoration: none;
+      border-color: rgba(255, 26, 77, 0.4);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -28px 54px rgba(26, 10, 41, 0.28),
+        0 28px 70px rgba(0, 0, 0, 0.34),
+        0 0 60px rgba(255, 26, 77, 0.18);
+      transition: transform 200ms ease, border-color 200ms ease;
+    }
+
+    .spotlight:hover,
+    .spotlight:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(255, 26, 77, 0.7);
+      outline: none;
+    }
+
+    .spotlight-head {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.9rem, 3vw, 1.4rem);
+    }
+
+    .spotlight-logo {
+      width: clamp(3.6rem, 13vw, 5.5rem);
+      height: clamp(3.6rem, 13vw, 5.5rem);
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .spotlight-title {
+      font-size: clamp(1.7rem, 6vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .spotlight-tag {
+      margin-top: 0.35rem;
+      font-size: clamp(0.78rem, 2vw, 0.92rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent-purple);
+    }
+
+    .spotlight-lede {
+      margin-top: 1.1rem;
+      font-size: clamp(1rem, 2.4vw, 1.18rem);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .spotlight-body {
+      margin-top: 0.7rem;
+      font-size: clamp(0.92rem, 2.1vw, 1.02rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .throughline {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      padding: 0.4rem 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .throughline .sep {
+      color: var(--primary-red);
+      font-weight: 800;
+    }
+
+    /* Lune glow */
+    .lune-text {
+      color: #ff1a4d;
+      text-shadow:
+        0 0 4px rgba(140, 0, 22, 0.95),
+        0 0 12px rgba(140, 0, 22, 0.8),
+        0 0 24px rgba(110, 0, 16, 0.6);
+      animation: lune-glow 2.8s ease-in-out infinite;
+    }
+
+    @keyframes lune-glow {
+      0%, 100% {
+        text-shadow:
+          0 0 4px rgba(140, 0, 22, 0.95),
+          0 0 12px rgba(140, 0, 22, 0.8),
+          0 0 24px rgba(110, 0, 16, 0.6);
+      }
+      50% {
+        text-shadow:
+          0 0 7px rgba(160, 0, 26, 1),
+          0 0 18px rgba(140, 0, 22, 0.9),
+          0 0 34px rgba(110, 0, 16, 0.7);
+      }
+    }
+
+    /* ---- Secondary ventures ---- */
+    .ventures {
+      display: grid;
+      gap: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .venture {
+      display: grid;
+      grid-template-columns: clamp(3.5rem, 12vw, 5rem) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(1rem, 3vw, 1.6rem);
+      padding: clamp(1.1rem, 3.2vw, 1.6rem);
+      color: var(--ink);
+      text-decoration: none;
+      transition: transform 200ms ease, border-color 200ms ease;
+    }
+
+    .venture:hover,
+    .venture:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.45);
+      outline: none;
+    }
+
+    .venture-logo {
+      width: clamp(3.5rem, 12vw, 5rem);
+      height: clamp(3.5rem, 12vw, 5rem);
+      border-radius: 16px;
+      object-fit: cover;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .venture-logo.placeholder {
+      display: grid;
+      place-items: center;
+      font-size: 1.7rem;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-purple));
+    }
+
+    .venture-title {
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .venture-tag {
+      margin-top: 0.2rem;
+      font-size: clamp(0.74rem, 1.9vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-purple);
+    }
+
+    .venture-desc {
+      margin-top: 0.5rem;
+      font-size: clamp(0.88rem, 2.1vw, 0.98rem);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .venture-arrow {
+      flex: 0 0 auto;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 1.05rem;
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-purple));
+      box-shadow: 0 0 22px rgba(255, 26, 77, 0.32);
+    }
+
+    /* ---- About ---- */
+    .about {
+      padding: clamp(1.2rem, 3.5vw, 1.8rem);
+    }
+
+    .about p {
+      font-size: clamp(0.95rem, 2.1vw, 1.05rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .about p strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    /* ---- Contact ---- */
+    .contact {
+      padding: clamp(1.2rem, 3.5vw, 1.8rem);
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+      gap: 0.75rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      font-size: clamp(0.85rem, 2vw, 0.98rem);
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.5);
+      outline: none;
+    }
+
+    .contact-link i {
+      flex: 0 0 auto;
+      width: 1.9rem;
+      height: 1.9rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-purple));
+      box-shadow: 0 0 16px rgba(255, 26, 77, 0.28);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-note a {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0) rotate(-18deg) scale(1); }
+      to   { transform: translate3d(2rem, -1.4rem, 0) rotate(-10deg) scale(1.08); }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .spotlight-head {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .venture {
+        grid-template-columns: clamp(3rem, 16vw, 4rem) minmax(0, 1fr);
+      }
+
+      .venture-arrow {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .liquid-field span,
+      .lune-text {
+        animation: none;
+      }
+
+      .spotlight,
+      .venture,
+      .contact-link {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="liquid-field" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="page">
+    <!-- Hero -->
+    <header class="hero">
+      <img class="hero-photo" src="../images/linkedin-headshot.png" alt="Griffin Rutherford">
+      <div>
+        <h1 class="hero-name">Griffin Rutherford</h1>
+        <p class="hero-role"><strong>CTO &amp; founder, Coherascent Labs.</strong> M.S. Computer Science, Colorado School of Mines. Building neuro-symbolic AI that brings real symbolic reasoning to language models &mdash; and reduces hallucination.</p>
+      </div>
+    </header>
+
+    <!-- Lune Synth spotlight (lead) -->
+    <section aria-label="Lune Synth">
+      <a class="spotlight glass" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">
+        <div class="spotlight-head">
+          <img class="spotlight-logo" src="../images/lune-synth-icon-business-card.png" alt="Lune Synth logo">
+          <div>
+            <div class="spotlight-title"><span class="lune-text">Lune Synth&trade;</span></div>
+            <div class="spotlight-tag">The anti-slop study app · Coherascent Labs</div>
+          </div>
+        </div>
+        <p class="spotlight-lede">Do the work. Scan it in. Get feedback that actually helps &mdash; from the Pre-K through the PhD level.</p>
+        <p class="spotlight-body">Students solve on paper and scan their work; Lune Synth&trade; reads every step, finds where the reasoning broke, and shows what to practice next. Built on well-architected AI systems, it grades against explicit rubric rules &mdash; not vibes &mdash; so feedback stays grounded and trustworthy. Voice and text input work too.</p>
+        <div class="throughline" aria-hidden="true">
+          <span class="chip">Handwrite</span>
+          <span class="sep">&rarr;</span>
+          <span class="chip">Scan it in</span>
+          <span class="sep">&rarr;</span>
+          <span class="chip">Step-level feedback</span>
+          <span class="sep">&rarr;</span>
+          <span class="chip">Practice what matters</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- Secondary ventures -->
+    <section aria-label="Also building" class="ventures">
+      <span class="section-label">Also Building</span>
+
+      <!-- Malestrum -->
+      <a class="venture glass" href="https://malestrum.com/" target="_blank" rel="noopener noreferrer">
+        <img class="venture-logo" src="../images/malestrum-logo.png" alt="Malestrum: The Third Phase logo">
+        <div>
+          <div class="venture-title">Malestrum: The Third Phase</div>
+          <div class="venture-tag">Podcast · Co-host</div>
+          <p class="venture-desc">A father-son podcast on healthy masculinity and long-form conversation across a 50-year age gap.</p>
+        </div>
+        <i class="fa-solid fa-arrow-right venture-arrow" aria-hidden="true"></i>
+      </a>
+
+      <!-- Breakwater Operations -->
+      <a class="venture glass" href="https://breakwaterops.com/" target="_blank" rel="noopener noreferrer">
+        <img class="venture-logo" src="../images/breakwater-logo.png" alt="Breakwater Operations logo">
+        <div>
+          <div class="venture-title">Breakwater Operations</div>
+          <div class="venture-tag">AI Strategy · Advisory</div>
+          <p class="venture-desc">Santa Fe&ndash;based AI advisory cutting through the hype with honest counsel &mdash; pairing Barry Rutherford's 50 years of global operating experience with my research depth at Coherascent Labs.</p>
+        </div>
+        <i class="fa-solid fa-arrow-right venture-arrow" aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <!-- About -->
+    <section class="about glass" aria-label="About Griffin Rutherford">
+      <p><strong>About.</strong> B.S. and M.S. in Computer Science earned simultaneously at Colorado School of Mines, with hands-on work spanning a from-scratch transformer, a DPLL-based SAT solver, autonomous agents, and production engineering at TrueFlow, CACI, and Jefferson County &mdash; the same reasoning research Lune Synth is built on. Outside of work, an avid outdoor recreationist passionate about mental and physical health.</p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact glass" aria-label="Contact Griffin Rutherford">
+      <span class="section-label">Let's Connect</span>
+      <div class="contact-grid">
+        <a class="contact-link" href="mailto:griffinkrutherford@gmail.com">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <span>griffinkrutherford@gmail.com</span>
+        </a>
+        <a class="contact-link" href="tel:+12149984594">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <span>(214)-998-4594</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/griffinkwanrutherford/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+          <span>LinkedIn</span>
+        </a>
+        <a class="contact-link" href="https://github.com/griffinkrutherford" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          <span>GitHub</span>
+        </a>
+        <a class="contact-link" href="../business-card/">
+          <i class="fa-solid fa-address-card" aria-hidden="true"></i>
+          <span>Digital Business Card</span>
+        </a>
+        <a class="contact-link" href="../">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
+          <span>Full Portfolio</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="footer-note">A focused summary &mdash; see the <a href="../">full portfolio</a> for the complete picture.</p>
+  </main>
+</body>
+</html>

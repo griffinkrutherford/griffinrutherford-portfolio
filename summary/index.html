@@ -114,12 +114,20 @@
       gap: clamp(1.5rem, 4vw, 2.5rem);
     }
 
+    .page > * {
+      min-width: 0;
+    }
+
     /* ---- Hero ---- */
     .hero {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: center;
       gap: clamp(1rem, 4vw, 2rem);
+    }
+
+    .hero > div {
+      min-width: 0;
     }
 
     .hero-photo-link {
@@ -151,10 +159,13 @@
       line-height: 1;
       letter-spacing: 0.02em;
       text-transform: uppercase;
+      overflow-wrap: normal;
     }
 
     .hero-name-link {
       color: inherit;
+      display: inline-block;
+      max-width: 100%;
       text-decoration: none;
     }
 
@@ -231,6 +242,10 @@
       gap: clamp(0.9rem, 3vw, 1.4rem);
     }
 
+    .spotlight-head > div {
+      min-width: 0;
+    }
+
     .spotlight-logo {
       width: clamp(3.6rem, 13vw, 5.5rem);
       height: clamp(3.6rem, 13vw, 5.5rem);
@@ -244,6 +259,7 @@
       font-size: clamp(1.7rem, 6vw, 2.6rem);
       font-weight: 800;
       line-height: 1;
+      overflow-wrap: anywhere;
     }
 
     .spotlight-tag {
@@ -253,6 +269,7 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--accent-purple);
+      overflow-wrap: anywhere;
     }
 
     .spotlight-lede {
@@ -334,6 +351,10 @@
       transition: transform 200ms ease, border-color 200ms ease;
     }
 
+    .venture > div {
+      min-width: 0;
+    }
+
     .venture:hover,
     .venture:focus-visible {
       transform: translateY(-4px);
@@ -362,6 +383,7 @@
       font-size: clamp(1.1rem, 3vw, 1.45rem);
       font-weight: 800;
       line-height: 1.1;
+      overflow-wrap: anywhere;
     }
 
     .venture-tag {
@@ -371,6 +393,7 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--accent-purple);
+      overflow-wrap: anywhere;
     }
 
     .venture-desc {
@@ -475,10 +498,41 @@
     }
 
     @media (max-width: 620px) {
+      .page {
+        padding: 1rem 0.8rem 2.5rem;
+        gap: 1rem;
+      }
+
       .hero {
         grid-template-columns: 1fr;
         text-align: center;
         justify-items: center;
+        gap: 0.8rem;
+      }
+
+      .hero > div,
+      .spotlight-head > div {
+        width: 100%;
+      }
+
+      .hero-photo {
+        width: 5.75rem;
+        height: 5.75rem;
+      }
+
+      .hero-role {
+        font-size: 0.94rem;
+        line-height: 1.5;
+      }
+
+      .glass {
+        border-radius: 18px;
+      }
+
+      .spotlight,
+      .about,
+      .contact {
+        padding: 1rem;
       }
 
       .spotlight-head {
@@ -486,13 +540,91 @@
         text-align: center;
       }
 
+      .spotlight-logo {
+        width: 4.25rem;
+        height: 4.25rem;
+        border-radius: 15px;
+      }
+
+      .spotlight-lede,
+      .spotlight-body,
+      .about p {
+        font-size: 0.95rem;
+        line-height: 1.52;
+      }
+
+      .throughline {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .throughline .sep {
+        display: none;
+      }
+
+      .chip {
+        width: 100%;
+        padding: 0.48rem 0.55rem;
+        text-align: center;
+        white-space: normal;
+      }
+
+      .section-label {
+        display: block;
+        text-align: center;
+      }
+
       .venture {
-        grid-template-columns: clamp(3rem, 16vw, 4rem) minmax(0, 1fr);
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 0.85rem;
+        padding: 1rem;
+      }
+
+      .venture-logo {
+        width: 4rem;
+        height: 4rem;
       }
 
       .venture-arrow {
         display: none;
       }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-link {
+        min-height: 3.25rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding-inline: 0.65rem;
+      }
+
+      .hero-name {
+        font-size: 1.32rem;
+        line-height: 1.08;
+      }
+
+      .spotlight-title {
+        font-size: 1.42rem;
+      }
+
+      .spotlight-tag,
+      .venture-tag {
+        font-size: 0.72rem;
+        line-height: 1.35;
+      }
+
+      .throughline {
+        grid-template-columns: 1fr;
+      }
+
     }
 
     @media (prefers-reduced-motion: reduce) {

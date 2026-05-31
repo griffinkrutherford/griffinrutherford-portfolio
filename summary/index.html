@@ -122,7 +122,21 @@
       gap: clamp(1rem, 4vw, 2rem);
     }
 
+    .hero-photo-link {
+      display: block;
+      width: fit-content;
+      border-radius: 999px;
+      transition: transform 200ms ease;
+    }
+
+    .hero-photo-link:hover,
+    .hero-photo-link:focus-visible {
+      transform: translateY(-2px);
+      outline: none;
+    }
+
     .hero-photo {
+      display: block;
       width: clamp(5rem, 18vw, 8rem);
       height: clamp(5rem, 18vw, 8rem);
       border-radius: 999px;
@@ -137,6 +151,18 @@
       line-height: 1;
       letter-spacing: 0.02em;
       text-transform: uppercase;
+    }
+
+    .hero-name-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hero-name-link:hover,
+    .hero-name-link:focus-visible {
+      color: var(--ink);
+      text-shadow: 0 0 18px rgba(255, 26, 77, 0.42);
+      outline: none;
     }
 
     .hero-role {
@@ -477,6 +503,7 @@
 
       .spotlight,
       .venture,
+      .hero-photo-link,
       .contact-link {
         transition: none;
       }
@@ -493,9 +520,11 @@
   <main class="page">
     <!-- Hero -->
     <header class="hero">
-      <img class="hero-photo" src="../images/linkedin-headshot.png" alt="Griffin Rutherford">
+      <a class="hero-photo-link" href="../" aria-label="Open Griffin Rutherford full portfolio">
+        <img class="hero-photo" src="../images/linkedin-headshot.png" alt="Griffin Rutherford">
+      </a>
       <div>
-        <h1 class="hero-name">Griffin Rutherford</h1>
+        <h1 class="hero-name"><a class="hero-name-link" href="../">Griffin Rutherford</a></h1>
         <p class="hero-role"><strong>CTO &amp; founder, Coherascent Labs.</strong> M.S. Computer Science, Colorado School of Mines. Building neuro-symbolic AI that brings real symbolic reasoning to language models &mdash; and reduces hallucination.</p>
       </div>
     </header>
@@ -571,14 +600,6 @@
         <a class="contact-link" href="https://github.com/griffinkrutherford" target="_blank" rel="noopener noreferrer">
           <i class="fa-brands fa-github" aria-hidden="true"></i>
           <span>GitHub</span>
-        </a>
-        <a class="contact-link" href="../business-card/">
-          <i class="fa-solid fa-address-card" aria-hidden="true"></i>
-          <span>Digital Business Card</span>
-        </a>
-        <a class="contact-link" href="../">
-          <i class="fa-solid fa-house" aria-hidden="true"></i>
-          <span>Full Portfolio</span>
         </a>
       </div>
     </section>

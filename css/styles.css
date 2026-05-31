@@ -140,6 +140,11 @@
     margin-bottom: 1rem;
 }
 
+.lune-section-title {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
 .lune-section-logo {
     flex: 0 0 auto;
     width: clamp(56px, 10vw, 76px);
@@ -191,13 +196,8 @@
     font-weight: 700;
 }
 
-.lune-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.lune-actions a {
+.lune-learn-more {
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -212,12 +212,26 @@
     transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.lune-actions a:hover,
-.lune-actions a:focus-visible {
+.lune-learn-more:hover,
+.lune-learn-more:focus-visible {
     transform: translateY(-2px);
     background: rgba(var(--primary-red-rgb), 0.18);
     border-color: var(--primary-red);
     outline: none;
+}
+
+@media (max-width: 560px) {
+    .lune-section-header {
+        flex-wrap: wrap;
+    }
+
+    .lune-section-title {
+        flex: 1 1 calc(100% - 92px);
+    }
+
+    .lune-learn-more {
+        width: 100%;
+    }
 }
 
 /* Instagram Grid */
@@ -1835,7 +1849,7 @@ body.liquid-glass-mode .social-links a {
         animation: none;
     }
 
-    .lune-actions a {
+    .lune-learn-more {
         transition: none;
     }
 }

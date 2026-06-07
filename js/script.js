@@ -1060,6 +1060,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function drawMaze() {
+      const rootStyles = getComputedStyle(document.documentElement);
+      const primaryColor = rootStyles.getPropertyValue('--primary-purple').trim() || '#6C1AFF';
+      const secondaryColor = rootStyles.getPropertyValue('--primary-red').trim() || '#FF1A4D';
+
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
@@ -1070,24 +1074,24 @@ document.addEventListener('DOMContentLoaded', function() {
           const y = row * window.pacmanCellSize + window.pacmanOffsetY;
           
           if (cell === 1) {
-            // Draw wall with better graphics
-            ctx.fillStyle = '#1919A6';
+            // Draw wall using theme primary color
+            ctx.fillStyle = primaryColor;
             ctx.fillRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
             
-            // Add highlights
-            ctx.strokeStyle = '#2929FF';
+            // Add highlights using theme secondary color
+            ctx.strokeStyle = secondaryColor;
             ctx.lineWidth = 1;
             ctx.strokeRect(x + 1, y + 1, window.pacmanCellSize - 2, window.pacmanCellSize - 2);
           } else if (cell === 2) {
-            // Draw pellet (scale with cell size)
-            ctx.fillStyle = '#FFB897';
+            // Draw pellet (scale with cell size) using secondary color
+            ctx.fillStyle = secondaryColor;
             ctx.beginPath();
             const pelletSize = Math.max(2, window.pacmanCellSize * 0.15);
             ctx.arc(x + window.pacmanCellSize/2, y + window.pacmanCellSize/2, pelletSize, 0, Math.PI * 2);
             ctx.fill();
           } else if (cell === 3) {
-            // Draw power pellet (larger, scale with cell size)
-            ctx.fillStyle = '#FFB897';
+            // Draw power pellet (larger, scale with cell size) using secondary color
+            ctx.fillStyle = secondaryColor;
             ctx.beginPath();
             const powerPelletSize = Math.max(4, window.pacmanCellSize * 0.3);
             ctx.arc(x + window.pacmanCellSize/2, y + window.pacmanCellSize/2, powerPelletSize, 0, Math.PI * 2);

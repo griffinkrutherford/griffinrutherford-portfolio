@@ -867,8 +867,10 @@ h3 {
 
   .theme-action-buttons {
     display: flex;
+    justify-content: center;
     gap: 8px;
     margin-top: 15px;
+    flex-wrap: wrap;
   }
 
   .theme-action-btn {
@@ -926,6 +928,54 @@ h3 {
     .theme-picker-panel {
       right: -10px;
       width: 290px;
+    }
+    .theme-action-buttons {
+      gap: 6px;
+    }
+    .theme-action-btn {
+      font-size: 0.8rem;
+      padding: 8px 6px;
+      gap: 4px;
+    }
+    .theme-action-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .theme-picker-panel {
+      width: 260px;
+      padding: 15px 12px;
+      max-width: calc(100vw - 30px);
+    }
+    .theme-action-buttons {
+      gap: 4px;
+    }
+    .theme-action-btn {
+      font-size: 0.72rem;
+      padding: 6px 4px;
+      gap: 2px;
+    }
+    .theme-action-btn svg {
+      width: 11px;
+      height: 11px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .theme-picker-panel {
+      width: 230px;
+      padding: 12px 10px;
+    }
+    .theme-action-btn {
+      font-size: 0.65rem;
+      padding: 5px 3px;
+      gap: 1px;
+    }
+    .theme-action-btn svg {
+      width: 9px;
+      height: 9px;
     }
   }
 
@@ -1796,8 +1846,8 @@ body.liquid-glass-mode .social-links a {
     border-radius: 15px;
     overflow: hidden;
     background: var(--primary-red);
-    border: 3px solid #0000FF;
-    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5),
+    border: 3px solid var(--primary-red);
+    box-shadow: 0 0 20px rgba(var(--primary-red-rgb), 0.5),
                 inset 0 0 10px rgba(255, 255, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
@@ -1806,7 +1856,7 @@ body.liquid-glass-mode .social-links a {
 
 .pacman-button-wrapper:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 0, 255, 0.7),
+    box-shadow: 0 0 30px rgba(var(--primary-red-rgb), 0.7),
                 0 0 15px rgba(255, 255, 0, 0.3);
 }
 

@@ -1193,11 +1193,11 @@ body.liquid-glass-mode .social-links a {
    90s MODE STYLES - TOTALLY RADICAL! 
    ======================================== */
 
-/* 90s Toggle Button - Matrix Re-themed */
+/* 90s Toggle Button - Re-themed using active secondary color */
 .nineties-toggle-btn {
-    background: #000;
-    border: 1px solid #00FF41;
-    color: #00FF41;
+    background: var(--primary-red);
+    border: 1px solid var(--primary-red);
+    color: #fff;
     padding: 12px 15px;
     cursor: pointer;
     font-weight: bold;
@@ -1207,14 +1207,15 @@ body.liquid-glass-mode .social-links a {
     text-align: left;
     font-size: 1rem;
     font-family: 'Courier New', Courier, monospace;
-    text-shadow: 0 0 5px #00FF41;
-    box-shadow: 0 0 5px rgba(0, 255, 65, 0.2);
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(var(--primary-red-rgb), 0.2);
 }
 
 .nineties-toggle-btn:hover {
     transform: scale(1.02);
-    box-shadow: 0 0 15px #00FF41;
-    background: #003300;
+    box-shadow: 0 0 15px var(--primary-red);
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
     color: #fff;
 }
 
@@ -1794,7 +1795,7 @@ body.liquid-glass-mode .social-links a {
     aspect-ratio: 5/3; /* Maintains 500:300 ratio */
     border-radius: 15px;
     overflow: hidden;
-    background: #000;
+    background: var(--primary-red);
     border: 3px solid #0000FF;
     box-shadow: 0 0 20px rgba(0, 0, 255, 0.5),
                 inset 0 0 10px rgba(255, 255, 0, 0.1);
@@ -1823,7 +1824,7 @@ body.liquid-glass-mode .social-links a {
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    color: #FFFF00;
+    color: #fff;
     font-size: 1.5rem;
     font-weight: bold;
     text-shadow: 2px 2px 0 #FF00FF,

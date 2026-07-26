@@ -14,7 +14,7 @@ Welcome to my personal portfolio website! This site serves as a digital hub for 
 - [Contact](#contact)
 
 ## About Me
-I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I'm adapting DPLL-style satisfiability methods into continuous vector spaces to reduce hallucination in large language models. That research underpins Lune Synth, an edtech app I've architected end to end. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
+I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I've architected Lune Synth, an edtech app built to give people honest, useful feedback instead of empty praise. What drives me is connecting people to technology rigorous enough to actually trust, rather than chasing flashy demos. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
 
 ## Features
 - **Responsive Design**: Optimized for desktop and mobile viewing.

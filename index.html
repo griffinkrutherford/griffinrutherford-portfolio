@@ -21,11 +21,10 @@
     <nav class="quick-links-nav">
       <ul>
         <li><a href="#about">About</a></li>
+        <li><a href="#ventures">Ventures</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#more">More about me</a></li>
         <li class="has-submenu">
-          <a href="#projects">Projects</a>
+          <a href="#labs">Labs</a>
           <ul class="submenu">
             <li><a href="gradient-descent-worksheet" target="_blank">
               <i class="fa-solid fa-chart-line project-nav-icon" aria-hidden="true"></i>
@@ -45,9 +44,8 @@
             </a></li>
           </ul>
         </li>
-        <li><a href="#organizations">Organizations</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#courses">Courses</a></li>
+        <li><a href="legacy/"><i class="fa-solid fa-clock-rotate-left"></i> Legacy Site</a></li>
         <li><button id="nineties-toggle" class="nineties-toggle-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;">
             <circle cx="12" cy="12" r="10"/>
@@ -174,12 +172,12 @@
                         </div>
                         <h1>Griffin Rutherford</h1>
                     </div>
-                    <h2>Chief Technology Officer @ Coherascent Labs and Pursuer of Well-Roundedness</h2>
+                    <h2>Chief Technology Officer @ Coherascent Labs &mdash; building neuro-symbolic AI that reduces hallucination in language models</h2>
                 </div>
 
                 <div class="about-section">
                     <h3 id="about">About</h3>
-                    <p>I am the Chief Technology Officer at Coherascent Labs with a background in autonomous agent architecture and an M.S. in Computer Science from Colorado School of Mines. Currently focused on adapting DPLL-style satisfiability methods into continuous vector spaces to reduce hallucination in large language models, while building <a class="lune-text" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a>, a 150k+ line app built on well-architected AI systems to help users study and refine whatever weak points a student may have. Also an avid outdoor recreationist with a deep interest in the intersection of mental and physical health.</p>
+                    <p>I run engineering at Coherascent Labs, where I'm adapting DPLL-style satisfiability methods into continuous vector spaces to make LLM reasoning more deterministic and trustworthy. That research underpins <a class="lune-text" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a>, a 150k+ line production app I've architected end to end. B.S./M.S. in Computer Science from Colorado School of Mines, with hands-on depth in transformer architectures and autonomous agents. Outside of work, an avid outdoor recreationist with a deep interest in the intersection of mental and physical health.</p>
                 </div>
 
                 <section class="lune-section" aria-label="Lune Synth">
@@ -206,6 +204,30 @@
                         <span>Practice what matters</span>
                     </div>
                 </section>
+            </section>
+
+<!-- Also Building Section -->
+<div class="experience-section" id="ventures">
+    <h3>Also Building</h3>
+    <div class="experience-item">
+      <a href="https://breakwaterops.com/" target="_blank" class="project-link">
+        <img src="images/breakwater-logo.png" alt="Breakwater Operations Logo" class="grid-image">
+      </a>
+      <a href="https://breakwaterops.com/" target="_blank" class="project-link">
+        <h4>Breakwater Operations &middot; Co-Founder</h4>
+      </a>
+      <p>A Santa Fe&ndash;based AI advisory practice cutting through vendor hype with honest readiness reviews and implementation guardrails, pairing my research depth with decades of operating experience.</p>
+    </div>
+    <div class="experience-item">
+      <a href="http://malestrum.com" target="_blank" class="project-link">
+        <img src="images/malestrum-logo.png" alt="Malestrum: The Third Phase Logo" class="grid-image">
+      </a>
+      <a href="http://malestrum.com" target="_blank" class="project-link">
+        <h4>Malestrum: The Third Phase &middot; Co-Host</h4>
+      </a>
+      <p>A father-son podcast on healthy masculinity and long-form conversation across a 50-year age gap &mdash; Gen-Z vs. Boomer takes on AI, work, and change.</p>
+    </div>
+</div>
 
 <!-- Experience Section -->
 <div class="section-wrapper collapsible">
@@ -225,34 +247,6 @@
             &bull; Investigating deterministic control layers, continuous DPLL-style reasoning, and optimization-based cognitive models<br>
             &bull; Translating research into Lune Synth, a 150k+ line edtech tool for handwritten reasoning, automated grading, and adaptive remediation<br>
             &bull; Building across Python, C++, PyTorch, AI CLI tools, and mobile phone emulation, drawing on hands-on experience with transformer architectures and autonomous agents
-          </p>
-        </div>
-        <div class="experience-item">
-          <a href="http://malestrum.com" target="_blank" class="project-link">
-            <img src="images/malestrum-logo.png" alt="Malestrum: The Third Phase Logo" class="grid-image">
-          </a>
-          <a href="http://malestrum.com" target="_blank" class="project-link">
-            <h4>Podcaster · Malestrum: The Third Phase</h4>
-          </a>
-          <p>
-            Mar 2025 - Present | Golden, Colorado, United States (Hybrid)<br>
-            &bull; Co-hosting a father-son podcast on healthy masculinity, intergenerational relationships, and long-form conversation<br>
-            &bull; Exploring Gen-Z vs. Boomer perspectives across AI, jobs, social change, echo chambers, and global uncertainty<br>
-            &bull; Building a thoughtful creative project around communication, reflection, and the perspective of a 50-year age gap
-          </p>
-        </div>
-        <div class="experience-item">
-          <a href="https://breakwaterops.com/" target="_blank" class="project-link">
-            <img src="images/breakwater-logo.png" alt="Breakwater Operations Logo" class="grid-image">
-          </a>
-          <a href="https://breakwaterops.com/" target="_blank" class="project-link">
-            <h4>Co-Founder, Technical Assessment · Breakwater Operations</h4>
-          </a>
-          <p>
-            May 2026 - Present | Santa Fe, New Mexico, United States (Hybrid)<br>
-            &bull; Co-founded a strategic AI advisory practice focused on practical assessment, readiness review, and responsible adoption<br>
-            &bull; Pairing technical AI research depth with operational strategy to separate useful opportunities from vendor hype<br>
-            &bull; Advising organizations on AI fit, audits, training, and implementation guardrails before tool selection or technical delivery
           </p>
         </div>
         <div class="experience-item">
@@ -293,49 +287,6 @@
             &bull; Applied multivariable calculus and probability/statistics concepts to the core positioning logic
           </p>
         </div>
-        <div class="experience-item">
-          <a href="https://www.mines.edu/residence-life/" target="_blank" class="project-link">
-            <img src="images/mines-logo.jpeg" alt="Mines Logo" class="grid-image">
-          </a>
-          <h4><a href="https://www.mines.edu/residence-life/" target="_blank" class="project-link">Resident Advisor · Colorado School of Mines</a></h4>
-          <p>
-            Jul 2022 - Nov 2022 | Golden, Colorado, United States (Part-time)<br>
-            &bull; Fostered community for upperclassmen by hosting community-building events and holding one-on-ones with around 50 residents<br>
-            &bull; Held desk and overnight phone duty throughout the semester
-          </p>
-        </div>
-        <!-- New Experiences -->
-        <div class="experience-item">
-          <a href="https://www.uberfreight.com/en-US" target="_blank" class="project-link">
-            <img src="images/uber-freight-logo.jpeg" alt="Uber Freight Logo" class="grid-image">
-          </a>
-          <h4><a href="https://www.uberfreight.com/en-US" target="_blank" class="project-link">Uber Freight: CS Field Session</a></h4>
-          <p>
-            May 2022 - Jun 2022 | Full-time<br>
-            &bull; Worked with an Uber employee on a team of four to create a self-documenting automation engine proof of concept in both Python and C++
-          </p>
-        </div>
-        <div class="experience-item">
-          <a href="https://cs.mines.edu/" target="_blank" class="project-link">
-            <img src="images/mines-logo.jpeg" alt="Mines Logo" class="grid-image">
-          </a>
-          <h4><a href="https://cs.mines.edu/" target="_blank" class="project-link">CSCI101 Mentor (Teaching Assistant)</a></h4>
-          <p>
-            Jan 2021 - May 2022 | Part-time<br>
-            &bull; Worked as both a TA and mentor, holding one-on-ones three times a semester for about 40 mentees<br>
-            &bull; Graded homework and exams, and held office hours
-          </p>
-        </div>
-        <div class="experience-item">
-          <a href="https://www.emnrd.nm.gov/spd/find-a-park/hyde-memorial-state-park/" target="_blank" class="project-link">
-            <img src="images/nm-state-parks-logo.jpeg" alt="New Mexico State Parks Logo" class="grid-image">
-          </a>
-          <h4><a href="https://www.emnrd.nm.gov/spd/find-a-park/hyde-memorial-state-park/" target="_blank" class="project-link">Trail Guide and Office Clerk · Hyde Memorial State Park</a></h4>
-          <p>
-            Jun 2021 - Aug 2021 | Full-time<br>
-            &bull; Guided conversations with park visitors, offered trail recommendations, and handled day-to-day logistics tied to park upkeep
-          </p>
-        </div>
       </div>
     </div>
     <button class="show-more-btn">Show More ↓</button>
@@ -344,73 +295,11 @@
 
   
 
-<!-- Education Section with Replicated Project Link Structure -->
-<div class="section-wrapper collapsible">
-  <div class="collapsible-content">
-      <div class="education-section" id="education">
-          <h3>Education</h3>
-          <div class="education-item">
-              <a href="https://www.mines.edu" target="_blank" class="project-link">
-                  <img src="images/mines-logo.jpeg" alt="Colorado School of Mines Logo" class="grid-image">
-              </a>
-              <h4><a href="https://www.mines.edu" target="_blank" class="project-link">Colorado School of Mines</a></h4>
-              <p>
-                  <strong>Bachelor and Master of Science, Computer Science</strong><br>
-                  2020 - 2025<br>
-                  Emphasis on Artificial Intelligence, Data Science, and Machine Learning. Completed both degrees simultaneously.<br>
-                  Skills: Communication · Machine Learning · Object-Oriented Programming (OOP)
-              </p>
-          </div>
-          <div class="education-item">
-              <a href="https://www.sfprep.org" target="_blank" class="project-link">
-                  <img src="images/santa-fe-prep-logo.jpeg" alt="Santa Fe Preparatory School Logo" class="grid-image">
-              </a>
-              <h4><a href="https://www.sfprep.org" target="_blank" class="project-link">Santa Fe Preparatory School</a></h4>
-              <p>
-                  High School Diploma<br>
-                  2015 - 2020<br>
-                  Activities: Cross Country and Track Captain; Musical Theater (Roles in "Curtains" and "In The Heights")
-              </p>
-          </div>
-      </div>
-  </div>
-  <button class="show-more-btn">Show More ↓</button>
-</div>
-  
-
-            <!-- Instagram Section -->
-            <section class="instagram-section">
-                <h3 id="more">More about me</h3>
-                <h2>Life of Adventure</h2>
-                <div class="instagram-grid">
-                    <div class="ig-post">
-                        <a href="https://www.instagram.com/p/Cvgq7rvOr7U/?img_index=1" target="_blank" rel="noopener noreferrer">
-                            <img src="images/alpine-lake-selfie.png" alt="Alpine Lake trail selfie">
-                        </a>
-                    </div>
-                    <div class="ig-post">
-                        <a href="https://www.instagram.com/p/C60CAAMOgxm/?img_index=1" target="_blank" rel="noopener noreferrer">
-                            <img src="images/graduation-ceremony.png" alt="Bachelor's graduation ceremony">
-                        </a>
-                    </div>
-                    <div class="ig-post">
-                        <a href="https://www.instagram.com/p/CycTI1lOwTn/?img_index=1" target="_blank" rel="noopener noreferrer">
-                            <img src="images/aspen-sunset-poodle.png" alt="Aspen sunset with pet poodle">
-                        </a>
-                    </div>
-                    <div class="ig-post">
-                        <a href="https://www.instagram.com/p/Coieae0OkO-/" target="_blank" rel="noopener noreferrer">
-                            <img src="images/calculus-mountain.png" alt="Calculus 2 notebook on mountain top">
-                        </a>
-                    </div>
-                </div>
-            </section>
-
 <!-- Projects Section -->
 <div class="section-wrapper collapsible">
   <div class="collapsible-content projects-content">
-      <div class="projects-section" id="projects">
-          <h3>Projects <span style="font-size: 0.8em; font-weight: normal; color: var(--accent-purple);">(some with live demos below)</span></h3>
+      <div class="projects-section" id="labs">
+          <h3>Labs <span style="font-size: 0.8em; font-weight: normal; color: var(--accent-purple);">(R&amp;D and live demos)</span></h3>
           <div class="experience-item">
             <a href="gradient-descent-worksheet" target="_blank" class="project-link">
                 <img src="images/marbowl2.png" alt="Stochastic Gradient Descent Made Fun artwork" class="grid-image sgd-project-image">
@@ -452,26 +341,6 @@
               </p>
           </div>
           <div class="experience-item">
-            <a href="HIPAA-Final-Report.pdf" target="_blank" class="project-link">
-              <img src="images/hipaa-research-logo.jpeg" alt="HIPAA Research Logo" class="grid-image">
-            </a>
-            <h4><a href="HIPAA-Final-Report.pdf" target="_blank" class="project-link">HIPAA in Security and Privacy Research</a></h4>
-            <p>
-              Jan 2025 - May 2025 | Colorado School of Mines<br>
-              A collaborative research paper analyzing the gap between expectations and reality of health data governance in wearable technology companies.
-            </p>
-          </div>
-          <div class="experience-item">
-            <a href="Darknet-53-Presentation.pdf" target="_blank" class="project-link">
-              <img src="images/darknet-logo.jpg" alt="Darknet-53 Logo" class="grid-image">
-            </a>
-            <h4><a href="Darknet-53-Presentation.pdf" target="_blank" class="project-link">Darknet-53 Breast Cancer Detection Presentation</a></h4>
-            <p>
-              Jan 2025 - Mar 2025 | Colorado School of Mines<br>
-              A collaboration with a licensed Dentist/Orthodontist exploring ML-driven applications that significantly improve tumor detection rates in healthcare.
-            </p>
-          </div>
-          <div class="experience-item">
             <img src="images/satplan-logo.jpg" alt="SATPLAN Solver Logo" class="grid-image">
             <h4>SATPLAN Solver</h4>
             <p>
@@ -479,514 +348,23 @@
               A Lisp implementation encoding complex problems like the Tower of Hanoi into CNF (Conjunctive Normal Form) with thousands of logical propositions, using DPLL-based SAT solving to demonstrate practical applications in AI planning.
             </p>
           </div>
-          <div class="experience-item">
-              <a href="HASS465-Final-Paper.pdf" target="_blank" class="project-link">
-                <img src="images/hass465-logo.png" alt="HASS465 Logo" class="grid-image">
-              </a>
-              <h4><a href="HASS465-Final-Paper.pdf" target="_blank" class="project-link">HASS465: The Good Life Final Paper</a></h4>
-              <p>
-                  Jan 2024 - Apr 2024 | Colorado School of Mines<br>
-                  A research project synthesizing diverse perspectives on happiness and the good life, integrating insights from various disciplines.
-              </p>
-          </div>
-          <div class="experience-item">
-              <img src="images/clue-game-logo.png" alt="Clue Game Logo" class="grid-image">
-              <h4>Clue Game</h4>
-              <p>
-                  Mar 2022 - May 2022 | Colorado School of Mines<br>
-                  A digital adaptation of the board game Clue using Java, showcasing object-oriented design and SOLID principles.
-              </p>
-          </div>
       </div>
   </div>
   <button class="show-more-btn">Show More ↓</button>
 </div>
   
 
-<!-- Organizations Section with Logos -->
-<div class="section-wrapper collapsible">
-  <div class="collapsible-content">
-      <div class="organizations-section" id="organizations">
-          <h3>Organizations</h3>
-          <div class="experience-item">
-            <img src="images/santa-fe-striders-logo.webp" alt="Santa Fe Striders Logo" class="grid-image">
-            <h4>Santa Fe Striders</h4>
-            <p>Member · Jun 2026 - Present<br>An inclusive, volunteer-led running club founded in 1978 that promotes healthy living throughout Northern New Mexico through weekly group runs, community events, and races that support scholarships and local nonprofits.</p>
-        </div>
-          <div class="experience-item">
-            <img src="images/santa-fe-builders.avif" alt="Santa Fe Builders Logo" class="grid-image">
-            <h4>Santa Fe Builders</h4>
-            <p>Member · May 2026 - Present<br>A Santa Fe community for coders, builders, and tech-curious creators who want to make things, share support, and connect with like-minded people in the local tech scene.</p>
-        </div>
-          <div class="experience-item">
-            <img src="images/toastmasters-logo.jpg" alt="Toastmasters Logo" class="grid-image">
-            <h4>Toastmasters International</h4>
-            <p>Active Member · Mar 2025 - Jun 2025<br>A global community dedicated to empowering individuals through public speaking, leadership, and effective communication. Recognized worldwide since 1924, I hone my skills in delivering impactful presentations and fostering meaningful connections. As an active member, I engage in dynamic workshops, speech contests, and mentorship opportunities—sharpening my voice while inspiring others to find theirs!</p>
-        </div>
-          <div class="experience-item">
-              <img src="images/mines-alpine-club-logo.png" alt="Mines Alpine Club Logo" class="grid-image">
-              <h4>Mines Alpine Club</h4>
-              <p>Vice President and Director of Hiking and Trail Running · Aug 2023 - May 2025<br>An official club uniting diverse outdoorsy interests like hiking, climbing, skiing, mountaineering, and snowboarding. Recognized by Colorado School of Mines in 2024, I share my passion for rugged trails and thrilling slopes. Also involved in a heavy weightlifting group I met through the club to pursue my hobbyist bodybuilding goals!</p>
-          </div>
-          <div class="experience-item">
-              <img src="images/ato-logo.png" alt="Alpha Tau Omega Logo" class="grid-image">
-              <h4>Alpha Tau Omega Fraternity</h4>
-              <p>Philanthropy Chair, Alumnus · Jan 2022 - May 2024<br>A tight-knit fraternity fostering academic and social excellence. As Philanthropy Chair, I organized collaborative volunteer initiatives—from blood drives to Habitat for Humanity trips—to support community causes.</p>
-          </div>
-          <div class="experience-item">
-              <img src="images/mines-ballroom-logo.jpeg" alt="Ballroom Dance Club Logo" class="grid-image">
-              <h4>Ballroom Dance Club (Swing Dance)</h4>
-              <p>Aug 2023 - Dec 2023<br>Engaged in swing dance lessons and choreography practices, embracing creative movement and vibrant social interaction.</p>
-          </div>
-          <div class="experience-item">
-              <img src="images/amrc-logo.jpg" alt="Adventure Mountain Running Club Logo" class="grid-image">
-              <h4>Adventure Mountain Running Club</h4>
-              <p>Founder · May 2021 - May 2022<br>Established a mountain running group for 13er and 14er trails, celebrating endurance and camaraderie—now merged into the Running Club.</p>
-          </div>
-      </div>
-  </div>
-  <button class="show-more-btn">Show More ↓</button>
-</div>
-
-  
-  
-  <!-- Updated Courses Section -->
-<div class="section-wrapper collapsible">
-  <div class="collapsible-content">
-    <div class="courses-section">
-      <h3 id="courses">Courses</h3>
-
-      <!-- Row 1: Left-to-Right (Fastest) -->
-      <div class="courses-container">
-        <div class="courses-row row-left">
-          <!-- Group 1 with new courses -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div> <!-- Graduate -->
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div> <!-- Graduate, Data Science -->
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div> <!-- Graduate -->
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div> <!-- Graduate, ML -->
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div> <!-- Challenging -->
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div> <!-- Graduate, ML, Challenging -->
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div> <!-- Challenging -->
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div> <!-- Graduate -->
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div> <!-- Graduate -->
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div> <!-- Challenging -->
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div> <!-- Graduate -->
-          <!-- Duplicate for seamless loop -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-        </div>
-      </div>
-
-      <!-- Row 2: Right-to-Left (Infinite content on left) -->
-      <div class="courses-container">
-        <div class="courses-row row-right">
-          <!-- Group 2 with new courses, tripled -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div> <!-- Data Science -->
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div> <!-- ML -->
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div> <!-- Graduate, ML -->
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div> <!-- Graduate -->
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Second copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Third copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-        </div>
-      </div>
-
-      <!-- Row 3: Left-to-Right -->
-      <div class="courses-container">
-        <div class="courses-row row-left-slow">
-          <!-- Reuse Group 1 -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-          <!-- Duplicate -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-        </div>
-      </div>
-
-      <!-- Row 4: Right-to-Left (Infinite content on left) -->
-      <div class="courses-container">
-        <div class="courses-row row-right-slow">
-          <!-- Group 2, tripled -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Second copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Third copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-        </div>
-      </div>
-
-      <!-- Row 5: Left-to-Right -->
-      <div class="courses-container">
-        <div class="courses-row row-left-slower">
-          <!-- Reuse Group 1 -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-          <!-- Duplicate -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-        </div>
-      </div>
-
-      <!-- Row 6: Right-to-Left (Infinite content on left) -->
-      <div class="courses-container">
-        <div class="courses-row row-right-slower">
-          <!-- Group 2, tripled -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Second copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-          <!-- Third copy -->
-          <div class="course-item highlight-course">Introduction to Data Science (CSCI303)</div>
-          <div class="course-item highlight-course">Introduction to Machine Learning (CSCI470)</div>
-          <div class="course-item">Introduction to Probability (MATH334)</div>
-          <div class="course-item">Introduction to Scientific Computing (MATH307)</div>
-          <div class="course-item highlight-course">Large Language Models (MATH598B)</div>
-          <div class="course-item">Linear Algebra (MATH332)</div>
-          <div class="course-item">Nature and Human Values (HASS100)</div>
-          <div class="course-item">Operating Systems (CSCI442)</div>
-          <div class="course-item">Philosophies of Life (HASS299)</div>
-          <div class="course-item">Physics I- Mechanics (PHGN100)</div>
-          <div class="course-item">Physics II- Electromagnetism and Optics (PHGN200)</div>
-          <div class="course-item">Principles of Chemistry I (CHGN121)</div>
-          <div class="course-item">Principles of Economics (EBGN201)</div>
-          <div class="course-item">Principles of Programming Languages (CSCI400)</div>
-          <div class="course-item highlight-course">Statistical Methods I (DSCI530)</div>
-          <div class="course-item">Tech Startups (CSCI498)</div>
-          <div class="course-item">The Good Life, from Aristotle to the Anthropocene (HASS465)</div>
-          <div class="course-item">Wilderness in America (HASS498A)</div>
-        </div>
-      </div>
-
-      <!-- Row 7: Left-to-Right (Slowest) -->
-      <div class="courses-container">
-        <div class="courses-row row-left-slowest">
-          <!-- Reuse Group 1 -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-          <!-- Duplicate -->
-          <div class="course-item highlight-course">Advanced Computer Architecture (CSCI564)</div>
-          <div class="course-item highlight-course">Advanced Data Science (CSCI503)</div>
-          <div class="course-item highlight-course">Advanced Elements of Games and Game Development (CSCI577)</div>
-          <div class="course-item highlight-course">Advanced Machine Learning (CSCI575)</div>
-          <div class="course-item highlight-course">Advanced Software Engineering (CSCI370)</div>
-          <div class="course-item">Algorithms (CSCI406)</div>
-          <div class="course-item highlight-course">Artificial Intelligence (CSCI571)</div>
-          <div class="course-item">Calculus for Scientists and Engineers II (MATH112)</div>
-          <div class="course-item highlight-course">Calculus for Scientists and Engineers III (MATH213)</div>
-          <div class="course-item">Computer Organization (CSCI341)</div>
-          <div class="course-item highlight-course">Computer Science Practices and Technological Impacts on Society (CSED530)</div>
-          <div class="course-item">Data Structures (CSCI262)</div>
-          <div class="course-item">Database Management (CSCI403)</div>
-          <div class="course-item">Design I (EDNS151)</div>
-          <div class="course-item">Differential Equations (MATH225)</div>
-          <div class="course-item">Discrete Math (CSCI358)</div>
-          <div class="course-item">Elements of Games and Game Development (CSCI477)</div>
-          <div class="course-item">Environmental Communication (HASS419)</div>
-          <div class="course-item">Global Studies (HASS200)</div>
-          <div class="course-item highlight-course">Human Factors in Privacy and Security (CSCI598E)</div>
-          <div class="course-item">Information Security and Privacy (CSCI475)</div>
-          <div class="course-item">Introduction to Computer Science (CSCI101)</div>
-          <div class="course-item highlight-course">Probability and Statistics (MATH201)</div>
-          <div class="course-item">Programming Concepts (CSCI261)</div>
-          <div class="course-item">Software Engineering (CSCI306)</div>
-          <div class="course-item highlight-course">Theory of Computation (CSCI561)</div>
-        </div>
-      </div>
-
+<!-- Community Section -->
+<div class="organizations-section" id="community">
+    <h3>Community</h3>
+    <div class="experience-item">
+      <img src="images/santa-fe-builders.avif" alt="Santa Fe Builders Logo" class="grid-image">
+      <h4>Santa Fe Builders</h4>
+      <p>Member · May 2026 - Present<br>A Santa Fe community for coders, builders, and tech-curious creators who want to make things, share support, and connect with like-minded people in the local tech scene.</p>
     </div>
-  </div>
-  <button class="show-more-btn">Show More ↓</button>
 </div>
+
+
   
             <!-- Skills Section -->
             <h3 id="skills">Skills</h3>
@@ -1045,31 +423,6 @@
                             <li>Presentation Skills</li>
                         </ul>
                     </div>
-                    <div class="skill-category">
-                        <h4>Academic</h4>
-                        <ul class="skills-list">
-                            <li>Mathematics</li>
-                            <li>Calculus</li>
-                            <li>Argumentation</li>
-                            <li>Active Listening</li>
-                            <li>Critical Thinking</li>
-                            <li>Research</li>
-                            <li>Academic Writing</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h4>Personal Interests</h4>
-                        <ul class="skills-list">
-                            <li>Trail Running</li>
-                            <li>Snowboarding</li>
-                            <li>Bodybuilding</li>
-                            <li>Taekwondo</li>
-                            <li>Nature Photography</li>
-                            <li>Musical Theatre</li>
-                            <li>Songwriting</li>
-                            <li>Social Media Content Creation</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 
@@ -1080,8 +433,9 @@
                 <a href="https://www.linkedin.com/in/griffinkwanrutherford/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
                 <a href="https://www.instagram.com/grifywify/" target="_blank"><i class="fab fa-instagram"></i> Instagram Adventures</a>
                 <a href="https://github.com/griffinkrutherford" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="legacy/"><i class="fa-solid fa-clock-rotate-left"></i> Legacy Site</a>
             </div>
-            
+
             <!-- 90s Mode Button with Pac-Man Game -->
             <div class="nineties-button-container">
                 <a href="90s.html" class="pacman-button-wrapper">

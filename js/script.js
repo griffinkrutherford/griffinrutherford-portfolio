@@ -62,8 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (ninetiesToggle) {
       ninetiesToggle.addEventListener('click', function() {
-        // Redirect to 90s page
-        window.location.href = '90s.html';
+        // Redirect to 90s page (resolve relative to legacy subpage too)
+        const base = window.location.pathname.includes('/legacy/') ? '../' : '';
+        window.location.href = base + '90s.html';
       });
     }
   });

@@ -2,7 +2,7 @@
 
 # Griffin Rutherford - Personal Portfolio
 
-Welcome to my personal portfolio website! This site serves as a digital hub to showcase my journey as a Computer Science graduate student, my professional experiences, projects, and passions. Built with modern web technologies, it reflects my technical skills and love for clean, interactive design.
+Welcome to my personal portfolio website! This site serves as a digital hub for what I'm building — Coherascent Labs, Lune Synth, and Breakwater Operations — along with my technical background and passions. Built with modern web technologies, it reflects my technical skills and love for clean, interactive design. The original resume-style site lives on at [`/legacy`](legacy/index.html).
 
 ## Table of Contents
 - [About Me](#about-me)
@@ -14,15 +14,14 @@ Welcome to my personal portfolio website! This site serves as a digital hub to s
 - [Contact](#contact)
 
 ## About Me
-I'm Griffin Rutherford, a Combined BS+MS Computer Science graduate from Colorado School of Mines (2020–2025), with a focus on Data Science and Machine Learning. I'm passionate about mental and physical health tech, as seen in my work founding Coherascent—a holistic well-being platform. Beyond tech, I'm an athlete, adventurer, and community builder, always striving to be well-rounded.
+I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I'm adapting DPLL-style satisfiability methods into continuous vector spaces to reduce hallucination in large language models. That research underpins Lune Synth, an edtech app I've architected end to end. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
 
 ## Features
 - **Responsive Design**: Optimized for desktop and mobile viewing.
-- **Interactive Elements**: Collapsible sections for Experience, Education, Projects, and more.
+- **Interactive Elements**: Collapsible sections for Experience, Labs, and more.
 - **Video Header**: A dynamic intro video with my name overlay.
 - **Social Integration**: Links to LinkedIn and Instagram for professional and personal insights.
-- **Quick Links Menu**: Easy navigation to key sections like About, Experience, and Skills.
-- **Courses Carousel**: A scrolling display of my academic coursework.
+- **Quick Links Menu**: Easy navigation to key sections like About, Ventures, and Experience.
 
 ## Technologies Used
 - **HTML5**: Structure and content.

@@ -128,21 +128,21 @@
 /* Also Building cards: primary/secondary colors inverted so ventures stand out */
 #ventures.experience-item,
 #ventures .experience-item {
-    background: linear-gradient(45deg, var(--content-bg), rgba(var(--primary-red-rgb), 0.12));
+    background: linear-gradient(45deg, rgba(var(--primary-red-rgb), 0.6), rgba(var(--primary-red-rgb), 0.32));
     border-color: var(--primary-red);
 }
 
 #ventures .experience-item h4 .project-link,
 #ventures .experience-item h4 a.project-link,
 #ventures .experience-item a.project-link h4 {
-    color: var(--primary-purple);
+    color: #F8F1FF;
 }
 
 #ventures .experience-item h4 .project-link:hover,
 #ventures .experience-item h4 a.project-link:hover,
 #ventures .experience-item a.project-link:hover h4 {
-    color: var(--accent-red);
-    text-shadow: 0 0 10px rgba(var(--primary-red-rgb), 0.7);
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
 }
 
 .lune-section {

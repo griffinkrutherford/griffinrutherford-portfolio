@@ -222,6 +222,7 @@
       font-size: .92rem;
       color: var(--accent-gold);
       margin-bottom: 12px;
+      padding-right: 26px;
     }
 
     .legend p {
@@ -231,6 +232,34 @@
     }
 
     .legend p + p { margin-top: 10px; }
+
+    .legend-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background 0.15s ease;
+    }
+
+    .legend-close:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .legend.is-hidden {
+      display: none;
+    }
 
     .panel {
       min-height: calc(100vh - 48px);
@@ -590,6 +619,7 @@
         </div>
 
         <div class="legend">
+          <button type="button" class="legend-close" aria-label="Close How To Read It panel" onclick="this.closest('.legend').classList.add('is-hidden')">&times;</button>
           <h3>How To Read It</h3>
           <p>Warm ridges are positive displacement, cool troughs are negative displacement, and the glossy lighting comes from the local surface slope of the membrane.</p>
           <p>With the boundary clamped to zero, waves reflect off the square edge, interfere with one another, and can lock into standing patterns when the initial shape matches an eigenmode.</p>

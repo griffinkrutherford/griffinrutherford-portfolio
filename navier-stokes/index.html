@@ -219,6 +219,7 @@
     font-size:.92rem;
     color:var(--accent-gold);
     margin-bottom:12px;
+    padding-right:26px;
   }
 
   .legend p{
@@ -228,6 +229,34 @@
   }
 
   .legend p + p{margin-top:10px}
+
+  .legend-close{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.08);
+    color:var(--muted);
+    font-size:15px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    transition:background .15s ease;
+  }
+
+  .legend-close:hover{
+    background:rgba(255,255,255,.18);
+  }
+
+  .legend.is-hidden{
+    display:none;
+  }
 
   .panel{
     min-height:calc(100vh - 48px);
@@ -566,6 +595,7 @@
       <canvas id="view" aria-label="Navier-Stokes fluid simulation"></canvas>
 
       <aside class="legend">
+        <button type="button" class="legend-close" aria-label="Close How to Use It panel" onclick="this.closest('.legend').classList.add('is-hidden')">&times;</button>
         <h3>How to Use It</h3>
         <p>Drag across the canvas to inject dye and momentum. Hold <span class="kbd">Shift</span> while dragging to paint obstacles into the flow.</p>
         <p>Scroll to change brush size, toggle emitters for a continuous source, or switch color modes to emphasize speed, dye concentration, or rainbow turbulence.</p>

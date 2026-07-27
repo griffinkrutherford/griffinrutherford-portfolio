@@ -302,7 +302,7 @@ html, body {
 .adventure-carousel-3d {
     position: relative;
     width: 100%;
-    height: 520px;
+    height: 600px;
     margin: 2.5rem auto;
     perspective: 1700px;
     overflow: hidden;
@@ -323,33 +323,33 @@ html, body {
 }
 
 .ring-front {
-    --ty: 90px;
-    --tz: 60px;
-    width: 170px;
-    height: 226px;
-    margin: -113px 0 0 -85px;
+    --ty: 140px;
+    --tz: 50px;
+    width: 140px;
+    height: 186px;
+    margin: -93px 0 0 -70px;
     animation-name: carousel-spin-cw;
     animation-duration: 46s;
     z-index: 3;
 }
 
 .ring-mid {
-    --ty: -10px;
-    --tz: -60px;
-    width: 130px;
-    height: 173px;
-    margin: -86.5px 0 0 -65px;
+    --ty: 0px;
+    --tz: -50px;
+    width: 108px;
+    height: 144px;
+    margin: -72px 0 0 -54px;
     animation-name: carousel-spin-ccw;
     animation-duration: 34s;
     z-index: 2;
 }
 
 .ring-back {
-    --ty: -100px;
-    --tz: -180px;
-    width: 100px;
-    height: 133px;
-    margin: -66.5px 0 0 -50px;
+    --ty: -160px;
+    --tz: -150px;
+    width: 82px;
+    height: 109px;
+    margin: -54.5px 0 0 -41px;
     animation-name: carousel-spin-cw;
     animation-duration: 26s;
     z-index: 1;
@@ -371,16 +371,16 @@ html, body {
 }
 
 .ring-front .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(400px);
+    transform: rotateY(calc(var(--i) * 24deg)) translateZ(340px);
 }
 
 .ring-mid .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(306px);
+    transform: rotateY(calc(var(--i) * 24deg)) translateZ(265px);
     filter: brightness(0.93);
 }
 
 .ring-back .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(235px);
+    transform: rotateY(calc(var(--i) * 24deg)) translateZ(205px);
     filter: brightness(0.85);
 }
 
@@ -411,6 +411,100 @@ html, body {
     .carousel-ring {
         animation: none;
     }
+}
+
+/* Photo Picker Modal */
+.photo-picker-modal[hidden] {
+    display: none;
+}
+
+.photo-picker-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-picker-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 5, 20, 0.75);
+    backdrop-filter: blur(4px);
+}
+
+.photo-picker-panel {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 48px);
+    max-width: 420px;
+    background: var(--content-bg);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.photo-picker-panel h3 {
+    color: var(--accent-purple);
+    margin-bottom: 0.6rem;
+    font-size: 1.4rem;
+}
+
+.photo-picker-panel p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.photo-picker-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.photo-picker-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: 14px;
+    background: linear-gradient(45deg, var(--primary-red), var(--primary-purple));
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-picker-option:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(var(--primary-red-rgb), 0.4);
+}
+
+.photo-picker-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.photo-picker-close:hover {
+    background: rgba(255, 255, 255, 0.18);
 }
 
 /* Social Links */
@@ -486,44 +580,44 @@ html, body {
     }
 
     .adventure-carousel-3d {
-        height: 340px;
+        height: 380px;
         perspective: 1100px;
     }
 
     .ring-front {
-        --ty: 56px;
-        --tz: 37px;
-        width: 105px;
-        height: 140px;
-        margin: -70px 0 0 -52.5px;
+        --ty: 87px;
+        --tz: 31px;
+        width: 87px;
+        height: 115px;
+        margin: -57.5px 0 0 -43.5px;
     }
 
     .ring-mid {
-        --ty: -6px;
-        --tz: -37px;
-        width: 80px;
-        height: 107px;
-        margin: -53.5px 0 0 -40px;
+        --ty: 0px;
+        --tz: -31px;
+        width: 67px;
+        height: 89px;
+        margin: -44.5px 0 0 -33.5px;
     }
 
     .ring-back {
-        --ty: -62px;
-        --tz: -112px;
-        width: 62px;
-        height: 83px;
-        margin: -41.5px 0 0 -31px;
+        --ty: -99px;
+        --tz: -93px;
+        width: 51px;
+        height: 68px;
+        margin: -34px 0 0 -25.5px;
     }
 
     .ring-front .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(248px);
+        transform: rotateY(calc(var(--i) * 24deg)) translateZ(211px);
     }
 
     .ring-mid .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(190px);
+        transform: rotateY(calc(var(--i) * 24deg)) translateZ(164px);
     }
 
     .ring-back .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(146px);
+        transform: rotateY(calc(var(--i) * 24deg)) translateZ(127px);
     }
 
     h2 {

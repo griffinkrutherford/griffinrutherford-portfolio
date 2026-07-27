@@ -302,8 +302,8 @@ html, body {
 .adventure-carousel-3d {
     position: relative;
     width: 100%;
-    height: 600px;
-    margin: 2.5rem auto;
+    height: 560px;
+    margin: 1.25rem auto;
     perspective: 1700px;
     overflow: hidden;
 }
@@ -323,7 +323,7 @@ html, body {
 }
 
 .ring-front {
-    --ty: 140px;
+    --ty: 199px;
     --tz: 50px;
     width: 140px;
     height: 186px;
@@ -580,12 +580,12 @@ html, body {
     }
 
     .adventure-carousel-3d {
-        height: 380px;
+        height: 390px;
         perspective: 1100px;
     }
 
     .ring-front {
-        --ty: 87px;
+        --ty: 123px;
         --tz: 31px;
         width: 87px;
         height: 115px;

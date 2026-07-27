@@ -317,17 +317,42 @@ html, body {
     animation-iteration-count: infinite;
 }
 
-.adventure-carousel-3d:hover .carousel-ring,
-.adventure-carousel-3d:focus-within .carousel-ring {
+.adventure-carousel-3d.is-paused .carousel-ring {
     animation-play-state: paused;
 }
 
+.carousel-pause-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 4;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(8, 11, 26, 0.6);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s ease;
+}
+
+.carousel-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
 .ring-front {
-    --ty: 199px;
+    --ty: 160px;
     --tz: 50px;
-    width: 140px;
-    height: 186px;
-    margin: -93px 0 0 -70px;
+    width: 82px;
+    height: 109px;
+    margin: -54.5px 0 0 -41px;
     animation-name: carousel-spin-cw;
     animation-duration: 46s;
     z-index: 3;
@@ -371,16 +396,16 @@ html, body {
 }
 
 .ring-front .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(340px);
+    transform: rotateY(calc(var(--i) * 24deg)) translateZ(205px);
 }
 
 .ring-mid .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(265px);
+    transform: rotateY(calc(var(--i) * 21.18deg)) translateZ(289px);
     filter: brightness(0.93);
 }
 
 .ring-back .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(205px);
+    transform: rotateY(calc(var(--i) * 25.71deg)) translateZ(180px);
     filter: brightness(0.85);
 }
 
@@ -585,11 +610,11 @@ html, body {
     }
 
     .ring-front {
-        --ty: 123px;
+        --ty: 99px;
         --tz: 31px;
-        width: 87px;
-        height: 115px;
-        margin: -57.5px 0 0 -43.5px;
+        width: 51px;
+        height: 68px;
+        margin: -34px 0 0 -25.5px;
     }
 
     .ring-mid {
@@ -609,15 +634,15 @@ html, body {
     }
 
     .ring-front .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(211px);
+        transform: rotateY(calc(var(--i) * 24deg)) translateZ(127px);
     }
 
     .ring-mid .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(164px);
+        transform: rotateY(calc(var(--i) * 21.18deg)) translateZ(179px);
     }
 
     .ring-back .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(127px);
+        transform: rotateY(calc(var(--i) * 25.71deg)) translateZ(111px);
     }
 
     h2 {

@@ -156,6 +156,23 @@
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
 }
 
+/* Education cards: same inverted color scheme as Also Building */
+#education .education-item {
+    background: linear-gradient(45deg, rgba(var(--primary-red-rgb), 0.6), rgba(var(--primary-red-rgb), 0.32));
+    border-color: var(--primary-red);
+}
+
+#education .education-item h4 .project-link,
+#education .education-item h4 a.project-link {
+    color: #F8F1FF;
+}
+
+#education .education-item h4 .project-link:hover,
+#education .education-item h4 a.project-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
+}
+
 .lune-section {
     margin: 1.5rem 0 2rem;
     padding: clamp(1.2rem, 3vw, 1.8rem);
@@ -490,8 +507,9 @@ h3 {
   border: none;
   color: var(--accent-red);
   cursor: pointer;
-  padding: 5px 0;
+  padding: 8px 4px;
   font-weight: bold;
+  font-size: 1.08rem;
   margin-top: 10px;
 }
 
@@ -546,14 +564,14 @@ h3 {
     position: fixed; /* Changed from absolute to fixed */
     bottom: 40px;
     right: 40px;
-    width: 60px;         /* Slightly smaller size */
-    height: 60px;
+    width: 72px;
+    height: 72px;
     background-color: var(--primary-red);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;   /* More appropriate size */
+    font-size: 3rem;
     color: #fff;
     cursor: pointer;
     z-index: 1000;       /* Higher z-index */
@@ -1964,24 +1982,24 @@ body.liquid-glass-mode .social-links a {
     text-decoration: none;
     white-space: nowrap;
     text-shadow:
-        0 0 4px rgba(var(--primary-red-rgb), 0.95),
-        0 0 12px rgba(var(--primary-red-rgb), 0.8),
-        0 0 24px rgba(var(--primary-red-rgb), 0.6);
+        0 0 3px rgba(var(--primary-red-rgb), 0.65),
+        0 0 8px rgba(var(--primary-red-rgb), 0.5),
+        0 0 15px rgba(var(--primary-red-rgb), 0.35);
     animation: lune-glow 2.8s ease-in-out infinite;
 }
 
 @keyframes lune-glow {
     0%, 100% {
         text-shadow:
-            0 0 4px rgba(var(--primary-red-rgb), 0.95),
-            0 0 12px rgba(var(--primary-red-rgb), 0.8),
-            0 0 24px rgba(var(--primary-red-rgb), 0.6);
+            0 0 3px rgba(var(--primary-red-rgb), 0.65),
+            0 0 8px rgba(var(--primary-red-rgb), 0.5),
+            0 0 15px rgba(var(--primary-red-rgb), 0.35);
     }
     50% {
         text-shadow:
-            0 0 7px rgba(var(--primary-red-rgb), 1),
-            0 0 18px rgba(var(--primary-red-rgb), 0.9),
-            0 0 34px rgba(var(--primary-red-rgb), 0.7);
+            0 0 5px rgba(var(--primary-red-rgb), 0.75),
+            0 0 12px rgba(var(--primary-red-rgb), 0.6),
+            0 0 22px rgba(var(--primary-red-rgb), 0.45);
     }
 }
 

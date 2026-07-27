@@ -302,7 +302,7 @@ html, body {
 .adventure-carousel-3d {
     position: relative;
     width: 100%;
-    height: 560px;
+    height: 860px;
     margin: 1.25rem auto;
     perspective: 1700px;
     overflow: hidden;
@@ -347,36 +347,58 @@ html, body {
     background: rgba(255, 255, 255, 0.18);
 }
 
-.ring-front {
-    --ty: 160px;
-    --tz: 50px;
+.ring-band1 {
+    --ty: -294px;
+    --tz: -120px;
+    width: 95px;
+    height: 126px;
+    margin: -63px 0 0 -47.5px;
+    animation-name: carousel-spin-cw;
+    animation-duration: 58s;
+    z-index: 1;
+}
+
+.ring-band2 {
+    --ty: -151.5px;
+    --tz: -30px;
     width: 82px;
     height: 109px;
     margin: -54.5px 0 0 -41px;
-    animation-name: carousel-spin-cw;
-    animation-duration: 46s;
-    z-index: 3;
-}
-
-.ring-mid {
-    --ty: 0px;
-    --tz: -50px;
-    width: 108px;
-    height: 144px;
-    margin: -72px 0 0 -54px;
     animation-name: carousel-spin-ccw;
-    animation-duration: 34s;
+    animation-duration: 33s;
     z-index: 2;
 }
 
-.ring-back {
-    --ty: -160px;
-    --tz: -150px;
+.ring-band3 {
+    --ty: 0px;
+    --tz: 50px;
+    width: 108px;
+    height: 144px;
+    margin: -72px 0 0 -54px;
+    animation-name: carousel-spin-cw;
+    animation-duration: 44s;
+    z-index: 3;
+}
+
+.ring-band4 {
+    --ty: 151.5px;
+    --tz: -30px;
     width: 82px;
     height: 109px;
     margin: -54.5px 0 0 -41px;
+    animation-name: carousel-spin-ccw;
+    animation-duration: 29s;
+    z-index: 2;
+}
+
+.ring-band5 {
+    --ty: 294px;
+    --tz: -120px;
+    width: 95px;
+    height: 126px;
+    margin: -63px 0 0 -47.5px;
     animation-name: carousel-spin-cw;
-    animation-duration: 26s;
+    animation-duration: 52s;
     z-index: 1;
 }
 
@@ -395,18 +417,28 @@ html, body {
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.ring-front .carousel-card {
-    transform: rotateY(calc(var(--i) * 24deg)) translateZ(205px);
+.ring-band1 .carousel-card {
+    transform: rotateY(calc(var(--i) * 16.36deg)) translateZ(330px);
+    filter: brightness(0.82);
 }
 
-.ring-mid .carousel-card {
-    transform: rotateY(calc(var(--i) * 21.18deg)) translateZ(289px);
-    filter: brightness(0.93);
+.ring-band2 .carousel-card {
+    transform: rotateY(calc(var(--i) * 15deg)) translateZ(311px);
+    filter: brightness(0.9);
 }
 
-.ring-back .carousel-card {
-    transform: rotateY(calc(var(--i) * 25.71deg)) translateZ(180px);
-    filter: brightness(0.85);
+.ring-band3 .carousel-card {
+    transform: rotateY(calc(var(--i) * 13.85deg)) translateZ(445px);
+}
+
+.ring-band4 .carousel-card {
+    transform: rotateY(calc(var(--i) * 15deg)) translateZ(311px);
+    filter: brightness(0.9);
+}
+
+.ring-band5 .carousel-card {
+    transform: rotateY(calc(var(--i) * 15deg)) translateZ(361px);
+    filter: brightness(0.82);
 }
 
 .carousel-card:hover,
@@ -605,44 +637,68 @@ html, body {
     }
 
     .adventure-carousel-3d {
-        height: 390px;
+        height: 530px;
         perspective: 1100px;
     }
 
-    .ring-front {
-        --ty: 99px;
-        --tz: 31px;
+    .ring-band1 {
+        --ty: -182px;
+        --tz: -74px;
+        width: 59px;
+        height: 78px;
+        margin: -39px 0 0 -29.5px;
+    }
+
+    .ring-band2 {
+        --ty: -94px;
+        --tz: -19px;
         width: 51px;
         height: 68px;
         margin: -34px 0 0 -25.5px;
     }
 
-    .ring-mid {
+    .ring-band3 {
         --ty: 0px;
-        --tz: -31px;
+        --tz: 31px;
         width: 67px;
         height: 89px;
         margin: -44.5px 0 0 -33.5px;
     }
 
-    .ring-back {
-        --ty: -99px;
-        --tz: -93px;
+    .ring-band4 {
+        --ty: 94px;
+        --tz: -19px;
         width: 51px;
         height: 68px;
         margin: -34px 0 0 -25.5px;
     }
 
-    .ring-front .carousel-card {
-        transform: rotateY(calc(var(--i) * 24deg)) translateZ(127px);
+    .ring-band5 {
+        --ty: 182px;
+        --tz: -74px;
+        width: 59px;
+        height: 78px;
+        margin: -39px 0 0 -29.5px;
     }
 
-    .ring-mid .carousel-card {
-        transform: rotateY(calc(var(--i) * 21.18deg)) translateZ(179px);
+    .ring-band1 .carousel-card {
+        transform: rotateY(calc(var(--i) * 16.36deg)) translateZ(205px);
     }
 
-    .ring-back .carousel-card {
-        transform: rotateY(calc(var(--i) * 25.71deg)) translateZ(111px);
+    .ring-band2 .carousel-card {
+        transform: rotateY(calc(var(--i) * 15deg)) translateZ(194px);
+    }
+
+    .ring-band3 .carousel-card {
+        transform: rotateY(calc(var(--i) * 13.85deg)) translateZ(276px);
+    }
+
+    .ring-band4 .carousel-card {
+        transform: rotateY(calc(var(--i) * 15deg)) translateZ(194px);
+    }
+
+    .ring-band5 .carousel-card {
+        transform: rotateY(calc(var(--i) * 15deg)) translateZ(224px);
     }
 
     h2 {

@@ -204,7 +204,7 @@ html, body {
     height: clamp(56px, 10vw, 76px);
     border-radius: 16px;
     object-fit: cover;
-    border: 1px solid var(--primary-purple);
+    border: 3px solid var(--primary-purple);
     background: rgba(255, 255, 255, 0.06);
 }
 

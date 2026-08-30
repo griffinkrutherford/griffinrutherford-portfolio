@@ -54,6 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       console.error('Scroll arrow or content section not found.');
     }
+
+    // The fixed hero should only exist behind the opening viewport. Hiding it
+    // once the content is visible prevents it from showing through the browser's
+    // scrollbar gutter on long pages.
+    if (contentSection) {
+      const heroVisibilityObserver = new IntersectionObserver(([entry]) => {
+        document.body.classList.toggle('content-in-view', entry.intersectionRatio > 0);
+      });
+      heroVisibilityObserver.observe(contentSection);
+    }
   });
   
   // 90s Mode Toggle Functionality

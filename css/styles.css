@@ -31,6 +31,10 @@ html::-webkit-scrollbar-track {
     background: var(--dark-bg);
 }
 
+body.content-in-view .video-header {
+    visibility: hidden;
+}
+
 /* Video Header */
 .video-header {
     position: fixed;

@@ -564,6 +564,37 @@ html, body {
     background: rgba(255, 255, 255, 0.18);
 }
 
+/* Calendly Booking */
+.calendar-section {
+    margin: 3rem 0 1rem;
+    padding: clamp(1rem, 3vw, 1.75rem);
+    border: 1px solid var(--primary-purple);
+    border-radius: 16px;
+    background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.calendar-section h3,
+.calendar-section p {
+    text-align: center;
+}
+
+.calendar-section h3 {
+    margin: 0 0 0.5rem;
+}
+
+.calendar-section p {
+    margin: 0 0 1.25rem;
+}
+
+.calendly-inline-widget {
+    min-width: 280px;
+    height: 700px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #15101f;
+}
+
 /* Social Links */
 .social-links {
     text-align: center;
@@ -728,6 +759,14 @@ html, body {
 }
 
 @media (max-width: 480px) {
+    .calendar-section {
+        padding: 0.75rem;
+    }
+
+    .calendly-inline-widget {
+        height: 760px;
+    }
+
     .social-links {
         flex-direction: column;
         gap: 0.5rem;

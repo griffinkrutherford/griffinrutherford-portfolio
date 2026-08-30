@@ -22,6 +22,15 @@ html, body {
     overflow-x: hidden;
 }
 
+html {
+    background: var(--dark-bg);
+    scrollbar-color: var(--primary-purple) var(--dark-bg);
+}
+
+html::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
 /* Video Header */
 .video-header {
     position: fixed;
@@ -68,6 +77,8 @@ html, body {
 .content-section {
     position: relative;
     top: 100vh; /* Starts one full screen below video on all devices */
+    width: 100vw;
+    min-height: 100vh;
     background: var(--dark-bg);
     z-index: 3;
     padding: 2rem 1rem;
@@ -566,12 +577,15 @@ html, body {
 
 /* Calendly Booking */
 .calendar-section {
+    width: 100%;
+    min-width: 0;
     margin: 3rem 0 1rem;
     padding: clamp(1rem, 3vw, 1.75rem);
     border: 1px solid var(--primary-purple);
     border-radius: 16px;
     background: linear-gradient(45deg, var(--content-bg), rgba(108, 26, 255, 0.1));
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
 .calendar-section h3,
@@ -588,11 +602,18 @@ html, body {
 }
 
 .calendly-inline-widget {
-    min-width: 280px;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
     height: 700px;
     overflow: hidden;
     border-radius: 12px;
     background: #15101f;
+}
+
+.calendly-inline-widget iframe {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 /* Social Links */

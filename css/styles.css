@@ -428,11 +428,11 @@ html, body {
 }
 
 .ring-band3 .carousel-card {
-    transform: rotateY(calc(var(--i) * 13.85deg)) translateZ(445px);
+    transform: rotateY(calc(var(--i) * 14.4deg)) translateZ(445px);
 }
 
 .ring-band4 .carousel-card {
-    transform: rotateY(calc(var(--i) * 15deg)) translateZ(311px);
+    transform: rotateY(calc(var(--i) * 15.6522deg)) translateZ(311px);
     filter: brightness(0.9);
 }
 
@@ -690,11 +690,11 @@ html, body {
     }
 
     .ring-band3 .carousel-card {
-        transform: rotateY(calc(var(--i) * 13.85deg)) translateZ(276px);
+        transform: rotateY(calc(var(--i) * 14.4deg)) translateZ(276px);
     }
 
     .ring-band4 .carousel-card {
-        transform: rotateY(calc(var(--i) * 15deg)) translateZ(194px);
+        transform: rotateY(calc(var(--i) * 15.6522deg)) translateZ(194px);
     }
 
     .ring-band5 .carousel-card {

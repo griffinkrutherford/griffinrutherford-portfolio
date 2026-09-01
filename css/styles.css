@@ -603,7 +603,8 @@ html::-webkit-scrollbar-track {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0;
-    height: 620px; /* Loading fallback; Calendly replaces this with the card's exact height. */
+    min-height: 700px;
+    height: 700px; /* Loading fallback; Calendly can expand this for later booking steps. */
     overflow: hidden;
     border-radius: 12px;
     background: #15101f;
@@ -612,6 +613,7 @@ html::-webkit-scrollbar-track {
 .calendly-inline-widget iframe {
     width: 100% !important;
     max-width: 100% !important;
+    min-height: 700px;
 }
 
 /* Social Links */

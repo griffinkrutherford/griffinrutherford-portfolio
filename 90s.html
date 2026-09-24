@@ -2205,13 +2205,9 @@
     <canvas id="matrix-canvas"></canvas>
     
     <script>
-        // Start in Nintendo mode; remember choices made with the restored switcher.
+        // Start every visit in Kirby mode; the switcher still works for this visit.
         const themes = ['nintendo', 'nineties', 'matrix'];
-        let savedThemeIndex = parseInt(localStorage.getItem('themeIndexV2'), 10);
-        if (!Number.isFinite(savedThemeIndex) || savedThemeIndex < 0 || savedThemeIndex >= themes.length) {
-            savedThemeIndex = 0;
-        }
-        let currentThemeIndex = savedThemeIndex;
+        let currentThemeIndex = 0;
         let currentTheme = themes[currentThemeIndex];
         
         // Theme-specific text content
@@ -2356,7 +2352,6 @@
             // Cycle to next theme
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
             currentTheme = themes[currentThemeIndex];
-            localStorage.setItem('themeIndexV2', currentThemeIndex.toString());
             
             // Remove all theme classes
             body.classList.remove('matrix-theme', 'nintendo-theme');

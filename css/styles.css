@@ -121,7 +121,7 @@ html::-webkit-scrollbar-track {
 }
 
 .linkedin-section .ig-post {
-    max-width: 300px;
+    max-width: min(100%, clamp(300px, 30vw, 360px));
     margin: 0 auto;
     aspect-ratio: unset;
     border-radius: 15px;
@@ -681,7 +681,7 @@ html::-webkit-scrollbar-track {
     }
 
     .linkedin-section .ig-post {
-        max-width: 200px;
+        max-width: min(100%, clamp(220px, 36vw, 300px));
     }
 
     .experience-item {

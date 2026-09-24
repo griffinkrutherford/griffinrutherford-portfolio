@@ -16,15 +16,21 @@ const kirbySounds = Object.fromEntries(
     })
 );
 
+const activeSounds = new Set();
 let kirbySfxEnabled = localStorage.getItem('kirbySfxEnabled') !== 'false';
 
 window.KirbySfx = {
     play(name) {
         if (!kirbySfxEnabled || !kirbySounds[name]) return;
-        const audio = kirbySounds[name];
-        audio.pause();
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
+        const sample = kirbySounds[name];
+        const audio = sample.cloneNode();
+        audio.volume = sample.volume;
+        activeSounds.add(audio);
+
+        const cleanup = () => activeSounds.delete(audio);
+        audio.addEventListener('ended', cleanup, { once: true });
+        audio.addEventListener('error', cleanup, { once: true });
+        audio.play().catch(cleanup);
     },
     get enabled() {
         return kirbySfxEnabled;
@@ -33,7 +39,8 @@ window.KirbySfx = {
         kirbySfxEnabled = Boolean(value);
         localStorage.setItem('kirbySfxEnabled', String(kirbySfxEnabled));
         if (!kirbySfxEnabled) {
-            Object.values(kirbySounds).forEach(audio => audio.pause());
+            activeSounds.forEach(audio => audio.pause());
+            activeSounds.clear();
         }
     }
 };

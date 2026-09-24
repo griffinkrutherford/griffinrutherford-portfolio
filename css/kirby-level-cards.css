@@ -75,14 +75,7 @@ body.nintendo-theme #nineties-projects {
 
 body.nintendo-theme .guestbook {
     --sky: linear-gradient(#a9d8a0, #f6f4c8);
-    background-image:
-        url('../images/sprites/nintendo/kirby/level-tiles/tree-hollow-seamless.svg'),
-        var(--terrain),
-        var(--sky) !important;
-    background-position: left top, left bottom, center !important;
-    background-repeat: repeat-x, repeat-x, no-repeat !important;
-    background-size: 256px 128px, var(--terrain-size), 100% 100% !important;
-    padding-top: 134px !important;
+    padding-top: clamp(28px, 4vw, 48px) !important;
 }
 
 body.nintendo-theme .webring,
@@ -192,11 +185,6 @@ body.nintendo-theme .kirby-card[aria-pressed="true"] {
     body.nintendo-theme #nineties-resume .ascii-art {
         margin-left: 0;
         margin-right: 0;
-    }
-
-    body.nintendo-theme .guestbook {
-        padding-top: 110px !important;
-        background-size: 200px 100px, var(--terrain-size), 100% 100% !important;
     }
 }
 

@@ -4,6 +4,42 @@
 
 .kirby-hero-crew { display: none; }
 
+.griffin-kirby-hero { display: none; }
+
+body.nintendo-theme .griffin-kirby-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    margin: 4px auto 14px;
+    color: #71245e;
+    font: bold 13px 'Courier New', monospace !important;
+    letter-spacing: .08em;
+}
+
+body.nintendo-theme .griffin-kirby-hero img {
+    display: block;
+    width: 144px;
+    height: 138px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(4px 5px 0 #ffc629);
+}
+
+body.nintendo-theme .griffin-kirby-hero span {
+    padding: 4px 9px;
+    background: #ffe89b;
+    border: 2px solid #d52e70;
+    box-shadow: 2px 2px 0 #7c305b;
+}
+
+body.nintendo-theme .nineties-name {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    letter-spacing: .08em;
+    overflow-wrap: anywhere;
+}
+
 body.nintendo-theme .kirby-hero-crew { display: contents; }
 
 body.nintendo-theme .kirby-hero-crew img {
@@ -209,6 +245,7 @@ body.nintendo-theme .nintendo-world-title::before {
 }
 
 @media (max-width: 760px) {
+    body.nintendo-theme .griffin-kirby-hero img { width: 116px; height: 112px; }
     body.nintendo-theme .theme-controls {
         position: static !important;
         display: flex !important;

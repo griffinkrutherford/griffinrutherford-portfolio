@@ -2,6 +2,8 @@
 
 These are small, unscaled crops of the original SNES level maps archived by [VGMaps](https://vgmaps.com/Atlas/SuperNES/index.htm#KirbySuperStar). They are used as textures on the Nintendo version of `90s.html`.
 
+The `*-seamless.svg` files reflect each crop horizontally, making the left and right edges share the same source pixels. Floors and canopies can then repeat without seams. `star-sky-seamless.svg` and `pink-brick-seamless-2d.svg` reflect both horizontally and vertically for all-direction wallpapers. The source PNG crops remain alongside them for provenance.
+
 | File | Stage map | Crop `(left, top, right, bottom)` |
 | --- | --- | --- |
 | `grassland.png` | [Float Islands](https://vgmaps.com/Atlas/SuperNES/Kirby-SuperStar-SpringBreeze-Stage2-FloatIslands.png) | `(100, 450, 196, 530)` |

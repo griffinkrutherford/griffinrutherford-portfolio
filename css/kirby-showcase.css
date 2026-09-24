@@ -4,7 +4,18 @@
 
 .kirby-hero-crew { display: none; }
 
+.kirby-hero-pair { display: none; }
+
 .griffin-kirby-hero { display: none; }
+
+body.nintendo-theme .kirby-hero-pair {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 4px auto 16px;
+}
 
 body.nintendo-theme .griffin-kirby-hero {
     display: flex;
@@ -12,13 +23,14 @@ body.nintendo-theme .griffin-kirby-hero {
     align-items: center;
     gap: 6px;
     width: fit-content;
-    margin: 4px auto 14px;
+    margin: 0;
     color: #71245e;
     font: bold 13px 'Courier New', monospace !important;
     letter-spacing: .08em;
 }
 
-body.nintendo-theme .griffin-kirby-hero img {
+body.nintendo-theme .griffin-kirby-hero img,
+body.nintendo-theme .luna-kirby-promo img {
     display: block;
     width: 144px;
     height: 138px;
@@ -27,11 +39,84 @@ body.nintendo-theme .griffin-kirby-hero img {
     filter: drop-shadow(4px 5px 0 #ffc629);
 }
 
-body.nintendo-theme .griffin-kirby-hero span {
+body.nintendo-theme .griffin-kirby-hero span,
+body.nintendo-theme .luna-kirby-promo span {
     padding: 4px 9px;
     background: #ffe89b;
     border: 2px solid #d52e70;
     box-shadow: 2px 2px 0 #7c305b;
+}
+
+body.nintendo-theme .luna-kirby-promo {
+    max-width: 245px;
+    padding: 0 8px 8px;
+    color: #71245e;
+    font: bold 13px 'Courier New', monospace !important;
+    letter-spacing: .04em;
+    text-decoration: none;
+    background: rgba(255, 247, 218, .86);
+    border: 3px solid #ffcd3c;
+    box-shadow: 4px 4px 0 #8f346a;
+}
+
+body.nintendo-theme .luna-kirby-promo summary,
+body.nintendo-theme .luna-reveal-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+body.nintendo-theme .luna-kirby-promo summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+body.nintendo-theme .luna-kirby-promo summary::-webkit-details-marker {
+    display: none;
+}
+
+body.nintendo-theme .luna-kirby-promo:not([open]) img {
+    filter: brightness(0) drop-shadow(4px 5px 0 #8d70a6);
+}
+
+body.nintendo-theme .luna-kirby-promo .luna-revealed-label,
+body.nintendo-theme .luna-kirby-promo[open] .luna-secret-label,
+body.nintendo-theme .luna-kirby-promo[open] .luna-secret-hint {
+    display: none;
+}
+
+body.nintendo-theme .luna-kirby-promo[open] .luna-revealed-label {
+    display: block;
+}
+
+body.nintendo-theme .luna-kirby-promo[open] {
+    background: #fff1db;
+    border-color: #d52e70;
+}
+
+body.nintendo-theme .luna-kirby-promo:hover,
+body.nintendo-theme .luna-kirby-promo:focus-within {
+    transform: translateY(-3px);
+    outline: 3px solid #71245e;
+    outline-offset: 2px;
+}
+
+body.nintendo-theme .luna-reveal-details {
+    padding-top: 6px;
+}
+
+body.nintendo-theme .luna-reveal-details a {
+    color: #a31d62;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+body.nintendo-theme .luna-kirby-promo small {
+    color: #382a55;
+    font-size: 10px;
+    letter-spacing: 0;
+    text-align: center;
 }
 
 body.nintendo-theme .nineties-name {

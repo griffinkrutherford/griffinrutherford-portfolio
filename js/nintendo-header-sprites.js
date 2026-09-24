@@ -2,14 +2,14 @@
 class NintendoHeaderSprites {
     constructor() {
         this.spriteMap = {
-            '🍄': '/images/sprites/nintendo/mario/yoshi-standing.png',
-            '⭐': '/images/sprites/nintendo/mario/floating-qblock.png', 
-            '👑': '/images/sprites/nintendo/kirby/kirby-dance.gif',
-            '🌟': '/images/sprites/nintendo/mario/floating-qblock.png',
-            '🔥': '/images/sprites/nintendo/mario/mario-walking.gif',
-            '🪙': '/images/sprites/nintendo/mario/floating-qblock.png',
-            '[?]': '/images/sprites/nintendo/mario/floating-qblock.png',
-            '[*]': '/images/sprites/nintendo/mario/floating-qblock.png'
+            '🍄': '/images/sprites/nintendo/kirby/super-star/cook.png',
+            '⭐': '/images/sprites/nintendo/kirby/super-star/warp_star.png',
+            '👑': '/images/sprites/nintendo/kirby/super-star/hammer.png',
+            '🌟': '/images/sprites/nintendo/kirby/super-star/plasma.png',
+            '🔥': '/images/sprites/nintendo/kirby/super-star/fire.png',
+            '🪙': '/images/sprites/nintendo/kirby/super-star/yo-yo.png',
+            '[?]': '/images/sprites/nintendo/kirby/super-star/mirror.png',
+            '[*]': '/images/sprites/nintendo/kirby/super-star/sword.png'
         };
     }
     

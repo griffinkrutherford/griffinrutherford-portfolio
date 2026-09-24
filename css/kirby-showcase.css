@@ -1,0 +1,245 @@
+.kirby-showcase {
+    display: none;
+}
+
+.kirby-hero-crew { display: none; }
+
+body.nintendo-theme .kirby-hero-crew { display: contents; }
+
+body.nintendo-theme .kirby-hero-crew img {
+    position: absolute;
+    top: 110px;
+    width: 52px;
+    height: 64px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+body.nintendo-theme .kirby-hero-crew img:nth-child(1) { left: 4%; }
+body.nintendo-theme .kirby-hero-crew img:nth-child(2) { left: 14%; }
+body.nintendo-theme .kirby-hero-crew img:nth-child(3) { right: 14%; }
+body.nintendo-theme .kirby-hero-crew img:nth-child(4) { right: 4%; }
+
+body.nintendo-theme .theme-controls { align-items: flex-end; }
+body.nintendo-theme .theme-controls .nineties-toggle-btn {
+    width: 150px;
+    padding: 8px 5px;
+    font-size: 10px;
+}
+
+body.nintendo-theme .nineties-nav-table tr:first-child td {
+    background: #9c2c73;
+    border-color: #ffcd3c;
+}
+
+body.nintendo-theme .nineties-nav-table tr:first-child td font {
+    color: #fff;
+    text-shadow: 2px 2px #4a215d;
+}
+
+body.nintendo-theme .nineties-nav-table td::before,
+body.nintendo-theme .nineties-nav-table td::after {
+    content: none;
+}
+
+body.nintendo-theme .kirby-showcase {
+    display: block;
+    box-sizing: border-box;
+    width: min(1120px, calc(100% - 32px));
+    margin: 28px auto 42px;
+    padding: clamp(16px, 3vw, 32px);
+    color: #291442;
+    background: #fff6d6;
+    border: 6px solid #ffcd3c;
+    border-radius: 18px;
+    box-shadow: 8px 8px 0 #c7346a, 0 16px 38px #34195377;
+    font-family: 'Courier New', monospace !important;
+}
+
+.kirby-showcase * {
+    box-sizing: border-box;
+    font-family: inherit !important;
+}
+
+.kirby-showcase img {
+    image-rendering: pixelated;
+    object-fit: contain;
+}
+
+.kirby-showcase-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+}
+
+.kirby-showcase-heading img {
+    flex: 0 0 auto;
+    width: 68px;
+    height: 76px;
+}
+
+.kirby-showcase-heading h2 {
+    margin: 4px 0 8px;
+    color: #b42162;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.15;
+    text-shadow: 2px 2px #ffcc72;
+}
+
+.kirby-showcase-heading p {
+    margin: 0;
+}
+
+.kirby-showcase-heading .kirby-eyebrow,
+.kirby-feature-label {
+    color: #7137a0;
+    font-size: .78rem;
+    font-weight: bold;
+    letter-spacing: .12em;
+}
+
+.kirby-feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    min-height: 156px;
+    margin: 24px 0;
+    padding: 15px;
+    background: #ffd9eb;
+    border: 4px solid #e44987;
+    box-shadow: inset 4px 4px #fff7fc, 5px 5px #823b8d;
+}
+
+.kirby-feature img {
+    width: 116px;
+    height: 116px;
+}
+
+.kirby-feature div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.kirby-feature strong {
+    color: #8a1255;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+}
+
+.kirby-feature #kirby-feature-hint {
+    font-size: .85rem;
+}
+
+.kirby-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.kirby-card {
+    min-width: 0;
+    min-height: 124px;
+    padding: 10px 4px 8px;
+    cursor: pointer;
+    color: #401b60;
+    background: #fff;
+    border: 3px solid #9e7ac6;
+    box-shadow: 3px 3px 0 #604288;
+    font-size: .82rem;
+    font-weight: bold;
+    transition: transform .12s ease, background .12s ease;
+}
+
+.kirby-card:hover,
+.kirby-card:focus-visible {
+    transform: translateY(-5px);
+    background: #ffebf5;
+    outline: 3px solid #e44987;
+    outline-offset: 2px;
+}
+
+.kirby-card[aria-pressed="true"] {
+    background: #ffcfeb;
+    border-color: #c02d72;
+    box-shadow: 3px 3px 0 #8b1859;
+}
+
+.kirby-card img {
+    display: block;
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 7px;
+}
+
+.kirby-card span {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.kirby-credit {
+    margin: 18px 0 0;
+    font-size: .75rem;
+    text-align: center;
+}
+
+.kirby-credit a { color: #8b1859 !important; }
+
+/* Let the original Nintendo panels keep their shape while Kirby marks each world. */
+body.nintendo-theme #nineties-about::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/kirby.png');
+}
+body.nintendo-theme #nineties-resume::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/sword.png');
+}
+body.nintendo-theme #nineties-skills::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/beam.png');
+}
+body.nintendo-theme #nineties-projects::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/hammer.png');
+}
+body.nintendo-theme .guestbook::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/parasol.png');
+}
+body.nintendo-theme .nintendo-world-title::before {
+    background-image: url('../images/sprites/nintendo/kirby/super-star/warp_star.png');
+}
+
+@media (max-width: 760px) {
+    body.nintendo-theme .theme-controls {
+        position: static !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+    }
+    body.nintendo-theme .dialup-settings {
+        position: static !important;
+        width: fit-content;
+        margin: 8px auto 16px;
+    }
+    body.nintendo-theme .kirby-hero-crew img { width: 32px; height: 42px; top: 120px; }
+    body.nintendo-theme .kirby-hero-crew img:nth-child(2),
+    body.nintendo-theme .kirby-hero-crew img:nth-child(3) { display: none; }
+    .kirby-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kirby-showcase-heading img:last-child { display: none; }
+    .kirby-showcase-heading img:first-child { width: 50px; height: 58px; }
+    .kirby-feature { gap: 14px; }
+    .kirby-feature img { width: 85px; height: 85px; }
+}
+
+@media (max-width: 420px) {
+    body.nintendo-theme .kirby-hero-crew img { display: none; }
+    .kirby-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kirby-showcase-heading img:first-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kirby-card { transition: none; }
+    .kirby-card:hover, .kirby-card:focus-visible { transform: none; }
+}

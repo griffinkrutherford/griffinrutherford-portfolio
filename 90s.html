@@ -1571,10 +1571,10 @@
                     <td colspan="4"><center><b><font color="#FFFFFF" size="5">CHOOSE YOUR DESTINATION</font></b></center></td>
                 </tr>
                 <tr>
-                    <td bgcolor="#00FFFF"><a href="#nineties-about"><b>About Me</b></a></td>
-                    <td bgcolor="#00FF00"><a href="#nineties-resume"><b>My Resume</b></a></td>
-                    <td bgcolor="#FFFF00"><a href="#nineties-projects"><b>Cool Stuff</b></a></td>
-                    <td bgcolor="#FF6600"><a href="#nineties-skills"><b>What I Know</b></a></td>
+                    <td bgcolor="#00FFFF"><a href="#nineties-about"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>About Me</b></a></td>
+                    <td bgcolor="#00FF00"><a href="#nineties-resume"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>My Resume</b></a></td>
+                    <td bgcolor="#FFFF00"><a href="#nineties-projects"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>Cool Stuff</b></a></td>
+                    <td bgcolor="#FF6600"><a href="#nineties-skills"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>What I Know</b></a></td>
                 </tr>
             </table>
         </center>
@@ -1628,7 +1628,7 @@
                 </div>
                 <center>
                     <div class="spinning-email">@</div>
-                    <div class="nineties-blink nintendo-press-start" data-theme-text="welcomePress">PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS!</div>
+                    <a class="nineties-blink nintendo-press-start" href="#nineties-resume" data-theme-text="welcomePress">PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS!</a>
                 </center>
             </div>
 
@@ -2410,6 +2410,9 @@
             const body = document.body;
             const toggleIcon = document.querySelector('.theme-toggle-icon');
             const toggleText = document.querySelector('.theme-toggle-text');
+            if (currentTheme === 'nintendo' || themes[(currentThemeIndex + 1) % themes.length] === 'nintendo') {
+                window.KirbySfx.play('switch');
+            }
             
             // Cycle to next theme
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
@@ -2549,13 +2552,28 @@
                 }
             });
 
-            // Add click sounds to navigation when in Nintendo theme
-            const navButtons = document.querySelectorAll('.nineties-nav-table td');
-            navButtons.forEach(button => {
-                button.addEventListener('click', function() {
+            // Each stage door is a real in-page portal.
+            document.querySelectorAll('.nineties-nav-table td a').forEach(door => {
+                door.addEventListener('click', function() {
                     if (document.body.classList.contains('nintendo-theme')) {
-                        window.KirbySfx.play('menuSelect');
+                        window.KirbySfx.play('enterDoor');
                     }
+                });
+            });
+
+            document.querySelector('.nintendo-press-start')?.addEventListener('click', () => {
+                if (document.body.classList.contains('nintendo-theme')) window.KirbySfx.play('jump');
+            });
+
+            document.querySelectorAll('#nineties-projects td a').forEach(project => {
+                project.addEventListener('click', () => {
+                    if (document.body.classList.contains('nintendo-theme')) window.KirbySfx.play('treasure');
+                });
+            });
+
+            document.querySelectorAll('.webring-nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (document.body.classList.contains('nintendo-theme')) window.KirbySfx.play('menuSelect');
                 });
             });
             
@@ -2601,6 +2619,7 @@
                         oneUp.style.top = (rect.top - 10) + 'px';
                         
                         document.body.appendChild(oneUp);
+                        window.KirbySfx.play('starHit');
                         window.KirbySfx.play('oneUp');
                         
                         // Remove after animation

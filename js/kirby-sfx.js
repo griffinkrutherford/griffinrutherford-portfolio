@@ -4,7 +4,12 @@ const kirbySoundFiles = {
     menuSelect: 'menu-select.wav',
     starBounce: 'star-bounce.wav',
     oneUp: '1up.wav',
-    pop: 'pop.wav'
+    pop: 'pop.wav',
+    enterDoor: 'enter-door.wav',
+    jump: 'jump.wav',
+    starHit: 'star-hit.wav',
+    switch: 'switch.wav',
+    treasure: 'treasure.wav'
 };
 
 const kirbySounds = Object.fromEntries(

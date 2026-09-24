@@ -369,7 +369,6 @@ body.nintendo-theme .kirby-sfx-settings button {
     image-rendering: pixelated;
 }
 
-body.nintendo-theme .under-construction,
 body.nintendo-theme .nintendo-achievement {
     background-image: linear-gradient(rgba(255, 215, 104, .38), rgba(255, 215, 104, .38)), var(--kirby-brick) !important;
     background-repeat: no-repeat, repeat !important;

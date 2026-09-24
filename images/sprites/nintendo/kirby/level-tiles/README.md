@@ -1,6 +1,6 @@
 # Kirby Super Star level tile crops
 
-These are small, unscaled crops of the original SNES level maps archived by [VGMaps](https://vgmaps.com/Atlas/SuperNES/index.htm#KirbySuperStar). They are used as textures on the Nintendo version of `90s.html`.
+These are small, unscaled crops of the original SNES level maps archived by [VGMaps](https://vgmaps.com/Atlas/SuperNES/index.htm#KirbySuperStar). They are used as scenery and UI textures throughout the Nintendo version of `90s.html`.
 
 The `*-seamless.svg` files reflect each crop horizontally, making the left and right edges share the same source pixels. Floors and canopies can then repeat without seams. `star-sky-seamless.svg` and `pink-brick-seamless-2d.svg` reflect both horizontally and vertically for all-direction wallpapers. The source PNG crops remain alongside them for provenance.
 

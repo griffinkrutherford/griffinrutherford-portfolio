@@ -128,7 +128,7 @@ body.nintendo-theme .nintendo-people-skills::after {
 
 /* The smaller widgets use one material each, as walls rather than scenery. */
 body.nintendo-theme .midi-player {
-    background-image: linear-gradient(rgba(255, 248, 252, .68), rgba(255, 248, 252, .68)),
+    background-image: linear-gradient(rgba(255, 248, 252, .43), rgba(255, 248, 252, .43)),
         url('../images/sprites/nintendo/kirby/level-tiles/pink-brick-seamless-2d.svg') !important;
     background-size: auto, 256px 256px !important;
     border: 6px solid #80516e !important;
@@ -142,7 +142,7 @@ body.nintendo-theme .badges-section {
 
 body.nintendo-theme .kirby-card {
     border: 4px solid #80516e;
-    background-image: linear-gradient(rgba(255, 249, 253, .74), rgba(255, 249, 253, .74)),
+    background-image: linear-gradient(rgba(255, 249, 253, .47), rgba(255, 249, 253, .47)),
         url('../images/sprites/nintendo/kirby/level-tiles/pink-brick-seamless-2d.svg');
     background-size: auto, 256px 256px;
     image-rendering: pixelated;
@@ -150,7 +150,7 @@ body.nintendo-theme .kirby-card {
 }
 
 body.nintendo-theme .kirby-card[aria-pressed="true"] {
-    background-image: linear-gradient(rgba(255, 214, 237, .55), rgba(255, 214, 237, .55)),
+    background-image: linear-gradient(rgba(255, 214, 237, .34), rgba(255, 214, 237, .34)),
         url('../images/sprites/nintendo/kirby/level-tiles/pink-brick-seamless-2d.svg');
     border-color: #b62d73;
 }
@@ -198,4 +198,182 @@ body.nintendo-theme .kirby-card[aria-pressed="true"] {
         padding-top: 110px !important;
         background-size: 200px 100px, var(--terrain-size), 100% 100% !important;
     }
+}
+
+/* Carry the same SNES materials through the page's smaller UI surfaces. */
+body.nintendo-theme {
+    --kirby-brick: url('../images/sprites/nintendo/kirby/level-tiles/pink-brick-seamless-2d.svg');
+    --kirby-stars: url('../images/sprites/nintendo/kirby/level-tiles/star-sky-seamless.svg');
+    --kirby-metal: url('../images/sprites/nintendo/kirby/level-tiles/metal-seamless.svg');
+    --kirby-stone: url('../images/sprites/nintendo/kirby/level-tiles/castle-stone-seamless.svg');
+    background-color: #242044 !important;
+    background-image: var(--kirby-stars) !important;
+    background-repeat: repeat !important;
+    background-size: 384px 384px !important;
+}
+
+body.nintendo-theme .nineties-wrapper {
+    background-color: #242044 !important;
+    background-image: var(--kirby-stars) !important;
+    background-repeat: repeat !important;
+    background-size: 384px 384px !important;
+}
+
+body.nintendo-theme::before {
+    display: none !important;
+}
+
+body.nintendo-theme .nineties-header {
+    background-image: linear-gradient(rgba(204, 50, 112, .28), rgba(204, 50, 112, .28)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+}
+
+body.nintendo-theme .visitor-counter,
+body.nintendo-theme .counter-digit,
+body.nintendo-theme .luna-kirby-promo,
+body.nintendo-theme .griffin-kirby-hero span,
+body.nintendo-theme .luna-kirby-promo span,
+body.nintendo-theme .kirby-feature,
+body.nintendo-theme .guestbook-form,
+body.nintendo-theme .guestbook-entries,
+body.nintendo-theme .guestbook-form input,
+body.nintendo-theme .guestbook-form textarea,
+body.nintendo-theme .kirby-sfx-settings,
+body.nintendo-theme .badges-section .badge > div {
+    background-image: linear-gradient(rgba(255, 250, 239, .62), rgba(255, 250, 239, .62)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+    image-rendering: pixelated;
+}
+
+body.nintendo-theme .kirby-feature,
+body.nintendo-theme .guestbook-form,
+body.nintendo-theme .guestbook-entries,
+body.nintendo-theme .kirby-sfx-settings {
+    color: #332448 !important;
+    border-color: #80516e !important;
+}
+
+body.nintendo-theme .badges-section .badge > div {
+    color: #332448 !important;
+    border-color: #80516e !important;
+}
+
+body.nintendo-theme #nineties-about .ascii-border,
+body.nintendo-theme #nineties-resume .ascii-art {
+    background-image: linear-gradient(rgba(255, 252, 246, .76), rgba(255, 252, 246, .76)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+}
+
+body.nintendo-theme .nineties-nav-table td,
+body.nintendo-theme .counter-digit,
+body.nintendo-theme .skill-progress {
+    background-image: linear-gradient(rgba(255, 250, 239, .40), rgba(255, 250, 239, .40)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+    image-rendering: pixelated;
+}
+
+body.nintendo-theme .nineties-nav-table td a {
+    color: #70204e !important;
+    text-shadow: none !important;
+}
+
+body.nintendo-theme .nineties-nav-table tr:first-child td,
+body.nintendo-theme .nineties-marquee,
+body.nintendo-theme .midi-display,
+body.nintendo-theme .kirby-sfx-settings > div:first-child,
+body.nintendo-theme .skill-bar {
+    background-image: linear-gradient(rgba(31, 26, 62, .35), rgba(31, 26, 62, .35)), var(--kirby-stars) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 384px 384px !important;
+    image-rendering: pixelated;
+}
+
+body.nintendo-theme .nineties-marquee,
+body.nintendo-theme .midi-display,
+body.nintendo-theme .kirby-sfx-settings > div:first-child {
+    color: #fff5d2 !important;
+    text-shadow: 2px 2px 0 #241b46;
+}
+
+body.nintendo-theme .skill-fill {
+    background-image: linear-gradient(rgba(27, 134, 80, .47), rgba(16, 106, 87, .47)), var(--kirby-metal) !important;
+    background-repeat: no-repeat, repeat-x !important;
+    background-size: 100% 100%, 160px 80px !important;
+    color: #fff9df !important;
+    text-shadow: 1px 1px 0 #213342;
+}
+
+body.nintendo-theme .theme-toggle-btn,
+body.nintendo-theme .nineties-toggle-btn,
+body.nintendo-theme .guestbook-submit,
+body.nintendo-theme .webring-nav a,
+body.nintendo-theme .kirby-sfx-settings button {
+    background-image: linear-gradient(rgba(31, 33, 58, .38), rgba(31, 33, 58, .38)), var(--kirby-metal) !important;
+    background-repeat: no-repeat, repeat-x !important;
+    background-size: 100% 100%, 160px 80px !important;
+    color: #fff6d5 !important;
+    text-shadow: 1px 1px 0 #241b46 !important;
+    image-rendering: pixelated;
+}
+
+body.nintendo-theme .under-construction,
+body.nintendo-theme .nintendo-achievement {
+    background-image: linear-gradient(rgba(255, 215, 104, .38), rgba(255, 215, 104, .38)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+}
+
+body.nintendo-theme #nineties-projects table,
+body.nintendo-theme #nineties-links table {
+    background-image: var(--kirby-stars) !important;
+    background-repeat: repeat !important;
+    background-size: 384px 384px !important;
+}
+
+body.nintendo-theme #nineties-projects td {
+    background-image: linear-gradient(rgba(35, 31, 68, .45), rgba(35, 31, 68, .45)), var(--kirby-stone) !important;
+    background-repeat: no-repeat, repeat-x !important;
+    background-size: 100% 100%, 256px 128px !important;
+    color: #fff6dc !important;
+    image-rendering: pixelated;
+}
+
+body.nintendo-theme #nineties-projects td font {
+    color: #fff6dc !important;
+}
+
+body.nintendo-theme #nineties-projects td a {
+    color: #ffe398 !important;
+}
+
+body.nintendo-theme #nineties-links td:first-child {
+    background-image: linear-gradient(rgba(35, 39, 66, .48), rgba(35, 39, 66, .48)), var(--kirby-metal) !important;
+    background-repeat: no-repeat, repeat-x !important;
+    background-size: 100% 100%, 160px 80px !important;
+    color: #fff6dc !important;
+}
+
+body.nintendo-theme #nineties-links td:last-child {
+    background-image: linear-gradient(rgba(255, 250, 239, .40), rgba(255, 250, 239, .40)), var(--kirby-brick) !important;
+    background-repeat: no-repeat, repeat !important;
+    background-size: 100% 100%, 256px 256px !important;
+    color: #332448 !important;
+}
+
+body.nintendo-theme .guestbook-entries > div {
+    border-bottom-color: #875a80 !important;
+}
+
+body.nintendo-theme .guestbook-form input,
+body.nintendo-theme .guestbook-form textarea {
+    background-image: linear-gradient(rgba(255, 252, 246, .84), rgba(255, 252, 246, .84)), var(--kirby-brick) !important;
+    color: #332448 !important;
+}
+
+body.nintendo-theme .midi-player {
+    background-image: linear-gradient(rgba(255, 248, 252, .43), rgba(255, 248, 252, .43)), var(--kirby-brick) !important;
 }

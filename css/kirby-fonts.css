@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'Kirby Pixel UI';
+    src: url('../fonts/kirby-ui/PixelifySans-wght.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kirby Pixel Display';
+    src: url('../fonts/kirby-ui/PressStart2P-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+/* Soft pixel lettering for dialogue and controls throughout the Kirby theme. */
+body.nintendo-theme,
+body.nintendo-theme :where(*) {
+    font-family: 'Kirby Pixel UI', 'Courier New', monospace !important;
+}
+
+/* The box-drawing panels need fixed-width characters to keep their frames aligned. */
+body.nintendo-theme .ascii-border,
+body.nintendo-theme .ascii-border *,
+body.nintendo-theme .ascii-art,
+body.nintendo-theme .ascii-art * {
+    font-family: 'Courier New', monospace !important;
+}
+
+body.nintendo-theme .nineties-name {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    line-height: 1.2;
+}
+
+/* Crisp game-menu type appears only in short, high-contrast labels. */
+body.nintendo-theme .nineties-section-title,
+body.nintendo-theme .nineties-section-title *,
+body.nintendo-theme .kirby-showcase-heading h2,
+body.nintendo-theme .nineties-nav-table tr:first-child font,
+body.nintendo-theme .kirby-eyebrow,
+body.nintendo-theme .kirby-feature-label,
+body.nintendo-theme .nintendo-press-start,
+body.nintendo-theme .nintendo-achievement {
+    font-family: 'Kirby Pixel Display', 'Courier New', monospace !important;
+}
+
+body.nintendo-theme .nineties-section-title {
+    font-size: clamp(14px, 2.2vw, 22px);
+    line-height: 1.5;
+    letter-spacing: .04em;
+    overflow-wrap: anywhere;
+}
+
+body.nintendo-theme .nineties-section-title > * {
+    font-size: inherit !important;
+    line-height: inherit;
+    letter-spacing: inherit !important;
+}
+
+body.nintendo-theme .kirby-showcase-heading h2 {
+    font-size: clamp(14px, 2vw, 22px);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+body.nintendo-theme .nineties-nav-table tr:first-child font {
+    font-size: clamp(10px, 1.8vw, 16px) !important;
+    line-height: 1.5;
+}
+
+body.nintendo-theme .kirby-eyebrow,
+body.nintendo-theme .kirby-feature-label {
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+body.nintendo-theme .nintendo-press-start,
+body.nintendo-theme .nintendo-achievement {
+    font-size: clamp(9px, 1.2vw, 13px);
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    body.nintendo-theme .nineties-nav-table tr:first-child td font {
+        font-size: 10px !important;
+    }
+
+    body.nintendo-theme #nineties-about .ascii-border [data-theme-text] {
+        font-family: 'Kirby Pixel UI', 'Courier New', monospace !important;
+    }
+}

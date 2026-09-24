@@ -53,6 +53,9 @@ if (kirbyGrid && kirbyFeatureImage && kirbyFeatureName && kirbyFeatureHint) {
         button.append(image, caption);
 
         button.addEventListener('click', () => {
+            if (button.getAttribute('aria-pressed') !== 'true' && document.body.classList.contains('nintendo-theme')) {
+                window.KirbySfx?.play('abilityGain');
+            }
             for (const card of kirbyGrid.children) {
                 card.setAttribute('aria-pressed', String(card === button));
             }

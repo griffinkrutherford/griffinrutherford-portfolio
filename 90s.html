@@ -1540,17 +1540,16 @@
             </div>
         </div>
 
-        <!-- Dial-up Sound Toggle -->
-        <div class="dialup-settings" style="position: fixed; bottom: 20px; right: 20px; background: #C0C0C0; border: 2px outset #808080; padding: 10px; z-index: 1000;">
+        <!-- Kirby Sound Toggle -->
+        <div class="kirby-sfx-settings" style="position: fixed; bottom: 20px; right: 20px; background: #C0C0C0; border: 2px outset #808080; padding: 10px; z-index: 1000;">
             <div style="background: #000080; color: #FFF; padding: 3px; margin: -10px -10px 5px -10px; font-size: 12px;">
-                <b>Settings</b>
+                <b>Sound Test</b>
             </div>
             <label style="display: flex; align-items: center; cursor: pointer; font-family: 'MS Sans Serif', sans-serif;">
-                <input type="checkbox" id="dialup-toggle" checked style="margin-right: 5px;">
-                <span>Dial-up Sound FX</span>
+                <input type="checkbox" id="kirby-sfx-toggle" checked style="margin-right: 5px;">
+                <span>Kirby Sound FX</span>
             </label>
-            <div style="font-size: 10px; color: #666; margin-top: 3px;">Uncheck for broadband ;-)</div>
-            <button onclick="testDialupSound()" style="margin-top: 5px; padding: 2px 5px; font-size: 11px; width: 100%;">Test Sound</button>
+            <button id="kirby-sfx-test" type="button" style="margin-top: 5px; padding: 2px 5px; font-size: 11px; width: 100%;">Test Sound</button>
         </div>
 
         <!-- Visitor Counter -->
@@ -1582,7 +1581,7 @@
 
         <!-- Marquee Text -->
         <marquee behavior="scroll" direction="left" scrollamount="8" class="nineties-marquee nintendo-marquee" data-theme-text="marquee">
-            >>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Totally radical coding since 1996! >>> 
+            >>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Try the Kirby sound test! >>> Totally radical coding since 1996! >>>
         </marquee>
 
         <section class="kirby-showcase" aria-labelledby="kirby-showcase-title">
@@ -1930,24 +1929,15 @@
             </div>
         </div>
 
-        <!-- Fake MIDI Player -->
+        <!-- Kirby sound-test display -->
         <div class="midi-player">
-            <div class="midi-display">~o~ Now Playing: "Sandstorm.mid" ~o~</div>
-            <div class="midi-controls">
-                [>] [||] [■] [<<] Volume: [########--]
-            </div>
+            <div class="midi-display">~o~ Sound Test: Kirby Super Star ~o~</div>
+            <div class="midi-controls">Select an ability to hear its sound!</div>
         </div>
     </div>
 
-    <!-- AOL Dial-up Sound -->
-    <audio id="dialup-sound" preload="auto" controls style="display: none;">
-        <source src="audio/aol-dialup.mp3" type="audio/mpeg">
-        <source src="audio/aol-dialup.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-    
-    <!-- Load Nintendo Theme Script -->
-    <script src="js/nintendo-theme.js"></script>
+    <!-- Kirby Super Star sound effects -->
+    <script src="js/kirby-sfx.js"></script>
     <script src="js/nintendo-header-sprites.js"></script>
     <script src="js/kirby-showcase.js" defer></script>
     
@@ -2273,30 +2263,6 @@
         }
     </style>
 
-    <!-- Dial-up Connection Screen -->
-    <div id="dialup-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000;">
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-            <div style="background: #C0C0C0; border: 2px outset #808080; padding: 20px; width: 400px;">
-                <div style="background: #000080; color: #FFF; padding: 5px; margin: -20px -20px 10px -20px;">
-                    <b>America Online 3.0</b>
-                </div>
-                <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wjRLyuasj5f7j/AcxRlmKRIFhHGAWsqJQXDGKjKGmcYKzjAgOA+hwLCTJCiAA" alt="Loading" style="margin: 10px;">
-                <div id="dialup-status" style="font-family: 'Courier New', monospace; color: #000; margin: 10px 0;">
-                    Dialing AOL...
-                </div>
-                <div style="background: #FFF; border: 2px inset #808080; padding: 5px; margin: 10px 0; height: 60px; overflow-y: auto; text-align: left; font-family: monospace; font-size: 12px;">
-                    <div id="dialup-log">
-                        <div>Initializing modem...</div>
-                    </div>
-                </div>
-                <div style="background: #000; color: #0F0; padding: 5px; font-family: monospace;">
-                    <span id="dialup-speed">0</span> bps
-                </div>
-                <button onclick="skipDialup()" style="margin-top: 10px; padding: 5px 10px;">Skip >></button>
-            </div>
-        </div>
-    </div>
-
     <!-- Matrix Digital Rain Canvas -->
     <canvas id="matrix-canvas"></canvas>
     
@@ -2313,7 +2279,7 @@
         // Theme-specific text content
         const themeTexts = {
             nineties: {
-                marquee: ">>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Totally radical coding since 1996! >>> ",
+                marquee: ">>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Try the Kirby sound test! >>> Totally radical coding since 1996! >>> ",
                 headerSubtitle: "Building Lune Synth & technology people can trust",
                 welcomeTitle: "WELCOME TO MY HOMEPAGE!",
                 welcomeGreeting: "Hey there, cyber-surfer! =)",
@@ -2353,7 +2319,7 @@
                 achievement: "*** MISSION COMPLETE: ALL SYSTEMS OPERATIONAL ***"
             },
             nintendo: {
-                marquee: ">>> Welcome to the Information Superhighway! <<< Best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Turn up your speakers for the MIDI experience! >>> A little Dream Land for the road! >>> ",
+                marquee: ">>> Welcome to the Information Superhighway! <<< Best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Try the Kirby sound test! >>> A little Dream Land for the road! >>> ",
                 headerSubtitle: "Building Lune Synth: learn from every step",
                 welcomeTitle: "WELCOME TO MY HOMEPAGE!",
                 welcomeGreeting: "Hey there, cyber-surfer! =)",
@@ -2408,90 +2374,6 @@
                     skillElement.textContent = skillMappings[currentTheme][index];
                 }
             });
-        }
-        
-        // Nintendo sound effects
-        function playNintendoSound() {
-            // Create a simple 8-bit style beep using Web Audio API
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Play a coin-like sound (ascending notes)
-                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-                oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
-                oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.3); // C6
-                
-                oscillator.type = 'square'; // 8-bit style square wave
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.5);
-            } catch (e) {
-                console.log('Audio not supported or blocked');
-            }
-        }
-        
-        // Additional Nintendo sound effects
-        function playPowerUpSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Power-up sound (Mario mushroom style)
-                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime); // E5
-                oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.1); // G5
-                oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.2); // C6
-                oscillator.frequency.setValueAtTime(1318.51, audioContext.currentTime + 0.3); // E6
-                oscillator.frequency.setValueAtTime(1567.98, audioContext.currentTime + 0.4); // G6
-                
-                oscillator.type = 'square';
-                
-                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.6);
-            } catch (e) {
-                console.log('Audio not supported or blocked');
-            }
-        }
-        
-        function playKirbySound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Kirby "Poyo!" sound (bouncy melody)
-                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
-                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime + 0.1); // C5
-                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
-                
-                oscillator.type = 'triangle'; // Softer sound for Kirby
-                
-                gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.4);
-            } catch (e) {
-                console.log('Audio not supported or blocked');
-            }
         }
         
         function initializeTheme() {
@@ -2648,17 +2530,32 @@
                 toggleBtn.addEventListener('click', toggleTheme);
             }
             
-            // Add Nintendo theme-specific interactions
+            // Add Nintendo theme-specific interactions and sound controls.
             setupNintendoInteractions();
+            const soundToggle = document.getElementById('kirby-sfx-toggle');
+            soundToggle.checked = window.KirbySfx.enabled;
+            soundToggle.addEventListener('change', () => {
+                window.KirbySfx.enabled = soundToggle.checked;
+            });
+            document.getElementById('kirby-sfx-test').addEventListener('click', () => {
+                window.KirbySfx.play('abilityGain');
+            });
         });
         
         function setupNintendoInteractions() {
+            const lunaReveal = document.querySelector('.luna-kirby-promo summary');
+            lunaReveal?.addEventListener('click', () => {
+                if (!lunaReveal.parentElement.open && document.body.classList.contains('nintendo-theme')) {
+                    window.KirbySfx.play('pop');
+                }
+            });
+
             // Add click sounds to navigation when in Nintendo theme
             const navButtons = document.querySelectorAll('.nineties-nav-table td');
             navButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     if (document.body.classList.contains('nintendo-theme')) {
-                        playNintendoSound();
+                        window.KirbySfx.play('menuSelect');
                     }
                 });
             });
@@ -2668,7 +2565,7 @@
             skillBars.forEach(skillBar => {
                 skillBar.addEventListener('mouseenter', function() {
                     if (document.body.classList.contains('nintendo-theme')) {
-                        setTimeout(() => playPowerUpSound(), 200);
+                        window.KirbySfx.play('starBounce');
                     }
                 });
             });
@@ -2678,7 +2575,7 @@
             if (peopleSkillsTitle) {
                 peopleSkillsTitle.addEventListener('click', function() {
                     if (document.body.classList.contains('nintendo-theme')) {
-                        playKirbySound();
+                        window.KirbySfx.play('pop');
                     }
                 });
             }
@@ -2705,7 +2602,7 @@
                         oneUp.style.top = (rect.top - 10) + 'px';
                         
                         document.body.appendChild(oneUp);
-                        playPowerUpSound();
+                        window.KirbySfx.play('oneUp');
                         
                         // Remove after animation
                         setTimeout(() => {
@@ -2731,136 +2628,6 @@
             }
         }
         
-        // AOL Dial-up Experience
-        const dialupMessages = [
-            "Initializing modem...",
-            "ATDT 1-800-827-6364",
-            "CONNECT 56000",
-            "Verifying username and password...",
-            "Negotiating protocols...",
-            "SCREEEEEEEECH... DING DING DING...",
-            "BOOP BEEP BOOP BEEP...",
-            "KSHHHHHHHHHHHHHHHH...",
-            "Welcome! You've Got Mail!"
-        ];
-
-        // Test sound function
-        function testDialupSound() {
-            const audio = document.getElementById('dialup-sound');
-            if (audio) {
-                audio.currentTime = 0;
-                audio.play().then(() => {
-                    alert('Sound is working! :-D');
-                }).catch(e => {
-                    alert('Sound error: ' + e.message + '\\nMake sure aol-dialup.mp3 is in the /audio/ folder');
-                });
-            } else {
-                alert('Audio element not found!');
-            }
-        }
-        
-        // Check if dial-up is enabled (default: true)
-        let dialupEnabled = localStorage.getItem('dialupEnabled') !== 'false';
-        
-        // Set toggle state
-        const toggle = document.getElementById('dialup-toggle');
-        if (toggle) {
-            toggle.checked = dialupEnabled;
-            toggle.addEventListener('change', (e) => {
-                dialupEnabled = e.target.checked;
-                localStorage.setItem('dialupEnabled', dialupEnabled ? 'true' : 'false');
-            });
-        }
-        
-        function showDialupScreen() {
-            if (!dialupEnabled) return;
-            const screen = document.getElementById('dialup-screen');
-            const log = document.getElementById('dialup-log');
-            const status = document.getElementById('dialup-status');
-            const speed = document.getElementById('dialup-speed');
-            const audio = document.getElementById('dialup-sound');
-            
-            screen.style.display = 'block';
-            
-            // Try to play the audio (might be blocked by browser)
-            if (audio) {
-                audio.volume = 0.3; // Not too loud!
-                console.log('Attempting to play audio:', audio.src);
-                audio.play().then(() => {
-                    console.log('Audio playing successfully!');
-                }).catch(e => {
-                    console.error('Audio playback failed:', e);
-                    // Try to add a user interaction button if autoplay fails
-                    const status = document.getElementById('dialup-status');
-                    if (status && e.name === 'NotAllowedError') {
-                        status.innerHTML = 'Click anywhere to enable sound...';
-                        document.getElementById('dialup-screen').addEventListener('click', function playOnClick() {
-                            audio.play();
-                            status.textContent = 'Dialing AOL...';
-                            document.getElementById('dialup-screen').removeEventListener('click', playOnClick);
-                        }, { once: true });
-                    }
-                });
-            } else {
-                console.error('Audio element not found!');
-            }
-            
-            let messageIndex = 0;
-            let currentSpeed = 0;
-            
-            const interval = setInterval(() => {
-                if (messageIndex < dialupMessages.length) {
-                    const newMessage = document.createElement('div');
-                    newMessage.textContent = dialupMessages[messageIndex];
-                    log.appendChild(newMessage);
-                    log.scrollTop = log.scrollHeight;
-                    
-                    // Update status
-                    if (messageIndex === dialupMessages.length - 1) {
-                        status.textContent = "Connected!";
-                        setTimeout(() => {
-                            skipDialup();
-                        }, 2000);
-                    } else {
-                        status.textContent = "Connecting... " + (messageIndex * 12) + "%";
-                    }
-                    
-                    messageIndex++;
-                }
-                
-                // Animate speed
-                if (currentSpeed < 56000) {
-                    currentSpeed += Math.random() * 5000;
-                    speed.textContent = Math.min(Math.floor(currentSpeed), 56000);
-                }
-            }, 2000);
-            
-            window.dialupInterval = interval;
-        }
-        
-        function skipDialup() {
-            const screen = document.getElementById('dialup-screen');
-            const audio = document.getElementById('dialup-sound');
-            
-            if (window.dialupInterval) {
-                clearInterval(window.dialupInterval);
-            }
-            
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
-            }
-            
-            screen.style.display = 'none';
-        }
-        
-        // Show dial-up screen on every page load if enabled
-        window.addEventListener('load', () => {
-            if (dialupEnabled) {
-                setTimeout(showDialupScreen, 500);
-            }
-        })
-
         // Animate the visitor counter
         setInterval(() => {
             const digits = document.querySelectorAll('.counter-digit');
@@ -2869,14 +2636,6 @@
             lastDigit.textContent = (currentValue + 1) % 10;
         }, 3000);
 
-        // Random midi songs
-        const songs = ['Sandstorm.mid', 'FinalCountdown.mid', 'AllStar.mid', 'BlueDaBaDee.mid'];
-        setInterval(() => {
-            const display = document.querySelector('.midi-display');
-            const randomSong = songs[Math.floor(Math.random() * songs.length)];
-            display.textContent = `~o~ Now Playing: "${randomSong}" ~o~`;
-        }, 10000);
-        
         // Nintendo Sprite System for Nintendo Theme
         function initNintendoSprites() {
             if (currentTheme !== 'nintendo') return;

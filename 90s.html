@@ -1482,6 +1482,7 @@
         }
     </style>
     <link rel="stylesheet" href="css/kirby-showcase.css">
+    <link rel="stylesheet" href="css/kirby-level-cards.css">
 </head>
 <body class="nineties-mode nintendo-theme">
     <!-- 90s Content Wrapper -->
@@ -1589,7 +1590,7 @@
                 </div>
             </div>
             <div class="kirby-grid" id="kirby-grid"></div>
-            <p class="kirby-credit">Sprites from <a href="https://wikirby.com/wiki/Kirby_Super_Star/gallery" target="_blank" rel="noopener noreferrer">WiKirby's Kirby Super Star gallery</a>. Kirby and original game art © Nintendo / HAL Laboratory.</p>
+            <p class="kirby-credit">Sprites from <a href="https://wikirby.com/wiki/Kirby_Super_Star/gallery" target="_blank" rel="noopener noreferrer">WiKirby</a>; level tiles from <a href="https://vgmaps.com/Atlas/SuperNES/index.htm#KirbySuperStar" target="_blank" rel="noopener noreferrer">VGMaps</a>. Original game art © Nintendo / HAL Laboratory.</p>
         </section>
 
         <!-- Main Content in 90s Style -->
@@ -1830,7 +1831,7 @@
             </div>
 
             <!-- Contact Section -->
-            <div class="nineties-section">
+            <div id="nineties-links" class="nineties-section">
                 <h2 class="nineties-section-title">
                     <span class="rainbow-text nintendo-world-title" data-theme-text="linksTitle">FIND ME ON THE INFORMATION SUPERHIGHWAY!</span>
                 </h2>
@@ -2332,23 +2333,23 @@
                 achievement: "*** MISSION COMPLETE: ALL SYSTEMS OPERATIONAL ***"
             },
             nintendo: {
-                marquee: ">>> Welcome to the Information Superhighway! <<< This site is best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Email me at griffin@cyberspace.net! :-) Turn up your speakers for the MIDI experience! >>> Let's-a-go! Yahoo! Poyo! >>> Press Start to Continue! >>> Collecting Power Stars since 1996! >>> Dream Land awaits! >>> It's-a-me, Griffin! >>> ",
-                welcomeTitle: "WORLD 1-1: WELCOME TO MY HOMEPAGE! LET'S-A-GO!",
-                welcomeGreeting: "Hey there, cyber-surfer! WAHOO! =)",
+                marquee: ">>> Welcome to the Information Superhighway! <<< Best viewed in Netscape Navigator 4.0 or higher! >>> Don't forget to sign my guestbook! <<< Turn up your speakers for the MIDI experience! >>> A little Dream Land for the road! >>> ",
+                welcomeTitle: "WELCOME TO MY HOMEPAGE!",
+                welcomeGreeting: "Hey there, cyber-surfer! =)",
                 welcomeIntro1: "I'm Griffin, CTO at Coherascent Labs. I build Lune Synth,",
                 welcomeIntro2: "a study app for honest feedback on handwritten work.",
-                welcomeIntro3: "I also research more reliable AI reasoning. Poyo! ⭐",
-                welcomeBody1: "Outside my digital Dream Land, you'll find me on mountain",
-                welcomeBody2: "trails or lifting. Mental and physical health are both",
-                welcomeBody3: "power-ups worth training! Yahoo! 🍄⭐",
-                welcomePress: "PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS! 🪙",
-                resumeTitle: "WORLD 2-1: HIGH SCORE RESUME! 🌟👑",
-                skillsTitle: "WORLD 3-1: LEVEL UP! MY POWER-UPS & ABILITIES! 🍄⭐👑",
-                projectsTitle: "WORLD 4-1: BOSS BATTLES! COOL STUFF I MADE 🔥👑",
-                guestbookTitle: "WORLD 5-1: MULTIPLAYER MODE! SIGN MY GUESTBOOK! 🍄⭐",
-                linksTitle: "WORLD 6-1: WARP ZONE! FIND ME ON THE INFORMATION SUPERHIGHWAY! 🪙👑",
-                peopleSkills: "*** FRIENDSHIP ABILITIES LIKE KIRBY! ***",
-                achievement: "*** ACHIEVEMENT UNLOCKED: ALL PROJECTS 100% Y2K COMPLIANT! GAME COMPLETE! 🍄⭐***"
+                welcomeIntro3: "I also research more reliable AI reasoning.",
+                welcomeBody1: "Outside research, I care about mental and physical health,",
+                welcomeBody2: "and you can usually find me on mountain trails or lifting.",
+                welcomeBody3: "Mind AND body still matter, even in Dream Land!",
+                welcomePress: "PRESS START TO BEGIN! CODING SINCE THE DIAL-UP DAYS!",
+                resumeTitle: "MY RESUME",
+                skillsTitle: "WHAT I KNOW",
+                projectsTitle: "COOL STUFF I MADE",
+                guestbookTitle: "SIGN MY GUESTBOOK!",
+                linksTitle: "FIND ME ON THE INFORMATION SUPERHIGHWAY!",
+                peopleSkills: "*** PEOPLE SKILLS ***",
+                achievement: "*** ALL PROJECTS 100% Y2K COMPLIANT! KIRBY APPROVED. ***"
             }
         };
         
@@ -2377,9 +2378,8 @@
                 matrix: ['</> Web Interface Protocol', '[JS] Client-Side Execution', '~ Code Injection',
                     '{AI} Neural Network Access', '[DB] Data Vault Entry', '(*) Social Engineering',
                     '[o] Information Broadcast', '^_^ Network Infiltration', ':-) Human Interface'],
-                nintendo: ['</> HTML/CSS Power-Up!', '[JS] JavaScript Fire Flower!', '🐍 Python Super Mushroom!',
-                    '{AI} AI/ML Star Power!', '[DB] Database Warp Pipe!', '(*) Communication Copy Ability!',
-                    '[o] Presentation Microphone!', '^_^ Dream Land Community!', ':-) Chatty like King Dedede!']
+                nintendo: ['</> HTML/CSS', '[JS] JavaScript', '~ Python', '{AI} AI/ML', '[DB] Databases',
+                    '(*) Communication', '[o] Presentations', '^_^ Kirby-level Teamwork', ':-) Being Talkative']
             };
             
             document.querySelectorAll('.skill-name').forEach((skillElement, index) => {

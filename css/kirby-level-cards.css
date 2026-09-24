@@ -1,0 +1,115 @@
+/* Nintendo mode uses actual terrain pixels from Kirby Super Star stage maps. */
+body.nintendo-theme .nineties-content .nineties-section,
+body.nintendo-theme .guestbook,
+body.nintendo-theme .webring,
+body.nintendo-theme .badges-section,
+body.nintendo-theme .midi-player,
+body.nintendo-theme .kirby-showcase {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/grassland.png');
+    --card-paper: rgba(255, 252, 239, .9);
+    background-color: #fffcef !important;
+    background-image: linear-gradient(var(--card-paper), var(--card-paper)), var(--level-tile) !important;
+    background-repeat: repeat !important;
+    background-size: auto, 128px auto !important;
+    border: 12px solid transparent !important;
+    border-image-source: var(--level-tile) !important;
+    border-image-slice: 16 !important;
+    border-image-repeat: repeat !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 #3f315b, 0 13px 24px rgba(20, 15, 49, .24) !important;
+    image-rendering: pixelated;
+    color: #282746 !important;
+    text-shadow: none !important;
+}
+
+body.nintendo-theme #nineties-about {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/grassland.png');
+}
+
+body.nintendo-theme #nineties-resume {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/pink-brick.png');
+    --card-paper: rgba(255, 250, 251, .91);
+}
+
+body.nintendo-theme #nineties-skills {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/star-sky.png');
+    --card-paper: rgba(251, 251, 255, .93);
+}
+
+body.nintendo-theme #nineties-projects {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/castle-stone.png');
+    --card-paper: rgba(252, 252, 252, .92);
+}
+
+body.nintendo-theme .guestbook {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/tree-hollow.png');
+    --card-paper: rgba(255, 250, 233, .92);
+}
+
+body.nintendo-theme .webring,
+body.nintendo-theme #nineties-links {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/metal.png');
+    --card-paper: rgba(250, 252, 255, .93);
+}
+
+body.nintendo-theme .badges-section {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/star-sky.png');
+}
+
+body.nintendo-theme .midi-player {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/pink-brick.png');
+}
+
+body.nintendo-theme .kirby-showcase {
+    --level-tile: url('../images/sprites/nintendo/kirby/level-tiles/grassland.png');
+    --card-paper: rgba(255, 251, 232, .93);
+}
+
+body.nintendo-theme .nineties-section::after {
+    display: none !important;
+}
+
+body.nintendo-theme .visitor-counter::before,
+body.nintendo-theme .visitor-counter::after,
+body.nintendo-theme .guestbook-form::before,
+body.nintendo-theme .webring::before,
+body.nintendo-theme .nintendo-people-skills::before,
+body.nintendo-theme .nintendo-people-skills::after {
+    content: none !important;
+    display: none !important;
+}
+
+body.nintendo-theme .kirby-card {
+    border: 5px solid transparent;
+    border-image: url('../images/sprites/nintendo/kirby/level-tiles/pink-brick.png') 8 repeat;
+    background: #fffdf4;
+    box-shadow: 3px 3px 0 #604288;
+}
+
+body.nintendo-theme .kirby-card[aria-pressed="true"] {
+    background: #ffe1ee;
+    border-image-source: url('../images/sprites/nintendo/kirby/level-tiles/star-sky.png');
+}
+
+@media (max-width: 600px) {
+    body.nintendo-theme #nineties-about .ascii-border {
+        font-size: 0;
+        white-space: normal;
+        overflow: visible;
+        padding: 12px;
+        background: rgba(255, 255, 255, .86);
+        border: 3px double #554368;
+    }
+
+    body.nintendo-theme #nineties-about .ascii-border [data-theme-text] {
+        display: block;
+        font-size: 13px;
+        line-height: 1.45;
+        white-space: normal;
+    }
+
+    body.nintendo-theme #nineties-about .ascii-border [data-theme-text="welcomeGreeting"],
+    body.nintendo-theme #nineties-about .ascii-border [data-theme-text="welcomeIntro3"] {
+        margin-bottom: 9px;
+    }
+}

@@ -1653,6 +1653,14 @@ body.liquid-glass-mode .social-links a {
    90s MODE STYLES - TOTALLY RADICAL! 
    ======================================== */
 
+@font-face {
+    font-family: 'Portfolio Pixel Display';
+    src: url('../fonts/kirby-ui/PressStart2P-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
 /* 90s Toggle Button - Re-themed using active secondary color */
 .nineties-toggle-btn {
     background: var(--primary-red);
@@ -1677,6 +1685,39 @@ body.liquid-glass-mode .social-links a {
     background: var(--primary-purple);
     border-color: var(--primary-purple);
     color: #fff;
+}
+
+/* A small 8-bit portal in the modern site's quick-links menu. */
+#nineties-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #6332a3;
+    border: 3px solid #ffd953;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #211336, inset 2px 2px 0 #a779df;
+    color: #fff;
+    font-family: 'Portfolio Pixel Display', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-shadow: 2px 2px 0 #211336;
+    transition: none;
+}
+
+#nineties-toggle:hover,
+#nineties-toggle:focus-visible {
+    background: #8249c0;
+    border-color: #fff082;
+    box-shadow: 2px 2px 0 #211336, inset 2px 2px 0 #bd92eb;
+    color: #fff;
+    transform: translate(2px, 2px);
+}
+
+#nineties-toggle .nineties-toggle-icon {
+    color: #ffe26e;
 }
 
 /* 90s Mode Wrapper */

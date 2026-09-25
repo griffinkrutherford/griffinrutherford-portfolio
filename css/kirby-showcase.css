@@ -143,11 +143,6 @@ body.nintendo-theme .kirby-hero-crew img:nth-child(3) { right: 14%; }
 body.nintendo-theme .kirby-hero-crew img:nth-child(4) { right: 4%; }
 
 body.nintendo-theme .theme-controls { align-items: flex-end; }
-body.nintendo-theme .theme-controls .nineties-toggle-btn {
-    width: 150px;
-    padding: 8px 5px;
-    font-size: 10px;
-}
 
 body.nintendo-theme .nineties-nav-table tr:first-child td {
     background: #9c2c73;

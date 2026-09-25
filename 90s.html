@@ -1432,6 +1432,24 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
+    <style>
+        /* Keep the two page controls the same size in every 90s theme. */
+        body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
+            box-sizing: border-box;
+            width: min(250px, calc(100vw - 40px));
+            height: 48px;
+            min-width: 0;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            line-height: 1.25;
+            text-align: center;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body class="nineties-mode nintendo-theme">
     <!-- 90s Content Wrapper -->
@@ -2509,16 +2527,6 @@
             document.querySelectorAll('.webring-nav a').forEach(link => {
                 link.addEventListener('click', () => {
                     if (document.body.classList.contains('nintendo-theme')) window.KirbySfx.play('menuSelect');
-                });
-            });
-            
-            // Add power-up sound to skill bars when hovered in Nintendo theme
-            const skillBars = document.querySelectorAll('.skill-bar');
-            skillBars.forEach(skillBar => {
-                skillBar.addEventListener('mouseenter', function() {
-                    if (document.body.classList.contains('nintendo-theme')) {
-                        window.KirbySfx.play('starBounce');
-                    }
                 });
             });
             

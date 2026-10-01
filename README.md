@@ -17,7 +17,7 @@ Welcome to my personal portfolio website! This site serves as a digital hub for 
 I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I've architected Lune Synth, an edtech app built to give people honest, useful feedback instead of empty praise. What drives me is connecting people to technology rigorous enough to actually trust, rather than chasing flashy demos. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
 
 ## Features
-- **Retro Themes**: **Retro Mode** (`90s.html`) opens in Windows Vista / Frutiger Aero and cycles Vista → Kirby → Matrix → Vista. Vista includes the original Aurora wallpaper and shell icons, Aero cursors, glass window frames with working minimize/expand buttons, searchable project files, a working Start menu, and a Santa Fe clock. Asset sources are documented in `images/vista/README.md`. Vista is the initial theme on every visit.
+- **Retro Themes**: **Retro Mode** (`90s.html`) opens in Windows Vista / Frutiger Aero. An icon dropdown selects Vista, Windows XP, Kirby, or Matrix directly. XP includes the Bliss wallpaper, blue Luna window borders, cream panels, a green Start button, and working desktop shortcuts, window controls, and project search. Vista remains the initial theme on every visit. Asset sources are documented in `images/vista/README.md` and `images/xp/README.md`.
 - **Responsive Design**: Optimized for desktop and mobile viewing.
 - **Interactive Elements**: Collapsible sections for Experience, Labs, and more.
 - **Video Header**: A dynamic intro video with my name overlay.
@@ -37,4 +37,6 @@ To run this portfolio locally:
    ```bash
    git clone https://github.com/yourusername/your-repo-name.git
 
-To check the retro theme cycle and Vista interactions, serve the site locally and run `node tests/vista-aero.browser.cjs` with Playwright installed. Set `PAGE_URL` to the served `90s.html` route and `CHROME_PATH` to an installed Chrome executable if needed. The check exercises keyboard navigation, real Start-menu shortcuts, window minimize/restore/expand, project search and empty results, theme cleanup, reduced motion, and 320/390/768-pixel layouts, and saves screenshots to `/tmp/vista-aero-review` (or `SCREENSHOT_DIR`).
+To check the retro theme picker and Vista interactions, serve the site locally and run `node tests/vista-aero.browser.cjs` with Playwright installed. Set `PAGE_URL` to the served `90s.html` route and `CHROME_PATH` to an installed Chrome executable if needed. The check exercises keyboard navigation, real Start-menu shortcuts, window minimize/restore/expand, project search and empty results, theme cleanup, reduced motion, and 320/390/768-pixel layouts, and saves screenshots to `/tmp/vista-aero-review` (or `SCREENSHOT_DIR`).
+
+Run `node tests/retro-themes.browser.cjs` with the same browser environment to check icon dropdown keyboard navigation, all four themes, XP desktop controls/search/Start shortcuts, cleanup between themes, mobile layouts, and reduced motion. Screenshots are saved to `/tmp/retro-themes-review` (or `SCREENSHOT_DIR`).

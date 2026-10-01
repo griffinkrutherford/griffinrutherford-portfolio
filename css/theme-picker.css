@@ -1,0 +1,73 @@
+.theme-picker {
+    position: relative;
+    width: min(250px, calc(100vw - 40px));
+    --picker-bg: #f4f8ff;
+    --picker-ink: #21374c;
+    --picker-border: #8faec7;
+    --picker-hover: #e1effb;
+    --picker-selected: #cde8fc;
+}
+body.nineties-mode .theme-picker #theme-toggle {
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    min-width: 0;
+    padding: 8px 12px;
+    gap: 9px;
+    transform: none;
+    animation: none;
+}
+.theme-picker :is(button, span, small) { font-family: 'Segoe UI', Tahoma, sans-serif !important; }
+.theme-picker .theme-toggle-text { font-size: 12px; letter-spacing: 0; text-transform: none; }
+.theme-picker .theme-toggle-icon { width: 26px; height: 26px; object-fit: contain; flex: 0 0 26px; }
+.theme-picker-arrow { margin-left: auto; font-size: 16px; }
+.theme-menu[hidden] { display: none !important; }
+.theme-menu {
+    position: absolute;
+    z-index: 10040;
+    top: calc(100% + 8px);
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--picker-border);
+    border-radius: 10px;
+    background: var(--picker-bg);
+    color: var(--picker-ink);
+    box-shadow: 0 10px 30px #0005;
+}
+.theme-menu .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 62px;
+    padding: 9px 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--picker-ink);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.theme-option img { object-fit: contain; flex: 0 0 30px; }
+.theme-option[data-theme="nintendo"] img { image-rendering: pixelated; }
+.theme-option small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; }
+.theme-option-check { margin-left: auto; visibility: hidden; }
+.theme-menu .theme-option[aria-selected="true"] { background: var(--picker-selected); }
+.theme-option[aria-selected="true"] .theme-option-check { visibility: visible; }
+.theme-menu .theme-option:hover { background: var(--picker-hover); }
+.theme-menu .theme-option:focus-visible { outline: 2px solid var(--picker-ink); outline-offset: -2px; background: var(--picker-hover); }
+body.xp-theme .theme-picker { --picker-bg: #ece9d8; --picker-border: #165ac3; --picker-hover: #dce8fa; --picker-selected: #c1d7f5; }
+body.matrix-theme .theme-picker { --picker-bg: #031007; --picker-ink: #9bffad; --picker-border: #29bd52; --picker-hover: #122f1c; --picker-selected: #194b28; }
+body.nintendo-theme .theme-picker { --picker-bg: #fff3df; --picker-ink: #653046; --picker-border: #e597af; --picker-hover: #ffdfeb; --picker-selected: #ffd1e2; }
+@media(max-width:700px) {
+    body.nineties-mode .theme-controls { position: relative !important; top: auto !important; right: auto !important; width: fit-content; margin: 0 auto 22px; }
+}
+@media(prefers-reduced-motion:reduce) {
+    .theme-picker * { animation: none !important; transition: none !important; }
+}

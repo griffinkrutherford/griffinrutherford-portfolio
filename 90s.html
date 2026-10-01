@@ -1432,7 +1432,9 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
-    <link rel="stylesheet" href="css/vista-aero.css?v=2">
+    <link rel="stylesheet" href="css/vista-aero.css?v=3">
+    <link rel="stylesheet" href="css/windows-xp.css">
+    <link rel="stylesheet" href="css/theme-picker.css">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1461,10 +1463,19 @@
         
         <!-- Theme Toggle Buttons -->
         <div class="theme-controls" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
-            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Current theme: Windows Vista Aero. Switch to Kirby.">
-                <span class="theme-toggle-icon">◉</span>
-                <span class="theme-toggle-text">Nintendo Mode</span>
-            </button>
+            <div class="theme-picker">
+                <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Choose retro theme. Current theme: Windows Vista Aero." aria-haspopup="listbox" aria-expanded="false" aria-controls="retro-theme-menu">
+                    <img class="theme-toggle-icon" src="images/vista/start-orb.svg" alt="" width="26" height="26">
+                    <span class="theme-toggle-text">Windows Vista Aero</span>
+                    <span class="theme-picker-arrow" aria-hidden="true">▾</span>
+                </button>
+                <div id="retro-theme-menu" class="theme-menu" role="listbox" aria-label="Retro theme" hidden>
+                    <button type="button" class="theme-option" role="option" data-theme="vista" aria-selected="true" tabindex="-1"><img src="images/vista/start-orb.svg" alt="" width="30" height="30"><span>Windows Vista Aero<small>Glass &amp; aurora</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="xp" aria-selected="false" tabindex="-1"><img src="images/theme-icons/xp.svg" alt="" width="30" height="30"><span>Windows XP<small>Bliss &amp; Luna blue</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                </div>
+            </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
                 [<-] Back to Modern Mode
             </button>
@@ -1923,7 +1934,9 @@
         </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js?v=2" defer></script>
+    <script src="js/vista-aero.js?v=3" defer></script>
+
+    <script src="js/theme-picker.js" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
@@ -2256,9 +2269,8 @@
     
     <script>
         // Start every visit in Vista mode; the switcher still works for this visit.
-        const themes = ['vista', 'nintendo', 'matrix'];
-        let currentThemeIndex = themes.indexOf('vista');
-        let currentTheme = themes[currentThemeIndex];
+        const themes = ['vista', 'xp', 'nintendo', 'matrix'];
+        let currentTheme = 'vista';
         
         // Theme-specific text content
         const themeTexts = {
@@ -2344,6 +2356,15 @@
             }
         };
         
+        themeTexts.xp = { ...themeTexts.vista,
+            marquee: "Welcome to Griffin's Windows XP desktop • Blue skies, green hills, and a fresh start • Open a project, explore my experience, or leave a hello.",
+            headerSubtitle: 'A fresh start for curious minds',
+            welcomeTitle: 'Welcome to my desktop',
+            skillsTitle: 'Control Panel · Skills',
+            projectsTitle: 'My Projects',
+            guestbookTitle: 'Outlook Express · Say hello'
+        };
+
         // Function to update text content based on current theme
         function updateThemeText() {
             const themeKey = currentTheme;
@@ -2357,11 +2378,8 @@
                 }
             });
             
-            // Update skill names and announce the current/next theme on the real switch control.
             updateSkillNames();
-            const names = {nintendo: 'Kirby', vista: 'Windows Vista Aero', nineties: 'Classic 90s', matrix: 'Matrix'};
-            const next = themes[(currentThemeIndex + 1) % themes.length];
-            document.getElementById('theme-toggle').setAttribute('aria-label', `Current theme: ${names[currentTheme]}. Switch to ${names[next]}.`);
+            window.syncRetroThemePicker?.(currentTheme);
             document.getElementById('vista-start').setAttribute('aria-expanded', 'false');
             document.getElementById('vista-start-menu').hidden = true;
             window.syncVistaMotion?.();
@@ -2382,92 +2400,27 @@
             };
             
             document.querySelectorAll('.skill-name').forEach((skillElement, index) => {
-                if (skillMappings[currentTheme][index]) {
-                    skillElement.textContent = skillMappings[currentTheme][index];
+                if ((skillMappings[currentTheme] || skillMappings.vista)[index]) {
+                    skillElement.textContent = (skillMappings[currentTheme] || skillMappings.vista)[index];
                 }
             });
         }
         
         function initializeTheme() {
-            const body = document.body;
-            const toggleIcon = document.querySelector('.theme-toggle-icon');
-            const toggleText = document.querySelector('.theme-toggle-text');
-            
-            // Remove all theme classes
-            body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme');
+            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme');
             stopMatrixRain();
-            
-            switch(currentTheme) {
-                case 'nintendo':
-                    body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '[*]';
-                    toggleText.textContent = 'Matrix Mode';
-                    break;
-                case 'vista':
-                    body.classList.add('vista-theme');
-                    toggleIcon.textContent = '◉';
-                    toggleText.textContent = 'Nintendo Mode';
-                    break;
-                case 'matrix':
-                    body.classList.add('matrix-theme');
-                    toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Vista Aero Mode';
-                    initMatrixRain();
-                    break;
-                default: // nineties
-                    toggleIcon.textContent = '===';
-                    toggleText.textContent = 'Matrix Mode';
-                    break;
-            }
-            
-            // Update text content for the current theme
+            document.body.classList.add(`${currentTheme}-theme`);
+            if (currentTheme === 'matrix') initMatrixRain();
             updateThemeText();
         }
-        
-        function toggleTheme() {
-            const body = document.body;
-            const toggleIcon = document.querySelector('.theme-toggle-icon');
-            const toggleText = document.querySelector('.theme-toggle-text');
-            if (currentTheme === 'nintendo' || themes[(currentThemeIndex + 1) % themes.length] === 'nintendo') {
-                window.KirbySfx.play('switch');
-            }
-            
-            // Cycle to next theme
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            currentTheme = themes[currentThemeIndex];
-            
-            // Remove all theme classes
-            body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme');
-            stopMatrixRain();
-            
-            // Apply new theme
-            switch(currentTheme) {
-                case 'nintendo':
-                    body.classList.add('nintendo-theme');
-                    toggleIcon.textContent = '[*]';
-                    toggleText.textContent = 'Matrix Mode';
-                    break;
-                case 'vista':
-                    body.classList.add('vista-theme');
-                    toggleIcon.textContent = '◉';
-                    toggleText.textContent = 'Nintendo Mode';
-                    break;
-                case 'matrix':
-                    body.classList.add('matrix-theme');
-                    toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Vista Aero Mode';
-                    initMatrixRain();
-                    break;
-                default: // nineties
-                    toggleIcon.textContent = '===';
-                    toggleText.textContent = 'Matrix Mode';
-                    break;
-            }
-            
-            // Update text content for the current theme
-            updateThemeText();
-        }
-        
+
+        window.applyRetroTheme = function(theme) {
+            if (!themes.includes(theme) || theme === currentTheme) return;
+            if (currentTheme === 'nintendo' || theme === 'nintendo') window.KirbySfx.play('switch');
+            currentTheme = theme;
+            initializeTheme();
+        };
+
         // Matrix Digital Rain Effect
         let matrixAnimation;
         let matrixCanvas;
@@ -2547,12 +2500,6 @@
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeTheme();
-            
-            // Add event listener to theme toggle button
-            const toggleBtn = document.getElementById('theme-toggle');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', toggleTheme);
-            }
             
             // Add Nintendo theme-specific interactions and sound controls.
             setupNintendoInteractions();

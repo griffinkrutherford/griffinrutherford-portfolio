@@ -3,7 +3,11 @@
     const start = document.getElementById('vista-start');
     const menu = document.getElementById('vista-start-menu');
     const clock = document.getElementById('vista-clock');
-    document.getElementById('vista-personalize').addEventListener('click', () => document.getElementById('theme-toggle').click());
+    const isDesktopTheme = () => document.body.matches('.vista-theme, .xp-theme');
+    document.getElementById('vista-personalize').addEventListener('click', event => {
+        event.stopPropagation();
+        window.openRetroThemePicker();
+    });
     const windows = [
         ['.nineties-header', 'computer', 'Welcome Center — Griffin Rutherford'],
         ['#nineties-about', 'people'],
@@ -35,7 +39,7 @@
         expand.type = 'button'; expand.className = 'vista-window-maximize';
         expand.setAttribute('aria-pressed', 'false');
         function sync() {
-            title.textContent = fixedTitle || heading.textContent.trim();
+            title.textContent = fixedTitle && document.body.classList.contains('xp-theme') ? 'My Computer — Griffin Rutherford' : fixedTitle || heading.textContent.trim();
             const minimized = panel.classList.contains('is-vista-minimized');
             collapse.setAttribute('aria-expanded', String(!minimized));
             collapse.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${title.textContent}`);
@@ -55,24 +59,38 @@
         return {panel, sync};
     }).filter(Boolean);
     function syncWindows() {
-        if (!document.body.classList.contains('vista-theme')) {
+        if (!isDesktopTheme()) {
             windows.forEach(({panel}) => panel.classList.remove('is-vista-minimized', 'is-vista-maximized'));
         }
         windows.forEach(({sync}) => sync());
     }
     new MutationObserver(syncWindows).observe(document.body, {attributes: true, attributeFilter: ['class']});
+    const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img')].map(image => ({image, source: image.getAttribute('src')}));
+    function syncDesktopResources() {
+        const xp = document.body.classList.contains('xp-theme');
+        desktopImages.forEach(({image, source}) => {
+            const match = source.match(/images\/vista\/(computer|network|folder)\.ico$/);
+            image.src = xp && match ? `images/xp/${match[1]}.ico` : source;
+            if (image.classList.contains('vista-start-orb') && xp) image.src = 'images/theme-icons/xp.svg';
+        });
+        document.querySelector('.vista-eyebrow').textContent = xp ? 'PERSONAL DESKTOP · WINDOWS XP / 2001' : 'PERSONAL DESKTOP · EST. 1996 / REMIXED 2007';
+        document.querySelector('.vista-hero h2').textContent = xp ? 'Your next adventure starts here.' : 'Connected by curiosity.';
+    }
+    new MutationObserver(syncDesktopResources).observe(document.body, {attributes: true, attributeFilter: ['class']});
+    syncDesktopResources();
+
     function restoreShortcut(target) {
         const item = windows.find(({panel}) => `#${panel.id}` === target);
         if (item) { item.panel.classList.remove('is-vista-minimized'); item.sync(); }
     }
     document.addEventListener('click', event => {
         const link = event.target.closest('a[href^="#"]');
-        if (link && document.body.classList.contains('vista-theme')) restoreShortcut(link.getAttribute('href'));
+        if (link && isDesktopTheme()) restoreShortcut(link.getAttribute('href'));
     });
     const search = document.getElementById('vista-project-search');
     const projectRows = Array.from(document.querySelectorAll('[data-vista-project]'));
     function filterProjects() {
-        const query = document.body.classList.contains('vista-theme') ? search.value.trim().toLowerCase() : '';
+        const query = isDesktopTheme() ? search.value.trim().toLowerCase() : '';
         let count = 0;
         projectRows.forEach(row => { row.hidden = !row.textContent.toLowerCase().includes(query); if (!row.hidden) count++; });
         document.getElementById('vista-project-count').textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
@@ -112,7 +130,7 @@
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     window.syncVistaMotion = () => {
         const marquee = document.querySelector('.nineties-marquee');
-        if (document.body.classList.contains('vista-theme') && reducedMotion.matches) marquee.stop();
+        if (isDesktopTheme() && reducedMotion.matches) marquee.stop();
         else marquee.start();
     };
     reducedMotion.addEventListener('change', window.syncVistaMotion);

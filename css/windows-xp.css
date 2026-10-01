@@ -1,0 +1,114 @@
+/* Luna blue: opaque cream windows, bright title bars, and the green Start button. */
+body.xp-theme {
+    background: #4585d4 url('../images/xp/bliss.jpg') center / cover fixed no-repeat;
+    color: #222;
+    font-family: Tahoma, 'Segoe UI', sans-serif !important;
+}
+body.xp-theme :where(*) { font-family: Tahoma, 'Segoe UI', sans-serif !important; }
+body.xp-theme { cursor: default; }
+body.xp-theme :is(a,button) { cursor: pointer; }
+body.xp-theme :is(.nineties-section,.guestbook,.webring,.badges-section,.nineties-header) {
+    background: #ece9d8;
+    border: 3px solid #0855d4;
+    border-radius: 8px 8px 2px 2px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 2px 4px 12px #15336666;
+}
+body.xp-theme .nineties-header { padding: 6px; }
+body.xp-theme .nineties-title-container {
+    background: linear-gradient(110deg,#fff,#edf2ff);
+    border: 1px solid #a1b4d3;
+    border-radius: 0;
+}
+body.xp-theme .vista-window-titlebar {
+    color: #fff;
+    background: linear-gradient(#388bff 0%,#0862e8 12%,#0054d3 75%,#0348b4);
+    border: 0;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset 0 1px 0 #88baff;
+    text-shadow: 1px 1px #123e88;
+    font-weight: 700;
+}
+body.xp-theme .vista-window-controls { gap: 3px; margin: 0 0 0 auto; align-self: center; }
+body.xp-theme .vista-window-controls button {
+    width: 26px;
+    min-height: 26px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    background: linear-gradient(135deg,#66a5ff,#236be0 55%,#1555bf);
+    box-shadow: inset 1px 1px #c8e1ff;
+}
+body.xp-theme .vista-window-minimize::after { background: white; box-shadow: none; }
+body.xp-theme .vista-window-maximize::after { border-color: white; box-shadow: none; }
+body.xp-theme .vista-hero h2 { color: #17479d; font-weight: 600; }
+body.xp-theme .vista-globe { animation: none; filter: none; width: 128px; flex-basis: 128px; }
+body.xp-theme :is(.theme-toggle-btn,.nineties-toggle-btn,.vista-explore,.guestbook-submit,.webring-nav a) {
+    background: linear-gradient(#fff,#ece9d8);
+    border: 1px solid #003c74;
+    border-radius: 3px;
+    color: #17283d;
+    box-shadow: inset 0 0 0 1px #fff;
+    text-shadow: none;
+}
+body.xp-theme :is(.theme-toggle-btn,.nineties-toggle-btn,.vista-explore,.guestbook-submit,.webring-nav a):hover { background: linear-gradient(#fff,#f4ecd5); box-shadow: inset 0 0 0 2px #f4bd56; }
+body.xp-theme .theme-controls { background: #ece9d8; border: 1px solid #215fc2; border-radius: 5px; backdrop-filter: none; }
+body.xp-theme .nineties-nav-table { background: #f9f8f2; border-color: #919b9c; }
+body.xp-theme .nineties-nav-table tr:first-child td { background: #d6dff7; }
+body.xp-theme .ascii-border { background: #fff; border-color: #b4bac5; }
+body.xp-theme :is(.ascii-art,.guestbook-form,.guestbook-entries) { background: #fff !important; border-color: #aaa !important; border-radius: 0; }
+body.xp-theme .visitor-counter { background: #f7f6ee; border-color: #aca899; box-shadow: none; }
+body.xp-theme .nineties-marquee { background: #ffffe1; border-color: #aca899; box-shadow: none; color: #333; }
+body.xp-theme .skill-progress { background: #fff; border-color: #919b9c; }
+body.xp-theme .skill-fill { background: repeating-linear-gradient(90deg,#39b635 0 12px,#fff 12px 15px); border-radius: 0; color: #153915; text-shadow: 0 1px #b8f7b2; }
+body.xp-theme .vista-folder-toolbar { background: #ece9d8; border-color: #aca899; }
+body.xp-theme .vista-search input { border-color: #7f9db9; border-radius: 0; box-shadow: none; }
+body.xp-theme #vista-project-files tr:hover td { background: #e8f0ff; }
+body.xp-theme .vista-taskbar {
+    height: 42px;
+    padding: 0 12px 0 0;
+    gap: 12px;
+    background: linear-gradient(#3b92fb,#245edb 12%,#235cda 80%,#1941a5);
+    border-top: 1px solid #8bbcff;
+    backdrop-filter: none;
+    box-shadow: none;
+}
+body.xp-theme .vista-start {
+    padding: 0 16px 0 10px;
+    min-height: 42px;
+    gap: 7px;
+    border: 0;
+    border-radius: 0 18px 18px 0;
+    background: linear-gradient(#84c77a,#3d9a3b 20%,#328f30 70%,#267424);
+    box-shadow: inset 0 2px 3px #dcffd4;
+    font-size: 19px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+}
+body.xp-theme .vista-start-orb { width: 26px; height: 26px; border-radius: 0; filter: none; }
+body.xp-theme .vista-start:hover { background: linear-gradient(#9add8e,#45ad40 25%,#2d952b); }
+body.xp-theme .vista-task { min-height: 28px; background: #3b7ef2; border-color: #1750bc; box-shadow: inset 1px 1px #79b2ff; }
+body.xp-theme .vista-tray { align-self: stretch; padding: 0 10px; background: #1298e9; border-left: 1px solid #66c6ff; }
+body.xp-theme .vista-start-menu {
+    bottom: 42px;
+    left: 0;
+    padding: 0 5px 5px;
+    background: linear-gradient(90deg,#fff 0 70%,#d3e5fa 70%);
+    border: 2px solid #1b60ca;
+    border-radius: 6px 6px 0 0;
+    backdrop-filter: none;
+}
+body.xp-theme .vista-menu-profile { margin: 0 -5px 4px; padding: 12px; background: linear-gradient(#2464c8,#438be1); color: #fff; text-shadow: 1px 1px #17427d; }
+body.xp-theme .vista-menu-profile small { color: #fff; }
+body.xp-theme .vista-avatar { width: 48px; height: 48px; border-radius: 4px; }
+body.xp-theme .vista-start-menu .vista-menu-right :is(a,button) { color: #17355d; }
+body.xp-theme .vista-start-menu .vista-menu-right :is(a,button):hover { background: #bad5f3; border-color: #8badde; }
+body.xp-theme .vista-start-menu .vista-menu-home { background: #d7e7fa; border-color: #a4bfdf; }
+@media(max-width:700px) {
+    body.xp-theme { background-attachment: fixed; }
+    body.xp-theme .vista-globe { flex-basis: auto; width: 90px; }
+    body.xp-theme .vista-start { padding: 0 12px 0 8px; font-size: 16px; }
+    body.xp-theme .vista-task { padding: 4px 8px; }
+    body.xp-theme .vista-tray { padding: 0 7px; }
+}

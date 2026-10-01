@@ -17,6 +17,7 @@ Welcome to my personal portfolio website! This site serves as a digital hub for 
 I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I've architected Lune Synth, an edtech app built to give people honest, useful feedback instead of empty praise. What drives me is connecting people to technology rigorous enough to actually trust, rather than chasing flashy demos. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
 
 ## Features
+- **Retro Themes**: `90s.html` cycles Kirby → Windows Vista / Frutiger Aero → Classic 90s → Matrix. Vista includes an original vector landscape, frosted glass windows, glossy controls, a working Start menu, and a Santa Fe clock. Kirby remains the initial theme.
 - **Responsive Design**: Optimized for desktop and mobile viewing.
 - **Interactive Elements**: Collapsible sections for Experience, Labs, and more.
 - **Video Header**: A dynamic intro video with my name overlay.
@@ -35,3 +36,5 @@ To run this portfolio locally:
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/yourusername/your-repo-name.git
+
+To check the retro theme cycle and Vista interactions, serve the site locally and run `node tests/vista-aero.browser.cjs` with Playwright installed. Set `PAGE_URL` to the served `90s.html` route and `CHROME_PATH` to an installed Chrome executable if needed. The check exercises keyboard navigation, real Start-menu shortcuts, theme cleanup, reduced motion, and 320/390/768-pixel layouts, and saves screenshots to `/tmp/vista-aero-review` (or `SCREENSHOT_DIR`).

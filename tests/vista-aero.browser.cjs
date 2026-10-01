@@ -1,0 +1,65 @@
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+(async () => {
+    const browser = await chromium.launch({headless: true, ...(process.env.CHROME_PATH ? {executablePath: process.env.CHROME_PATH} : {})});
+    try {
+        const page = await browser.newPage({viewport: {width: 1440, height: 1000}, reducedMotion: 'reduce'});
+        const errors = []; page.on('pageerror', e => errors.push(e.message));
+        await page.goto(process.env.PAGE_URL || 'http://127.0.0.1:8788/90s.html', {waitUntil: 'load'});
+        await page.evaluate(() => document.fonts.ready);
+        const out = process.env.SCREENSHOT_DIR || '/tmp/vista-aero-review'; fs.mkdirSync(out, {recursive: true});
+        const toggle = page.locator('#theme-toggle');
+        assert.ok(await page.locator('body').evaluate(el => el.classList.contains('nintendo-theme')));
+        assert.equal(await page.locator('.theme-toggle-text').textContent(), 'Vista Aero Mode');
+        await toggle.focus(); await page.keyboard.press('Enter');
+        assert.ok(await page.locator('body').evaluate(el => el.classList.contains('vista-theme')));
+        assert.match(await toggle.getAttribute('aria-label'), /Current theme: Windows Vista Aero. Switch to Classic 90s/);
+        assert.equal(await page.locator('.kirby-showcase:visible').count(), 0);
+        assert.equal(await page.locator('.kirby-sfx-settings:visible').count(), 0);
+        assert.equal(await page.locator('#matrix-canvas:visible').count(), 0);
+        assert.match(await page.locator('.ascii-border').innerText(), /CTO of Coherascent Labs/);
+        assert.match(await page.locator('#vista-clock').textContent(), /\d+:\d\d\s[AP]M/);
+        assert.match(await page.locator('.vista-globe').evaluate(el => getComputedStyle(el).animationName), /none/);
+        assert.match(await page.locator('.vista-hero').evaluate(el => getComputedStyle(el).fontFamily), /Segoe UI/);
+        assert.ok((await page.request.get(new URL('images/vista-aero-wallpaper.svg', page.url()).href)).ok());
+        await page.screenshot({path: `${out}/vista-desktop.png`});
+        await page.locator('#vista-start').focus(); await page.keyboard.press('Enter');
+        assert.equal(await page.locator('#vista-start').getAttribute('aria-expanded'), 'true');
+        assert.ok(await page.locator('#vista-start-menu').isVisible());
+        assert.equal(await page.evaluate(() => document.activeElement.closest('#vista-start-menu')?.id), 'vista-start-menu');
+        await page.screenshot({path: `${out}/vista-start-menu.png`});
+        await page.keyboard.press('Escape');
+        assert.equal(await page.locator('#vista-start').getAttribute('aria-expanded'), 'false');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'vista-start');
+        await page.locator('#vista-start').click(); await page.locator('#vista-start-menu a[href="#nineties-skills"]').click();
+        assert.equal(new URL(page.url()).hash, '#nineties-skills');
+        assert.equal(await page.locator('#vista-start-menu').isVisible(), false);
+        await page.locator('#nineties-skills').screenshot({path: `${out}/vista-skills.png`});
+        await page.locator('#nineties-projects').screenshot({path: `${out}/vista-projects.png`});
+        await page.locator('.guestbook').screenshot({path: `${out}/vista-guestbook.png`});
+        await page.locator('#vista-start').click(); await toggle.focus(); await page.keyboard.press('Enter');
+        assert.equal(await page.locator('.vista-taskbar').isVisible(), false);
+        assert.equal(await page.locator('#vista-start-menu').isVisible(), false);
+        assert.ok(await page.locator('body').evaluate(el => !el.classList.contains('vista-theme') && !el.classList.contains('nintendo-theme')));
+        assert.equal(await page.locator('.theme-toggle-text').textContent(), 'Matrix Mode');
+        await toggle.focus(); await page.keyboard.press('Enter'); assert.ok(await page.locator('body').evaluate(el => el.classList.contains('matrix-theme')));
+        await toggle.focus(); await page.keyboard.press('Enter'); assert.ok(await page.locator('body').evaluate(el => el.classList.contains('nintendo-theme')));
+        assert.ok(await page.locator('.kirby-showcase').isVisible());
+        await toggle.focus(); await page.keyboard.press('Enter');
+        for (const width of [390, 320, 768]) {
+            await page.setViewportSize({width, height: 844}); await page.evaluate(() => scrollTo(0, 0));
+            assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `no overflow at ${width}`);
+            const bounds = await toggle.boundingBox(); assert.ok(bounds.x >= 0 && bounds.x + bounds.width <= width);
+            await page.screenshot({path: `${out}/vista-${width}.png`});
+            await page.locator('#vista-start').click();
+            const menu = await page.locator('#vista-start-menu').boundingBox(); assert.ok(menu.x >= 0 && menu.x + menu.width <= width);
+            await page.screenshot({path: `${out}/vista-menu-${width}.png`});
+            await page.keyboard.press('Escape');
+        }
+        await page.emulateMedia({reducedMotion: 'no-preference'});
+        assert.equal(await page.locator('.vista-globe').evaluate(el => getComputedStyle(el).animationName), 'aero-float');
+        assert.deepEqual(errors, []);
+        console.log(`PASS: Kirby → Vista → Classic → Matrix cycle, theme cleanup, real Start shortcuts, keyboard/focus/Escape, Santa Fe clock, reduced motion, desktop/tablet/phone layouts. Screenshots: ${out}`);
+    } finally { await browser.close(); }
+})().catch(error => {console.error(error); process.exitCode = 1;});

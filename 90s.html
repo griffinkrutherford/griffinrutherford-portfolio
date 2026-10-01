@@ -1432,6 +1432,7 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
+    <link rel="stylesheet" href="css/vista-aero.css">
     <style>
         /* Keep the two page controls the same size in every 90s theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1462,7 +1463,7 @@
         <div class="theme-controls" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
             <button id="theme-toggle" class="theme-toggle-btn">
                 <span class="theme-toggle-icon">[*]</span>
-                <span class="theme-toggle-text">Classic Mode</span>
+                <span class="theme-toggle-text">Vista Aero Mode</span>
             </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
                 [<-] Back to Modern Mode
@@ -1474,6 +1475,16 @@
             <div class="nineties-title-container">
                 <div class="nineties-blink">*** WELCOME TO GRIFFIN'S TOTALLY RADICAL HOMEPAGE! ***</div>
                 <h1 class="nineties-name rainbow-text">GRIFFIN RUTHERFORD</h1>
+                <div class="vista-hero vista-only">
+                    <svg class="vista-globe" viewBox="0 0 160 160" aria-hidden="true">
+                        <defs><radialGradient id="aero-ocean" cx="35%" cy="22%" r="80%"><stop stop-color="#aeffff"/><stop offset=".45" stop-color="#138fe0"/><stop offset="1" stop-color="#073c9b"/></radialGradient><linearGradient id="aero-land" x2="0" y2="1"><stop stop-color="#dcff85"/><stop offset="1" stop-color="#37a442"/></linearGradient><radialGradient id="aero-shine" cx=".3" cy=".1" r=".9"><stop stop-color="white" stop-opacity=".9"/><stop offset=".7" stop-color="white" stop-opacity="0"/></radialGradient><clipPath id="aero-round"><circle cx="80" cy="80" r="70"/></clipPath></defs>
+                        <circle cx="80" cy="80" r="72" fill="#fff" opacity=".6"/><circle cx="80" cy="80" r="70" fill="url(#aero-ocean)"/>
+                        <g clip-path="url(#aero-round)" fill="url(#aero-land)"><path d="M19 42 45 22 62 30 72 49 60 56 65 68 49 83 37 74 30 59 17 56Z M53 79 70 83 81 100 70 113 61 137 53 122 55 103 43 93Z M94 29 108 18 139 33 148 52 128 60 121 77 102 66 83 58 84 41Z M100 70 119 75 128 95 110 120 98 111 87 88Z"/></g>
+                        <g fill="none" stroke="#dfffff" opacity=".23"><ellipse cx="80" cy="80" rx="34" ry="70"/><ellipse cx="80" cy="80" rx="70" ry="28"/><path d="M10 80h140M80 10v140"/></g>
+                        <ellipse cx="68" cy="46" rx="49" ry="28" fill="url(#aero-shine)"/>
+                    </svg>
+                    <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
+                </div>
                 <div class="kirby-hero-pair">
                     <div class="griffin-kirby-hero">
                         <img src="images/sprites/nintendo/kirby/griffin-kirby-snes.png" alt="A custom 16-bit Griffin Kirby sprite with dark hair and a black polo" width="144" height="138">
@@ -1893,6 +1904,21 @@
         </div>
     </div>
 
+    <div class="vista-taskbar vista-only">
+        <button type="button" id="vista-start" class="vista-start" aria-expanded="false" aria-controls="vista-start-menu"><span class="vista-start-orb" aria-hidden="true">✦</span> Start</button>
+        <a href="#nineties-about" class="vista-task">Griffin's desktop</a>
+        <span class="vista-tray"><span aria-hidden="true">◈</span> Santa Fe <time id="vista-clock"></time></span>
+    </div>
+    <nav id="vista-start-menu" class="vista-start-menu vista-only" aria-label="Desktop shortcuts" hidden>
+        <div class="vista-menu-profile"><span class="vista-avatar" aria-hidden="true">G</span><div><strong>Griffin Rutherford</strong><small>Your guide to this little desktop</small></div></div>
+        <a href="#nineties-about">◉ <span>About me<small>Meet the person behind the projects</small></span></a>
+        <a href="#nineties-resume">▤ <span>Experience & education<small>The places I've learned and built</small></span></a>
+        <a href="#nineties-projects">▣ <span>Projects<small>Open something interesting</small></span></a>
+        <a href="#nineties-skills">✧ <span>Skills<small>Tools, ideas, and people</small></span></a>
+        <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
+    </nav>
+    <script src="js/vista-aero.js" defer></script>
+
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
     <script src="js/nintendo-header-sprites.js"></script>
@@ -2224,7 +2250,7 @@
     
     <script>
         // Start every visit in Kirby mode; the switcher still works for this visit.
-        const themes = ['nintendo', 'nineties', 'matrix'];
+        const themes = ['nintendo', 'vista', 'nineties', 'matrix'];
         let currentThemeIndex = 0;
         let currentTheme = themes[currentThemeIndex];
         
@@ -2249,6 +2275,26 @@
                 linksTitle: "FIND ME ON THE INFORMATION SUPERHIGHWAY!",
                 peopleSkills: "*** PEOPLE SKILLS ***",
                 achievement: "*** ALL PROJECTS 100% Y2K COMPLIANT! ***"
+            },
+            vista: {
+                marquee: "Welcome to Griffin's personal desktop • A little glass, a little grass, and a lot of curiosity • Explore Lune Synth, creative coding, and life outside the screen • 2007 called. We kept the glow.",
+                headerSubtitle: "Technology, learning, and a little fresh air",
+                welcomeTitle: "Welcome to my corner of the world",
+                welcomeGreeting: "Hello from Santa Fe.",
+                welcomeIntro1: "I'm CTO of Coherascent Labs, an education technology and research company.",
+                welcomeIntro2: "I built Lune Synth to turn handwritten work into useful feedback.",
+                welcomeIntro3: "Good technology helps people understand their next step.",
+                welcomeBody1: "Away from the keyboard, I care about mental and physical health.",
+                welcomeBody2: "You'll find me on mountain trails, lifting, or talking with friends.",
+                welcomeBody3: "Stay curious. Go outside. Build something that helps.",
+                welcomePress: "Explore my experience →",
+                resumeTitle: "Experience & education",
+                skillsTitle: "Tools for a connected world",
+                projectsTitle: "Projects worth opening",
+                guestbookTitle: "Leave a little hello",
+                linksTitle: "Let's connect",
+                peopleSkills: "The human side",
+                achievement: "Built with curiosity. Best explored with yours."
             },
             matrix: {
                 marquee: ">>> ACCESSING MAINFRAME... <<< SECURITY PROTOCOLS ACTIVE <<< UNAUTHORIZED ACCESS DETECTED <<< INITIATING COUNTERMEASURES <<< THE MATRIX HAS YOU... <<< FOLLOW THE WHITE RABBIT... >>> ",
@@ -2305,8 +2351,14 @@
                 }
             });
             
-            // Update skill names based on theme
+            // Update skill names and announce the current/next theme on the real switch control.
             updateSkillNames();
+            const names = {nintendo: 'Kirby', vista: 'Windows Vista Aero', nineties: 'Classic 90s', matrix: 'Matrix'};
+            const next = themes[(currentThemeIndex + 1) % themes.length];
+            document.getElementById('theme-toggle').setAttribute('aria-label', `Current theme: ${names[currentTheme]}. Switch to ${names[next]}.`);
+            document.getElementById('vista-start').setAttribute('aria-expanded', 'false');
+            document.getElementById('vista-start-menu').hidden = true;
+            window.syncVistaMotion?.();
         }
         
         // Function to update skill names based on theme
@@ -2314,6 +2366,8 @@
             const skillMappings = {
                 nineties: ['</> HTML/CSS', '[JS] JavaScript', '~ Python', '{AI} AI/ML', '[DB] Databases',
                     '(*) Communication', '[o] Presentations', '^_^ Community Building', ':-) Being Talkative'],
+                vista: ['Web design · HTML / CSS', 'JavaScript', 'Python', 'AI & machine learning', 'Databases',
+                    'Communication', 'Presentations', 'Community building', 'Conversation'],
                 matrix: ['</> Web Interface Protocol', '[JS] Client-Side Execution', '~ Code Injection',
                     '{AI} Neural Network Access', '[DB] Data Vault Entry', '(*) Social Engineering',
                     '[o] Information Broadcast', '^_^ Network Infiltration', ':-) Human Interface'],
@@ -2334,13 +2388,18 @@
             const toggleText = document.querySelector('.theme-toggle-text');
             
             // Remove all theme classes
-            body.classList.remove('matrix-theme', 'nintendo-theme');
+            body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme');
             stopMatrixRain();
             
             switch(currentTheme) {
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
                     toggleIcon.textContent = '[*]';
+                    toggleText.textContent = 'Vista Aero Mode';
+                    break;
+                case 'vista':
+                    body.classList.add('vista-theme');
+                    toggleIcon.textContent = '◉';
                     toggleText.textContent = 'Classic Mode';
                     break;
                 case 'matrix':
@@ -2372,7 +2431,7 @@
             currentTheme = themes[currentThemeIndex];
             
             // Remove all theme classes
-            body.classList.remove('matrix-theme', 'nintendo-theme');
+            body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme');
             stopMatrixRain();
             
             // Apply new theme
@@ -2380,6 +2439,11 @@
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
                     toggleIcon.textContent = '[*]';
+                    toggleText.textContent = 'Vista Aero Mode';
+                    break;
+                case 'vista':
+                    body.classList.add('vista-theme');
+                    toggleIcon.textContent = '◉';
                     toggleText.textContent = 'Classic Mode';
                     break;
                 case 'matrix':

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="sky" x2=".15" y2="1"><stop stop-color="#0753a7"/><stop offset=".45" stop-color="#2ab9e6"/><stop offset=".8" stop-color="#b9f0de"/><stop offset="1" stop-color="#226c84"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#fffbd8" stop-opacity=".95"/><stop offset=".3" stop-color="#dbfff4" stop-opacity=".5"/><stop offset="1" stop-color="#d5f9ff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="hill" x2=".8" y2="1"><stop stop-color="#d6ee71"/><stop offset=".3" stop-color="#84c938"/><stop offset=".75" stop-color="#277448"/><stop offset="1" stop-color="#073d46"/></linearGradient>
+ <linearGradient id="water" x2="0" y2="1"><stop stop-color="#dcfff2"/><stop offset=".15" stop-color="#5ae1d7"/><stop offset="1" stop-color="#086eb0"/></linearGradient>
+ <linearGradient id="ribbon"><stop stop-color="#a5ffd5" stop-opacity="0"/><stop offset=".5" stop-color="#d9fff9" stop-opacity=".55"/><stop offset="1" stop-color="#f2ffe4" stop-opacity="0"/></linearGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="24"/></filter>
+</defs>
+<path fill="url(#sky)" d="M0 0h1920v1200H0z"/>
+<ellipse cx="1370" cy="360" rx="690" ry="620" fill="url(#sun)"/>
+<g fill="white" opacity=".22" filter="url(#blur)"><ellipse cx="300" cy="300" rx="300" ry="55"/><ellipse cx="500" cy="325" rx="340" ry="45"/><ellipse cx="1550" cy="540" rx="360" ry="40"/></g>
+<path d="M-280 800C300 420 800 870 1420 290S2030-180 2250-90" fill="none" stroke="url(#ribbon)" stroke-width="95"/>
+<path d="M-100 790C420 350 910 930 1580 270S2040-100 2090-140" fill="none" stroke="#e5fff6" stroke-opacity=".3" stroke-width="2"/>
+<path d="M-100 600C560 1020 1050 100 2050 420" fill="none" stroke="#c1ffe6" stroke-opacity=".15" stroke-width="48"/>
+<path d="M0 880Q410 650 840 838T1920 800V1200H0Z" fill="#36998b" opacity=".5"/>
+<path d="M0 1020Q720 790 1920 920V1200H0Z" fill="url(#water)"/>
+<path d="M0 940Q250 710 680 870T1170 1000Q740 1080 530 1200H0Z" fill="url(#hill)"/>
+<path d="M0 955Q260 735 685 884T1140 1006" fill="none" stroke="#efffb8" stroke-opacity=".5" stroke-width="3"/>
+<path d="M1920 730Q1610 755 1490 944T1560 1200H1920Z" fill="url(#hill)"/>
+<g fill="none" stroke="#c8ffed" stroke-opacity=".3"><path d="M1020 1080h280M950 1110h430M1280 1140h210M1070 1040h270M1260 1005h190"/></g>
+<g fill="none" stroke="#fff" stroke-opacity=".2"><circle cx="1530" cy="330" r="80"/><circle cx="270" cy="590" r="42"/><circle cx="1710" cy="680" r="23"/></g>
+</svg>

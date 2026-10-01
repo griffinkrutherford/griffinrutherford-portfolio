@@ -1432,7 +1432,7 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
-    <link rel="stylesheet" href="css/vista-aero.css">
+    <link rel="stylesheet" href="css/vista-aero.css?v=2">
     <style>
         /* Keep the two page controls the same size in every 90s theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1476,13 +1476,7 @@
                 <div class="nineties-blink">*** WELCOME TO GRIFFIN'S TOTALLY RADICAL HOMEPAGE! ***</div>
                 <h1 class="nineties-name rainbow-text">GRIFFIN RUTHERFORD</h1>
                 <div class="vista-hero vista-only">
-                    <svg class="vista-globe" viewBox="0 0 160 160" aria-hidden="true">
-                        <defs><radialGradient id="aero-ocean" cx="35%" cy="22%" r="80%"><stop stop-color="#aeffff"/><stop offset=".45" stop-color="#138fe0"/><stop offset="1" stop-color="#073c9b"/></radialGradient><linearGradient id="aero-land" x2="0" y2="1"><stop stop-color="#dcff85"/><stop offset="1" stop-color="#37a442"/></linearGradient><radialGradient id="aero-shine" cx=".3" cy=".1" r=".9"><stop stop-color="white" stop-opacity=".9"/><stop offset=".7" stop-color="white" stop-opacity="0"/></radialGradient><clipPath id="aero-round"><circle cx="80" cy="80" r="70"/></clipPath></defs>
-                        <circle cx="80" cy="80" r="72" fill="#fff" opacity=".6"/><circle cx="80" cy="80" r="70" fill="url(#aero-ocean)"/>
-                        <g clip-path="url(#aero-round)" fill="url(#aero-land)"><path d="M19 42 45 22 62 30 72 49 60 56 65 68 49 83 37 74 30 59 17 56Z M53 79 70 83 81 100 70 113 61 137 53 122 55 103 43 93Z M94 29 108 18 139 33 148 52 128 60 121 77 102 66 83 58 84 41Z M100 70 119 75 128 95 110 120 98 111 87 88Z"/></g>
-                        <g fill="none" stroke="#dfffff" opacity=".23"><ellipse cx="80" cy="80" rx="34" ry="70"/><ellipse cx="80" cy="80" rx="70" ry="28"/><path d="M10 80h140M80 10v140"/></g>
-                        <ellipse cx="68" cy="46" rx="49" ry="28" fill="url(#aero-shine)"/>
-                    </svg>
+                    <img class="vista-globe" src="images/vista/network.ico" alt="" width="160" height="160" loading="lazy" decoding="async">
                     <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
                 </div>
                 <div class="kirby-hero-pair">
@@ -1544,10 +1538,10 @@
                     <td colspan="4"><center><b><font color="#FFFFFF" size="5">CHOOSE YOUR DESTINATION</font></b></center></td>
                 </tr>
                 <tr>
-                    <td bgcolor="#00FFFF"><a href="#nineties-about"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>About Me</b></a></td>
-                    <td bgcolor="#00FF00"><a href="#nineties-resume"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>My Resume</b></a></td>
-                    <td bgcolor="#FFFF00"><a href="#nineties-projects"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>Cool Stuff</b></a></td>
-                    <td bgcolor="#FF6600"><a href="#nineties-skills"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>What I Know</b></a></td>
+                    <td bgcolor="#00FFFF"><a href="#nineties-about"><img class="vista-shortcut-icon vista-only" src="images/vista/people.ico" alt="" width="44" height="44" loading="lazy"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>About Me</b></a></td>
+                    <td bgcolor="#00FF00"><a href="#nineties-resume"><img class="vista-shortcut-icon vista-only" src="images/vista/documents.ico" alt="" width="44" height="44" loading="lazy"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>My Resume</b></a></td>
+                    <td bgcolor="#FFFF00"><a href="#nineties-projects"><img class="vista-shortcut-icon vista-only" src="images/vista/folder.ico" alt="" width="44" height="44" loading="lazy"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>Cool Stuff</b></a></td>
+                    <td bgcolor="#FF6600"><a href="#nineties-skills"><img class="vista-shortcut-icon vista-only" src="images/vista/control-panel.ico" alt="" width="44" height="44" loading="lazy"><img class="kirby-door-sprite" src="images/sprites/nintendo/kirby/level-tiles/star-door.png" alt="" width="120" height="68"><b>What I Know</b></a></td>
                 </tr>
             </table>
         </center>
@@ -1729,29 +1723,35 @@
                 <h2 class="nineties-section-title">
                     <span class="flame-text nintendo-world-title" data-theme-text="projectsTitle">COOL STUFF I MADE</span>
                 </h2>
+                <div class="vista-folder-toolbar vista-only">
+                    <div class="vista-breadcrumb"><img src="images/vista/folder.ico" alt="" width="22" height="22" loading="lazy"><span>Griffin Rutherford <b aria-hidden="true">›</b> Projects</span></div>
+                    <label class="vista-search"><span class="vista-sr-only">Search projects</span><input id="vista-project-search" type="search" placeholder="Search Projects" autocomplete="off" aria-controls="vista-project-files"></label>
+                </div>
                 <center>
-                    <table border="3" cellpadding="15" cellspacing="8" bgcolor="#000000">
-                        <tr>
-                            <td bgcolor="#FFB3D9"><font color="#27183D"><b>[*] Lune Synth: learn from every step</b></font></td>
+                    <table id="vista-project-files" border="3" cellpadding="15" cellspacing="8" bgcolor="#000000">
+                        <tr data-vista-project>
+                            <td bgcolor="#FFB3D9"><font color="#27183D"><b><img class="vista-file-icon vista-only" src="images/vista/application.ico" alt="" width="28" height="28" loading="lazy"><span class="vista-file-decoration">[*] </span>Lune Synth: learn from every step</b></font></td>
                             <td bgcolor="#FFFFFF"><a href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Explore the app!</a></td>
                         </tr>
-                        <tr>
-                            <td bgcolor="#FF00FF"><font color="#FFFFFF"><b>@@@ AlmndBrd Fractal Explorer</b></font></td>
+                        <tr data-vista-project>
+                            <td bgcolor="#FF00FF"><font color="#FFFFFF"><b><img class="vista-file-icon vista-only" src="images/vista/pictures.ico" alt="" width="28" height="28" loading="lazy"><span class="vista-file-decoration">@@@ </span>AlmndBrd Fractal Explorer</b></font></td>
                             <td bgcolor="#FFFFFF"><a href="mandelbrot-enhanced" target="_blank">Check it out!</a></td>
                         </tr>
-                        <tr>
-                            <td bgcolor="#00FFFF"><font color="#000000"><b>/\\ Stochastic Gradient Descent Made Fun</b></font></td>
+                        <tr data-vista-project>
+                            <td bgcolor="#00FFFF"><font color="#000000"><b><img class="vista-file-icon vista-only" src="images/vista/control-panel.ico" alt="" width="28" height="28" loading="lazy"><span class="vista-file-decoration">/\\ </span>Stochastic Gradient Descent Made Fun</b></font></td>
                             <td bgcolor="#FFFFFF"><a href="gradient-descent-worksheet" target="_blank">See the math!</a></td>
                         </tr>
-                        <tr>
-                            <td bgcolor="#00FF00"><font color="#000000"><b>[=] Mathematical Simulations (Ended Apr 2026)</b></font></td>
+                        <tr data-vista-project>
+                            <td bgcolor="#00FF00"><font color="#000000"><b><img class="vista-file-icon vista-only" src="images/vista/network.ico" alt="" width="28" height="28" loading="lazy"><span class="vista-file-decoration">[=] </span>Mathematical Simulations (Ended Apr 2026)</b></font></td>
                             <td bgcolor="#FFFFFF"><a href="mathematical-simulations" target="_blank">Mind = Blown</a></td>
                         </tr>
-                        <tr>
-                            <td bgcolor="#FFFF00"><font color="#000000"><b>{T} Transformer from Scratch</b></font></td>
+                        <tr data-vista-project>
+                            <td bgcolor="#FFFF00"><font color="#000000"><b><img class="vista-file-icon vista-only" src="images/vista/documents.ico" alt="" width="28" height="28" loading="lazy"><span class="vista-file-decoration">{T} </span>Transformer from Scratch</b></font></td>
                             <td bgcolor="#FFFFFF"><a href="https://github.com/TheOGMental/transformer-from-scratch" target="_blank">Code on GitHub!</a></td>
                         </tr>
                     </table>
+                    <p class="vista-folder-empty vista-only" id="vista-project-empty" hidden>No projects match. Try another name.</p>
+                    <div class="vista-folder-status vista-only"><img src="images/vista/folder.ico" alt="" width="22" height="22" loading="lazy"><span id="vista-project-count" role="status">5 items</span><span>Personal projects</span></div>
                 </center>
                 <br>
                 <center>
@@ -1905,19 +1905,25 @@
     </div>
 
     <div class="vista-taskbar vista-only">
-        <button type="button" id="vista-start" class="vista-start" aria-expanded="false" aria-controls="vista-start-menu"><span class="vista-start-orb" aria-hidden="true">✦</span> Start</button>
-        <a href="#nineties-about" class="vista-task">Griffin's desktop</a>
-        <span class="vista-tray"><span aria-hidden="true">◈</span> Santa Fe <time id="vista-clock"></time></span>
+        <button type="button" id="vista-start" class="vista-start" aria-expanded="false" aria-controls="vista-start-menu"><img class="vista-start-orb" src="images/vista/start-orb.svg" alt="" width="48" height="48" loading="lazy" decoding="async"> Start</button>
+        <a href="#nineties-about" class="vista-task"><img src="images/vista/computer.ico" alt="" width="22" height="22" loading="lazy">Griffin's desktop</a>
+        <span class="vista-tray"><img src="images/vista/network.ico" alt="" width="20" height="20" loading="lazy"> Santa Fe <time id="vista-clock"></time></span>
     </div>
     <nav id="vista-start-menu" class="vista-start-menu vista-only" aria-label="Desktop shortcuts" hidden>
-        <div class="vista-menu-profile"><span class="vista-avatar" aria-hidden="true">G</span><div><strong>Griffin Rutherford</strong><small>Your guide to this little desktop</small></div></div>
-        <a href="#nineties-about">◉ <span>About me<small>Meet the person behind the projects</small></span></a>
-        <a href="#nineties-resume">▤ <span>Experience & education<small>The places I've learned and built</small></span></a>
-        <a href="#nineties-projects">▣ <span>Projects<small>Open something interesting</small></span></a>
-        <a href="#nineties-skills">✧ <span>Skills<small>Tools, ideas, and people</small></span></a>
+        <div class="vista-menu-profile"><img class="vista-avatar" src="images/linkedin-headshot.png" alt="" width="56" height="56" decoding="async"><div><strong>Griffin Rutherford</strong><small>Your guide to this little desktop</small></div></div>
+        <a href="#nineties-about"><img src="images/vista/people.ico" alt="" width="36" height="36" loading="lazy"> <span>About me<small>Meet the person behind the projects</small></span></a>
+        <a href="#nineties-resume"><img src="images/vista/documents.ico" alt="" width="36" height="36" loading="lazy"> <span>Experience & education<small>The places I've learned and built</small></span></a>
+        <a href="#nineties-projects"><img src="images/vista/folder.ico" alt="" width="36" height="36" loading="lazy"> <span>Projects<small>Open something interesting</small></span></a>
+        <a href="#nineties-skills"><img src="images/vista/control-panel.ico" alt="" width="36" height="36" loading="lazy"> <span>Skills<small>Tools, ideas, and people</small></span></a>
+        <div class="vista-menu-right">
+            <a href="#nineties-resume">Documents</a>
+            <a href="index.html#adventure-carousel-3d">Pictures</a>
+            <a href="index.html#lets-talk">Connect</a>
+            <button type="button" id="vista-personalize">Change theme</button>
+        </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js" defer></script>
+    <script src="js/vista-aero.js?v=2" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>

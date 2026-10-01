@@ -147,3 +147,177 @@ body.vista-theme #nineties-skills > div[style*="border-bottom"] { border-color: 
 
 body.vista-theme .vista-taskbar :is(button, a):focus-visible { outline-color: #efffff; }
 body.vista-theme .vista-start-menu { max-height: calc(100dvh - 80px); overflow-y: auto; }
+
+/* Original Vista resources, with usable Explorer controls rather than props. */
+body.vista-theme {
+    background: #12636a url('../images/vista/aurora.jpg') center / cover fixed no-repeat;
+}
+body.vista-theme .nineties-wrapper { padding-top: 154px; }
+body.vista-theme .vista-window {
+    border: 1px solid #193947;
+    border-radius: 8px;
+    background: linear-gradient(110deg, #fffffffa, #f5f8fbed);
+    box-shadow: 0 0 0 5px #a5d6e969, inset 0 0 0 1px #fff,
+                0 14px 38px #0023296b;
+    overflow: visible;
+}
+body.vista-theme .nineties-header { padding: 6px; background: #92cddd59; }
+body.vista-theme .nineties-title-container {
+    border: 1px solid #557f95;
+    border-radius: 2px;
+    background: radial-gradient(ellipse at 5% 0%, #fffce8, transparent 60%),
+                linear-gradient(115deg, #fff, #e3f4fc);
+    box-shadow: inset 0 1px 0 #fff;
+}
+body.vista-theme .nineties-name { font-size: clamp(27px, 3.5vw, 39px); font-weight: 400; }
+body.vista-theme .vista-hero h2 { color: #1c65a0; font-weight: 400; }
+body.vista-theme .vista-globe { object-fit: contain; filter: drop-shadow(0 10px 8px #195b8235); }
+body.vista-theme .vista-window > h2 { display: none; }
+body.vista-theme .vista-window-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 37px;
+    margin: -22px -22px 22px;
+    padding: 5px 8px;
+    border-radius: 7px 7px 0 0;
+    border-bottom: 1px solid #557c95;
+    background: linear-gradient(120deg, #eaffffe0, #9bc5dad1 30%, #c8e3ecd9 65%, #86b4cddb);
+    box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 #ffffff65;
+    color: #102d3b;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.25;
+    text-shadow: 0 0 8px #fff, 0 1px #fff;
+}
+body.vista-theme .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
+.vista-window-titlebar > img { flex: 0 0 20px; object-fit: contain; }
+.vista-window-title { min-width: 0; }
+.vista-window-controls { display: flex; gap: 1px; margin: -5px 0 auto auto; align-self: stretch; }
+.vista-window-controls button {
+    position: relative;
+    width: 40px;
+    min-height: 28px;
+    border: 1px solid #547180;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(#eef7fbab, #b5cfde99 47%, #7193aa90 50%, #c6e9fb9e);
+    box-shadow: inset 0 0 0 1px #ffffff80;
+    cursor: pointer;
+}
+.vista-window-controls button::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.vista-window-minimize::after { width: 10px; height: 3px; margin-top: 3px; background: #173847; box-shadow: 0 1px #fff9; }
+.vista-window-maximize::after { width: 10px; height: 8px; border: 1px solid #173847; border-top-width: 3px; box-shadow: 0 1px #fff9; }
+.vista-window-controls button:hover { background: linear-gradient(#d7f9ff, #89d7f9 48%, #2e89bd 50%, #85e4ff); box-shadow: inset 0 0 0 1px #eaffff, 0 0 7px #38bbff; }
+.vista-window-controls button:active { background: #68a7c5; }
+body.vista-theme .is-vista-minimized > :not(.vista-window-titlebar) { display: none !important; }
+body.vista-theme .is-vista-minimized { padding-bottom: 0; }
+body.vista-theme .is-vista-minimized .vista-window-titlebar { margin-bottom: 0; border-radius: 7px; }
+body.vista-theme .is-vista-maximized {
+    position: relative;
+    width: min(1440px, calc(100vw - 48px));
+    max-width: none;
+    left: 50%;
+    transform: translateX(-50%);
+}
+body.vista-theme .theme-controls {
+    background: linear-gradient(125deg, #c4e6f378, #183f585c);
+    border: 1px solid #ffffffaa;
+    box-shadow: inset 0 0 0 1px #0f3d5380, 0 4px 16px #002a3e44;
+    border-radius: 7px;
+}
+body.vista-theme .nineties-nav-table { border-collapse: separate; border-spacing: 0; background: #f5f9fcdf; }
+body.vista-theme .nineties-nav-table tr:first-child td { background: linear-gradient(#f9fcfd, #d9eaf6); border: 0; border-bottom: 1px solid #b0c7d3; border-radius: 6px 6px 0 0; padding: 8px 12px; }
+body.vista-theme .nineties-nav-table tr:last-child td { border: 1px solid transparent; background: transparent; padding: 12px; }
+body.vista-theme .nineties-nav-table tr:last-child td:hover { background: linear-gradient(#f5fcff, #d9f0fc); border-color: #90bfd9; box-shadow: inset 0 0 0 1px #fff; }
+body.vista-theme .nineties-nav-table a { display: flex; align-items: center; justify-content: center; gap: 10px; }
+body.vista-theme .vista-shortcut-icon { display: inline-block; object-fit: contain; }
+body.vista-theme .spinning-email { font-size: 0; }
+body.vista-theme .spinning-email::before { content: ''; display: block; margin: auto; width: 44px; height: 44px; background: url('../images/vista/mail.ico') center / contain no-repeat; }
+body.vista-theme .skill-progress { border-radius: 3px; height: 22px; background: linear-gradient(#c7d0d8, #fafbfc 40%, #e4e9ec); border-color: #8497a5; }
+body.vista-theme .skill-fill { border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 14px, #ffffff4d 14px 16px), linear-gradient(#c6ff9a, #96dd64 45%, #42ac26 48%, #7ace43 80%, #c7fda0); line-height: 20px; }
+body.vista-theme .vista-folder-toolbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    margin: -22px -22px 16px; padding: 8px 12px;
+    background: linear-gradient(#f7fafc, #dae7f0); border-bottom: 1px solid #abbfce;
+    font-size: 13px;
+}
+.vista-breadcrumb { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.vista-breadcrumb b { padding: 0 8px; color: #597b95; }
+.vista-search { display: block; width: 210px; flex: 0 1 210px; }
+body.vista-theme .vista-search input { box-sizing: border-box; width: 100%; min-height: 30px; padding: 4px 8px; background: #ffffffec; color: #223a4c; border: 1px solid #7f9cae; border-radius: 2px; box-shadow: inset 0 1px 3px #2c506630; font: 13px 'Segoe UI', sans-serif; }
+body.vista-theme .vista-search input:focus-visible { outline: 2px solid #168ccc; outline-offset: 1px; }
+.vista-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+body.vista-theme #vista-project-files { border: 0; border-radius: 0; background: #fff; border-spacing: 0; }
+body.vista-theme #vista-project-files td { border: 0; border-bottom: 1px solid #e1e8ed; background: #fff; border-radius: 0; text-align: left; font-size: 14px; }
+body.vista-theme #vista-project-files tr:hover td { background: #edf7ff; }
+body.vista-theme #vista-project-files td:first-child { width: 70%; }
+body.vista-theme .vista-file-icon { display: inline-block; object-fit: contain; vertical-align: middle; margin-right: 10px; }
+body.vista-theme .vista-folder-status { display: flex; align-items: center; gap: 10px; text-align: left; padding: 10px 0 0; font-size: 12px; color: #4f6578; }
+.vista-folder-status > span:last-child { margin-left: auto; }
+body.vista-theme .vista-folder-empty { display: block; padding: 20px; color: #4f6578; }
+body.vista-theme [data-vista-project][hidden] { display: none; }
+body.vista-theme .vista-taskbar {
+    height: 46px; gap: 10px; padding: 0 14px;
+    background: linear-gradient(#80acbfad, #203f49db 46%, #071d25f2 49%, #284652eb);
+    border-top: 1px solid #def8ff; box-shadow: inset 0 1px #ffffff70, 0 -2px 8px #05232e55;
+}
+body.vista-theme .vista-start { gap: 5px; padding: 0; }
+body.vista-theme .vista-start-orb { width: 48px; height: 48px; object-fit: contain; background: transparent; border: 0; border-radius: 50%; box-shadow: none; filter: drop-shadow(0 0 3px #c0f7ff55); }
+body.vista-theme .vista-start:hover .vista-start-orb,
+body.vista-theme .vista-start[aria-expanded="true"] .vista-start-orb { box-shadow: none; filter: drop-shadow(0 0 7px #8aecff); }
+body.vista-theme .vista-task { display: inline-flex; align-items: center; gap: 8px; padding: 5px 20px 5px 10px; min-height: 34px; background: linear-gradient(#e7faff55, #89b5cb44 46%, #234550a6 49%, #a7d2e069); box-shadow: inset 0 0 0 1px #ffffff40, 0 0 0 1px #132c3880; }
+body.vista-theme .vista-tray { border-left: 1px solid #b7e3f22b; padding-left: 16px; }
+body.vista-theme .vista-start-menu { bottom: 49px; left: 9px; padding: 7px; border: 1px solid #123b4d; border-radius: 6px 6px 0 0; background: linear-gradient(90deg, #f9fcff 0 70%, #294759f5 70% 100%); box-shadow: inset 0 0 0 1px #fff9, 0 0 22px #001a3890; }
+body.vista-theme .vista-menu-profile { margin: 0 0 4px; padding: 10px; border-radius: 4px; background: linear-gradient(#d7e5ecd9, #f1f6f9e6); }
+body.vista-theme .vista-avatar { width: 56px; height: 56px; object-fit: cover; border: 2px solid #fff; padding: 2px; background: linear-gradient(#b3ddf5, #557caa); border-radius: 8px; box-shadow: 0 0 0 1px #355364, 0 2px 6px #12334b55; }
+body.vista-theme .vista-start-menu a:not(.vista-menu-home) { margin-right: 29%; padding: 10px 8px; gap: 10px; background: #fffffff5; border-radius: 0; font-size: 14px; }
+body.vista-theme .vista-start-menu a:not(.vista-menu-home):hover { background: linear-gradient(#eff9ff, #d6edfb); border-color: #98c9e5; border-radius: 4px; }
+body.vista-theme .vista-start-menu a img { object-fit: contain; flex: 0 0 36px; }
+body.vista-theme .vista-start-menu .vista-menu-home { background: #dcecf6ec; margin-top: 6px; padding: 10px; border: 1px solid #fff9; }
+@media (pointer: fine) {
+    body.vista-theme { cursor: url('../images/vista/aero_arrow.cur'), default; }
+    body.vista-theme :is(a, button) { cursor: url('../images/vista/aero_link.cur'), pointer; }
+    body.vista-theme :is(input, textarea) { cursor: text; }
+}
+@media (max-width: 700px) {
+    body.vista-theme { background-attachment: scroll; }
+    body.vista-theme .nineties-wrapper { padding: 14px 14px 80px; }
+    body.vista-theme .nineties-name { font-size: 26px; }
+    body.vista-theme .vista-window-titlebar { margin: -16px -16px 16px; font-size: 12px; min-height: 38px; padding: 5px 7px; }
+    body.vista-theme .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
+    body.vista-theme .vista-window-titlebar .vista-window-maximize { display: none; }
+    body.vista-theme .vista-window-controls button { min-height: 32px; width: 40px; }
+    body.vista-theme .is-vista-maximized { width: auto; left: auto; transform: none; }
+    body.vista-theme .nineties-nav-table a { gap: 8px; justify-content: flex-start; }
+    body.vista-theme .nineties-nav-table tr:last-child { padding: 5px; gap: 2px; }
+    body.vista-theme .nineties-nav-table tr:last-child td { padding: 8px; font-size: 12px; }
+    body.vista-theme .vista-shortcut-icon { width: 32px; height: 32px; }
+    body.vista-theme .vista-folder-toolbar { margin: -16px -16px 12px; flex-direction: column; align-items: stretch; padding: 10px; }
+    .vista-search { width: 100%; flex-basis: auto; }
+    body.vista-theme #vista-project-files td { font-size: 12px; padding: 8px 5px; overflow-wrap: anywhere; }
+    body.vista-theme .vista-file-icon { width: 22px; height: 22px; margin-right: 5px; }
+    body.vista-theme .vista-taskbar { padding: 0 8px; }
+    body.vista-theme .vista-task { padding: 5px 8px; font-size: 11px; gap: 5px; }
+    body.vista-theme .vista-task img { width: 18px; height: 18px; }
+    body.vista-theme .vista-tray { padding-left: 8px; }
+    body.vista-theme .vista-tray > img { display: none; }
+}
+body.vista-theme .vista-start-orb {
+    background: radial-gradient(ellipse at 36% 16%, #dbffff, #5087c7 30%, #0a3968 60%, #276fa580);
+    border: 1px solid #8cb5d2;
+    box-shadow: inset 0 1px 4px #c4ebffb3, 0 2px 4px #00101bb3;
+}
+body.vista-theme .vista-file-decoration { display: none; }
+.vista-menu-right { position: absolute; right: 8px; top: 106px; width: 27%; display: grid; gap: 12px; }
+body.vista-theme .vista-start-menu .vista-menu-right a,
+body.vista-theme .vista-menu-right button { display: block; width: 100%; margin: 0; padding: 8px 5px; font-size: 12px; color: #fff; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 3px; line-height: 1.3; cursor: pointer; }
+body.vista-theme .vista-start-menu .vista-menu-right a:hover,
+body.vista-theme .vista-menu-right button:hover { background: linear-gradient(#b4d1e35c, #628ba647); border-color: #b6d6ea66; }
+body.vista-theme .vista-menu-right :is(a, button):focus-visible { outline-color: #eaffff; }
+@media (max-width: 700px) {
+    .vista-menu-right { gap: 8px; }
+    body.vista-theme .vista-start-menu .vista-menu-right a,
+    body.vista-theme .vista-menu-right button { font-size: 11px; }
+}
+body.vista-theme #nineties-skills [style*="border-bottom"] { border-color: #a8bac6 !important; }

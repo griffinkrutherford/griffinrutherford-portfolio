@@ -3,6 +3,83 @@
     const start = document.getElementById('vista-start');
     const menu = document.getElementById('vista-start-menu');
     const clock = document.getElementById('vista-clock');
+    document.getElementById('vista-personalize').addEventListener('click', () => document.getElementById('theme-toggle').click());
+    const windows = [
+        ['.nineties-header', 'computer', 'Welcome Center — Griffin Rutherford'],
+        ['#nineties-about', 'people'],
+        ['#nineties-resume', 'documents'],
+        ['#nineties-skills', 'control-panel'],
+        ['#nineties-projects', 'folder'],
+        ['.guestbook', 'mail']
+    ].map(([selector, icon, fixedTitle]) => {
+        const panel = document.querySelector(selector);
+        if (!panel) return null;
+        const heading = panel.querySelector('h2');
+        const bar = document.createElement('div');
+        bar.className = 'vista-window-titlebar vista-only';
+        const title = document.createElement('span');
+        title.className = 'vista-window-title';
+        const image = document.createElement('img');
+        image.src = `images/vista/${icon}.ico`;
+        image.alt = ''; image.width = 20; image.height = 20; image.loading = 'lazy';
+        bar.append(image, title);
+        const controls = document.createElement('div');
+        controls.className = 'vista-window-controls';
+        const collapse = document.createElement('button');
+        collapse.type = 'button';
+        collapse.className = 'vista-window-minimize';
+        collapse.setAttribute('aria-expanded', 'true');
+        if (!panel.id) panel.id = 'vista-welcome-center';
+        collapse.setAttribute('aria-controls', panel.id);
+        const expand = document.createElement('button');
+        expand.type = 'button'; expand.className = 'vista-window-maximize';
+        expand.setAttribute('aria-pressed', 'false');
+        function sync() {
+            title.textContent = fixedTitle || heading.textContent.trim();
+            const minimized = panel.classList.contains('is-vista-minimized');
+            collapse.setAttribute('aria-expanded', String(!minimized));
+            collapse.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${title.textContent}`);
+            collapse.title = minimized ? 'Restore window' : 'Minimize window';
+            const maximized = panel.classList.contains('is-vista-maximized');
+            expand.setAttribute('aria-pressed', String(maximized));
+            expand.setAttribute('aria-label', `${maximized ? 'Restore width of' : 'Expand'} ${title.textContent}`);
+            expand.title = maximized ? 'Restore window width' : 'Expand window';
+        }
+        collapse.addEventListener('click', () => { panel.classList.toggle('is-vista-minimized'); sync(); });
+        expand.addEventListener('click', () => {
+            panel.classList.remove('is-vista-minimized');
+            panel.classList.toggle('is-vista-maximized'); sync();
+        });
+        controls.append(collapse, expand); bar.append(controls);
+        panel.prepend(bar); panel.classList.add('vista-window'); sync();
+        return {panel, sync};
+    }).filter(Boolean);
+    function syncWindows() {
+        if (!document.body.classList.contains('vista-theme')) {
+            windows.forEach(({panel}) => panel.classList.remove('is-vista-minimized', 'is-vista-maximized'));
+        }
+        windows.forEach(({sync}) => sync());
+    }
+    new MutationObserver(syncWindows).observe(document.body, {attributes: true, attributeFilter: ['class']});
+    function restoreShortcut(target) {
+        const item = windows.find(({panel}) => `#${panel.id}` === target);
+        if (item) { item.panel.classList.remove('is-vista-minimized'); item.sync(); }
+    }
+    document.addEventListener('click', event => {
+        const link = event.target.closest('a[href^="#"]');
+        if (link && document.body.classList.contains('vista-theme')) restoreShortcut(link.getAttribute('href'));
+    });
+    const search = document.getElementById('vista-project-search');
+    const projectRows = Array.from(document.querySelectorAll('[data-vista-project]'));
+    function filterProjects() {
+        const query = document.body.classList.contains('vista-theme') ? search.value.trim().toLowerCase() : '';
+        let count = 0;
+        projectRows.forEach(row => { row.hidden = !row.textContent.toLowerCase().includes(query); if (!row.hidden) count++; });
+        document.getElementById('vista-project-count').textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
+        document.getElementById('vista-project-empty').hidden = count !== 0;
+    }
+    search.addEventListener('input', filterProjects);
+    new MutationObserver(filterProjects).observe(document.body, {attributes: true, attributeFilter: ['class']});
     function close(restoreFocus = false) {
         menu.hidden = true;
         start.setAttribute('aria-expanded', 'false');

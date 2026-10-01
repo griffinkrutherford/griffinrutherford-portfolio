@@ -879,6 +879,7 @@ h3 {
 .projects-section .experience-item h4 a.project-link,
 .experience-section .experience-item h4 .project-link,
 .experience-section .experience-item h4 a.project-link,
+.organizations-section .experience-item h4 a.project-link,
 .education-section .education-item h4 .project-link,
 .education-section .education-item h4 a.project-link {
     color: var(--accent-red);
@@ -891,6 +892,7 @@ h3 {
 .projects-section .experience-item h4 a.project-link:hover,
 .experience-section .experience-item h4 .project-link:hover,
 .experience-section .experience-item h4 a.project-link:hover,
+.organizations-section .experience-item h4 a.project-link:hover,
 .education-section .education-item h4 .project-link:hover,
 .education-section .education-item h4 a.project-link:hover {
     color: var(--primary-purple);
@@ -1474,6 +1476,12 @@ h3 {
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 0.5rem;
+}
+
+.run-club-logo {
+  width: 180px;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .sgd-project-image {

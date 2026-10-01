@@ -1436,6 +1436,7 @@
     <link rel="stylesheet" href="css/windows-xp.css?v=2">
     <link rel="stylesheet" href="css/theme-picker.css">
     <link rel="stylesheet" href="css/matrix-glass.css?v=1">
+    <link rel="stylesheet" href="css/hypercube.css?v=1">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1456,6 +1457,7 @@
     </style>
 </head>
 <body class="nineties-mode vista-theme">
+    <canvas id="hypercube-background" aria-hidden="true"></canvas>
     <!-- Retro Content Wrapper -->
     <div class="nineties-wrapper" style="display: block;">
         <!-- Retro Background Effects -->
@@ -1475,6 +1477,7 @@
                     <button type="button" class="theme-option" role="option" data-theme="xp" aria-selected="false" tabindex="-1"><img src="images/xp/windows-logo.png" alt="" width="30" height="30"><span>Windows XP<small>Bliss &amp; Luna blue</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/theme-icons/hypercube.svg" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1490,6 +1493,28 @@
                 <div class="vista-hero vista-only">
                     <img class="vista-globe" src="images/vista/network.ico" alt="" width="160" height="160" loading="lazy" decoding="async">
                     <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
+                </div>
+                <div class="hypercube-hero hypercube-only">
+                    <div class="hyper-hero-copy">
+                        <p class="hyper-eyebrow">HYPERCUBE / AN EXPLORABLE SPACE</p>
+                        <h2>Curiosity has<br><em>another dimension.</em></h2>
+                        <p>I build technology that helps people learn. Sometimes the best way to understand an idea is to turn it, question it, and see it from a new angle.</p>
+                        <div class="hyper-actions"><a href="#nineties-projects">Explore my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Go beyond 3D <span aria-hidden="true">↗</span></a></div>
+                        <p class="hyper-cube-note">A square gains a new direction to become a cube. Give a cube one more independent direction and you get a <strong>tesseract</strong>. We can explore its projection, just as a cube casts a flat shadow.</p>
+                    </div>
+                    <div class="hyper-observatory">
+                        <div class="hyper-scene-heading"><span>COORDINATE OBSERVATORY</span><span id="hyper-dimension-label">4D → 3D → screen</span></div>
+                        <canvas id="hypercube-canvas" width="600" height="440" tabindex="0" role="img" aria-label="Interactive tesseract projection" aria-describedby="hyper-summary"></canvas>
+                        <div class="hyper-legend"><span>XYZ directions · cyan</span><span id="hyper-extra-legend">Extra direction · pink</span></div>
+                        <div class="hyper-controls">
+                            <label for="hyper-dimension" class="sr-only">Number of independent directions</label>
+                            <select id="hyper-dimension"><option value="3">3D cube</option><option value="4" selected>4D tesseract</option><option value="5">5D cube</option><option value="6">6D cube</option></select>
+                            <button type="button" id="hyper-motion" aria-pressed="true">Pause motion</button><button type="button" id="hyper-reset">Reset view</button>
+                        </div>
+                        <div class="hyper-controls hyper-camera-controls" role="group" aria-label="Camera viewpoints"><button type="button" data-hyper-view="front">Front</button><button type="button" data-hyper-view="reverse">Reverse</button><button type="button" data-hyper-view="overhead">Overhead</button></div>
+                        <label class="hyper-turn" for="hyper-turn"><span><span id="hyper-turn-label">Turn in X–W</span> · <output id="hyper-turn-value" for="hyper-turn">0°</output></span><input id="hyper-turn" type="range" min="0" max="360" value="0" step="1"></label>
+                        <p id="hyper-summary" class="hyper-summary">16 vertices · 32 edges · 4 independent directions. Drag to orbit the projection.</p>
+                    </div>
                 </div>
                 <div class="kirby-hero-pair">
                     <div class="griffin-kirby-hero">
@@ -1938,6 +1963,9 @@
     <script src="js/vista-aero.js?v=4" defer></script>
 
     <script src="js/theme-picker.js?v=2" defer></script>
+    <script src="gradient-descent-worksheet/dimensions-core.js" defer></script>
+    <script src="js/hypercube-core.js?v=1" defer></script>
+    <script src="js/hypercube.js?v=1" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
@@ -2269,9 +2297,10 @@
     <canvas id="matrix-canvas"></canvas>
     
     <script>
-        // Start every visit in Vista mode; the switcher still works for this visit.
-        const themes = ['vista', 'xp', 'nintendo', 'matrix'];
-        let currentTheme = 'vista';
+        // Vista is the default; an explicit theme link opens the requested version.
+        const themes = ['vista', 'xp', 'nintendo', 'matrix', 'hypercube'];
+        const requestedTheme = new URLSearchParams(window.location.search).get('theme');
+        let currentTheme = themes.includes(requestedTheme) ? requestedTheme : 'vista';
         
         // Theme-specific text content
         const themeTexts = {
@@ -2366,6 +2395,14 @@
             guestbookTitle: 'Outlook Express · Say hello'
         };
 
+        themeTexts.hypercube = { ...themeTexts.vista,
+            marquee: 'Different perspectives reveal different possibilities. Explore the projects, turn the geometry, and follow your curiosity.',
+            welcomeTitle: 'A little about me', resumeTitle: 'Experience & education',
+            skillsTitle: 'Tools for building ideas', projectsTitle: 'Things I have built',
+            guestbookTitle: 'Leave a hello', linksTitle: 'Keep in touch',
+            peopleSkills: 'Working with people', achievement: 'Built with curiosity. Shared with you.'
+        };
+
         // Function to update text content based on current theme
         function updateThemeText() {
             const themeKey = currentTheme;
@@ -2408,7 +2445,7 @@
         }
         
         function initializeTheme() {
-            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme');
+            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme', 'hypercube-theme');
             stopMatrixRain();
             document.body.classList.add(`${currentTheme}-theme`);
             if (currentTheme === 'matrix') initMatrixRain();

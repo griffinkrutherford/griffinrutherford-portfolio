@@ -1,0 +1,291 @@
+{
+  "date": "2026-10-01",
+  "review_type": "Subjective visual review by the implementing agent, separate from automated checks.",
+  "scale": "1\u2013100; 90+ means a readable, cohesive view with no substantial clipping, overlapping UI, or ambiguity about what is represented. Scores are design judgments, not a standardized student assessment.",
+  "threshold": 90,
+  "scope": "30 representative views: 3D\u20136D from Front, Reverse, Overhead at phone and desktop widths, and 4D turns at 45\u00b0, 90\u00b0, 135\u00b0. This does not claim a score for every possible continuous camera orientation.",
+  "interpretability_criteria": [
+    "The topology is described by dimension, vertex count, and edge count.",
+    "XYZ edges and extra-direction edges are distinguished, with one shaded and brighter XYZ cell.",
+    "Perspective and potential vertex overlap are stated, rather than presenting the projection as a literal higher-dimensional object.",
+    "Controls and explanation stay visible and fit their viewport."
+  ],
+  "improvements_after_initial_review": [
+    "Move theme controls into document flow to prevent occlusion of the scene during scrolling.",
+    "Strengthen the reference XYZ cube while reducing surrounding XYZ edge brightness.",
+    "Remove the absent extra-direction legend in 3D and show only the extra colors used in 5D.",
+    "Change the default orbit to separate the projected vertices more clearly."
+  ],
+  "reviewed_views": [
+    {
+      "screenshot": "3d-front-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 3,
+      "view": "front",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "3d-reverse-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 3,
+      "view": "reverse",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "3d-overhead-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 3,
+      "view": "overhead",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "4d-front-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 4,
+      "view": "front",
+      "viewport_width": 1440,
+      "aesthetics": 97,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "4d-reverse-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 4,
+      "view": "reverse",
+      "viewport_width": 1440,
+      "aesthetics": 97,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "4d-overhead-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 4,
+      "view": "overhead",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "5d-front-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 5,
+      "view": "front",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "5d-reverse-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 5,
+      "view": "reverse",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "5d-overhead-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 5,
+      "view": "overhead",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "6d-front-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 6,
+      "view": "front",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 92
+    },
+    {
+      "screenshot": "6d-reverse-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 6,
+      "view": "reverse",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 93
+    },
+    {
+      "screenshot": "6d-overhead-1440.png",
+      "sheet": "images/hypercube-review/angles-1440.jpg",
+      "dimension": 6,
+      "view": "overhead",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 92
+    },
+    {
+      "screenshot": "4d-turn-45-1440.png",
+      "sheet": "images/hypercube-review/turns-1440.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 45,
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "4d-turn-90-1440.png",
+      "sheet": "images/hypercube-review/turns-1440.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 90,
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "4d-turn-135-1440.png",
+      "sheet": "images/hypercube-review/turns-1440.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 135,
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "3d-front-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 3,
+      "view": "front",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "3d-reverse-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 3,
+      "view": "reverse",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "3d-overhead-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 3,
+      "view": "overhead",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "4d-front-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 4,
+      "view": "front",
+      "viewport_width": 390,
+      "aesthetics": 96,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "4d-reverse-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 4,
+      "view": "reverse",
+      "viewport_width": 390,
+      "aesthetics": 96,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "4d-overhead-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 4,
+      "view": "overhead",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "5d-front-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 5,
+      "view": "front",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 93
+    },
+    {
+      "screenshot": "5d-reverse-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 5,
+      "view": "reverse",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 93
+    },
+    {
+      "screenshot": "5d-overhead-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 5,
+      "view": "overhead",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 93
+    },
+    {
+      "screenshot": "6d-front-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 6,
+      "view": "front",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 91
+    },
+    {
+      "screenshot": "6d-reverse-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 6,
+      "view": "reverse",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 92
+    },
+    {
+      "screenshot": "6d-overhead-390.png",
+      "sheet": "images/hypercube-review/angles-390.jpg",
+      "dimension": 6,
+      "view": "overhead",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 91
+    },
+    {
+      "screenshot": "4d-turn-45-390.png",
+      "sheet": "images/hypercube-review/turns-390.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 45,
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "4d-turn-90-390.png",
+      "sheet": "images/hypercube-review/turns-390.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 90,
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "4d-turn-135-390.png",
+      "sheet": "images/hypercube-review/turns-390.jpg",
+      "dimension": 4,
+      "extra_plane_turn_degrees": 135,
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 94
+    }
+  ]
+}

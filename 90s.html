@@ -1461,9 +1461,9 @@
         
         <!-- Theme Toggle Buttons -->
         <div class="theme-controls" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
-            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Current theme: Windows Vista Aero. Switch to Classic 90s.">
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Current theme: Windows Vista Aero. Switch to Kirby.">
                 <span class="theme-toggle-icon">◉</span>
-                <span class="theme-toggle-text">Classic Mode</span>
+                <span class="theme-toggle-text">Nintendo Mode</span>
             </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
                 [<-] Back to Modern Mode
@@ -2256,7 +2256,7 @@
     
     <script>
         // Start every visit in Vista mode; the switcher still works for this visit.
-        const themes = ['nintendo', 'vista', 'nineties', 'matrix'];
+        const themes = ['vista', 'nintendo', 'matrix'];
         let currentThemeIndex = themes.indexOf('vista');
         let currentTheme = themes[currentThemeIndex];
         
@@ -2401,17 +2401,17 @@
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
                     toggleIcon.textContent = '[*]';
-                    toggleText.textContent = 'Vista Aero Mode';
+                    toggleText.textContent = 'Matrix Mode';
                     break;
                 case 'vista':
                     body.classList.add('vista-theme');
                     toggleIcon.textContent = '◉';
-                    toggleText.textContent = 'Classic Mode';
+                    toggleText.textContent = 'Nintendo Mode';
                     break;
                 case 'matrix':
                     body.classList.add('matrix-theme');
                     toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Nintendo Mode';
+                    toggleText.textContent = 'Vista Aero Mode';
                     initMatrixRain();
                     break;
                 default: // nineties
@@ -2445,17 +2445,17 @@
                 case 'nintendo':
                     body.classList.add('nintendo-theme');
                     toggleIcon.textContent = '[*]';
-                    toggleText.textContent = 'Vista Aero Mode';
+                    toggleText.textContent = 'Matrix Mode';
                     break;
                 case 'vista':
                     body.classList.add('vista-theme');
                     toggleIcon.textContent = '◉';
-                    toggleText.textContent = 'Classic Mode';
+                    toggleText.textContent = 'Nintendo Mode';
                     break;
                 case 'matrix':
                     body.classList.add('matrix-theme');
                     toggleIcon.textContent = '[=]';
-                    toggleText.textContent = 'Nintendo Mode';
+                    toggleText.textContent = 'Vista Aero Mode';
                     initMatrixRain();
                     break;
                 default: // nineties

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Griffin's Totally Rad Homepage - Est. 1996</title>
+    <title>Griffin Rutherford — Retro Mode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
@@ -1434,7 +1434,7 @@
     <link rel="stylesheet" href="css/kirby-fonts.css">
     <link rel="stylesheet" href="css/vista-aero.css?v=2">
     <style>
-        /* Keep the two page controls the same size in every 90s theme. */
+        /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
             box-sizing: border-box;
             width: min(250px, calc(100vw - 40px));
@@ -1452,25 +1452,25 @@
         }
     </style>
 </head>
-<body class="nineties-mode nintendo-theme">
-    <!-- 90s Content Wrapper -->
+<body class="nineties-mode vista-theme">
+    <!-- Retro Content Wrapper -->
     <div class="nineties-wrapper" style="display: block;">
-        <!-- 90s Background Effects -->
+        <!-- Retro Background Effects -->
         <div class="starfield-bg"></div>
         <div class="matrix-rain"></div>
         
         <!-- Theme Toggle Buttons -->
         <div class="theme-controls" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
-            <button id="theme-toggle" class="theme-toggle-btn">
-                <span class="theme-toggle-icon">[*]</span>
-                <span class="theme-toggle-text">Vista Aero Mode</span>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Current theme: Windows Vista Aero. Switch to Classic 90s.">
+                <span class="theme-toggle-icon">◉</span>
+                <span class="theme-toggle-text">Classic Mode</span>
             </button>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
                 [<-] Back to Modern Mode
             </button>
         </div>
         
-        <!-- 90s Header -->
+        <!-- Retro Header -->
         <div class="nineties-header">
             <div class="nineties-title-container">
                 <div class="nineties-blink">*** WELCOME TO GRIFFIN'S TOTALLY RADICAL HOMEPAGE! ***</div>
@@ -1531,7 +1531,7 @@
             <div class="counter-since">Since 1996!</div>
         </div>
 
-        <!-- 90s Navigation Table -->
+        <!-- Retro Navigation Table -->
         <center>
             <table class="nineties-nav-table" border="2" cellpadding="10" cellspacing="5">
                 <tr bgcolor="#FF00FF">
@@ -1573,7 +1573,7 @@
             <p class="kirby-credit">Sprites from <a href="https://wikirby.com/wiki/Kirby_Super_Star/gallery" target="_blank" rel="noopener noreferrer">WiKirby</a>; level tiles from <a href="https://vgmaps.com/Atlas/SuperNES/index.htm#KirbySuperStar" target="_blank" rel="noopener noreferrer">VGMaps</a>. Original game art © Nintendo / HAL Laboratory.</p>
         </section>
 
-        <!-- Main Content in 90s Style -->
+        <!-- Main Content in Retro Style -->
         <div class="nineties-content">
             <!-- About Section -->
             <div id="nineties-about" class="nineties-section">
@@ -2255,9 +2255,9 @@
     <canvas id="matrix-canvas"></canvas>
     
     <script>
-        // Start every visit in Kirby mode; the switcher still works for this visit.
+        // Start every visit in Vista mode; the switcher still works for this visit.
         const themes = ['nintendo', 'vista', 'nineties', 'matrix'];
-        let currentThemeIndex = 0;
+        let currentThemeIndex = themes.indexOf('vista');
         let currentTheme = themes[currentThemeIndex];
         
         // Theme-specific text content

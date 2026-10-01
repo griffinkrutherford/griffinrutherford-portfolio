@@ -17,7 +17,7 @@ Welcome to my personal portfolio website! This site serves as a digital hub for 
 I'm Griffin Rutherford, Chief Technology Officer at Coherascent Labs, where I've architected Lune Synth, an edtech app built to give people honest, useful feedback instead of empty praise. What drives me is connecting people to technology rigorous enough to actually trust, rather than chasing flashy demos. I also co-founded Breakwater Operations, an AI strategy advisory practice. B.S./M.S. in Computer Science from Colorado School of Mines. Beyond tech, I'm an athlete, adventurer, and community builder.
 
 ## Features
-- **Retro Themes**: `90s.html` cycles Kirby → Windows Vista / Frutiger Aero → Classic 90s → Matrix. Vista includes the original Aurora wallpaper and shell icons, Aero cursors, glass window frames with working minimize/expand buttons, searchable project files, a working Start menu, and a Santa Fe clock. Asset sources are documented in `images/vista/README.md`. Kirby remains the initial theme.
+- **Retro Themes**: **Retro Mode** (`90s.html`) opens in Windows Vista / Frutiger Aero and cycles Vista → Classic 90s → Matrix → Kirby. Vista includes the original Aurora wallpaper and shell icons, Aero cursors, glass window frames with working minimize/expand buttons, searchable project files, a working Start menu, and a Santa Fe clock. Asset sources are documented in `images/vista/README.md`. Vista is the initial theme on every visit.
 - **Responsive Design**: Optimized for desktop and mobile viewing.
 - **Interactive Elements**: Collapsible sections for Experience, Labs, and more.
 - **Video Header**: A dynamic intro video with my name overlay.

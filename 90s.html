@@ -1433,8 +1433,9 @@
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
     <link rel="stylesheet" href="css/vista-aero.css?v=3">
-    <link rel="stylesheet" href="css/windows-xp.css">
+    <link rel="stylesheet" href="css/windows-xp.css?v=2">
     <link rel="stylesheet" href="css/theme-picker.css">
+    <link rel="stylesheet" href="css/matrix-glass.css?v=1">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1471,9 +1472,9 @@
                 </button>
                 <div id="retro-theme-menu" class="theme-menu" role="listbox" aria-label="Retro theme" hidden>
                     <button type="button" class="theme-option" role="option" data-theme="vista" aria-selected="true" tabindex="-1"><img src="images/vista/start-orb.svg" alt="" width="30" height="30"><span>Windows Vista Aero<small>Glass &amp; aurora</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
-                    <button type="button" class="theme-option" role="option" data-theme="xp" aria-selected="false" tabindex="-1"><img src="images/theme-icons/xp.svg" alt="" width="30" height="30"><span>Windows XP<small>Bliss &amp; Luna blue</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="xp" aria-selected="false" tabindex="-1"><img src="images/xp/windows-logo.png" alt="" width="30" height="30"><span>Windows XP<small>Bliss &amp; Luna blue</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
-                    <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1934,9 +1935,9 @@
         </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js?v=3" defer></script>
+    <script src="js/vista-aero.js?v=4" defer></script>
 
-    <script src="js/theme-picker.js" defer></script>
+    <script src="js/theme-picker.js?v=2" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
@@ -2426,77 +2427,56 @@
         let matrixCanvas;
         let matrixCtx;
         
+        let matrixResize;
+        let matrixMotionChange;
+        const matrixMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         function initMatrixRain() {
             matrixCanvas = document.getElementById('matrix-canvas');
             matrixCtx = matrixCanvas.getContext('2d');
-            
-            // Set canvas size
-            function resizeCanvas() {
+            const chars = Array.from('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            const fontSize = 14;
+            let drops = [];
+            function drawMatrix() {
+                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+                matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                matrixCtx.font = fontSize + 'px Courier New';
+                drops.forEach((drop, i) => {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    matrixCtx.fillStyle = Math.random() > .98 ? '#d6ffe8' : '#35ed76';
+                    matrixCtx.fillText(text, i * fontSize, drop * fontSize);
+                    if (drop * fontSize > matrixCanvas.height && Math.random() > .975) drops[i] = 0;
+                    drops[i]++;
+                });
+            }
+            matrixResize = () => {
                 matrixCanvas.width = window.innerWidth;
                 matrixCanvas.height = window.innerHeight;
-            }
-            
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-            
-            // Matrix characters
-            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const charArray = chars.split('');
-            
-            const fontSize = 14;
-            const columns = matrixCanvas.width / fontSize;
-            
-            // Array to store y-position of each column
-            const drops = [];
-            for (let x = 0; x < columns; x++) {
-                drops[x] = 1;
-            }
-            
-            function drawMatrix() {
-                // Black background with slight transparency for trail effect
-                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-                matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-                
-                matrixCtx.fillStyle = '#0F0';
-                matrixCtx.font = fontSize + 'px Courier New';
-                
-                for (let i = 0; i < drops.length; i++) {
-                    // Random character
-                    const text = charArray[Math.floor(Math.random() * charArray.length)];
-                    
-                    // Draw character
-                    matrixCtx.fillStyle = '#0F0';
-                    matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    
-                    // Add slight glow effect for leading characters
-                    if (Math.random() > 0.98) {
-                        matrixCtx.fillStyle = '#FFF';
-                        matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    }
-                    
-                    // Reset drop to top randomly
-                    if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    
-                    drops[i]++;
-                }
-            }
-            
-            // Start animation
-            matrixAnimation = setInterval(drawMatrix, 35);
-        }
-        
-        function stopMatrixRain() {
-            if (matrixAnimation) {
+                drops = Array.from({length: Math.ceil(matrixCanvas.width / fontSize)},
+                    () => Math.floor(Math.random() * matrixCanvas.height / fontSize));
+                // Start with visible, staggered trails instead of an empty screen.
+                for (let frame = 0; frame < 30; frame++) drawMatrix();
+            };
+            matrixMotionChange = () => {
                 clearInterval(matrixAnimation);
-                matrixAnimation = null;
-            }
-            if (matrixCtx) {
-                matrixCtx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            }
+                matrixAnimation = matrixMotion.matches ? null : setInterval(drawMatrix, 35);
+            };
+            matrixResize();
+            window.addEventListener('resize', matrixResize);
+            matrixMotion.addEventListener('change', matrixMotionChange);
+            matrixMotionChange();
         }
-        
+
+        function stopMatrixRain() {
+            clearInterval(matrixAnimation);
+            matrixAnimation = null;
+            if (matrixResize) window.removeEventListener('resize', matrixResize);
+            if (matrixMotionChange) matrixMotion.removeEventListener('change', matrixMotionChange);
+            matrixResize = null;
+            matrixMotionChange = null;
+            if (matrixCtx) matrixCtx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+        }
+
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeTheme();

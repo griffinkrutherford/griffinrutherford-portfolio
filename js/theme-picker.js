@@ -20,7 +20,11 @@
         const selected = options.find(option => option.dataset.theme === theme);
         if (!selected) return;
         options.forEach(option => option.setAttribute('aria-selected', String(option === selected)));
-        trigger.querySelector('img').src = selected.querySelector('img').getAttribute('src');
+        const icon = selected.querySelector('img').getAttribute('src');
+        trigger.querySelector('img').src = icon;
+        const favicon = document.querySelector('link[rel="icon"]');
+        favicon.href = icon;
+        favicon.type = icon.split('?')[0].endsWith('.svg') ? 'image/svg+xml' : 'image/png';
         const name = selected.querySelector('span').firstChild.textContent;
         trigger.querySelector('.theme-toggle-text').textContent = name;
         trigger.setAttribute('aria-label', `Choose retro theme. Current theme: ${name}.`);

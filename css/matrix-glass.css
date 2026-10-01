@@ -1,0 +1,61 @@
+/* Let the code rain show through panel backgrounds; keep their contents opaque. */
+body.matrix-theme {
+    --matrix-glass: rgba(0, 12, 5, .32);
+    --matrix-inset: rgba(0, 8, 3, .18);
+    isolation: isolate;
+}
+body.matrix-theme .nineties-wrapper { position: relative; z-index: 1; overflow-x: clip; overflow-y: visible; }
+body.matrix-theme .kirby-sfx-settings { display: none; }
+body.matrix-theme .nineties-toggle-btn {
+    background: rgba(0, 20, 9, .85);
+    color: #baffd0;
+    border-color: #46dd7a;
+    box-shadow: 0 0 10px #31ff7744;
+}
+body.matrix-theme :is(.nineties-header, .nineties-section, .guestbook, .webring, .badges-section) {
+    background: var(--matrix-glass);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: #46dd7a;
+    box-shadow: 0 8px 28px #0005, inset 0 1px #b4ffca25;
+}
+body.matrix-theme :is(.nineties-title-container, .ascii-art, .ascii-border, .guestbook-form, .visitor-counter, .nineties-marquee, .midi-player, .midi-display) {
+    background: var(--matrix-inset);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+body.matrix-theme .guestbook-entries { background: var(--matrix-inset) !important; }
+body.matrix-theme .nineties-section table { background: rgba(0, 8, 3, .12); }
+body.matrix-theme .nineties-nav-table tr { background: transparent; }
+body.matrix-theme .nineties-name {
+    font-size: clamp(22px, 5.5vw, 48px);
+    letter-spacing: .07em;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+body.matrix-theme :is(.nineties-nav-table td, .nineties-nav-table th, .nineties-section td, .nineties-section th) {
+    background: rgba(0, 12, 5, .20);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+body.matrix-theme .nineties-section :is(td, th, font) { color: #baffd0; }
+body.matrix-theme .nineties-section h2 {
+    background: none;
+    color: #72ffad;
+    -webkit-text-fill-color: currentColor;
+    text-shadow: 0 0 12px #31ff7766;
+}
+body.matrix-theme :is(.nineties-section, .guestbook, .webring) { text-shadow: 0 1px 2px #000, 0 0 4px #000; }
+body.matrix-theme :is(.nineties-nav-table td:hover, .webring-nav a) { background: rgba(0, 20, 9, .55); }
+body.matrix-theme :is(input, textarea) { background: rgba(0, 8, 3, .85); }
+body.matrix-theme #matrix-canvas { z-index: 0; opacity: .55; }
+@media (max-width: 768px) {
+    /* A slightly quieter background preserves reading on narrow displays. */
+    body.matrix-theme #matrix-canvas { opacity: .45; }
+    body.matrix-theme { --matrix-glass: rgba(0, 12, 5, .40); }
+}
+@media (prefers-reduced-motion: reduce) {
+    body.matrix-theme *, body.matrix-theme::before { animation: none !important; transition: none !important; }
+    body.matrix-theme .nineties-blink { opacity: 1; }
+    body.matrix-theme .nineties-marquee-content { padding-left: 0; }
+}

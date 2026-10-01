@@ -5,7 +5,8 @@ body.xp-theme {
     font-family: Tahoma, 'Segoe UI', sans-serif !important;
 }
 body.xp-theme :where(*) { font-family: Tahoma, 'Segoe UI', sans-serif !important; }
-body.xp-theme { cursor: default; }
+body.xp-theme { cursor: url('../images/xp/arrow.cur'), default; }
+body.xp-theme :is(input,textarea) { cursor: url('../images/xp/text.cur'), text; }
 body.xp-theme :is(a,button) { cursor: pointer; }
 body.xp-theme :is(.nineties-section,.guestbook,.webring,.badges-section,.nineties-header) {
     background: #ece9d8;
@@ -68,7 +69,7 @@ body.xp-theme .vista-taskbar {
     height: 42px;
     padding: 0 12px 0 0;
     gap: 12px;
-    background: linear-gradient(#3b92fb,#245edb 12%,#235cda 80%,#1941a5);
+    background: #245edb url('../images/xp/taskbar.png') center / 100% 100% no-repeat;
     border-top: 1px solid #8bbcff;
     backdrop-filter: none;
     box-shadow: none;
@@ -79,17 +80,18 @@ body.xp-theme .vista-start {
     gap: 7px;
     border: 0;
     border-radius: 0 18px 18px 0;
-    background: linear-gradient(#84c77a,#3d9a3b 20%,#328f30 70%,#267424);
-    box-shadow: inset 0 2px 3px #dcffd4;
+    background: #328f30 url('../images/xp/start-button.png') center top / 100% 300% no-repeat;
+    box-shadow: none;
     font-size: 19px;
     font-weight: 700;
     font-style: italic;
     color: #fff;
 }
-body.xp-theme .vista-start-orb { width: 26px; height: 26px; border-radius: 0; filter: none; }
-body.xp-theme .vista-start:hover { background: linear-gradient(#9add8e,#45ad40 25%,#2d952b); }
+body.xp-theme .vista-start-orb { width: 25px; height: 20px; object-fit: contain; border: 0; background: none; box-shadow: none; border-radius: 0; filter: none; image-rendering: pixelated; }
+body.xp-theme .vista-start:hover { background-position: center center; }
+body.xp-theme .vista-start:is(:active,[aria-expanded="true"]) { background-position: center bottom; }
 body.xp-theme .vista-task { min-height: 28px; background: #3b7ef2; border-color: #1750bc; box-shadow: inset 1px 1px #79b2ff; }
-body.xp-theme .vista-tray { align-self: stretch; padding: 0 10px; background: #1298e9; border-left: 1px solid #66c6ff; }
+body.xp-theme .vista-tray { align-self: stretch; padding: 0 10px; background: #1298e9 url('../images/xp/taskbar-tray.png') center / 100% 100% no-repeat; border-left: 1px solid #66c6ff; }
 body.xp-theme .vista-start-menu {
     bottom: 42px;
     left: 0;
@@ -112,3 +114,5 @@ body.xp-theme .vista-start-menu .vista-menu-home { background: #d7e7fa; border-c
     body.xp-theme .vista-task { padding: 4px 8px; }
     body.xp-theme .vista-tray { padding: 0 7px; }
 }
+
+.theme-option[data-theme="xp"] img, body.xp-theme .theme-toggle-icon { image-rendering: pixelated; }

@@ -65,13 +65,13 @@
         windows.forEach(({sync}) => sync());
     }
     new MutationObserver(syncWindows).observe(document.body, {attributes: true, attributeFilter: ['class']});
-    const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img')].map(image => ({image, source: image.getAttribute('src')}));
+    const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img, .vista-breadcrumb img, .vista-folder-status img')].map(image => ({image, source: image.getAttribute('src')}));
     function syncDesktopResources() {
         const xp = document.body.classList.contains('xp-theme');
         desktopImages.forEach(({image, source}) => {
-            const match = source.match(/images\/vista\/(computer|network|folder)\.ico$/);
+            const match = source.match(/images\/vista\/(computer|network|folder|people|documents|control-panel|application|pictures|mail)\.ico$/);
             image.src = xp && match ? `images/xp/${match[1]}.ico` : source;
-            if (image.classList.contains('vista-start-orb') && xp) image.src = 'images/theme-icons/xp.svg';
+            if (image.classList.contains('vista-start-orb') && xp) image.src = 'images/xp/windows-logo.png';
         });
         document.querySelector('.vista-eyebrow').textContent = xp ? 'PERSONAL DESKTOP · WINDOWS XP / 2001' : 'PERSONAL DESKTOP · EST. 1996 / REMIXED 2007';
         document.querySelector('.vista-hero h2').textContent = xp ? 'Your next adventure starts here.' : 'Connected by curiosity.';

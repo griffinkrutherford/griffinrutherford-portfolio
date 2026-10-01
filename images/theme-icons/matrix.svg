@@ -1,5 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
-  <rect x="1" y="1" width="38" height="38" rx="5" fill="#06140a" stroke="#45d36a" stroke-width="2"/>
-  <path stroke="#51e47c" stroke-width="2" d="M8 7v8m4-8v12m7-7v12m4-16v8m6 3v12m4-9v12M7 24l5 4-5 4m10 0h7"/>
-  <path stroke="#b4ffca" stroke-width="2" d="M8 7h4m7 5h4m6 7h4"/>
+  <defs>
+    <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#163b25"/><stop offset="1" stop-color="#020b06"/></linearGradient>
+    <linearGradient id="rain" x2="0" y2="1"><stop stop-color="#baffd5"/><stop offset=".4" stop-color="#46ed86"/><stop offset="1" stop-color="#0b6231"/></linearGradient>
+  </defs>
+  <rect x="1" y="1" width="38" height="38" rx="8" fill="url(#glass)" stroke="#4be48b" stroke-width="1.5"/>
+  <path d="M5 5h30" stroke="#baffd5" opacity=".25"/>
+  <g fill="none" stroke="url(#rain)" stroke-width="1.8" stroke-linecap="square">
+    <path d="M7 7h3v4H7zm0 8h3m-1.5 0v4m-1.5 4h3v4H7zm0 8h3"/>
+    <path d="M15 4v5m-1.5 5h3v4h-3zm0 8h3m-1.5 0v4m-1.5 4h3v4h-3z"/>
+    <path d="M22 8h3v4h-3zm1.5 8v4m-1.5 4h3v4h-3zm1.5 8v2"/>
+    <path d="M31 5v4m-1.5 4h3v4h-3zm0 8h3m-1.5 0v4m-1.5 4h3v4h-3z"/>
+  </g>
+  <g fill="#dcffe8"><rect x="6.5" y="6" width="4" height="2"/><rect x="22" y="7" width="3" height="2"/><rect x="29.5" y="12" width="3" height="2"/></g>
 </svg>

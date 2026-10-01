@@ -6,27 +6,6 @@
     position: absolute;
 }
 
-.mode-toggle {
-    flex-wrap: wrap;
-    border: 0;
-}
-
-/* Keep the native radios keyboard-accessible while showing their labels as tabs. */
-.mode-toggle input {
-    display: block;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    clip-path: inset(50%);
-    overflow: hidden;
-}
-
-.mode-toggle input:focus-visible + label {
-    outline: 3px solid #64f4ac;
-    outline-offset: 3px;
-}
-
 #statistics-worksheet {
     max-width: 100%;
 }
@@ -467,7 +446,7 @@
 
 @media (prefers-reduced-motion: reduce) {
     .stats-question button,
-    .mode-toggle label {
+    .mode-selector select {
         transition: none;
     }
 }

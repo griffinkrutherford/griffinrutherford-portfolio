@@ -2,7 +2,7 @@
 (function () {
     'use strict';
     const C=window.AttentionCore,stories=window.AttentionStories,root=document.getElementById('attention-labs');
-    const colors=['#a39aff','#72e6ce','#ffd481','#ff967f','#72d6ff','#b7a0ff','#d0ed9d','#ffaacb'];
+    const colors=['#ffc46b','#ffac8d','#e9d18c','#ff967f','#d9d9a2','#e1b984','#d0ed9d','#ffaacb'];
     const scenes=[],tau=Math.PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),fmt=(v,n=3)=>Number(v).toFixed(n);
     let active=document.body.dataset.worksheetMode==='attention';
     function create(kind,story,index) {
@@ -107,9 +107,9 @@
         const rect=s.canvas.getBoundingClientRect(),W=rect.width,H=rect.height;if(W<1||H<1)return null;
         const dpr=Math.min(devicePixelRatio||1,2);if(s.canvas.width!==Math.round(W*dpr)||s.canvas.height!==Math.round(H*dpr)){s.canvas.width=Math.round(W*dpr);s.canvas.height=Math.round(H*dpr);}
         const c=s.c;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);
-        const g=c.createRadialGradient(W*.45,H*.35,10,W*.5,H*.5,Math.max(W,H)*.8);g.addColorStop(0,'#173347');g.addColorStop(1,'#06101e');c.fillStyle=g;c.fillRect(0,0,W,H);
-        c.strokeStyle='#a1d5ff08';c.lineWidth=1;for(let x=20;x<W;x+=40){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}for(let y=20;y<H;y+=40){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}
-        for(let i=0;i<38;i++){c.fillStyle='#9edfff30';c.fillRect((i*191+13)%W,(i*137+31)%H,1,1);}return {W,H};
+        const g=c.createRadialGradient(W*.45,H*.35,10,W*.5,H*.5,Math.max(W,H)*.8);g.addColorStop(0,'#3c2a1d');g.addColorStop(1,'#150f0b');c.fillStyle=g;c.fillRect(0,0,W,H);
+        c.strokeStyle='#ffd3a608';c.lineWidth=1;for(let x=20;x<W;x+=40){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}for(let y=20;y<H;y+=40){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}
+        for(let i=0;i<38;i++){c.fillStyle='#ffdaa630';c.fillRect((i*191+13)%W,(i*137+31)%H,1,1);}return {W,H};
     }
     function line(s,a,b,color='#a39aff',width=2,dash=false){const c=s.c;c.strokeStyle=color;c.lineWidth=width;c.setLineDash(dash?[4,5]:[]);c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();c.setLineDash([]);}
     function text(s,value,x,y,color='#dfeeff',size=12,align='left'){const c=s.c;c.fillStyle=color;c.font=`600 ${size}px system-ui,sans-serif`;c.textAlign=align;c.fillText(value,x,y);}
@@ -232,9 +232,6 @@
     let last=performance.now();
     function tick(now){const dt=Math.min((now-last)/1000,.05);last=now;if(active&&!document.hidden)for(const s of scenes){if(!s.visible&&!s.dirty)continue;if(!s.canvas.clientWidth||!s.canvas.clientHeight)continue;const moving=s.visible&&s.orbit&&!window.areWorksheetAnimationsPaused();if(moving){s.yaw+=dt*.12;s.phase+=dt;s.dirty=true;}if(s.dirty){const size=begin(s);if(size){renders[s.kind](s,size.W,size.H);s.dirty=false;}}}requestAnimationFrame(tick);}
     requestAnimationFrame(tick);
-    const exit=document.getElementById('att-exit-response');
-    try{exit.value=localStorage.getItem('attention-exit-response')||'';}catch{}
-    exit.addEventListener('input',()=>{try{localStorage.setItem('attention-exit-response',exit.value);}catch{}});
     const printDetails=new Map();
     window.addEventListener('beforeprint',()=>{if(!active)return;root.querySelectorAll('details').forEach(d=>{printDetails.set(d,d.open);d.open=true;});});
     window.addEventListener('afterprint',()=>{printDetails.forEach((open,d)=>{d.open=open;});printDetails.clear();});

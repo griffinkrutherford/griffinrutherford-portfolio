@@ -12,22 +12,6 @@ body[data-worksheet-mode="statistics"] {
     --worksheet-button-ink: #07170c;
 }
 
-.mode-toggle label[for="mode-algebra"] {
-    border-color: #e10600;
-}
-
-.mode-toggle label[for="mode-calculus"] {
-    border-color: #b6a1ff;
-}
-
-.mode-toggle label[for="mode-statistics"] {
-    border-color: #64f4ac;
-}
-
-.mode-toggle input:checked + label {
-    color: var(--worksheet-button-ink);
-}
-
 .practice-intro,
 .practice-explanation {
     padding: 16px 20px;
@@ -100,7 +84,7 @@ input[type="range"]:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    button, .home-link, .mode-toggle label {
+    button, .home-link, .mode-selector select {
         transition: none;
     }
 }

@@ -13,7 +13,7 @@ const fs=require('node:fs');
         await page.waitForFunction(()=>Number(document.getElementById('hypercube-canvas').dataset.renderCount)>0);
         const pixels=()=>canvas.evaluate(c=>c.toDataURL()),sky=()=>bg.evaluate(c=>c.toDataURL());
         assert(await page.locator('body.hypercube-theme').count());assert.equal(await page.locator('#theme-toggle .theme-toggle-text').textContent(),'Hypercube');
-        assert.match(await page.locator('link[rel="icon"]').getAttribute('href'),/hypercube.svg/);
+        assert.match(await page.locator('link[rel="icon"]').getAttribute('href'),/hypercube\/art\/emblem.png/);
         assert.equal(await page.locator('.vista-taskbar').isVisible(),false);assert.equal(await page.locator('.kirby-showcase').isVisible(),false);
         assert.equal(await page.locator('#matrix-canvas').isVisible(),false);
         assert.match(await page.locator('#hyper-summary').textContent(),/16 vertices · 32 edges/);

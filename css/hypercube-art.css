@@ -1,0 +1,77 @@
+/* Original optical-glass artwork gives the calculated observatory a coherent home. */
+body.hypercube-theme { background: #06091a url('../images/hypercube/art/wallpaper-prism.webp') 65% center / cover fixed no-repeat; }
+body.hypercube-theme[data-hyper-wallpaper="void"] { background-image: url('../images/hypercube/art/wallpaper-void.webp'); }
+body.hypercube-theme .nineties-wrapper { max-width: 1320px; }
+body.hypercube-theme :is(.nineties-nav-table,.webring,.badges-section) { display: none; }
+body.hypercube-theme .hyper-brand { position: absolute; top: 28px; left: 28px; display: flex; align-items: center; gap: 12px; width: fit-content; padding: 10px 14px; margin-bottom: 24px; border: 1px solid #9cadff38; border-radius: 14px; background: #0a1028e0; box-shadow: inset 0 1px #7fe6f320; }
+.hyper-brand > img { width: 56px; height: 56px; object-fit: contain; }
+.hyper-brand strong { display: block; font-size: 21px; font-weight: 600; color: #e6f8ff; letter-spacing: -.02em; }
+.hyper-brand small { display: block; color: #b2c6e4; font-size: 10px; margin-top: 5px; }
+body.hypercube-theme .hyper-brand > button { margin-left: 16px; color: #affff3; border: 1px solid #67ece15c; border-radius: 8px; background: #19334b; padding: 10px 12px; cursor: pointer; font-size: 11px; }
+.hyper-art-card { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; max-width: 380px; margin: 22px 0; padding: 10px; background: #17233de6; border: 1px solid #759be767; border-radius: 12px; color: #e3f5ff; cursor: pointer; }
+.hyper-art-card > img { width: 96px; height: 58px; border-radius: 6px; object-fit: cover; }
+.hyper-art-card strong { display: block; font-size: 12px; line-height: 1.6; font-weight: 600; }
+.hyper-art-card small { display: block; font-size: 10px; line-height: 1.7; color: #c1d4ef; margin-top: 3px; }
+body.hypercube-theme .hyper-art-card:hover,body.hypercube-theme .hyper-brand > button:hover { background: #213853; border-color: #81f4e8; }
+body.hypercube-theme .hyper-actions a:first-child { color: #071b27; }
+body.hypercube-theme .hyper-desktop-shortcuts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin: 24px 0; }
+body.hypercube-theme .hyper-desktop-shortcuts a { display: flex; flex-direction: column; align-items: center; padding: 18px 10px 20px; border: 1px solid #8fb5e842; border-radius: 15px; background: #10182dd9; text-decoration: none; color: #e1f8ff; box-shadow: inset 0 1px #8ab5fd18; text-align: center; }
+.hyper-desktop-shortcuts img { width: 96px; height: 96px; object-fit: contain; }
+.hyper-desktop-shortcuts span { font-size: 14px; font-weight: 600; margin-top: 5px; }
+.hyper-desktop-shortcuts small { color: #bdd0eb; font-size: 11px; line-height: 1.5; margin-top: 7px; }
+body.hypercube-theme .hyper-desktop-shortcuts a:hover { border-color: #88fbe777; background: #152849e8; }
+body.hypercube-theme :is(.nineties-section h2,.guestbook > h2)::before { background-image: url('../images/hypercube/art/emblem.png'); width: 36px; height: 36px; vertical-align: -9px; }
+body.hypercube-theme #nineties-about h2::before { background-image: url('../images/hypercube/art/profile.webp'); }
+body.hypercube-theme #nineties-resume h2::before { background-image: url('../images/hypercube/art/experience.webp'); }
+body.hypercube-theme #nineties-projects h2::before { background-image: url('../images/hypercube/art/projects.webp'); }
+body.hypercube-theme #nineties-skills h2::before { background-image: url('../images/hypercube/art/studio.webp'); }
+body.hypercube-theme .spinning-email { font-size: 0; width: 64px; height: 64px; background: url('../images/hypercube/art/connect.webp') center / contain no-repeat; }
+body.hypercube-theme .guestbook > h2::before { background-image: url('../images/hypercube/art/connect.webp'); }
+body.hypercube-theme .hyper-scene-heading { gap: 10px; }
+body.hypercube-theme .hyper-scene-heading::before { content: ''; width: 28px; height: 28px; flex: 0 0 28px; background: url('../images/hypercube/art/observatory.webp') center / contain no-repeat; }
+body.hypercube-theme .hyper-scene-heading span:first-child { flex: 1; }
+#hyper-art-dialog { box-sizing: border-box; margin: auto; width: min(900px,calc(100vw - 32px)); max-height: calc(100dvh - 36px); padding: 20px; border: 1px solid #85b5f45a; border-radius: 18px; background: #10172b; color: #e4f4ff; box-shadow: 0 24px 120px #010318c0,inset 0 1px #a9cfff24; overflow: auto; font-family: 'Segoe UI',system-ui,sans-serif; }
+#hyper-art-dialog::backdrop { background: #010a26a6; backdrop-filter: blur(8px); }
+.hyper-art-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 16px; }
+.hyper-art-heading p { color: #a3bedb; font-size: 10px; letter-spacing: .12em; margin: 0 0 10px; }
+body.hypercube-theme .hyper-art-heading h2 { color: #e6f7ff; font-size: 26px; line-height: 1.2; margin: 0; font-weight: 600; letter-spacing: -.02em; text-align: left; text-transform: none; text-shadow: none; }
+body.hypercube-theme .hyper-art-heading button { width: 38px; height: 38px; flex: 0 0 38px; color: #dbf9ff; background: #243556; border: 1px solid #7999cb; border-radius: 8px; cursor: pointer; }
+#hyper-wallpaper-preview { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #698aba7a; border-radius: 10px; box-sizing: border-box; }
+.hyper-wallpaper-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+body.hypercube-theme .hyper-wallpaper-choices button { display: flex; align-items: center; gap: 12px; text-align: left; padding: 8px; background: #182641; border: 1px solid #7799c56b; border-radius: 10px; color: #e0f1ff; cursor: pointer; }
+body.hypercube-theme .hyper-wallpaper-choices button[aria-pressed="true"] { border: 2px solid #82fce9; padding: 7px; background: #214053; }
+.hyper-wallpaper-choices img { width: 120px; height: 70px; border-radius: 6px; object-fit: cover; }
+.hyper-wallpaper-choices span { font-size: 14px; font-weight: 600; }
+.hyper-wallpaper-choices small { display: block; font-size: 10px; font-weight: 400; margin-top: 5px; line-height: 1.5; }
+.hyper-art-caption { font-size: 11px; line-height: 1.6; margin: 16px 0 0; color: #b2c8e4; }
+body.hypercube-theme :is(.hyper-brand button,.hyper-art-card,.hyper-desktop-shortcuts a,#hyper-art-dialog button):focus-visible { outline: 2px solid #a1fff1; outline-offset: 4px; }
+@media (max-width: 1000px) { body.hypercube-theme .hyper-brand { position: static; } }
+@media (max-width: 700px) {
+    body.hypercube-theme .hyper-brand { width: 100%; box-sizing: border-box; gap: 8px; padding: 8px; }
+    .hyper-brand > img { width: 44px; height: 44px; }
+    .hyper-brand strong { font-size: 18px; }
+    .hyper-brand small { font-size: 9px; }
+    body.hypercube-theme .hyper-brand > button { margin-left: auto; font-size: 9px; padding: 9px 6px; }
+    body.hypercube-theme .hyper-desktop-shortcuts { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .hyper-desktop-shortcuts img { width: 78px; height: 78px; }
+    .hyper-desktop-shortcuts small { max-width: 130px; font-size: 10px; }
+    body.hypercube-theme .hyper-scene-heading { flex-wrap: wrap; }
+    body.hypercube-theme .hyper-scene-heading span:first-child { font-size: 9px; }
+    body.hypercube-theme .hyper-scene-heading span:last-child { margin-left: 38px; font-size: 10px; }
+    #hyper-art-dialog { padding: 14px; }
+    body.hypercube-theme .hyper-art-heading h2 { font-size: 21px; }
+    .hyper-wallpaper-choices { gap: 8px; }
+    body.hypercube-theme .hyper-wallpaper-choices button { flex-direction: column; align-items: stretch; }
+    .hyper-wallpaper-choices img { width: 100%; height: auto; aspect-ratio: 16/9; }
+    .hyper-wallpaper-choices span { font-size: 12px; }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+    #hyper-art-dialog { padding: 14px; }
+    .hyper-art-heading { margin-bottom: 8px; }
+    .hyper-art-heading p { margin-bottom: 4px; }
+    body.hypercube-theme .hyper-art-heading h2 { font-size: 21px; }
+    #hyper-wallpaper-preview { height: 30dvh; aspect-ratio: auto; object-fit: contain; background: #070d1b; }
+    .hyper-wallpaper-choices { margin-top: 8px; }
+    .hyper-wallpaper-choices img { width: 88px; height: 48px; }
+    .hyper-art-caption { margin-top: 8px; font-size: 10px; }
+}

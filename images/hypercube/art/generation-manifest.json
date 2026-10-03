@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-02",
+  "method": "Built-in image_gen tool",
+  "style": "Obsidian optical glass, black titanium joints, cyan edges and violet/magenta inner light.",
+  "processing": "Resize and format conversion only; generated alpha preserved. Wallpapers are decorative art; the coordinate observatory is calculated geometry.",
+  "assets": [
+    {
+      "name": "wallpaper-prism",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-f6f4b6e7-dcf8-4d6e-900e-13055f9359fd.png",
+      "output": "images/hypercube/art/wallpaper-prism.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create a finished widescreen 16:9 desktop wallpaper: a monumental, elegant nested cubic glass sculpture suspended above a dark reflective plane. An outer cubical frame and smaller suspended cube linked at their corresponding corners suggest a projection into another dimension; this is decorative concept art, not an instructional diagram. Sculptural subject occupies the right half, quieter navy-black negative space on the left and along the margins for actual website windows. Sparse fine particles, subtle volumetric cyan shafts, restrained violet backlight, crisp machined geometry, cinematic but calm, gallery quality, no city or planets.",
+      "transparent_background": false
+    },
+    {
+      "name": "wallpaper-void",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-ca50d16f-32bf-4bf8-8494-e05cf15a72ce.png",
+      "output": "images/hypercube/art/wallpaper-void.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Input image is the edit target: the existing widescreen Prism nested-cube wallpaper. Create a matched VOID variant. Keep the entire nested cubic sculpture, outer and inner cube frame, all joints and connecting rods, camera, subject position in right half, horizon and aspect ratio identical. Change only lighting, reflections and atmosphere: deeper violet-black space, fine sparse magenta starlight, stronger rich violet glass refraction, restrained pink inner glow and soft cyan edges. Calm negative space on the left for actual content. Dark polished reflective floor, superb material detail, elegant and legible sculpture. No new objects or text.",
+      "transparent_background": false
+    },
+    {
+      "name": "emblem",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-b38c1746-ba58-4bbc-8427-0805ddc06838.png",
+      "output": "images/hypercube/art/emblem.png",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE compact iconic nested-cube emblem on a genuinely transparent background, square composition, entire object fits inside canvas with 14 percent transparent margins. A thick outer cubical glass frame and suspended inner cube linked corner-to-corner, three-quarter perspective with luminous cyan outer edges and magenta inner edges, substantial material thickness. Recognizable nested-cube silhouette at 32px, extraordinary at 128px. No backdrop, pedestal, large cast shadow, card, tile, or surrounding orb.",
+      "transparent_background": true
+    },
+    {
+      "name": "profile",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-318efa78-3c4f-44f3-aec9-54f6c90bb459.png",
+      "output": "images/hypercube/art/profile.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE premium operating-interface app icon on a genuinely transparent background. Subject: a simple human bust silhouette made from faceted smoky glass, rounded polyhedral head and broad shoulder base, fine cyan titanium rim, subtle violet inner illumination. Three-quarter camera, one clearly recognizable person. Square composition, centered, 14 percent transparent margins, clean silhouette readable at 32px. Upper-left soft studio lighting, no environment, pedestal, surrounding card/tile or large cast shadow.",
+      "transparent_background": true
+    },
+    {
+      "name": "projects",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-fcfa463d-087e-4b73-bffb-c1a98537d40f.png",
+      "output": "images/hypercube/art/projects.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE app icon on genuinely transparent background. Subject: an unmistakable open file folder formed from substantial faceted violet glass with black titanium edges and a clean tab silhouette, cyan luminescent inner volume. A subtle cubic bevel language connects it to a spatial operating interface. Square composition, centered, 14 percent transparent margins, upper-left studio lighting, three-quarter perspective, recognizable at 32px and beautiful at 128px. No surrounding card/tile, pedestal, environment or large cast shadow.",
+      "transparent_background": true
+    },
+    {
+      "name": "experience",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-0bce3d4c-85c4-4cab-a114-bb053252b691.png",
+      "output": "images/hypercube/art/experience.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE app icon on genuinely transparent background. Subject: three substantial glass cubes arranged as a rising stair-step path, connected by a thin cyan luminous rail, representing a career progression. Strong simple staircase silhouette, dark titanium joints, magenta light inside the uppermost cube. Square composition, centered, all cubes visible, 14 percent transparent margins, upper-left studio lighting, three-quarter perspective, recognizable at 32px and beautiful at 128px. No surrounding card/tile, pedestal, environment or large cast shadow.",
+      "transparent_background": true
+    },
+    {
+      "name": "studio",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-7f0c65e6-04cb-4581-8392-975058c52dd5.png",
+      "output": "images/hypercube/art/studio.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE app icon on genuinely transparent background. Subject: a substantial dark-glass rectangular control console with three sliding vertical cyan rails and chunky translucent violet slider knobs at different heights, black titanium edging; a clear settings/studio icon. Square composition, centered, 14 percent transparent margins, upper-left studio lighting, three-quarter perspective, recognizable at 32px and beautiful at 128px. No surrounding card/tile, pedestal, environment or large cast shadow.",
+      "transparent_background": true
+    },
+    {
+      "name": "connect",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-e5d16044-31f2-40bc-a15f-759b3294a72a.png",
+      "output": "images/hypercube/art/connect.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE app icon on genuinely transparent background. Subject: a dark faceted optical-glass globe with a few elegant thick cyan titanium meridian hoops and three small violet luminous connection nodes, suggesting communication and a network. Clean, recognizable spherical silhouette. Square composition, centered, 14 percent transparent margins, upper-left studio lighting, three-quarter perspective, recognizable at 32px and beautiful at 128px. No surrounding card/tile, pedestal, environment or large cast shadow.",
+      "transparent_background": true
+    },
+    {
+      "name": "observatory",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-b5bcca85-43ca-4fdb-a9bc-cb912a4a1b36.png",
+      "output": "images/hypercube/art/observatory.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke raster artwork for the Hypercube theme of a portfolio website. Style: exceptional premium 3D render, deep obsidian optical glass, translucent violet facets, luminous cyan edges with restrained magenta highlights, polished black titanium joints, believable refraction, clear shapes, sophisticated spatial depth. No typography, letters, numbers, watermarks or fake UI. Create ONE app icon on genuinely transparent background. Subject: one open miniature dark-glass cube on an elegant compact titanium stand, the cube holding a cyan luminous spherical core suspended inside and a fine violet orbital ring around the core. Represents a coordinate observatory, an instrument for exploring dimensions. Clean silhouette, few large elements. Square composition, centered, 14 percent transparent margins, upper-left studio lighting, three-quarter perspective, recognizable at 32px and beautiful at 128px. No surrounding card/tile, pedestal environment, or large cast shadow.",
+      "transparent_background": true
+    }
+  ]
+}

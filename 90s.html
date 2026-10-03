@@ -1436,9 +1436,11 @@
     <link rel="stylesheet" href="css/windows-xp.css?v=2">
     <link rel="stylesheet" href="css/theme-picker.css">
     <link rel="stylesheet" href="css/matrix-glass.css?v=1">
-    <link rel="stylesheet" href="css/hypercube.css?v=1">
+    <link rel="stylesheet" href="css/hypercube.css?v=2">
     <link rel="stylesheet" href="css/windows-98.css?v=1">
     <link rel="stylesheet" href="css/windows-2100.css?v=2">
+    <link rel="stylesheet" href="css/retro-experience.css?v=1">
+    <link rel="stylesheet" href="css/hypercube-art.css?v=1">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1481,7 +1483,7 @@
                     <button type="button" class="theme-option" role="option" data-theme="win98" aria-selected="false" tabindex="-1"><img src="images/win98/windows-logo.png" alt="" width="30" height="30"><span>Windows 98<small>Teal, pixels &amp; beveled buttons</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
-                    <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/theme-icons/hypercube.svg" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/hypercube/art/emblem.png" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="win2100" aria-selected="false" tabindex="-1"><img src="images/win2100/art/windows-logo.png" alt="" width="30" height="30"><span>Windows 2100<small>An imagined spatial desktop</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
@@ -1491,6 +1493,8 @@
         </div>
         
         <div class="future-brand future-only"><img src="images/win2100/art/windows-logo.png" alt="" width="72" height="72"><div><strong>Windows <span>2100</span></strong><small>Personal workspace</small></div><button type="button" class="future-personalize" data-open-future-art aria-haspopup="dialog">Personalize</button></div>
+
+        <div class="hyper-brand hypercube-only"><img src="images/hypercube/art/emblem.png" alt="" width="64" height="64"><div><strong>Hypercube</strong><small>A workspace beyond the ordinary</small></div><button type="button" data-open-hyper-art aria-haspopup="dialog">Personalize</button></div>
 
         <!-- Retro Header -->
         <div class="nineties-header">
@@ -1511,6 +1515,7 @@
                         <h2>Curiosity has<br><em>another dimension.</em></h2>
                         <p>I build technology that helps people learn. Sometimes the best way to understand an idea is to turn it, question it, and see it from a new angle.</p>
                         <div class="hyper-actions"><a href="#nineties-projects">Explore my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Go beyond 3D <span aria-hidden="true">↗</span></a></div>
+                        <button type="button" class="hyper-art-card" data-open-hyper-art aria-haspopup="dialog"><img src="images/hypercube/art/wallpaper-prism.webp" alt="" width="96" height="58"><span><strong>Choose your dimension.</strong><small>Prism and Void · original desktop art ↗</small></span></button>
                         <p class="hyper-cube-note">A square gains a new direction to become a cube. Give a cube one more independent direction and you get a <strong>tesseract</strong>. We can explore its projection, just as a cube casts a flat shadow.</p>
                     </div>
                     <div class="hyper-observatory">
@@ -1560,6 +1565,13 @@
             <a href="#nineties-projects"><img src="images/win2100/art/folder.webp" alt="" width="80" height="80"><span>Projects</span><small>Open something interesting</small></a>
             <a href="#nineties-resume"><img src="images/win2100/art/documents.webp" alt="" width="80" height="80"><span>Documents</span><small>Experience &amp; education</small></a>
             <a href="#nineties-skills"><img src="images/win2100/art/control-panel.webp" alt="" width="80" height="80"><span>Studio</span><small>Tools for what comes next</small></a>
+        </nav>
+
+        <nav class="hyper-desktop-shortcuts hypercube-only" aria-label="Hypercube workspace shortcuts">
+            <a href="#nineties-about"><img src="images/hypercube/art/profile.webp" alt="" width="88" height="88"><span>Profile</span><small>The person behind the projects</small></a>
+            <a href="#nineties-projects"><img src="images/hypercube/art/projects.webp" alt="" width="88" height="88"><span>Projects</span><small>Ideas brought into the world</small></a>
+            <a href="#nineties-resume"><img src="images/hypercube/art/experience.webp" alt="" width="88" height="88"><span>Experience</span><small>A path through possibilities</small></a>
+            <a href="#nineties-skills"><img src="images/hypercube/art/studio.webp" alt="" width="88" height="88"><span>Studio</span><small>Tools for the next dimension</small></a>
         </nav>
 
         <!-- Kirby Sound Toggle -->
@@ -1657,50 +1669,26 @@
             <!-- Resume Section -->
             <div id="nineties-resume" class="nineties-section">
                 <h2 class="nineties-section-title rainbow-text nintendo-world-title" data-theme-text="resumeTitle">MY RESUME</h2>
-                <div class="ascii-art">
-┌─────────────────────────────────────────┐
-│ EXPERIENCE                              │
-├─────────────────────────────────────────┤
-│ [*] CTO @ Coherascent Labs             │
-│   Built Lune Synth (600k+ lines)       │
-│   Handwritten work -> useful feedback  │
-│                                         │
-│ [M] Podcaster @ Malestrum: The Third Phase               │
-│   Father-son talks that rock!          │
-│   Achievement Unlocked! *               │
-│                                         │
-│ * AI Engineer @ TrueFlow AI             │
-│   Making CRMs smart with LLMs!         │
-│   Successfully delivered AI solutions  │
-│                                         │
-│ [S] Cybersecurity @ JeffCo              │
-│   Keeping the county safe!             │
-│   Digital security guardian! [+]        │
-│                                         │
-│ [M] Software Intern @ CACI              │
-│   Navigation for the visually impaired │
-│   Making technology accessible! (o)     │
-│                                         │
-│ [H] Resident Advisor @ Mines            │
-│   Dorm life coordinator!               │
-│   Community helper! *                   │
-└─────────────────────────────────────────┘
-
-┌─────────────────────────────────────────┐
-│ EDUCATION                               │
-├─────────────────────────────────────────┤
-│ [S] Colorado School of Mines            │
-│   Combined BS+MS Computer Science       │
-│   AI/ML & Data Science Specialization   │
-│   2020-2025 (Double degree!)            │
-│   Academic excellence! **               │
-│   Making computers think since 2020!    │
-│   Future-focused education! [*]         │
-│                                         │
-│ [T] Santa Fe Prep School 2015-2020      │
-│   Track Captain & Theater Star!         │
-│   Well-rounded development! [+]         │
-└─────────────────────────────────────────┘
+                <pre class="ascii-art matrix-experience" tabindex="0" aria-label="Experience and education in Matrix terminal format"></pre>
+                <div class="experience-collection">
+                    <section class="experience-group" aria-labelledby="experience-experience">
+                        <h3 id="experience-experience" class="experience-group-title">Experience</h3>
+                        <ol class="experience-list">
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="computer" src="images/vista/computer.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Leadership &amp; product</span><h4>Chief Technology Officer</h4><p class="experience-organization">Coherascent Labs</p><p class="experience-date">Jan 2026 – Present</p><p class="experience-description">Architecting Lune Synth: 600k+ lines of code turning handwritten work into useful feedback. Leading technical strategy and engineering for an education technology and research company.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="mail" src="images/vista/mail.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Ideas &amp; conversation</span><h4>Podcast Co-Host</h4><p class="experience-organization">Malestrum: The Third Phase</p><p class="experience-description">A father-son podcast exploring the civilizational shift driven by AI and the personal changes that follow career and family.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="application" src="images/vista/application.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">AI engineering</span><h4>AI Implementation Engineer</h4><p class="experience-organization">TrueFlow AI</p><p class="experience-date">Feb 2025 – Jan 2026</p><p class="experience-description">Built production AI automation, custom LLM workflows, and retrieval pipelines connected to real customer workflows.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="network" src="images/vista/network.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Public service &amp; security</span><h4>Cybersecurity Digital Innovation Intern</h4><p class="experience-organization">Jefferson County</p><p class="experience-date">Jun – Aug 2024</p><p class="experience-description">Created practical cybersecurity and generative AI training with the county CIO and CISO. Won Best Booth at the county Tech Showcase.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="application" src="images/vista/application.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Accessible technology</span><h4>Software Engineering Intern</h4><p class="experience-organization">CACI International</p><p class="experience-date">May – Aug 2023</p><p class="experience-description">Built positioning algorithms and an autocalibration tool for a Bluetooth navigation system serving blind and visually impaired people.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="people" src="images/vista/people.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Community building</span><h4>Resident Advisor</h4><p class="experience-organization">Colorado School of Mines</p><p class="experience-date">Jul – Nov 2022</p><p class="experience-description">Supported around 50 upperclassmen through community events, one-on-one conversations, and residence hall duties.</p></div></li>
+                        </ol>
+                    </section>
+                    <section class="experience-group" aria-labelledby="experience-education">
+                        <h3 id="experience-education" class="experience-group-title">Education</h3>
+                        <ol class="experience-list">
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="documents" src="images/vista/documents.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Computer science</span><h4>Combined B.S. &amp; M.S.</h4><p class="experience-organization">Colorado School of Mines</p><p class="experience-date">2020 – 2025</p><p class="experience-description">Computer science with a specialization in AI, machine learning, and data science.</p></div></li>
+                            <li class="experience-card"><img class="experience-icon" data-experience-icon="documents" src="images/vista/documents.ico" alt="" width="56" height="56" loading="lazy"><div class="experience-card-copy"><span class="experience-category">Where curiosity started</span><h4>High School</h4><p class="experience-organization">Santa Fe Prep</p><p class="experience-date">2015 – 2020</p><p class="experience-description">Track captain and theater participant, bringing athletics, creativity, and learning together.</p></div></li>
+                        </ol>
+                    </section>
                 </div>
             </div>
 
@@ -1959,6 +1947,16 @@
         </div>
     </div>
 
+    <dialog id="hyper-art-dialog" aria-labelledby="hyper-art-title">
+        <form method="dialog" class="hyper-art-heading"><div><p>HYPERCUBE / PERSONALIZATION</p><h2 id="hyper-art-title">Choose your dimension.</h2></div><button type="submit" aria-label="Close Hypercube personalization">✕</button></form>
+        <img id="hyper-wallpaper-preview" src="images/hypercube/art/wallpaper-prism.webp" alt="Prism: a nested crystal cube illuminated by cyan and violet light" width="1672" height="941">
+        <div class="hyper-wallpaper-choices" role="group" aria-label="Choose Hypercube wallpaper">
+            <button type="button" data-hyper-wallpaper="prism" aria-pressed="true"><img src="images/hypercube/art/wallpaper-prism.webp" alt="" width="120" height="70"><span>Prism<small>Cyan glass · luminous space</small></span></button>
+            <button type="button" data-hyper-wallpaper="void" aria-pressed="false"><img src="images/hypercube/art/wallpaper-void.webp" alt="" width="120" height="70"><span>Void<small>Violet glass · deeper space</small></span></button>
+        </div>
+        <p class="hyper-art-caption">Original artwork for this workspace. Explore mathematically calculated projections in the Coordinate Observatory.</p>
+    </dialog>
+
     <dialog id="future-art-dialog" aria-labelledby="future-art-title">
         <form method="dialog" class="future-art-heading"><div><p>WINDOWS 2100 / PERSONALIZATION</p><h2 id="future-art-title">Make this space yours.</h2></div><button type="submit" aria-label="Close desktop personalization">✕</button></form>
         <img id="future-wallpaper-preview" src="images/win2100/art/wallpaper-dawn.webp" alt="Dawn: a four-fold crystal sculpture above an opalescent horizon" width="1672" height="941">
@@ -1991,9 +1989,10 @@
     <script src="js/vista-aero.js?v=6" defer></script>
 
     <script src="js/theme-picker.js?v=3" defer></script>
+    <script src="js/retro-experience.js?v=1" defer></script>
     <script src="gradient-descent-worksheet/dimensions-core.js" defer></script>
     <script src="js/hypercube-core.js?v=1" defer></script>
-    <script src="js/hypercube.js?v=1" defer></script>
+    <script src="js/hypercube.js?v=2" defer></script>
     <script src="js/windows-2100.js?v=2" defer></script>
 
     <!-- Kirby Super Star sound effects -->

@@ -1,0 +1,66 @@
+/* Semantic experience cards follow the active theme; only Matrix uses terminal art. */
+body:not(.matrix-theme) #nineties-resume .matrix-experience { display: none !important; }
+body.matrix-theme #nineties-resume .experience-collection { display: none !important; }
+.experience-collection {
+    --exp-surface: #f8feff; --exp-border: #aacbd5; --exp-text: #24475a;
+    --exp-muted: #47697b; --exp-accent: #276b59; --exp-chip: #e8f3f6;
+    color: var(--exp-text); min-width: 0;
+}
+.experience-group + .experience-group { margin-top: 28px; }
+body #nineties-resume .experience-group-title {
+    margin: 0 0 16px; padding: 10px 0; font-size: 20px !important; font-weight: 600;
+    text-align: left; text-transform: none; color: var(--exp-accent) !important;
+    background: none; border: 0; border-bottom: 1px solid var(--exp-border);
+    animation: none; text-shadow: none;
+}
+.experience-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.experience-card { display: grid; grid-template-columns: 52px minmax(0,1fr); align-items: start; gap: 16px; padding: 20px; border: 1px solid var(--exp-border); border-radius: 12px; background: var(--exp-surface); color: var(--exp-text); position: relative; min-width: 0; }
+.experience-icon { display: block; width: 52px; height: 52px; object-fit: contain; }
+.experience-card-copy { min-width: 0; overflow-wrap: anywhere; }
+.experience-category { display: block; color: var(--exp-muted); font-size: 10px; letter-spacing: .06em; line-height: 1.6; margin-bottom: 7px; }
+body #nineties-resume .experience-card h4 { color: var(--exp-text); font-size: 18px; line-height: 1.35; font-weight: 600; letter-spacing: -.01em; margin: 0; padding: 0; border: 0; background: none; text-transform: none; text-shadow: none; animation: none; }
+.experience-organization { color: var(--exp-accent); font-size: 14px; line-height: 1.5; margin: 7px 0 0; font-weight: 600; }
+.experience-date { display: inline-block; font-size: 10px; line-height: 1.5; color: var(--exp-muted); background: var(--exp-chip); padding: 4px 8px; border-radius: 6px; margin: 10px 0 0; }
+.experience-description { color: var(--exp-muted); font-size: 13px; line-height: 1.75; margin: 12px 0 0; }
+body.vista-theme .experience-card { background: linear-gradient(135deg,#fcffff,#edf8fa); box-shadow: inset 0 1px #fff,0 3px 12px #245c7510; border-radius: 8px; }
+body.vista-theme .experience-group-title { background: linear-gradient(#e7f9ff,#d9eff5) !important; padding: 12px 16px !important; border: 1px solid #a8c9d5 !important; border-radius: 6px; }
+body.xp-theme .experience-collection { --exp-surface: #fff; --exp-border: #c1cce1; --exp-text: #183467; --exp-muted: #41536f; --exp-accent: #2358b5; --exp-chip: #eef3fc; }
+body.win98-theme .experience-collection { --exp-surface: #fff; --exp-border: #b5b5b5; --exp-text: #111; --exp-muted: #404040; --exp-accent: #000080; --exp-chip: #eee; }
+body:is(.xp-theme,.win98-theme) .experience-list { grid-template-columns: 1fr; gap: 0; border: 1px solid var(--exp-border); background: #fff; }
+body:is(.xp-theme,.win98-theme) .experience-card { border: 0; border-bottom: 1px solid var(--exp-border); border-radius: 0; grid-template-columns: 36px minmax(0,1fr); padding: 16px; gap: 14px; }
+body:is(.xp-theme,.win98-theme) .experience-card:last-child { border-bottom: 0; }
+body:is(.xp-theme,.win98-theme) .experience-icon { width: 36px; height: 36px; }
+body:is(.xp-theme,.win98-theme) #nineties-resume .experience-card h4 { font-size: 16px; }
+body:is(.xp-theme,.win98-theme) .experience-date { border-radius: 0; }
+body.xp-theme #nineties-resume .experience-group-title { background: linear-gradient(#3b86f0,#1957c6) !important; color: #fff !important; padding: 10px 14px; font-size: 16px !important; border-radius: 6px 6px 0 0; margin-bottom: 0; border: 1px solid #194fab; }
+body.win98-theme #nineties-resume .experience-group-title { color: #fff !important; background: #000080 !important; font-size: 14px !important; padding: 8px 12px; margin-bottom: 0; font-weight: 700; }
+body.win98-theme .experience-list { border: 2px solid; border-color: #808080 #fff #fff #808080; }
+body.win98-theme #nineties-resume .experience-card h4 { font-size: 14px; letter-spacing: 0; }
+body.win98-theme .experience-description { font-size: 12px; }
+body.win2100-theme .experience-collection { --exp-surface: #f8fbffe8; --exp-border: #cedcf2; --exp-text: #294371; --exp-muted: #50678e; --exp-accent: #645fba; --exp-chip: #eaf0fb; }
+body.win2100-theme .experience-card { grid-template-columns: 64px minmax(0,1fr); border-radius: 18px; padding: 24px; box-shadow: 0 8px 24px #5763ad0a; }
+body.win2100-theme .experience-icon { width: 64px; height: 64px; }
+body.hypercube-theme .experience-collection { --exp-surface: #0e1834d9; --exp-border: #709cef50; --exp-text: #e9f5ff; --exp-muted: #b6c9e6; --exp-accent: #87f5e9; --exp-chip: #23325b; }
+body.hypercube-theme .experience-list { grid-template-columns: 1fr; padding-left: 20px; border-left: 1px solid #75d8e57a; gap: 18px; }
+body.hypercube-theme .experience-card { grid-template-columns: 64px minmax(0,1fr); background: linear-gradient(120deg,#14223ae8,#121532e8); box-shadow: inset 0 1px #a9cfff16; }
+body.hypercube-theme .experience-icon { width: 64px; height: 64px; }
+body.hypercube-theme .experience-card::before { content: ''; position: absolute; left: -26px; top: 38px; width: 9px; height: 9px; background: #91fff1; border: 1px solid #b2fff4; box-shadow: 0 0 12px #7affe4a0; transform: rotate(45deg); }
+body.nintendo-theme .experience-collection { --exp-surface: #fff6ddf5; --exp-border: #654580; --exp-text: #473058; --exp-muted: #67486e; --exp-accent: #a53071; --exp-chip: #ffe0ef; }
+body.nintendo-theme .experience-card { border: 4px solid var(--exp-border); border-radius: 0; box-shadow: 4px 4px #3a275c7a; background: linear-gradient(#fffaf0ec,#ffece4ec); grid-template-columns: 48px minmax(0,1fr); }
+body.nintendo-theme .experience-icon { width: 48px; height: 48px; image-rendering: pixelated; }
+body.nintendo-theme #nineties-resume .experience-group-title { color: #fff !important; background: #845496 !important; padding: 10px 14px; border: 3px solid #543465; font-size: 18px !important; }
+body.nintendo-theme .experience-category { color: #aa3773; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+body.nintendo-theme #nineties-resume .experience-card h4 { font-size: 21px; }
+body.nintendo-theme .experience-description { font-size: 17px; line-height: 1.5; }
+body.nintendo-theme .experience-organization { font-size: 18px; }
+body.nintendo-theme .experience-date { font-size: 14px; border-radius: 0; }
+body.matrix-theme #nineties-resume .matrix-experience { max-width: 100%; overflow-x: auto; box-sizing: border-box; padding: 18px; white-space: pre; font-size: 13px; }
+body.matrix-theme .matrix-experience:focus-visible { outline: 2px solid #a5ffcb; outline-offset: 4px; }
+@media (max-width: 760px) {
+    .experience-list { grid-template-columns: 1fr; }
+    .experience-card,body.win2100-theme .experience-card { padding: 16px; grid-template-columns: 44px minmax(0,1fr); gap: 12px; }
+    .experience-icon,body.win2100-theme .experience-icon,body.hypercube-theme .experience-icon { width: 44px; height: 44px; }
+    body.hypercube-theme .experience-card { grid-template-columns: 44px minmax(0,1fr); }
+    body.nintendo-theme .experience-card { grid-template-columns: 36px minmax(0,1fr); padding: 14px; gap: 10px; }
+    body.nintendo-theme .experience-icon { width: 36px; height: 36px; }
+}

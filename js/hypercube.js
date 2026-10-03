@@ -89,9 +89,7 @@
         const {width:w,height:h}=backgroundSize;
         if(!w || !h) return;
         ambient.clearRect(0,0,w,h);
-        const glow=ambient.createRadialGradient(w*.7,h*.1,0,w*.7,h*.1,w*.9);
-        glow.addColorStop(0,'#17204c'); glow.addColorStop(.5,'#090e27'); glow.addColorStop(1,'#06091a');
-        ambient.fillStyle=glow;ambient.fillRect(0,0,w,h);
+        // The original wallpaper stays visible under this transparent, animated layer.
         ambient.strokeStyle='#60a3dc12';ambient.lineWidth=.6;
         for(let i=-9;i<=9;i++){ambient.beginPath();ambient.moveTo(w*.5,h*.55);ambient.lineTo(w*.5+i*w*.14,h);ambient.stroke();}
         for(let i=1;i<=7;i++){const y=h*.55+h*.45*Math.pow(i/7,2);ambient.beginPath();ambient.moveTo(0,y);ambient.lineTo(w,y);ambient.stroke();}
@@ -133,7 +131,7 @@
     function syncTheme() {
         active=document.body.classList.contains('hypercube-theme');
         cancelAnimationFrame(frame);frame=0;previous=0;
-        if(active){resize();text();}
+        if(active){resize();text();}else if(artDialog.open){artDialog.close();}
     }
     function setPlaying(value){state.playing=value;previous=0;text();requestDraw();}
     function resetView(){state.yaw=.55;state.pitch=-.12;state.zoom=1;requestDraw();}
@@ -156,8 +154,25 @@
     new MutationObserver(syncTheme).observe(document.body,{attributes:true,attributeFilter:['class']});
     new ResizeObserver(resize).observe(canvas);
     window.addEventListener('resize',resize);
-    document.querySelectorAll('.nineties-nav-table tr:last-child a').forEach(link=>{
-        const icon=document.createElement('img');icon.src='images/theme-icons/hypercube.svg';icon.alt='';icon.className='hyper-nav-icon hypercube-only';link.prepend(icon);
+    const artDialog=document.getElementById('hyper-art-dialog'),preview=document.getElementById('hyper-wallpaper-preview');
+    const wallpapers={prism:'Prism: a nested crystal cube illuminated by cyan and violet light',void:'Void: the same nested crystal cube illuminated by violet starlight'};
+    const choices=[...document.querySelectorAll('[data-hyper-wallpaper]')];
+    function chooseWallpaper(name){
+        if(!Object.hasOwn(wallpapers,name))name='prism';
+        document.body.dataset.hyperWallpaper=name;preview.src=`images/hypercube/art/wallpaper-${name}.webp`;preview.alt=wallpapers[name];
+        choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.hyperWallpaper===name)));
+        try{localStorage.setItem('hypercube-wallpaper',name);}catch(_){}
+    }
+    document.querySelectorAll('[data-open-hyper-art]').forEach(button=>button.addEventListener('click',()=>artDialog.showModal()));
+    choices.forEach(button=>button.addEventListener('click',()=>chooseWallpaper(button.dataset.hyperWallpaper)));
+    artDialog.addEventListener('keydown',event=>{
+        if(event.key!=='Tab')return;
+        const buttons=[...artDialog.querySelectorAll('button:not([disabled])')],first=buttons[0],last=buttons.at(-1);
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
     });
+    artDialog.addEventListener('click',event=>{if(event.target===artDialog){const b=artDialog.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)artDialog.close();}});
+    let wallpaper='prism';try{wallpaper=localStorage.getItem('hypercube-wallpaper')||'prism';}catch(_){}
+    chooseWallpaper(wallpaper);
     syncTheme();
 })();

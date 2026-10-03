@@ -263,14 +263,18 @@ body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-taskbar {
     border-top: 1px solid #def8ff; box-shadow: inset 0 1px #ffffff70, 0 -2px 8px #05232e55;
 }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start { gap: 5px; padding: 0; }
-body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-orb { width: 48px; height: 48px; object-fit: contain; background: transparent; border: 0; border-radius: 50%; box-shadow: none; filter: drop-shadow(0 0 3px #c0f7ff55); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-orb { display: block; flex-shrink: 0; width: 48px; height: 48px; object-fit: contain; object-position: center; background: transparent; border: 0; border-radius: 50%; box-shadow: none; filter: drop-shadow(0 0 3px #c0f7ff55); }
+/* The flag artwork has more transparent space on its left than its right. */
+body.vista-theme .vista-start-orb { object-position: calc(50% - 2.25px) 50%; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start:hover .vista-start-orb,
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start[aria-expanded="true"] .vista-start-orb { box-shadow: none; filter: drop-shadow(0 0 7px #8aecff); }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task { display: inline-flex; align-items: center; gap: 8px; padding: 5px 20px 5px 10px; min-height: 34px; background: linear-gradient(#e7faff55, #89b5cb44 46%, #234550a6 49%, #a7d2e069); box-shadow: inset 0 0 0 1px #ffffff40, 0 0 0 1px #132c3880; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-tray { border-left: 1px solid #b7e3f22b; padding-left: 16px; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu { bottom: 49px; left: 9px; padding: 7px; border: 1px solid #123b4d; border-radius: 6px 6px 0 0; background: linear-gradient(90deg, #f9fcff 0 70%, #294759f5 70% 100%); box-shadow: inset 0 0 0 1px #fff9, 0 0 22px #001a3890; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-profile { margin: 0 0 4px; padding: 10px; border-radius: 4px; background: linear-gradient(#d7e5ecd9, #f1f6f9e6); }
-body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-avatar { width: 56px; height: 56px; object-fit: cover; border: 2px solid #fff; padding: 2px; background: linear-gradient(#b3ddf5, #557caa); border-radius: 8px; box-shadow: 0 0 0 1px #355364, 0 2px 6px #12334b55; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-avatar { width: 56px; height: 56px; flex-shrink: 0; box-sizing: border-box; overflow: hidden; border: 2px solid #fff; padding: 2px; background: linear-gradient(#b3ddf5, #557caa); border-radius: 8px; box-shadow: 0 0 0 1px #355364, 0 2px 6px #12334b55; }
+/* Keep the new outdoor portrait focused on the face at Start-menu size. */
+.vista-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.8); transform-origin: 50% 51%; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a:not(.vista-menu-home) { margin-right: 29%; padding: 10px 8px; gap: 10px; background: #fffffff5; border-radius: 0; font-size: 14px; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a:not(.vista-menu-home):hover { background: linear-gradient(#eff9ff, #d6edfb); border-color: #98c9e5; border-radius: 4px; }
 body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a img { object-fit: contain; flex: 0 0 36px; }

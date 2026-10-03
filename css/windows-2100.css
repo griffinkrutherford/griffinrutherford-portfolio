@@ -118,7 +118,7 @@ body.win2100-theme .vista-window-titlebar > img { width: 24px; height: 24px; fle
 body.win2100-theme .vista-start-menu a img { width: 48px; height: 48px; flex-basis: 48px; }
 body.win2100-theme .spinning-email::before { background-image: url('../images/win2100/art/mail.webp'); width: 56px; height: 56px; }
 body.win2100-theme .vista-taskbar { border-radius: 18px; background: #f7fbfff0; }
-body.win2100-theme .vista-start-orb { width: 42px; height: 42px; }
+body.win2100-theme .vista-start-orb { width: 42px; height: 42px; transform: translateY(1px); }
 #future-art-dialog { box-sizing: border-box; margin: auto; width: min(900px,calc(100vw - 32px)); max-height: calc(100dvh - 36px); padding: 20px; border: 1px solid #fff; border-radius: 20px; background: #f6faff; color: #203353; box-shadow: 0 24px 120px #0d1d5070; overflow: auto; }
 #future-art-dialog::backdrop { background: #0c224872; backdrop-filter: blur(7px); }
 .future-art-heading { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 16px; }

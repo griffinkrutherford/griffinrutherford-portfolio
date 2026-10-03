@@ -87,7 +87,8 @@ body.xp-theme .vista-start {
     font-style: italic;
     color: #fff;
 }
-body.xp-theme .vista-start-orb { width: 25px; height: 20px; object-fit: contain; border: 0; background: none; box-shadow: none; border-radius: 0; filter: none; image-rendering: pixelated; }
+/* The original flag PNG includes five transparent columns on the right. */
+body.xp-theme .vista-start-orb { width: 25px; height: 20px; object-fit: contain; transform: translate(2.5px, -.5px); border: 0; background: none; box-shadow: none; border-radius: 0; filter: none; image-rendering: pixelated; }
 body.xp-theme .vista-start:hover { background-position: center center; }
 body.xp-theme .vista-start:is(:active,[aria-expanded="true"]) { background-position: center bottom; }
 body.xp-theme .vista-task { min-height: 28px; background: #3b7ef2; border-color: #1750bc; box-shadow: inset 1px 1px #79b2ff; }

@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-02",
+  "review_type": "Subjective screenshot review by the implementing agent, separate from automated browser checks.",
+  "scale": "1\u2013100; 90+ means a cohesive, readable scene with clear controls and no substantial clipping or UI occlusion.",
+  "threshold": 90,
+  "scope": "The 2100 scene from Front, Reverse, and Overhead at desktop/phone widths, plus both themes\u2019 desktop and Start-menu layouts. Scores apply to these representative views, not every continuous orbit angle.",
+  "criteria": [
+    "Distinct, recognizable historical and imagined-future identities.",
+    "Legible text and controls across responsive layouts.",
+    "The glass-pane sculpture remains distinguishable from its decorative orbital rings.",
+    "Working desktop actions and correct icon families are verified separately by browser tests."
+  ],
+  "improvements_after_initial_review": [
+    "Stronger glass-pane edge colors for overhead views.",
+    "Historical shell icons and matching future SVG assets throughout the desktop, including title bars and the taskbar.",
+    "Theme controls remain in document flow, preventing visual obstruction of the hero scene."
+  ],
+  "reviewed_views": [
+    {
+      "screenshot": "images/windows-eras-review/win2100-front-1440.jpg",
+      "theme": "win2100",
+      "view": "front",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-reverse-1440.jpg",
+      "theme": "win2100",
+      "view": "reverse",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-overhead-1440.jpg",
+      "theme": "win2100",
+      "view": "overhead",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-front-390.jpg",
+      "theme": "win2100",
+      "view": "front",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 95
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-reverse-390.jpg",
+      "theme": "win2100",
+      "view": "reverse",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 94
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-overhead-390.jpg",
+      "theme": "win2100",
+      "view": "overhead",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 93
+    },
+    {
+      "screenshot": "images/windows-eras-review/win98-390.jpg",
+      "theme": "win98",
+      "view": "Desktop",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "images/windows-eras-review/win98-start-390.jpg",
+      "theme": "win98",
+      "view": "Start menu",
+      "viewport_width": 390,
+      "aesthetics": 94,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "images/windows-eras-review/win98-1440.jpg",
+      "theme": "win98",
+      "view": "Desktop",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "images/windows-eras-review/win98-start-1440.jpg",
+      "theme": "win98",
+      "view": "Start menu",
+      "viewport_width": 1440,
+      "aesthetics": 95,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-390.jpg",
+      "theme": "win2100",
+      "view": "Desktop",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-start-390.jpg",
+      "theme": "win2100",
+      "view": "Start menu",
+      "viewport_width": 390,
+      "aesthetics": 95,
+      "interpretability": 96
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-1440.jpg",
+      "theme": "win2100",
+      "view": "Desktop",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 97
+    },
+    {
+      "screenshot": "images/windows-eras-review/win2100-start-1440.jpg",
+      "theme": "win2100",
+      "view": "Start menu",
+      "viewport_width": 1440,
+      "aesthetics": 96,
+      "interpretability": 97
+    }
+  ]
+}

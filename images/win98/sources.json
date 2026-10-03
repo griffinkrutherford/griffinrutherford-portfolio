@@ -1,0 +1,18 @@
+{
+  "source": "https://win98icons.alexmeub.com/",
+  "context": "https://alexmeub.com/old-windows-icons/",
+  "owner": "Microsoft Corporation",
+  "usage": "Original Windows 98 shell graphics, served locally for this nostalgic personal portfolio. Icons are unmodified PNG exports.",
+  "assets": {
+    "computer.png": "https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png",
+    "network.png": "https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-0.png",
+    "folder.png": "https://win98icons.alexmeub.com/icons/png/directory_closed-4.png",
+    "documents.png": "https://win98icons.alexmeub.com/icons/png/document-0.png",
+    "control-panel.png": "https://win98icons.alexmeub.com/icons/png/directory_control_panel-0.png",
+    "people.png": "https://win98icons.alexmeub.com/icons/png/users-2.png",
+    "mail.png": "https://win98icons.alexmeub.com/icons/png/envelope_closed-0.png",
+    "pictures.png": "https://win98icons.alexmeub.com/icons/png/paint_old-0.png",
+    "application.png": "https://win98icons.alexmeub.com/icons/png/application_hourglass_small-0.png",
+    "windows-logo.png": "https://win98icons.alexmeub.com/icons/png/windows_button-0.png"
+  }
+}

@@ -24,7 +24,7 @@ const fs = require('node:fs');
         assert.equal(await toggle.locator('.theme-toggle-text').textContent(), 'Windows Vista Aero');
         await toggle.focus(); await page.keyboard.press('ArrowDown');
         assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
-        assert.equal(await menu.getByRole('option').count(), 5);
+        assert.equal(await menu.getByRole('option').count(), 7);
         assert.equal(await page.evaluate(() => document.activeElement.dataset.theme), 'vista');
         assert(await menu.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)));
         await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
@@ -76,7 +76,7 @@ const fs = require('node:fs');
         await page.keyboard.press('Escape');
         assert.equal(await page.evaluate(() => document.activeElement.id), 'theme-toggle');
         await toggle.click(); await page.keyboard.press('End');
-        assert.equal(await page.evaluate(() => document.activeElement.dataset.theme), 'hypercube');
+        assert.equal(await page.evaluate(() => document.activeElement.dataset.theme), 'win2100');
         await page.keyboard.press('Home');
         assert.equal(await page.evaluate(() => document.activeElement.dataset.theme), 'vista');
         await page.keyboard.press('Escape');
@@ -126,7 +126,7 @@ const fs = require('node:fs');
 
         for (const width of [320, 390, 768, 1440]) {
             await page.setViewportSize({ width, height: 1000 });
-            for (const theme of ['vista', 'xp', 'nintendo', 'matrix', 'hypercube']) {
+            for (const theme of ['vista', 'xp', 'win98', 'nintendo', 'matrix', 'hypercube', 'win2100']) {
                 await select(theme);
                 assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${theme} fits ${width}px`);
                 if (theme === 'matrix') assert.equal(await page.locator('.nineties-wrapper').evaluate(el => el.scrollLeft), 0, 'theme changes do not leave a hidden horizontal pan');
@@ -151,6 +151,6 @@ const fs = require('node:fs');
         await page.reload();
         assert.equal(await page.locator('body.vista-theme').count(), 1);
         assert.deepEqual(errors, []);
-        console.log('PASS: five-theme picker and favicons, authentic XP assets and Start states, desktop controls/search, transparent Matrix layers and rain motion, cleanup, keyboard navigation, and 320–1440px layouts.');
+        console.log('PASS: seven-theme picker and favicons, authentic XP assets and Start states, desktop controls/search, transparent Matrix layers and rain motion, cleanup, keyboard navigation, and 320–1440px layouts.');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

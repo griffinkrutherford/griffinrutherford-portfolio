@@ -1432,11 +1432,13 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
-    <link rel="stylesheet" href="css/vista-aero.css?v=3">
+    <link rel="stylesheet" href="css/vista-aero.css?v=4">
     <link rel="stylesheet" href="css/windows-xp.css?v=2">
     <link rel="stylesheet" href="css/theme-picker.css">
     <link rel="stylesheet" href="css/matrix-glass.css?v=1">
     <link rel="stylesheet" href="css/hypercube.css?v=1">
+    <link rel="stylesheet" href="css/windows-98.css?v=1">
+    <link rel="stylesheet" href="css/windows-2100.css?v=1">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1457,6 +1459,7 @@
     </style>
 </head>
 <body class="nineties-mode vista-theme">
+    <canvas id="future-background" aria-hidden="true"></canvas>
     <canvas id="hypercube-background" aria-hidden="true"></canvas>
     <!-- Retro Content Wrapper -->
     <div class="nineties-wrapper" style="display: block;">
@@ -1475,9 +1478,11 @@
                 <div id="retro-theme-menu" class="theme-menu" role="listbox" aria-label="Retro theme" hidden>
                     <button type="button" class="theme-option" role="option" data-theme="vista" aria-selected="true" tabindex="-1"><img src="images/vista/start-orb.svg" alt="" width="30" height="30"><span>Windows Vista Aero<small>Glass &amp; aurora</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="xp" aria-selected="false" tabindex="-1"><img src="images/xp/windows-logo.png" alt="" width="30" height="30"><span>Windows XP<small>Bliss &amp; Luna blue</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="win98" aria-selected="false" tabindex="-1"><img src="images/win98/windows-logo.png" alt="" width="30" height="30"><span>Windows 98<small>Teal, pixels &amp; beveled buttons</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/theme-icons/hypercube.svg" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="win2100" aria-selected="false" tabindex="-1"><img src="images/win2100/windows-logo.svg" alt="" width="30" height="30"><span>Windows 2100<small>An imagined spatial desktop</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1493,6 +1498,10 @@
                 <div class="vista-hero vista-only">
                     <img class="vista-globe" src="images/vista/network.ico" alt="" width="160" height="160" loading="lazy" decoding="async">
                     <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
+                </div>
+                <div class="future-hero future-only">
+                    <div class="future-copy"><p class="future-eyebrow">WINDOWS 2100 · A SPECULATIVE DESKTOP</p><h2>Build beyond<br><em>the horizon.</em></h2><p>An imagined workspace for the next century. The curiosity behind it is already here.</p><div class="future-actions"><a href="#nineties-projects">Open my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Explore another dimension <span aria-hidden="true">↗</span></a></div><div class="future-build"><span>BUILDING TODAY</span><strong>Lune Synth</strong><span>600k+ lines of code · feedback that helps you think</span></div></div>
+                    <div class="future-scene"><div class="future-scene-label"><span>SPATIAL WINDOW</span><span>Drag to orbit ↔</span></div><canvas id="future-canvas" width="640" height="520" tabindex="0" role="img" aria-label="Four floating glass panes surrounded by orbital rings" aria-describedby="future-scene-summary"></canvas><div class="future-scene-controls" role="group" aria-label="Spatial window controls"><button type="button" data-future-view="front">Front</button><button type="button" data-future-view="reverse">Reverse</button><button type="button" data-future-view="overhead">Overhead</button><button type="button" id="future-motion" aria-pressed="true">Pause motion</button></div><p id="future-scene-summary">Four glass panes form a window in space. Drag or use arrow keys to turn the camera; Home restores the front view. The rings are a visual flourish.</p></div>
                 </div>
                 <div class="hypercube-hero hypercube-only">
                     <div class="hyper-hero-copy">
@@ -1622,7 +1631,7 @@
 ║ <span data-theme-text="welcomeGreeting">Hey there, cyber-surfer! =)</span>                                                 ║
 ║                                                                              ║
 ║ <span data-theme-text="welcomeIntro1">I lead engineering at Coherascent Labs and built Lune Synth,</span>       ║
-║ <span data-theme-text="welcomeIntro2">a 500k+ line app that reads handwritten work step by step.</span>         ║
+║ <span data-theme-text="welcomeIntro2">a 600k+ line app that reads handwritten work step by step.</span>         ║
 ║ <span data-theme-text="welcomeIntro3">It finds missed reasoning and offers feedback that actually helps.</span>   ║
 ║                                                                              ║
 ║ <span data-theme-text="welcomeBody1">Outside work, I care deeply about mental and physical health,</span>        ║
@@ -1644,7 +1653,7 @@
 │ EXPERIENCE                              │
 ├─────────────────────────────────────────┤
 │ [*] CTO @ Coherascent Labs             │
-│   Built Lune Synth (500k+ lines)       │
+│   Built Lune Synth (600k+ lines)       │
 │   Handwritten work -> useful feedback  │
 │                                         │
 │ [M] Podcaster @ Malestrum: The Third Phase               │
@@ -1960,12 +1969,13 @@
         </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js?v=4" defer></script>
+    <script src="js/vista-aero.js?v=5" defer></script>
 
     <script src="js/theme-picker.js?v=2" defer></script>
     <script src="gradient-descent-worksheet/dimensions-core.js" defer></script>
     <script src="js/hypercube-core.js?v=1" defer></script>
     <script src="js/hypercube.js?v=1" defer></script>
+    <script src="js/windows-2100.js?v=1" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
@@ -2298,7 +2308,7 @@
     
     <script>
         // Vista is the default; an explicit theme link opens the requested version.
-        const themes = ['vista', 'xp', 'nintendo', 'matrix', 'hypercube'];
+        const themes = ['vista', 'xp', 'nintendo', 'matrix', 'hypercube', 'win98', 'win2100'];
         const requestedTheme = new URLSearchParams(window.location.search).get('theme');
         let currentTheme = themes.includes(requestedTheme) ? requestedTheme : 'vista';
         
@@ -2310,7 +2320,7 @@
                 welcomeTitle: "WELCOME TO MY HOMEPAGE!",
                 welcomeGreeting: "Hey there, cyber-surfer! =)",
                 welcomeIntro1: "I lead engineering at Coherascent Labs and built Lune Synth,",
-                welcomeIntro2: "a 500k+ line app that reads handwritten work step by step.",
+                welcomeIntro2: "a 600k+ line app that reads handwritten work step by step.",
                 welcomeIntro3: "It finds missed reasoning and offers feedback that actually helps.",
                 welcomeBody1: "Outside work, I care deeply about mental and physical health,",
                 welcomeBody2: "and you can usually find me on mountain trails or lifting.",
@@ -2330,7 +2340,7 @@
                 welcomeTitle: "Welcome to my corner of the world",
                 welcomeGreeting: "Hello from Santa Fe.",
                 welcomeIntro1: "I'm CTO of Coherascent Labs, an education technology and research company.",
-                welcomeIntro2: "I built Lune Synth to turn handwritten work into useful feedback.",
+                welcomeIntro2: "I built Lune Synth: 600k+ lines of code turning handwritten work into useful feedback.",
                 welcomeIntro3: "Good technology helps people understand their next step.",
                 welcomeBody1: "Away from the keyboard, I care about mental and physical health.",
                 welcomeBody2: "You'll find me on mountain trails, lifting, or talking with friends.",
@@ -2349,7 +2359,7 @@
                 headerSubtitle: "Lune Synth online: decode every step",
                 welcomeTitle: "SYSTEM ACCESS GRANTED",
                 welcomeGreeting: "Welcome to the real world, Neo.",
-                welcomeIntro1: "Inside the construct, I built Lune Synth: 500k+ lines",
+                welcomeIntro1: "Inside the construct, I built Lune Synth: 600k+ lines",
                 welcomeIntro2: "that decode handwritten work and trace each missed step.",
                 welcomeIntro3: "The next move is clear feedback, not empty praise.",
                 welcomeBody1: "Outside the construct, I care about mental and physical health",
@@ -2369,7 +2379,7 @@
                 headerSubtitle: "Building Lune Synth: learn from every step",
                 welcomeTitle: "WELCOME TO MY HOMEPAGE!",
                 welcomeGreeting: "Hey there, cyber-surfer! =)",
-                welcomeIntro1: "I build Lune Synth at Coherascent Labs: a 500k+ line app",
+                welcomeIntro1: "I build Lune Synth at Coherascent Labs: a 600k+ line app",
                 welcomeIntro2: "that scans handwritten work and catches missed steps.",
                 welcomeIntro3: "Honest feedback helps learners know what to try next.",
                 welcomeBody1: "Outside work, I care about mental and physical health,",
@@ -2393,6 +2403,22 @@
             skillsTitle: 'Control Panel · Skills',
             projectsTitle: 'My Projects',
             guestbookTitle: 'Outlook Express · Say hello'
+        };
+
+        themeTexts.win98 = { ...themeTexts.vista,
+            marquee: "Welcome to Griffin's Windows 98 desktop • Open My Projects, explore the folders, and leave a message • All curiosity, no dial-up required.",
+            headerSubtitle: 'My Computer · Projects, people, and possibility',
+            welcomeTitle: 'My Profile', resumeTitle: 'My Documents · Experience',
+            skillsTitle: 'Control Panel · Skills', projectsTitle: 'My Projects',
+            guestbookTitle: 'Inbox · Leave a message', achievement: 'Ready. Set. Explore.'
+        };
+        themeTexts.win2100 = { ...themeTexts.vista,
+            marquee: 'Ideas travel further when you share them. Explore a project, follow a question, and build something that helps.',
+            headerSubtitle: 'An imagined future. Real projects. Human curiosity.',
+            welcomeTitle: 'The person behind the interface', resumeTitle: 'Experience timeline',
+            skillsTitle: 'Tools for what comes next', projectsTitle: 'Project constellation',
+            guestbookTitle: 'Open a conversation', peopleSkills: 'The human connection',
+            achievement: 'The future starts with something useful.'
         };
 
         themeTexts.hypercube = { ...themeTexts.vista,
@@ -2445,7 +2471,7 @@
         }
         
         function initializeTheme() {
-            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme', 'hypercube-theme');
+            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme', 'hypercube-theme', 'win98-theme', 'win2100-theme');
             stopMatrixRain();
             document.body.classList.add(`${currentTheme}-theme`);
             if (currentTheme === 'matrix') initMatrixRain();

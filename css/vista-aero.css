@@ -1,23 +1,23 @@
 /* Original vector landscape and glass UI, inspired by Vista-era Frutiger Aero. */
 .vista-only { display: none; }
 .vista-only[hidden] { display: none !important; }
-body:is(.vista-theme, .xp-theme) {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) {
     background: #198cbc url('../images/vista-aero-wallpaper.svg') center / cover fixed no-repeat;
     color: #17394e;
     font-family: 'Segoe UI', 'Trebuchet MS', sans-serif !important;
     transition: none;
 }
-body:is(.vista-theme, .xp-theme) :where(*) { font-family: 'Segoe UI', 'Trebuchet MS', sans-serif !important; }
-body:is(.vista-theme, .xp-theme) .vista-only { display: flex; }
-body:is(.vista-theme, .xp-theme) .starfield-bg, body:is(.vista-theme, .xp-theme) .matrix-rain, body:is(.vista-theme, .xp-theme) #matrix-canvas,
-body:is(.vista-theme, .xp-theme) .kirby-sfx-settings, body:is(.vista-theme, .xp-theme) .midi-player,
-body:is(.vista-theme, .xp-theme) .nineties-title-container > .nineties-blink { display: none; }
-body:is(.vista-theme, .xp-theme) .nineties-wrapper { max-width: 1120px; margin: auto; padding: 136px 28px 110px; background: none; overflow: visible; }
-body:is(.vista-theme, .xp-theme) .nineties-header,
-body:is(.vista-theme, .xp-theme) .nineties-section,
-body:is(.vista-theme, .xp-theme) .guestbook,
-body:is(.vista-theme, .xp-theme) .webring,
-body:is(.vista-theme, .xp-theme) .badges-section {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :where(*) { font-family: 'Segoe UI', 'Trebuchet MS', sans-serif !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-only { display: flex; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .starfield-bg, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .matrix-rain, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #matrix-canvas,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .kirby-sfx-settings, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .midi-player,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-title-container > .nineties-blink { display: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-wrapper { max-width: 1120px; margin: auto; padding: 136px 28px 110px; background: none; overflow: visible; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-header,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .badges-section {
     background: linear-gradient(135deg, #f5ffffdb, #d4edf9d9 50%, #ecffefd6);
     border: 1px solid #fff;
     border-radius: 12px;
@@ -27,24 +27,24 @@ body:is(.vista-theme, .xp-theme) .badges-section {
     padding: 22px;
     margin: 26px 0;
 }
-body:is(.vista-theme, .xp-theme) .nineties-header { margin-top: 0; padding: 12px; background: linear-gradient(125deg, #ecffffba, #cee8f08c); }
-body:is(.vista-theme, .xp-theme) .nineties-title-container { padding: 40px 32px; background: linear-gradient(135deg, #fffdf1ef, #eaffffdf 55%, #d9f4f5c7); border: 1px solid white; border-radius: 7px; text-align: left; }
-body:is(.vista-theme, .xp-theme) .nineties-name { font-size: clamp(27px, 4vw, 44px); letter-spacing: .02em; font-weight: 300; margin: 0 0 20px; line-height: 1.2; }
-body:is(.vista-theme, .xp-theme) :is(.rainbow-text, .flame-text, .rotating-3d, .nineties-blink) { background: none; -webkit-text-fill-color: currentColor; color: #154b68; text-shadow: 0 1px 0 #fff; animation: none; transform: none; filter: none; }
-body:is(.vista-theme, .xp-theme) .nineties-subtitle { color: #28607a; font-size: 16px; margin-top: 24px; text-shadow: none; letter-spacing: .015em; }
-body:is(.vista-theme, .xp-theme) .vista-hero { align-items: center; gap: 30px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-header { margin-top: 0; padding: 12px; background: linear-gradient(125deg, #ecffffba, #cee8f08c); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-title-container { padding: 40px 32px; background: linear-gradient(135deg, #fffdf1ef, #eaffffdf 55%, #d9f4f5c7); border: 1px solid white; border-radius: 7px; text-align: left; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-name { font-size: clamp(27px, 4vw, 44px); letter-spacing: .02em; font-weight: 300; margin: 0 0 20px; line-height: 1.2; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(.rainbow-text, .flame-text, .rotating-3d, .nineties-blink) { background: none; -webkit-text-fill-color: currentColor; color: #154b68; text-shadow: 0 1px 0 #fff; animation: none; transform: none; filter: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-subtitle { color: #28607a; font-size: 16px; margin-top: 24px; text-shadow: none; letter-spacing: .015em; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-hero { align-items: center; gap: 30px; }
 .vista-globe { width: 160px; flex: 0 0 160px; filter: drop-shadow(0 12px 10px #195b8240); animation: aero-float 7s ease-in-out infinite; }
 .vista-eyebrow { font-size: 10px; letter-spacing: .13em; font-weight: 700; color: #34738b; }
 .vista-hero h2 { font-size: clamp(24px, 3vw, 38px); font-weight: 300; text-transform: none; letter-spacing: normal; color: #163e55; margin: 12px 0; line-height: 1.15; }
 .vista-hero p { font-size: 17px; line-height: 1.65; margin: 8px 0 20px; }
-body:is(.vista-theme, .xp-theme) a { color: #07579d; text-shadow: none; }
-body:is(.vista-theme, .xp-theme) a:hover { color: #043b71; }
-body:is(.vista-theme, .xp-theme) :is(button, a):focus-visible { outline: 3px solid #064e91; outline-offset: 4px; }
-body:is(.vista-theme, .xp-theme) .vista-explore,
-body:is(.vista-theme, .xp-theme) .theme-toggle-btn,
-body:is(.vista-theme, .xp-theme) .nineties-toggle-btn,
-body:is(.vista-theme, .xp-theme) .guestbook-submit,
-body:is(.vista-theme, .xp-theme) .webring-nav a {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) a { color: #07579d; text-shadow: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) a:hover { color: #043b71; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(button, a):focus-visible { outline: 3px solid #064e91; outline-offset: 4px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-explore,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .theme-toggle-btn,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-toggle-btn,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-submit,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring-nav a {
     background: linear-gradient(#fcffff 0%, #d9f0fc 48%, #add3e9 49%, #e7f8ff 100%);
     border: 1px solid #528ba7;
     border-radius: 6px;
@@ -54,106 +54,106 @@ body:is(.vista-theme, .xp-theme) .webring-nav a {
     animation: none;
     transform: none;
 }
-body:is(.vista-theme, .xp-theme) .vista-explore { display: inline-flex; gap: 24px; align-items: center; padding: 8px 16px; text-decoration: none; font-size: 14px; font-weight: 600; }
-body:is(.vista-theme, .xp-theme) :is(.vista-explore, .theme-toggle-btn, .nineties-toggle-btn, .guestbook-submit, .webring-nav a):hover { background: linear-gradient(#fff, #c3efff 48%, #8bcbea 49%, #d8f8ff); box-shadow: inset 0 0 0 1px white, 0 0 12px #86e9ff; transform: none; animation: none; }
-body:is(.vista-theme, .xp-theme) .theme-toggle-text { text-transform: none; letter-spacing: .03em; font-size: 13px; }
-body:is(.vista-theme, .xp-theme) .theme-controls { background: #dcf4fc80; padding: 10px; border: 1px solid #fff9; border-radius: 10px; backdrop-filter: blur(16px); }
-body:is(.vista-theme, .xp-theme) .nineties-section h2,
-body:is(.vista-theme, .xp-theme) .guestbook > h2 { margin: -22px -22px 22px; padding: 12px 22px; border-bottom: 1px solid #79a8bb; border-radius: 12px 12px 0 0; background: linear-gradient(#ffffffcf, #c2e3f1a6 48%, #a6d0e4a6 49%, #ddf5ffc7); color: #193b50; font-size: 21px; font-weight: 500; text-transform: none; letter-spacing: normal; text-align: left; text-shadow: 0 1px white; line-height: 1.4; }
-body:is(.vista-theme, .xp-theme) .nineties-section h2 > * { font-size: inherit; }
-body:is(.vista-theme, .xp-theme) :is(.ascii-art, .ascii-art *) { font-family: Consolas, 'Courier New', monospace !important; }
-body:is(.vista-theme, .xp-theme) .ascii-art { background: #f8feff; border: 1px solid #91b7ca; border-radius: 5px; color: #26465c; margin: 12px 0; font-size: 14px; line-height: 1.5; }
-body:is(.vista-theme, .xp-theme) .ascii-border { font-size: 0; white-space: normal; color: #214357; background: #fbffffb3; border: 1px solid #a5c7d1; border-radius: 6px; padding: 22px; margin: 0 0 20px; }
-body:is(.vista-theme, .xp-theme) .ascii-border span { display: block; font-size: 16px; line-height: 1.75; margin: 6px 0; }
-body:is(.vista-theme, .xp-theme) .ascii-border span:first-of-type { font-size: 22px; color: #24673e; font-weight: 500; margin-bottom: 12px; }
-body:is(.vista-theme, .xp-theme) .spinning-email { color: #2679b2; animation: none; font-size: 26px; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table { width: 100%; margin: 0; border: 1px solid #eaffff; border-radius: 8px; border-spacing: 5px; background: #edffff8c; box-shadow: 0 4px 12px #0a3e6126; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table td { border: 1px solid #8bbcd3; border-radius: 5px; background: linear-gradient(#fffef8, #c2e8f8); padding: 14px 10px; text-shadow: none; transition: background .2s; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table td:hover { transform: none; background: linear-gradient(#faffff, #a9dfed); }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table a { text-decoration: none; font-size: 14px; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:first-child td { background: linear-gradient(#e2f2fc, #b9dce9); }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table font { color: #224f64; font-size: 13px; letter-spacing: .08em; }
-body:is(.vista-theme, .xp-theme) .kirby-door-sprite { display: none; }
-body:is(.vista-theme, .xp-theme) .visitor-counter { background: #e7fcf4c9; border: 1px solid white; border-radius: 10px; padding: 14px; margin: 20px auto; box-shadow: inset 0 1px white, 0 3px 12px #15607826; max-width: 290px; color: #275772; display: block; text-align: center; }
-body:is(.vista-theme, .xp-theme) .counter-digit { color: #125587; background: linear-gradient(#fff, #bcd9e8); border: 1px solid #76a0b6; border-radius: 3px; text-shadow: 0 1px white; }
-body:is(.vista-theme, .xp-theme) .counter-label, body:is(.vista-theme, .xp-theme) .counter-since { color: #254d61; }
-body:is(.vista-theme, .xp-theme) .nineties-marquee { display: block; margin: 22px 0; padding: 12px; border: 1px solid #dcfff9; border-radius: 6px; background: #efffffce; color: #285d69; text-shadow: none; font-size: 14px; box-shadow: 0 3px 12px #06476c20; }
-body:is(.vista-theme, .xp-theme) .skill-name { font-size: 15px; color: #244a5a; text-shadow: none; margin-bottom: 6px; }
-body:is(.vista-theme, .xp-theme) .skill-progress { background: linear-gradient(#a7c3cdbb, #e4f3f9); border: 1px solid #79a1b2; border-radius: 5px; height: 24px; overflow: hidden; }
-body:is(.vista-theme, .xp-theme) .skill-fill { background: linear-gradient(#c8f988, #8bcc49 48%, #54ad30 49%, #8fdf60); color: #173e0e; text-shadow: 0 1px #caffb3; border-radius: 4px; box-shadow: inset 0 1px #f1ffbf; animation: none; font-size: 12px; line-height: 22px; }
-body:is(.vista-theme, .xp-theme) #nineties-skills > div[style] { padding: 0 !important; }
-body:is(.vista-theme, .xp-theme) .nineties-section table { width: 100%; border-collapse: separate; border-spacing: 4px; border: 1px solid #9fbdcb; border-radius: 7px; background: #e0eff5; }
-body:is(.vista-theme, .xp-theme) .nineties-section td { background: #f4fcff; border: 1px solid #bed6e2; border-radius: 4px; padding: 12px; color: #20475d; }
-body:is(.vista-theme, .xp-theme) .nineties-section td font { color: #20475d; }
-body:is(.vista-theme, .xp-theme) .nineties-section td:first-child { background: linear-gradient(#effafd, #daedf4); }
-body:is(.vista-theme, .xp-theme) .guestbook-form { background: #f2fcff; border: 1px solid #aac8d6; border-radius: 6px; padding: 14px; }
-body:is(.vista-theme, .xp-theme) .guestbook-form input,
-body:is(.vista-theme, .xp-theme) .guestbook-form textarea { box-sizing: border-box; background: #fff; border: 1px solid #7d9aaa; border-radius: 3px; box-shadow: inset 0 2px 4px #29486015; padding: 8px; color: #18394b; }
-body:is(.vista-theme, .xp-theme) .guestbook-submit { padding: 8px 22px; }
-body:is(.vista-theme, .xp-theme) .guestbook-entries { background: #f6ffff !important; color: #24495a; border: 1px solid #99bacb !important; border-radius: 5px; line-height: 1.6; }
-body:is(.vista-theme, .xp-theme) .webring { color: #2b596b; }
-body:is(.vista-theme, .xp-theme) .webring h3 { font-size: 17px; }
-body:is(.vista-theme, .xp-theme) .webring-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-body:is(.vista-theme, .xp-theme) .webring-nav a { padding: 8px 14px; }
-body:is(.vista-theme, .xp-theme) .badges-section { background: #d2eef09e; }
-body:is(.vista-theme, .xp-theme) .badge { filter: saturate(.5); border-radius: 6px; overflow: hidden; }
-body:is(.vista-theme, .xp-theme) .rainbow-divider { font-size: 0; border-top: 1px solid #709cab; }
-body:is(.vista-theme, .xp-theme) .hit-counter { background: #e8fafb; border: 1px solid #83abba; color: #23556b; border-radius: 4px; font-size: 12px; }
-body:is(.vista-theme, .xp-theme) .badges-section > div, body:is(.vista-theme, .xp-theme) .badges-section div[style*="color: #00FFFF"] { color: #244b60 !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-explore { display: inline-flex; gap: 24px; align-items: center; padding: 8px 16px; text-decoration: none; font-size: 14px; font-weight: 600; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(.vista-explore, .theme-toggle-btn, .nineties-toggle-btn, .guestbook-submit, .webring-nav a):hover { background: linear-gradient(#fff, #c3efff 48%, #8bcbea 49%, #d8f8ff); box-shadow: inset 0 0 0 1px white, 0 0 12px #86e9ff; transform: none; animation: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .theme-toggle-text { text-transform: none; letter-spacing: .03em; font-size: 13px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .theme-controls { background: #dcf4fc80; padding: 10px; border: 1px solid #fff9; border-radius: 10px; backdrop-filter: blur(16px); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section h2,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook > h2 { margin: -22px -22px 22px; padding: 12px 22px; border-bottom: 1px solid #79a8bb; border-radius: 12px 12px 0 0; background: linear-gradient(#ffffffcf, #c2e3f1a6 48%, #a6d0e4a6 49%, #ddf5ffc7); color: #193b50; font-size: 21px; font-weight: 500; text-transform: none; letter-spacing: normal; text-align: left; text-shadow: 0 1px white; line-height: 1.4; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section h2 > * { font-size: inherit; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(.ascii-art, .ascii-art *) { font-family: Consolas, 'Courier New', monospace !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-art { background: #f8feff; border: 1px solid #91b7ca; border-radius: 5px; color: #26465c; margin: 12px 0; font-size: 14px; line-height: 1.5; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-border { font-size: 0; white-space: normal; color: #214357; background: #fbffffb3; border: 1px solid #a5c7d1; border-radius: 6px; padding: 22px; margin: 0 0 20px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-border span { display: block; font-size: 16px; line-height: 1.75; margin: 6px 0; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-border span:first-of-type { font-size: 22px; color: #24673e; font-weight: 500; margin-bottom: 12px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .spinning-email { color: #2679b2; animation: none; font-size: 26px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table { width: 100%; margin: 0; border: 1px solid #eaffff; border-radius: 8px; border-spacing: 5px; background: #edffff8c; box-shadow: 0 4px 12px #0a3e6126; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table td { border: 1px solid #8bbcd3; border-radius: 5px; background: linear-gradient(#fffef8, #c2e8f8); padding: 14px 10px; text-shadow: none; transition: background .2s; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table td:hover { transform: none; background: linear-gradient(#faffff, #a9dfed); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table a { text-decoration: none; font-size: 14px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:first-child td { background: linear-gradient(#e2f2fc, #b9dce9); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table font { color: #224f64; font-size: 13px; letter-spacing: .08em; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .kirby-door-sprite { display: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .visitor-counter { background: #e7fcf4c9; border: 1px solid white; border-radius: 10px; padding: 14px; margin: 20px auto; box-shadow: inset 0 1px white, 0 3px 12px #15607826; max-width: 290px; color: #275772; display: block; text-align: center; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .counter-digit { color: #125587; background: linear-gradient(#fff, #bcd9e8); border: 1px solid #76a0b6; border-radius: 3px; text-shadow: 0 1px white; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .counter-label, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .counter-since { color: #254d61; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-marquee { display: block; margin: 22px 0; padding: 12px; border: 1px solid #dcfff9; border-radius: 6px; background: #efffffce; color: #285d69; text-shadow: none; font-size: 14px; box-shadow: 0 3px 12px #06476c20; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .skill-name { font-size: 15px; color: #244a5a; text-shadow: none; margin-bottom: 6px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .skill-progress { background: linear-gradient(#a7c3cdbb, #e4f3f9); border: 1px solid #79a1b2; border-radius: 5px; height: 24px; overflow: hidden; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .skill-fill { background: linear-gradient(#c8f988, #8bcc49 48%, #54ad30 49%, #8fdf60); color: #173e0e; text-shadow: 0 1px #caffb3; border-radius: 4px; box-shadow: inset 0 1px #f1ffbf; animation: none; font-size: 12px; line-height: 22px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #nineties-skills > div[style] { padding: 0 !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section table { width: 100%; border-collapse: separate; border-spacing: 4px; border: 1px solid #9fbdcb; border-radius: 7px; background: #e0eff5; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section td { background: #f4fcff; border: 1px solid #bed6e2; border-radius: 4px; padding: 12px; color: #20475d; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section td font { color: #20475d; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section td:first-child { background: linear-gradient(#effafd, #daedf4); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form { background: #f2fcff; border: 1px solid #aac8d6; border-radius: 6px; padding: 14px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form input,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form textarea { box-sizing: border-box; background: #fff; border: 1px solid #7d9aaa; border-radius: 3px; box-shadow: inset 0 2px 4px #29486015; padding: 8px; color: #18394b; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-submit { padding: 8px 22px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-entries { background: #f6ffff !important; color: #24495a; border: 1px solid #99bacb !important; border-radius: 5px; line-height: 1.6; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring { color: #2b596b; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring h3 { font-size: 17px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .webring-nav a { padding: 8px 14px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .badges-section { background: #d2eef09e; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .badge { filter: saturate(.5); border-radius: 6px; overflow: hidden; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .rainbow-divider { font-size: 0; border-top: 1px solid #709cab; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .hit-counter { background: #e8fafb; border: 1px solid #83abba; color: #23556b; border-radius: 4px; font-size: 12px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .badges-section > div, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .badges-section div[style*="color: #00FFFF"] { color: #244b60 !important; }
 .vista-taskbar { position: fixed; inset: auto 0 0; height: 58px; z-index: 10020; align-items: center; gap: 16px; padding: 0 24px; color: #fff; background: linear-gradient(#6faddbad, #266590dc 49%, #0e3c61f0 50%, #286493ee); border-top: 1px solid #cfffff; box-shadow: 0 -2px 18px #0b466657, inset 0 1px #fff6; backdrop-filter: blur(18px); }
 .vista-start { display: flex; align-items: center; gap: 9px; background: none; border: 0; color: white; font-size: 15px; padding: 4px; cursor: pointer; text-shadow: 0 1px 2px #001e3f; }
 .vista-start-orb { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; font-size: 28px; color: #e7fff8; background: radial-gradient(ellipse at 30% 18%, #edffff 0%, #83d9e9 16%, #1581c0 40%, #115fa2 60%, #7edaa1); border: 1px solid #e2ffffb3; box-shadow: inset 0 -3px 7px #05315f, 0 0 8px #aeffff80; }
 .vista-start:hover .vista-start-orb, .vista-start[aria-expanded="true"] .vista-start-orb { box-shadow: inset 0 -3px 7px #05315f, 0 0 17px #b7fff7; }
-body:is(.vista-theme, .xp-theme) .vista-task { color: white; text-decoration: none; padding: 8px 26px; border: 1px solid #d0f5ff7d; border-radius: 4px; background: linear-gradient(#f4ffff55, #509dd744 49%, #185d9844 50%, #72bcea44); font-size: 13px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task { color: white; text-decoration: none; padding: 8px 26px; border: 1px solid #d0f5ff7d; border-radius: 4px; background: linear-gradient(#f4ffff55, #509dd744 49%, #185d9844 50%, #72bcea44); font-size: 13px; }
 .vista-tray { margin-left: auto; display: flex; gap: 14px; align-items: center; font-size: 12px; text-shadow: 0 1px #153d54; }
 .vista-tray time { white-space: nowrap; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu { display: flex; flex-direction: column; position: fixed; z-index: 10030; bottom: 62px; left: 18px; width: min(360px, calc(100vw - 36px)); padding: 10px; border: 1px solid #f1ffff; border-radius: 10px 10px 4px 4px; background: linear-gradient(110deg, #fffdf4f5 65%, #badde8eb); box-shadow: inset 0 0 0 1px #466c8799, 0 0 25px #092e6980; backdrop-filter: blur(20px); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu { display: flex; flex-direction: column; position: fixed; z-index: 10030; bottom: 62px; left: 18px; width: min(360px, calc(100vw - 36px)); padding: 10px; border: 1px solid #f1ffff; border-radius: 10px 10px 4px 4px; background: linear-gradient(110deg, #fffdf4f5 65%, #badde8eb); box-shadow: inset 0 0 0 1px #466c8799, 0 0 25px #092e6980; backdrop-filter: blur(20px); }
 .vista-menu-profile { display: flex; gap: 14px; align-items: center; padding: 12px 10px 20px; color: #24475d; }
 .vista-avatar { display: grid; place-items: center; height: 48px; width: 48px; border: 2px solid #fff; border-radius: 8px; background: linear-gradient(#c2f9fd, #45a5ce); color: white; font-size: 26px; text-shadow: 0 1px #216592; box-shadow: 0 1px 5px #37668177; }
 .vista-menu-profile small, .vista-start-menu a small { display: block; color: #476a7b; font-size: 11px; margin-top: 4px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu a { display: flex; align-items: center; gap: 14px; text-decoration: none; padding: 12px; border: 1px solid transparent; border-radius: 5px; color: #234b66; font-size: 16px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu a:hover { border-color: #92bdcf; background: linear-gradient(#efffff, #c6e7f2); }
-body:is(.vista-theme, .xp-theme) .vista-start-menu .vista-menu-home { margin-top: 10px; border-top: 1px solid #b2ccd5; font-size: 13px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a { display: flex; align-items: center; gap: 14px; text-decoration: none; padding: 12px; border: 1px solid transparent; border-radius: 5px; color: #234b66; font-size: 16px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a:hover { border-color: #92bdcf; background: linear-gradient(#efffff, #c6e7f2); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu .vista-menu-home { margin-top: 10px; border-top: 1px solid #b2ccd5; font-size: 13px; }
 @keyframes aero-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (max-width: 700px) {
-    body:is(.vista-theme, .xp-theme) .nineties-wrapper { padding: 14px 14px 90px; }
-    body:is(.vista-theme, .xp-theme) .theme-controls { position: relative !important; top: auto !important; right: auto !important; width: fit-content; margin: 0 auto 22px; }
-    body:is(.vista-theme, .xp-theme) .nineties-title-container { padding: 24px 18px; }
-    body:is(.vista-theme, .xp-theme) .vista-hero { flex-direction: column; text-align: center; gap: 14px; }
-    body:is(.vista-theme, .xp-theme) .nineties-name { text-align: center; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-wrapper { padding: 14px 14px 90px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .theme-controls { position: relative !important; top: auto !important; right: auto !important; width: fit-content; margin: 0 auto 22px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-title-container { padding: 24px 18px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-hero { flex-direction: column; text-align: center; gap: 14px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-name { text-align: center; }
     .vista-globe { width: 120px; flex-basis: auto; }
-    body:is(.vista-theme, .xp-theme) .nineties-subtitle { text-align: center; line-height: 1.5; }
-    body:is(.vista-theme, .xp-theme) .nineties-section, body:is(.vista-theme, .xp-theme) .guestbook { padding: 16px; }
-    body:is(.vista-theme, .xp-theme) .nineties-section h2, body:is(.vista-theme, .xp-theme) .guestbook > h2 { margin: -16px -16px 16px; padding: 12px 16px; font-size: 19px; }
-    body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-    body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child td { display: block; }
-    body:is(.vista-theme, .xp-theme) .ascii-art { font-size: 11px; padding: 10px; }
-    body:is(.vista-theme, .xp-theme) .ascii-border { padding: 14px; }
-    body:is(.vista-theme, .xp-theme) .nineties-section td { padding: 8px; overflow-wrap: anywhere; }
-    body:is(.vista-theme, .xp-theme) .guestbook-form { padding: 6px; }
-    body:is(.vista-theme, .xp-theme) .guestbook-form table { table-layout: fixed; }
-    body:is(.vista-theme, .xp-theme) .guestbook-form td:first-child { width: 27%; font-size: 12px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-subtitle { text-align: center; line-height: 1.5; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook { padding: 16px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section h2, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook > h2 { margin: -16px -16px 16px; padding: 12px 16px; font-size: 19px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child td { display: block; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-art { font-size: 11px; padding: 10px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .ascii-border { padding: 14px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-section td { padding: 8px; overflow-wrap: anywhere; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form { padding: 6px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form table { table-layout: fixed; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .guestbook-form td:first-child { width: 27%; font-size: 12px; }
     .vista-taskbar { padding: 0 10px; gap: 10px; }
-    body:is(.vista-theme, .xp-theme) .vista-task { padding: 8px 12px; font-size: 12px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task { padding: 8px 12px; font-size: 12px; }
     .vista-tray { gap: 6px; }
     .vista-tray > span, .vista-tray { font-size: 0; }
     .vista-tray time { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-    body:is(.vista-theme, .xp-theme) *, body:is(.vista-theme, .xp-theme) *::before, body:is(.vista-theme, .xp-theme) *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) *, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) *::before, body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
-body:is(.vista-theme, .xp-theme) #nineties-skills > div[style*="border-bottom"] { border-color: #80b7c5 !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #nineties-skills > div[style*="border-bottom"] { border-color: #80b7c5 !important; }
 
-body:is(.vista-theme, .xp-theme) .vista-taskbar :is(button, a):focus-visible { outline-color: #efffff; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu { max-height: calc(100dvh - 80px); overflow-y: auto; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-taskbar :is(button, a):focus-visible { outline-color: #efffff; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu { max-height: calc(100dvh - 80px); overflow-y: auto; }
 
 /* Original Vista resources, with usable Explorer controls rather than props. */
-body:is(.vista-theme, .xp-theme) {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) {
     background: #12636a url('../images/vista/aurora.jpg') center / cover fixed no-repeat;
 }
-body:is(.vista-theme, .xp-theme) .nineties-wrapper { padding-top: 154px; }
-body:is(.vista-theme, .xp-theme) .vista-window {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-wrapper { padding-top: 154px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window {
     border: 1px solid #193947;
     border-radius: 8px;
     background: linear-gradient(110deg, #fffffffa, #f5f8fbed);
@@ -161,19 +161,19 @@ body:is(.vista-theme, .xp-theme) .vista-window {
                 0 14px 38px #0023296b;
     overflow: visible;
 }
-body:is(.vista-theme, .xp-theme) .nineties-header { padding: 6px; background: #92cddd59; }
-body:is(.vista-theme, .xp-theme) .nineties-title-container {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-header { padding: 6px; background: #92cddd59; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-title-container {
     border: 1px solid #557f95;
     border-radius: 2px;
     background: radial-gradient(ellipse at 5% 0%, #fffce8, transparent 60%),
                 linear-gradient(115deg, #fff, #e3f4fc);
     box-shadow: inset 0 1px 0 #fff;
 }
-body:is(.vista-theme, .xp-theme) .nineties-name { font-size: clamp(27px, 3.5vw, 39px); font-weight: 400; }
-body:is(.vista-theme, .xp-theme) .vista-hero h2 { color: #1c65a0; font-weight: 400; }
-body:is(.vista-theme, .xp-theme) .vista-globe { object-fit: contain; filter: drop-shadow(0 10px 8px #195b8235); }
-body:is(.vista-theme, .xp-theme) .vista-window > h2 { display: none; }
-body:is(.vista-theme, .xp-theme) .vista-window-titlebar {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-name { font-size: clamp(27px, 3.5vw, 39px); font-weight: 400; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-hero h2 { color: #1c65a0; font-weight: 400; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-globe { object-fit: contain; filter: drop-shadow(0 10px 8px #195b8235); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window > h2 { display: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window-titlebar {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -190,7 +190,7 @@ body:is(.vista-theme, .xp-theme) .vista-window-titlebar {
     line-height: 1.25;
     text-shadow: 0 0 8px #fff, 0 1px #fff;
 }
-body:is(.vista-theme, .xp-theme) .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
 .vista-window-titlebar > img { flex: 0 0 20px; object-fit: contain; }
 .vista-window-title { min-width: 0; }
 .vista-window-controls { display: flex; gap: 1px; margin: -5px 0 auto auto; align-self: stretch; }
@@ -210,33 +210,33 @@ body:is(.vista-theme, .xp-theme) .nineties-header .vista-window-titlebar { margi
 .vista-window-maximize::after { width: 10px; height: 8px; border: 1px solid #173847; border-top-width: 3px; box-shadow: 0 1px #fff9; }
 .vista-window-controls button:hover { background: linear-gradient(#d7f9ff, #89d7f9 48%, #2e89bd 50%, #85e4ff); box-shadow: inset 0 0 0 1px #eaffff, 0 0 7px #38bbff; }
 .vista-window-controls button:active { background: #68a7c5; }
-body:is(.vista-theme, .xp-theme) .is-vista-minimized > :not(.vista-window-titlebar) { display: none !important; }
-body:is(.vista-theme, .xp-theme) .is-vista-minimized { padding-bottom: 0; }
-body:is(.vista-theme, .xp-theme) .is-vista-minimized .vista-window-titlebar { margin-bottom: 0; border-radius: 7px; }
-body:is(.vista-theme, .xp-theme) .is-vista-maximized {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .is-vista-minimized > :not(.vista-window-titlebar) { display: none !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .is-vista-minimized { padding-bottom: 0; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .is-vista-minimized .vista-window-titlebar { margin-bottom: 0; border-radius: 7px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .is-vista-maximized {
     position: relative;
     width: min(1440px, calc(100vw - 48px));
     max-width: none;
     left: 50%;
     transform: translateX(-50%);
 }
-body:is(.vista-theme, .xp-theme) .theme-controls {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .theme-controls {
     background: linear-gradient(125deg, #c4e6f378, #183f585c);
     border: 1px solid #ffffffaa;
     box-shadow: inset 0 0 0 1px #0f3d5380, 0 4px 16px #002a3e44;
     border-radius: 7px;
 }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table { border-collapse: separate; border-spacing: 0; background: #f5f9fcdf; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:first-child td { background: linear-gradient(#f9fcfd, #d9eaf6); border: 0; border-bottom: 1px solid #b0c7d3; border-radius: 6px 6px 0 0; padding: 8px 12px; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child td { border: 1px solid transparent; background: transparent; padding: 12px; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child td:hover { background: linear-gradient(#f5fcff, #d9f0fc); border-color: #90bfd9; box-shadow: inset 0 0 0 1px #fff; }
-body:is(.vista-theme, .xp-theme) .nineties-nav-table a { display: flex; align-items: center; justify-content: center; gap: 10px; }
-body:is(.vista-theme, .xp-theme) .vista-shortcut-icon { display: inline-block; object-fit: contain; }
-body:is(.vista-theme, .xp-theme) .spinning-email { font-size: 0; }
-body:is(.vista-theme, .xp-theme) .spinning-email::before { content: ''; display: block; margin: auto; width: 44px; height: 44px; background: url('../images/vista/mail.ico') center / contain no-repeat; }
-body:is(.vista-theme, .xp-theme) .skill-progress { border-radius: 3px; height: 22px; background: linear-gradient(#c7d0d8, #fafbfc 40%, #e4e9ec); border-color: #8497a5; }
-body:is(.vista-theme, .xp-theme) .skill-fill { border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 14px, #ffffff4d 14px 16px), linear-gradient(#c6ff9a, #96dd64 45%, #42ac26 48%, #7ace43 80%, #c7fda0); line-height: 20px; }
-body:is(.vista-theme, .xp-theme) .vista-folder-toolbar {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table { border-collapse: separate; border-spacing: 0; background: #f5f9fcdf; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:first-child td { background: linear-gradient(#f9fcfd, #d9eaf6); border: 0; border-bottom: 1px solid #b0c7d3; border-radius: 6px 6px 0 0; padding: 8px 12px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child td { border: 1px solid transparent; background: transparent; padding: 12px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child td:hover { background: linear-gradient(#f5fcff, #d9f0fc); border-color: #90bfd9; box-shadow: inset 0 0 0 1px #fff; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table a { display: flex; align-items: center; justify-content: center; gap: 10px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-shortcut-icon { display: inline-block; object-fit: contain; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .spinning-email { font-size: 0; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .spinning-email::before { content: ''; display: block; margin: auto; width: 44px; height: 44px; background: url('../images/vista/mail.ico') center / contain no-repeat; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .skill-progress { border-radius: 3px; height: 22px; background: linear-gradient(#c7d0d8, #fafbfc 40%, #e4e9ec); border-color: #8497a5; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .skill-fill { border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 14px, #ffffff4d 14px 16px), linear-gradient(#c6ff9a, #96dd64 45%, #42ac26 48%, #7ace43 80%, #c7fda0); line-height: 20px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-folder-toolbar {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
     margin: -22px -22px 16px; padding: 8px 12px;
     background: linear-gradient(#f7fafc, #dae7f0); border-bottom: 1px solid #abbfce;
@@ -245,79 +245,79 @@ body:is(.vista-theme, .xp-theme) .vista-folder-toolbar {
 .vista-breadcrumb { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .vista-breadcrumb b { padding: 0 8px; color: #597b95; }
 .vista-search { display: block; width: 210px; flex: 0 1 210px; }
-body:is(.vista-theme, .xp-theme) .vista-search input { box-sizing: border-box; width: 100%; min-height: 30px; padding: 4px 8px; background: #ffffffec; color: #223a4c; border: 1px solid #7f9cae; border-radius: 2px; box-shadow: inset 0 1px 3px #2c506630; font: 13px 'Segoe UI', sans-serif; }
-body:is(.vista-theme, .xp-theme) .vista-search input:focus-visible { outline: 2px solid #168ccc; outline-offset: 1px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-search input { box-sizing: border-box; width: 100%; min-height: 30px; padding: 4px 8px; background: #ffffffec; color: #223a4c; border: 1px solid #7f9cae; border-radius: 2px; box-shadow: inset 0 1px 3px #2c506630; font: 13px 'Segoe UI', sans-serif; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-search input:focus-visible { outline: 2px solid #168ccc; outline-offset: 1px; }
 .vista-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-body:is(.vista-theme, .xp-theme) #vista-project-files { border: 0; border-radius: 0; background: #fff; border-spacing: 0; }
-body:is(.vista-theme, .xp-theme) #vista-project-files td { border: 0; border-bottom: 1px solid #e1e8ed; background: #fff; border-radius: 0; text-align: left; font-size: 14px; }
-body:is(.vista-theme, .xp-theme) #vista-project-files tr:hover td { background: #edf7ff; }
-body:is(.vista-theme, .xp-theme) #vista-project-files td:first-child { width: 70%; }
-body:is(.vista-theme, .xp-theme) .vista-file-icon { display: inline-block; object-fit: contain; vertical-align: middle; margin-right: 10px; }
-body:is(.vista-theme, .xp-theme) .vista-folder-status { display: flex; align-items: center; gap: 10px; text-align: left; padding: 10px 0 0; font-size: 12px; color: #4f6578; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #vista-project-files { border: 0; border-radius: 0; background: #fff; border-spacing: 0; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #vista-project-files td { border: 0; border-bottom: 1px solid #e1e8ed; background: #fff; border-radius: 0; text-align: left; font-size: 14px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #vista-project-files tr:hover td { background: #edf7ff; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #vista-project-files td:first-child { width: 70%; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-file-icon { display: inline-block; object-fit: contain; vertical-align: middle; margin-right: 10px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-folder-status { display: flex; align-items: center; gap: 10px; text-align: left; padding: 10px 0 0; font-size: 12px; color: #4f6578; }
 .vista-folder-status > span:last-child { margin-left: auto; }
-body:is(.vista-theme, .xp-theme) .vista-folder-empty { display: block; padding: 20px; color: #4f6578; }
-body:is(.vista-theme, .xp-theme) [data-vista-project][hidden] { display: none; }
-body:is(.vista-theme, .xp-theme) .vista-taskbar {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-folder-empty { display: block; padding: 20px; color: #4f6578; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) [data-vista-project][hidden] { display: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-taskbar {
     height: 46px; gap: 10px; padding: 0 14px;
     background: linear-gradient(#80acbfad, #203f49db 46%, #071d25f2 49%, #284652eb);
     border-top: 1px solid #def8ff; box-shadow: inset 0 1px #ffffff70, 0 -2px 8px #05232e55;
 }
-body:is(.vista-theme, .xp-theme) .vista-start { gap: 5px; padding: 0; }
-body:is(.vista-theme, .xp-theme) .vista-start-orb { width: 48px; height: 48px; object-fit: contain; background: transparent; border: 0; border-radius: 50%; box-shadow: none; filter: drop-shadow(0 0 3px #c0f7ff55); }
-body:is(.vista-theme, .xp-theme) .vista-start:hover .vista-start-orb,
-body:is(.vista-theme, .xp-theme) .vista-start[aria-expanded="true"] .vista-start-orb { box-shadow: none; filter: drop-shadow(0 0 7px #8aecff); }
-body:is(.vista-theme, .xp-theme) .vista-task { display: inline-flex; align-items: center; gap: 8px; padding: 5px 20px 5px 10px; min-height: 34px; background: linear-gradient(#e7faff55, #89b5cb44 46%, #234550a6 49%, #a7d2e069); box-shadow: inset 0 0 0 1px #ffffff40, 0 0 0 1px #132c3880; }
-body:is(.vista-theme, .xp-theme) .vista-tray { border-left: 1px solid #b7e3f22b; padding-left: 16px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu { bottom: 49px; left: 9px; padding: 7px; border: 1px solid #123b4d; border-radius: 6px 6px 0 0; background: linear-gradient(90deg, #f9fcff 0 70%, #294759f5 70% 100%); box-shadow: inset 0 0 0 1px #fff9, 0 0 22px #001a3890; }
-body:is(.vista-theme, .xp-theme) .vista-menu-profile { margin: 0 0 4px; padding: 10px; border-radius: 4px; background: linear-gradient(#d7e5ecd9, #f1f6f9e6); }
-body:is(.vista-theme, .xp-theme) .vista-avatar { width: 56px; height: 56px; object-fit: cover; border: 2px solid #fff; padding: 2px; background: linear-gradient(#b3ddf5, #557caa); border-radius: 8px; box-shadow: 0 0 0 1px #355364, 0 2px 6px #12334b55; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu a:not(.vista-menu-home) { margin-right: 29%; padding: 10px 8px; gap: 10px; background: #fffffff5; border-radius: 0; font-size: 14px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu a:not(.vista-menu-home):hover { background: linear-gradient(#eff9ff, #d6edfb); border-color: #98c9e5; border-radius: 4px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu a img { object-fit: contain; flex: 0 0 36px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu .vista-menu-home { background: #dcecf6ec; margin-top: 6px; padding: 10px; border: 1px solid #fff9; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start { gap: 5px; padding: 0; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-orb { width: 48px; height: 48px; object-fit: contain; background: transparent; border: 0; border-radius: 50%; box-shadow: none; filter: drop-shadow(0 0 3px #c0f7ff55); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start:hover .vista-start-orb,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start[aria-expanded="true"] .vista-start-orb { box-shadow: none; filter: drop-shadow(0 0 7px #8aecff); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task { display: inline-flex; align-items: center; gap: 8px; padding: 5px 20px 5px 10px; min-height: 34px; background: linear-gradient(#e7faff55, #89b5cb44 46%, #234550a6 49%, #a7d2e069); box-shadow: inset 0 0 0 1px #ffffff40, 0 0 0 1px #132c3880; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-tray { border-left: 1px solid #b7e3f22b; padding-left: 16px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu { bottom: 49px; left: 9px; padding: 7px; border: 1px solid #123b4d; border-radius: 6px 6px 0 0; background: linear-gradient(90deg, #f9fcff 0 70%, #294759f5 70% 100%); box-shadow: inset 0 0 0 1px #fff9, 0 0 22px #001a3890; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-profile { margin: 0 0 4px; padding: 10px; border-radius: 4px; background: linear-gradient(#d7e5ecd9, #f1f6f9e6); }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-avatar { width: 56px; height: 56px; object-fit: cover; border: 2px solid #fff; padding: 2px; background: linear-gradient(#b3ddf5, #557caa); border-radius: 8px; box-shadow: 0 0 0 1px #355364, 0 2px 6px #12334b55; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a:not(.vista-menu-home) { margin-right: 29%; padding: 10px 8px; gap: 10px; background: #fffffff5; border-radius: 0; font-size: 14px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a:not(.vista-menu-home):hover { background: linear-gradient(#eff9ff, #d6edfb); border-color: #98c9e5; border-radius: 4px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu a img { object-fit: contain; flex: 0 0 36px; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu .vista-menu-home { background: #dcecf6ec; margin-top: 6px; padding: 10px; border: 1px solid #fff9; }
 @media (pointer: fine) {
-    body:is(.vista-theme, .xp-theme) { cursor: url('../images/vista/aero_arrow.cur'), default; }
-    body:is(.vista-theme, .xp-theme) :is(a, button) { cursor: url('../images/vista/aero_link.cur'), pointer; }
-    body:is(.vista-theme, .xp-theme) :is(input, textarea) { cursor: text; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) { cursor: url('../images/vista/aero_arrow.cur'), default; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(a, button) { cursor: url('../images/vista/aero_link.cur'), pointer; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) :is(input, textarea) { cursor: text; }
 }
 @media (max-width: 700px) {
-    body:is(.vista-theme, .xp-theme) { background-attachment: scroll; }
-    body:is(.vista-theme, .xp-theme) .nineties-wrapper { padding: 14px 14px 80px; }
-    body:is(.vista-theme, .xp-theme) .nineties-name { font-size: 26px; }
-    body:is(.vista-theme, .xp-theme) .vista-window-titlebar { margin: -16px -16px 16px; font-size: 12px; min-height: 38px; padding: 5px 7px; }
-    body:is(.vista-theme, .xp-theme) .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
-    body:is(.vista-theme, .xp-theme) .vista-window-titlebar .vista-window-maximize { display: none; }
-    body:is(.vista-theme, .xp-theme) .vista-window-controls button { min-height: 32px; width: 40px; }
-    body:is(.vista-theme, .xp-theme) .is-vista-maximized { width: auto; left: auto; transform: none; }
-    body:is(.vista-theme, .xp-theme) .nineties-nav-table a { gap: 8px; justify-content: flex-start; }
-    body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child { padding: 5px; gap: 2px; }
-    body:is(.vista-theme, .xp-theme) .nineties-nav-table tr:last-child td { padding: 8px; font-size: 12px; }
-    body:is(.vista-theme, .xp-theme) .vista-shortcut-icon { width: 32px; height: 32px; }
-    body:is(.vista-theme, .xp-theme) .vista-folder-toolbar { margin: -16px -16px 12px; flex-direction: column; align-items: stretch; padding: 10px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) { background-attachment: scroll; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-wrapper { padding: 14px 14px 80px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-name { font-size: 26px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window-titlebar { margin: -16px -16px 16px; font-size: 12px; min-height: 38px; padding: 5px 7px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-header .vista-window-titlebar { margin: -6px -6px 6px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window-titlebar .vista-window-maximize { display: none; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-window-controls button { min-height: 32px; width: 40px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .is-vista-maximized { width: auto; left: auto; transform: none; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table a { gap: 8px; justify-content: flex-start; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child { padding: 5px; gap: 2px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .nineties-nav-table tr:last-child td { padding: 8px; font-size: 12px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-shortcut-icon { width: 32px; height: 32px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-folder-toolbar { margin: -16px -16px 12px; flex-direction: column; align-items: stretch; padding: 10px; }
     .vista-search { width: 100%; flex-basis: auto; }
-    body:is(.vista-theme, .xp-theme) #vista-project-files td { font-size: 12px; padding: 8px 5px; overflow-wrap: anywhere; }
-    body:is(.vista-theme, .xp-theme) .vista-file-icon { width: 22px; height: 22px; margin-right: 5px; }
-    body:is(.vista-theme, .xp-theme) .vista-taskbar { padding: 0 8px; }
-    body:is(.vista-theme, .xp-theme) .vista-task { padding: 5px 8px; font-size: 11px; gap: 5px; }
-    body:is(.vista-theme, .xp-theme) .vista-task img { width: 18px; height: 18px; }
-    body:is(.vista-theme, .xp-theme) .vista-tray { padding-left: 8px; }
-    body:is(.vista-theme, .xp-theme) .vista-tray > img { display: none; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #vista-project-files td { font-size: 12px; padding: 8px 5px; overflow-wrap: anywhere; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-file-icon { width: 22px; height: 22px; margin-right: 5px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-taskbar { padding: 0 8px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task { padding: 5px 8px; font-size: 11px; gap: 5px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-task img { width: 18px; height: 18px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-tray { padding-left: 8px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-tray > img { display: none; }
 }
-body:is(.vista-theme, .xp-theme) .vista-start-orb {
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-orb {
     background: radial-gradient(ellipse at 36% 16%, #dbffff, #5087c7 30%, #0a3968 60%, #276fa580);
     border: 1px solid #8cb5d2;
     box-shadow: inset 0 1px 4px #c4ebffb3, 0 2px 4px #00101bb3;
 }
-body:is(.vista-theme, .xp-theme) .vista-file-decoration { display: none; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-file-decoration { display: none; }
 .vista-menu-right { position: absolute; right: 8px; top: 106px; width: 27%; display: grid; gap: 12px; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu .vista-menu-right a,
-body:is(.vista-theme, .xp-theme) .vista-menu-right button { display: block; width: 100%; margin: 0; padding: 8px 5px; font-size: 12px; color: #fff; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 3px; line-height: 1.3; cursor: pointer; }
-body:is(.vista-theme, .xp-theme) .vista-start-menu .vista-menu-right a:hover,
-body:is(.vista-theme, .xp-theme) .vista-menu-right button:hover { background: linear-gradient(#b4d1e35c, #628ba647); border-color: #b6d6ea66; }
-body:is(.vista-theme, .xp-theme) .vista-menu-right :is(a, button):focus-visible { outline-color: #eaffff; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu .vista-menu-right a,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-right button { display: block; width: 100%; margin: 0; padding: 8px 5px; font-size: 12px; color: #fff; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 3px; line-height: 1.3; cursor: pointer; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu .vista-menu-right a:hover,
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-right button:hover { background: linear-gradient(#b4d1e35c, #628ba647); border-color: #b6d6ea66; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-right :is(a, button):focus-visible { outline-color: #eaffff; }
 @media (max-width: 700px) {
     .vista-menu-right { gap: 8px; }
-    body:is(.vista-theme, .xp-theme) .vista-start-menu .vista-menu-right a,
-    body:is(.vista-theme, .xp-theme) .vista-menu-right button { font-size: 11px; }
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-start-menu .vista-menu-right a,
+    body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) .vista-menu-right button { font-size: 11px; }
 }
-body:is(.vista-theme, .xp-theme) #nineties-skills [style*="border-bottom"] { border-color: #a8bac6 !important; }
+body:is(.vista-theme, .xp-theme, .win98-theme, .win2100-theme) #nineties-skills [style*="border-bottom"] { border-color: #a8bac6 !important; }

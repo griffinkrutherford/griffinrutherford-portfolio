@@ -95,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const navLinks = quickLinksNav.querySelectorAll('a[href^="#"]');
       navLinks.forEach(link => {
         link.addEventListener('click', () => {
+          // A mobile parent expands its submenu; keep the containing menu open.
+          if (window.innerWidth <= 768 && link.parentElement.classList.contains('has-submenu')) return;
           quickLinksMenu.classList.remove('active');
         });
       });
@@ -102,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Handle submenu toggle on mobile
       const submenuParent = quickLinksNav.querySelector('.has-submenu');
       if (submenuParent) {
-        const parentLink = submenuParent.querySelector('> a');
+        const parentLink = submenuParent.querySelector(':scope > a');
         parentLink.addEventListener('click', (e) => {
           // Only prevent default and toggle on mobile/tablet
           if (window.innerWidth <= 768) {

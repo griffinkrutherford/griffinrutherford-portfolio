@@ -3,7 +3,7 @@
     const start = document.getElementById('vista-start');
     const menu = document.getElementById('vista-start-menu');
     const clock = document.getElementById('vista-clock');
-    const isDesktopTheme = () => document.body.matches('.vista-theme, .xp-theme');
+    const isDesktopTheme = () => document.body.matches('.vista-theme, .xp-theme, .win98-theme, .win2100-theme');
     document.getElementById('vista-personalize').addEventListener('click', event => {
         event.stopPropagation();
         window.openRetroThemePicker();
@@ -39,7 +39,8 @@
         expand.type = 'button'; expand.className = 'vista-window-maximize';
         expand.setAttribute('aria-pressed', 'false');
         function sync() {
-            title.textContent = fixedTitle && document.body.classList.contains('xp-theme') ? 'My Computer — Griffin Rutherford' : fixedTitle || heading.textContent.trim();
+            const classic = document.body.matches('.xp-theme, .win98-theme');
+            title.textContent = fixedTitle ? (classic ? 'My Computer — Griffin Rutherford' : document.body.classList.contains('win2100-theme') ? 'Spatial workspace — Griffin Rutherford' : fixedTitle) : heading.textContent.trim();
             const minimized = panel.classList.contains('is-vista-minimized');
             collapse.setAttribute('aria-expanded', String(!minimized));
             collapse.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${title.textContent}`);
@@ -67,14 +68,21 @@
     new MutationObserver(syncWindows).observe(document.body, {attributes: true, attributeFilter: ['class']});
     const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img, .vista-breadcrumb img, .vista-folder-status img')].map(image => ({image, source: image.getAttribute('src')}));
     function syncDesktopResources() {
-        const xp = document.body.classList.contains('xp-theme');
+        const theme = ['xp', 'win98', 'win2100'].find(key => document.body.classList.contains(`${key}-theme`));
+        const extensions = {xp: 'ico', win98: 'png', win2100: 'svg'};
         desktopImages.forEach(({image, source}) => {
             const match = source.match(/images\/vista\/(computer|network|folder|people|documents|control-panel|application|pictures|mail)\.ico$/);
-            image.src = xp && match ? `images/xp/${match[1]}.ico` : source;
-            if (image.classList.contains('vista-start-orb') && xp) image.src = 'images/xp/windows-logo.png';
+            image.src = theme && match ? `images/${theme}/${match[1]}.${extensions[theme]}` : source;
+            if (image.classList.contains('vista-start-orb') && theme) image.src = `images/${theme}/windows-logo.${theme === 'win2100' ? 'svg' : 'png'}`;
         });
-        document.querySelector('.vista-eyebrow').textContent = xp ? 'PERSONAL DESKTOP · WINDOWS XP / 2001' : 'PERSONAL DESKTOP · EST. 1996 / REMIXED 2007';
-        document.querySelector('.vista-hero h2').textContent = xp ? 'Your next adventure starts here.' : 'Connected by curiosity.';
+        const headings = {
+            xp: ['PERSONAL DESKTOP · WINDOWS XP / 2001', 'Your next adventure starts here.'],
+            win98: ['PERSONAL DESKTOP · WINDOWS 98 / 1998', 'Welcome to my desktop.'],
+            win2100: ['SPATIAL DESKTOP · AN IMAGINED 2100', 'Build beyond the horizon.']
+        };
+        const [eyebrow, title] = headings[theme] || ['PERSONAL DESKTOP · EST. 1996 / REMIXED 2007', 'Connected by curiosity.'];
+        document.querySelector('.vista-eyebrow').textContent = eyebrow;
+        document.querySelector('.vista-hero h2').textContent = title;
     }
     new MutationObserver(syncDesktopResources).observe(document.body, {attributes: true, attributeFilter: ['class']});
     syncDesktopResources();

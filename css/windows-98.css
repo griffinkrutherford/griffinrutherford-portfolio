@@ -1,0 +1,84 @@
+/* Classic desktop chrome; original shell icons are local PNG exports. */
+body.win98-theme { background: #008080; color: #111; font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif !important; cursor: default; }
+body.win98-theme :where(*) { font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif !important; }
+body.win98-theme :is(a,button) { cursor: pointer; }
+body.win98-theme :is(input,textarea) { cursor: text; }
+body.win98-theme :is(.vista-window,.webring,.badges-section,.visitor-counter,.theme-controls) {
+    border: 2px solid; border-color: #fff #404040 #404040 #fff; border-radius: 0;
+    background: #c0c0c0; color: #111; box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+body.win98-theme .nineties-header { padding: 6px; }
+body.win98-theme .nineties-title-container { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; border-radius: 0; box-shadow: none; padding: 28px; }
+body.win98-theme .nineties-name { font-size: clamp(26px,3vw,38px); font-weight: 700; color: #000080; text-shadow: none; }
+body.win98-theme .vista-window-titlebar { color: #fff; background: linear-gradient(90deg,#000080,#1084d0); border: 0; border-radius: 0; min-height: 29px; padding: 4px 5px; box-shadow: none; font-weight: 700; text-shadow: none; }
+body.win98-theme .vista-window-titlebar > img { image-rendering: pixelated; width: 18px; height: 18px; flex-basis: 18px; }
+body.win98-theme .vista-window-controls { margin: 0 0 0 auto; align-self: center; gap: 3px; }
+body.win98-theme :is(.vista-window-controls button,.vista-start,.vista-task,.theme-toggle-btn,.nineties-toggle-btn,.vista-explore,.guestbook-submit,.webring-nav a,.vista-menu-right button) {
+    background: #c0c0c0; color: #111; border: 2px solid; border-color: #fff #404040 #404040 #fff;
+    border-radius: 0; box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080; text-shadow: none;
+}
+body.win98-theme :is(.vista-window-controls button,.vista-start,.vista-task,.theme-toggle-btn,.nineties-toggle-btn,.vista-explore,.guestbook-submit,.webring-nav a,.vista-menu-right button):hover { background: #d0d0d0; box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080; }
+body.win98-theme :is(.vista-window-controls button,.vista-start,.vista-task,.theme-toggle-btn,.nineties-toggle-btn,.vista-explore,.guestbook-submit,.webring-nav a):active,
+body.win98-theme .vista-start[aria-expanded="true"] { border-color: #404040 #fff #fff #404040; box-shadow: inset 1px 1px #808080; }
+body.win98-theme .vista-window-controls button { width: 26px; min-height: 25px; }
+body.win98-theme .vista-window-minimize::after { background: #000; box-shadow: none; }
+body.win98-theme .vista-window-maximize::after { border-color: #000; box-shadow: none; }
+body.win98-theme .is-vista-minimized .vista-window-titlebar { border-radius: 0; }
+body.win98-theme .vista-hero { gap: 28px; }
+body.win98-theme .vista-hero h2 { color: #000080; font-weight: 700; }
+body.win98-theme .vista-eyebrow { color: #4a4a4a; letter-spacing: .06em; }
+body.win98-theme .vista-globe { width: 96px; flex-basis: 96px; image-rendering: pixelated; filter: none; animation: none; }
+body.win98-theme .nineties-subtitle { color: #454545; font-size: 13px; border-top: 1px solid #c0c0c0; padding-top: 14px; }
+body.win98-theme a { color: #000080; }
+body.win98-theme a:hover { color: #0000bb; }
+body.win98-theme :is(button,a,input,textarea):focus-visible { outline: 2px dotted #111; outline-offset: 3px; }
+body.win98-theme .theme-picker { --picker-bg: #c0c0c0; --picker-ink: #111; --picker-border: #404040; --picker-hover: #e0e0e0; --picker-selected: #c6d2ec; }
+body.win98-theme .theme-menu, body.win98-theme .theme-option { border-radius: 0; }
+body.win98-theme .theme-controls { position: relative !important; top: auto !important; right: auto !important; flex-direction: row !important; width: fit-content; margin: 0 0 22px auto; padding: 6px; }
+body.win98-theme .nineties-wrapper { padding-top: 28px; }
+body.win98-theme .theme-toggle-icon, .theme-option[data-theme="win98"] img { image-rendering: pixelated; }
+body.win98-theme .nineties-nav-table { border: 2px solid; border-color: #fff #808080 #808080 #fff; border-radius: 0; box-shadow: none; background: #c0c0c0; }
+body.win98-theme .nineties-nav-table tr:first-child td { border-radius: 0; background: #c0c0c0; border-color: #808080; }
+body.win98-theme .nineties-nav-table tr:last-child td:hover { border-color: #000080; box-shadow: none; background: #e7e7e7; }
+body.win98-theme .nineties-nav-table font { color: #111; }
+body.win98-theme .vista-shortcut-icon, body.win98-theme .vista-file-icon { image-rendering: pixelated; }
+body.win98-theme .ascii-border { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; border-radius: 0; color: #111; }
+body.win98-theme .ascii-border span:first-of-type { color: #000080; }
+body.win98-theme :is(.ascii-art,.guestbook-form,.guestbook-entries) { background: #fff !important; color: #111; border: 2px solid !important; border-color: #808080 #fff #fff #808080 !important; border-radius: 0; }
+body.win98-theme .nineties-marquee { color: #111; background: #ffffe1; border: 1px solid #808080; border-radius: 0; box-shadow: none; }
+body.win98-theme .counter-digit { color: #000080; background: #fff; border: 1px solid #808080; border-radius: 0; text-shadow: none; }
+body.win98-theme :is(.counter-label,.counter-since,.skill-name) { color: #111; }
+body.win98-theme .skill-progress { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; border-radius: 0; height: 24px; }
+body.win98-theme .skill-fill { background: repeating-linear-gradient(90deg,#000080 0 12px,transparent 12px 15px); border-radius: 0; color: #fff; text-shadow: 0 1px #000; box-shadow: none; }
+body.win98-theme :is(.nineties-section h3,.webring h3) { color: #000080 !important; border-color: #808080 !important; text-shadow: none; }
+body.win98-theme .vista-folder-toolbar { background: #c0c0c0; border-color: #808080; }
+body.win98-theme .vista-search input, body.win98-theme .guestbook-form :is(input,textarea) { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; border-radius: 0; box-shadow: none; }
+body.win98-theme #vista-project-files tr:hover td { background: #e5ebff; }
+body.win98-theme .vista-taskbar { height: 40px; padding: 3px 6px; box-sizing: border-box; background: #c0c0c0; color: #111; border-top: 2px solid #fff; box-shadow: 0 -1px #808080; backdrop-filter: none; }
+body.win98-theme .vista-start { min-height: 30px; padding: 2px 10px 2px 5px; font-size: 14px; font-weight: 700; gap: 6px; }
+body.win98-theme .vista-start-orb { width: 22px; height: 22px; border: 0; background: none; border-radius: 0; filter: none; box-shadow: none; image-rendering: pixelated; }
+body.win98-theme .vista-start:hover .vista-start-orb, body.win98-theme .vista-start[aria-expanded="true"] .vista-start-orb { filter: none; box-shadow: none; }
+body.win98-theme .vista-task { min-height: 30px; box-sizing: border-box; padding: 3px 12px; font-size: 12px; }
+body.win98-theme .vista-tray { color: #111; border: 2px solid; border-color: #808080 #fff #fff #808080; padding: 3px 8px; text-shadow: none; gap: 8px; }
+body.win98-theme .vista-start-menu { left: 4px; bottom: 40px; padding: 5px 5px 5px 40px; box-sizing: border-box; background: #c0c0c0; color: #111; border: 2px solid; border-color: #fff #404040 #404040 #fff; border-radius: 0; backdrop-filter: none; box-shadow: 1px 1px #000; }
+body.win98-theme .vista-start-menu::before { content: 'Windows 98'; position: absolute; inset: 4px auto 4px 4px; width: 26px; background: #808080; writing-mode: vertical-rl; transform: rotate(180deg); color: #fff; font-size: 20px; font-weight: 700; padding: 8px 3px; box-sizing: border-box; }
+body.win98-theme .vista-menu-profile { display: none; }
+body.win98-theme .vista-start-menu a:not(.vista-menu-home) { margin-right: 0; background: transparent; color: #111; font-size: 13px; padding: 10px 8px; }
+body.win98-theme .vista-start-menu a small { color: #454545; }
+body.win98-theme .vista-start-menu a:not(.vista-menu-home):hover { background: #000080; color: #fff; border-color: transparent; border-radius: 0; }
+body.win98-theme .vista-start-menu a:hover small { color: #fff; }
+body.win98-theme .vista-menu-right { position: static; width: auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 0; border-top: 1px solid #808080; }
+body.win98-theme .vista-menu-right :is(a,button) { flex: 1 1 44%; font-size: 12px !important; text-align: center; color: #111 !important; }
+body.win98-theme .vista-start-menu .vista-menu-home { color: #111; background: #c0c0c0; border: 1px solid #808080; border-radius: 0; }
+body.win98-theme .spinning-email::before { background-image: url('../images/win98/mail.png'); image-rendering: pixelated; }
+body.win98-theme .hit-counter { background: #fff; border-color: #808080; color: #111; border-radius: 0; }
+@media (max-width: 700px) {
+    body.win98-theme .theme-controls { flex-direction: column !important; margin: 0 auto 22px; }
+    body.win98-theme .nineties-wrapper { padding-top: 14px; }
+    body.win98-theme .nineties-title-container { padding: 22px 16px; }
+    body.win98-theme .vista-globe { width: 80px; flex-basis: auto; }
+    body.win98-theme .vista-task { padding: 3px 6px; font-size: 10px; }
+    body.win98-theme .vista-tray { gap: 4px; padding: 3px 5px; }
+    body.win98-theme .vista-window-titlebar { margin: -16px -16px 16px; }
+}

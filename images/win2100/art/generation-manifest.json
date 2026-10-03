@@ -1,0 +1,92 @@
+{
+  "method": "Built-in image_gen tool",
+  "style": "Frosted pearl glass, machined titanium, ice blue and restrained violet iridescence.",
+  "date": "2026-10-02",
+  "processing": "Delivery images are resized and format-converted only, with generated transparency preserved. Original generated PNGs remain at their source paths.",
+  "assets": [
+    {
+      "name": "wallpaper-dawn.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-859995d2-6c69-43ec-a86c-3d16983f81d6.png",
+      "output": "images/win2100/art/wallpaper-dawn.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke desktop wallpaper for a fictional Windows 2100 operating-system theme in a personal portfolio. Primary request: a polished, original OS wallpaper that feels like a real system's signature artwork. Landscape widescreen 16:9 composition. Subject: an elegant sculptural arrangement of four thick translucent crystal-glass ribbons folding outward from a small open square aperture, suspended above an opalescent horizon, suggesting a window into another dimension. Clearly dimensional, beautifully machined surfaces, mesmerizing but restrained. Materials: frosted pearl glass, refractive ice-blue edges, subtle violet iridescence, brushed titanium accents, soft caustics and atmospheric depth. Backdrop: quiet luminous silver-blue atmospheric expanse, very subtle deep-space particles, no buildings, no planets, no literal city. Composition: sculpture mostly in the right half; quieter left and lower areas and margins to accommodate real desktop windows and icons. Lighting: sophisticated product-render quality, soft cool daylight and diffuse lilac glow; visible sculptural shadows, crisp high-detail material texture, no blown-out highlights. Palette: pearl white, ice blue, periwinkle, muted violet, deep indigo only in small reflections. This is finished artwork, not a screenshot or UI mockup. No text, no typography, no letters, no watermarks, no desktop icons, no menus or fake UI.",
+      "transparent_background": false
+    },
+    {
+      "name": "wallpaper-dusk.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-6ed8c11c-f87c-4b9e-8d0c-89906e47ed03.png",
+      "output": "images/win2100/art/wallpaper-dusk.webp",
+      "prompt": "Use case: lighting-weather. Asset type: second OS wallpaper for the fictional Windows 2100 desktop. Input image is the edit target, a finished landscape desktop wallpaper. Produce a beautiful DUSK/NIGHT variant of exactly this artwork. Preserve the four sculptural glass ribbons, their titanium frames, their square central aperture, their placement in the right half, the entire camera perspective, the horizon, aspect ratio and all compositional geometry. Change only the time of day, environmental colors, lighting and reflections: deep blue/violet night sky with tasteful fine starlight, moonlit ice-blue glass edges, luminous restrained lavender-violet caustics and reflections on the horizon surface. Keep the sculpture highly legible against the darker background, with realistic rich glass material rather than a flat neon outline. The left and bottom stay calm for real OS windows. Finished wallpaper, no UI, no icons, no text or typography, no extra objects or planets, no watermarks. The day wallpaper and this night wallpaper should unmistakably feel like a matched pair.",
+      "transparent_background": false
+    },
+    {
+      "name": "windows-logo.png",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-92ca1ac4-4bdc-48eb-b5d3-5d549f2625dd.png",
+      "output": "images/win2100/art/windows-logo.png",
+      "prompt": "Use case: stylized-concept. Asset type: system emblem / Start button / launcher icon for a fictional Windows 2100 operating-system theme. Create ONE bespoke premium 3D system emblem on a genuinely transparent background. A simple, iconic, four-pane window silhouette: four thick rounded rectangular slabs arranged as a 2 by 2 window with a clean cross-shaped gap. Gently suspended at a three-quarter angle, compact nearly-square overall silhouette, fronts clearly visible. Materials match a polished futuristic OS: substantial frosted pearl glass, titanium edging, ice-blue refraction, subtle violet iridescence and a delicate luminous inner core, realistic fine material detail. Strong clean silhouette readable at 32px and extraordinary at 128px. Upper-left soft studio lighting. No background, no tile, no circular orb, no pedestal, no text, no lettering, no number, no watermark. Square composition with 12% transparent margins, object fits fully within the canvas, no cropped edges or large cast shadow. This is a finished raster product-render asset, not a flat outline or vector drawing.",
+      "transparent_background": true
+    },
+    {
+      "name": "computer.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-927b003c-e19f-4202-87d3-0a2ac9aa550f.png",
+      "output": "images/win2100/art/computer.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: a single sleek futuristic desktop display, thick glass screen with a small soft cyan light on it, slim titanium stand. One monitor, recognizable workstation.",
+      "transparent_background": true
+    },
+    {
+      "name": "folder.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-965397c3-ab3d-4672-8503-df3a9f31985e.png",
+      "output": "images/win2100/art/folder.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one substantial open file folder, unmistakable folder-tab silhouette, layered frosted glass sides with ice-blue inner glow and a titanium rim. Simple profile, no loose sheets scattered.",
+      "transparent_background": true
+    },
+    {
+      "name": "documents.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-a9a489de-71cc-4a89-95d0-f927d4caef1b.png",
+      "output": "images/win2100/art/documents.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one upright stack of three pearl-glass document sheets, a distinct turned top corner and three abstract recessed short horizontal strokes on the top sheet, not text.",
+      "transparent_background": true
+    },
+    {
+      "name": "people.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-e24611ae-4a6f-498e-bc6e-943e2de44961.png",
+      "output": "images/win2100/art/people.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one friendly sculptural user-profile bust silhouette, round head above smooth shoulders, sculpted from pearl glass with an ice-blue-to-violet translucent edge. No detailed face, no realistic human, no hands.",
+      "transparent_background": true
+    },
+    {
+      "name": "control-panel.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-c5940e62-301c-49f6-aa80-2bc926611bc8.png",
+      "output": "images/win2100/art/control-panel.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: three precise machined slider rails mounted in a compact open glass frame, each with one substantial luminous slider knob at a different height. Unmistakable settings-controls silhouette.",
+      "transparent_background": true
+    },
+    {
+      "name": "mail.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-3e6d6383-e5ef-44d0-807b-9b64405f1585.png",
+      "output": "images/win2100/art/mail.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one thick translucent glass envelope with a visible V-shaped folded flap, machined silver edging, gentle cool-blue illumination within. Unmistakable mail icon, no stamp or text.",
+      "transparent_background": true
+    },
+    {
+      "name": "network.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-3b304c83-abb0-4a54-a80c-6486929867e6.png",
+      "output": "images/win2100/art/network.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one dimensional frosted-glass globe with three elegant latitude/longitude metal rings and a blue illuminated inner core. Recognizable network/world icon, no geography, no tiny satellites.",
+      "transparent_background": true
+    },
+    {
+      "name": "pictures.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-df962e79-3b1b-47d7-b9c5-d42c1bcc538e.png",
+      "output": "images/win2100/art/pictures.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one translucent glass picture frame holding an abstract miniature relief of two mountain silhouettes and one small cyan sun. Low-detail recognizable photo icon, no realistic landscape or lettering.",
+      "transparent_background": true
+    },
+    {
+      "name": "application.webp",
+      "source": "/Users/griffinrutherford/.codex/generated_images/01a0f39d-757b-7863-b62d-31e6fde78051/exec-436cfc13-d8fe-4516-9e8a-dd9a0de2d410.png",
+      "output": "images/win2100/art/application.webp",
+      "prompt": "Use case: stylized-concept. Asset type: bespoke app icon for the fictional Windows 2100 desktop theme. Create ONE finished, exceptionally polished 3D operating-system app icon, on a genuinely transparent background. Square composition, object centered, generous transparent margin of 14% on every side; fills roughly 72% of the image. Consistent family style: thick frosted pearl-glass body, machined titanium edges, ice-blue luminous accents, subtle violet iridescence and realistic refractive material detail. Gently elevated three-quarter camera looking slightly down, recognizably shaped silhouette, no pedestal, no environment, no large drop shadow, restrained soft contact shadow only directly underneath. Clear and recognizable at 32px as well as beautiful at 96px. Light direction upper left. Not a flat line icon, not an SVG style. No text, no letters, no numbers, no labels, no watermark, no surrounding card or tile. Subject: one rounded-square dimensional application window made of pearl glass, a small blue title strip without text, and a minimal luminous four-point spark inside. Open beveled depth and subtle titanium rim.",
+      "transparent_background": true
+    }
+  ]
+}

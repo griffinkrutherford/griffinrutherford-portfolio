@@ -46,10 +46,9 @@
         canvas.dataset.view=`${state.yaw.toFixed(2)},${state.pitch.toFixed(2)}`;
     }
     function drawSky(){
-        const{width:w,height:h}=ambient;if(!w||!h)return;sky.clearRect(0,0,w,h);sky.fillStyle='#edf3fb';sky.fillRect(0,0,w,h);
-        for(const [x,y,color] of [[.12,.22,'#a5b7ef'],[.85,.36,'#bdc7ee'],[.64,.88,'#b4dcdf']]){const light=sky.createRadialGradient(w*x,h*y,0,w*x,h*y,w*.5);light.addColorStop(0,color+'a6');light.addColorStop(1,color+'00');sky.fillStyle=light;sky.fillRect(0,0,w,h);}
+        const{width:w,height:h}=ambient;if(!w||!h)return;sky.clearRect(0,0,w,h);
         sky.save();sky.translate(w*.62,h*.38);sky.rotate(-.28+Math.sin(state.phase*.03)*.025);
-        for(let i=0;i<5;i++){sky.beginPath();sky.ellipse(0,0,w*(.31+i*.065),h*(.13+i*.045),0,0,Math.PI*2);sky.strokeStyle=i%2?'#ffffff8a':'#819dd726';sky.lineWidth=i%2?1.2:1;sky.stroke();}sky.restore();
+        for(let i=0;i<5;i++){sky.beginPath();sky.ellipse(0,0,w*(.31+i*.065),h*(.13+i*.045),0,0,Math.PI*2);sky.strokeStyle=i%2?'#ffffff30':'#c3d6f01c';sky.lineWidth=i%2?1.2:1;sky.stroke();}sky.restore();
         for(let i=0;i<65;i++){const x=((i*.618+.11)%1)*w,y=((i*.382+.08)%1)*h+Math.sin(state.phase*.08+i)*5;sky.beginPath();sky.arc(x,y,i%4?1:1.8,0,Math.PI*2);sky.fillStyle=i%3?'#ffffffc0':'#8194ba4d';sky.fill();}
     }
     function text(){motion.textContent=state.playing?'Pause motion':'Play motion';motion.setAttribute('aria-pressed',String(state.playing));}
@@ -59,7 +58,7 @@
     }
     function redraw(){dirty=true;if(active&&!document.hidden&&!frame)frame=requestAnimationFrame(tick);}
     function resize(){if(!active)return;hero=size(canvas);ambient=size(background);redraw();}
-    function sync(){active=document.body.classList.contains('win2100-theme');cancelAnimationFrame(frame);frame=0;last=0;if(active){resize();text();}}
+    function sync(){active=document.body.classList.contains('win2100-theme');cancelAnimationFrame(frame);frame=0;last=0;if(active){resize();text();}else if(artDialog.open){artDialog.close();}}
     function setPlaying(value){state.playing=value;last=0;text();redraw();}
     document.querySelectorAll('[data-future-view]').forEach(button=>button.addEventListener('click',()=>{const view=button.dataset.futureView;state.yaw=view==='reverse'?3.52:.38;state.pitch=view==='overhead'?1.12:-.38;redraw();}));
     motion.addEventListener('click',()=>setPlaying(!state.playing));
@@ -69,5 +68,27 @@
     canvas.addEventListener('keydown',event=>{const actions={ArrowLeft:()=>state.yaw-=.14,ArrowRight:()=>state.yaw+=.14,ArrowUp:()=>state.pitch=clamp(state.pitch-.14,-1.3,1.3),ArrowDown:()=>state.pitch=clamp(state.pitch+.14,-1.3,1.3),Home:()=>{state.yaw=.38;state.pitch=-.38;}};if(actions[event.key]){event.preventDefault();actions[event.key]();redraw();}});
     preference.addEventListener('change',()=>{if(preference.matches)setPlaying(false);});
     document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(frame);frame=0;last=0;if(!document.hidden)redraw();});
+    const artDialog=document.getElementById('future-art-dialog');
+    const preview=document.getElementById('future-wallpaper-preview');
+    const wallpapers={dawn:'Dawn: a four-fold crystal sculpture above an opalescent horizon',dusk:'Dusk: the same crystal sculpture lit by violet starlight'};
+    const choices=[...document.querySelectorAll('[data-future-wallpaper]')];
+    function chooseWallpaper(name){
+        if(!Object.hasOwn(wallpapers,name))name='dawn';
+        document.body.dataset.futureWallpaper=name;
+        preview.src=`images/win2100/art/wallpaper-${name}.webp`;preview.alt=wallpapers[name];
+        choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.futureWallpaper===name)));
+        try{localStorage.setItem('windows2100-wallpaper',name);}catch(_){}
+    }
+    document.querySelectorAll('[data-open-future-art]').forEach(button=>button.addEventListener('click',()=>artDialog.showModal()));
+    choices.forEach(button=>button.addEventListener('click',()=>chooseWallpaper(button.dataset.futureWallpaper)));
+    artDialog.addEventListener('keydown',event=>{
+        if(event.key!=='Tab')return;
+        const buttons=[...artDialog.querySelectorAll('button:not([disabled])')],first=buttons[0],last=buttons.at(-1);
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    });
+    artDialog.addEventListener('click',event=>{if(event.target===artDialog){const b=artDialog.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)artDialog.close();}});
+    let savedWallpaper='dawn';try{savedWallpaper=localStorage.getItem('windows2100-wallpaper')||'dawn';}catch(_){}
+    chooseWallpaper(savedWallpaper);
     new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});new ResizeObserver(resize).observe(canvas);window.addEventListener('resize',resize);sync();
 })();

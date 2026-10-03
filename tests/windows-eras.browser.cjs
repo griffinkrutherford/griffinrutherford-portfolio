@@ -12,7 +12,7 @@ const fs=require('node:fs');
         await page.goto(base,{waitUntil:'load'});assert(await page.locator('body.vista-theme').count());
         for(const theme of ['win98','win2100']){
             await select(theme);assert(await page.locator('.vista-taskbar').isVisible());assert(await page.locator('#nineties-about').textContent().then(text=>text.includes('600k+')));
-            const ext=theme==='win98'?'png':'svg';assert.match(await page.locator('link[rel="icon"]').getAttribute('href'),new RegExp(`${theme}/windows-logo.${ext}`));
+            const icon=theme==='win98'?'win98/windows-logo.png':'win2100/art/windows-logo.png';assert((await page.locator('link[rel="icon"]').getAttribute('href')).includes(icon));
             // Every old desktop shell resource is replaced, including lazy folder icons.
             await page.locator('#nineties-projects').scrollIntoViewIfNeeded();
             await page.waitForFunction(()=>[...document.querySelectorAll('.vista-shortcut-icon,.vista-file-icon')].every(image=>image.complete&&image.naturalWidth>0));
@@ -30,6 +30,40 @@ const fs=require('node:fs');
                 }
             }
         }
+        await page.setViewportSize({width:1440,height:1000});
+        // Bespoke artwork belongs to working OS controls, with persistent wallpaper choice.
+        const artURL=new URL(base);artURL.searchParams.set('theme','win2100');await page.goto(artURL.href);
+        const dialog=page.locator('#future-art-dialog');
+        for(const width of [320,390,768,1440]){
+            await page.setViewportSize({width,height:1000});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+            const opener=page.locator('.future-personalize');await opener.focus();await page.keyboard.press('Enter');assert(await dialog.isVisible());
+            for(const wallpaper of ['dawn','dusk']){
+                await page.locator(`button[data-future-wallpaper="${wallpaper}"]`).click();
+                await page.waitForFunction(()=>{const image=document.getElementById('future-wallpaper-preview');return image.complete&&image.naturalWidth>0;});
+                assert.equal(await page.locator('body').getAttribute('data-future-wallpaper'),wallpaper);
+                assert.equal(await page.locator(`button[data-future-wallpaper="${wallpaper}"]`).getAttribute('aria-pressed'),'true');
+                assert(await page.locator('body').evaluate((body,name)=>getComputedStyle(body).backgroundImage.includes(`wallpaper-${name}.webp`),wallpaper));
+                assert(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth),'Personalization fits its window');
+                await page.screenshot({path:`${out}/win2100-personalization-${wallpaper}-${width}.png`});
+            }
+            await page.keyboard.press('Escape');assert.equal(await dialog.isVisible(),false);assert(await opener.evaluate(el=>document.activeElement===el));
+            await page.screenshot({path:`${out}/win2100-dusk-${width}.png`});
+        }
+        await page.reload();assert.equal(await page.locator('body').getAttribute('data-future-wallpaper'),'dusk');
+        await page.evaluate(()=>localStorage.setItem('windows2100-wallpaper','toString'));await page.reload();assert.equal(await page.locator('body').getAttribute('data-future-wallpaper'),'dawn');
+        await page.locator('.future-personalize').click();await page.mouse.click(2,2);assert.equal(await dialog.isVisible(),false,'backdrop closes the window');
+        await page.locator('.future-personalize').click();await page.locator('.future-art-heading button').click();assert.equal(await dialog.isVisible(),false,'titlebar close works');
+        await page.waitForFunction(()=>[...document.querySelectorAll('.future-shortcuts img,.future-brand img')].every(image=>image.complete&&image.naturalWidth>0));
+        assert.equal(await page.locator('.future-shortcuts a').count(),4);
+        assert(await page.locator('.vista-window-titlebar img,.vista-shortcut-icon,.vista-file-icon,.vista-start-orb').evaluateAll(images=>images.every(image=>image.src.includes('/win2100/art/'))));
+        await page.locator('.future-shortcuts a[href="#nineties-about"]').click();assert.equal(await page.evaluate(()=>location.hash),'#nineties-about');
+        for(const width of [390,1440]){await page.setViewportSize({width,height:1000});await page.locator('.future-shortcuts').screenshot({path:`${out}/win2100-shortcuts-${width}.png`});}
+        await page.setViewportSize({width:844,height:390});await page.locator('.future-personalize').click();
+        assert(await dialog.evaluate(el=>el.getBoundingClientRect().height<=innerHeight));assert(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth));
+        assert(await dialog.evaluate(el=>el.scrollHeight<=el.clientHeight),'compact landscape keeps all personalization controls visible');
+        for(let i=0;i<8;i++){await page.keyboard.press('Tab');assert(await dialog.evaluate(el=>el.contains(document.activeElement)),'keyboard focus remains within Personalization');}
+        await page.locator('[data-future-wallpaper="dusk"]').click();await page.screenshot({path:`${out}/win2100-personalization-landscape.png`});
+        await page.evaluate(()=>window.applyRetroTheme('vista'));assert.equal(await dialog.isVisible(),false,'changing theme closes Personalization');await select('win2100');
         await page.setViewportSize({width:1440,height:1000});
         const canvas=page.locator('#future-canvas'),background=page.locator('#future-background');await canvas.scrollIntoViewIfNeeded();
         const pixels=()=>canvas.evaluate(c=>c.toDataURL()),sky=()=>background.evaluate(c=>c.toDataURL());
@@ -49,6 +83,6 @@ const fs=require('node:fs');
         deep.searchParams.set('theme','win98');await page.goto(deep.href);assert.equal(await page.locator('#theme-toggle .theme-toggle-text').textContent(),'Windows 98');await page.reload();assert(await page.locator('body.win98-theme').count());
         for(const route of ['index.html','legacy/index.html']){const url=new URL(route,base);await page.goto(url.href,{waitUntil:'domcontentloaded'});assert.match(await page.locator('body').textContent(),/600k\+ line/);assert.doesNotMatch(await page.locator('body').textContent(),/500k\+/);await page.setViewportSize({width:390,height:1000});await page.locator('.quick-links-button').click();await page.locator('.quick-links-nav .has-submenu > a').click();assert(await page.locator('.quick-links-menu').evaluate(el=>el.classList.contains('active')));assert(await page.locator('.has-submenu').evaluate(el=>el.classList.contains('active')));}
         assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-        console.log('PASS: both desktop eras, icons/favicons, Start shortcuts, minimize/restore/expand, project search, 320–1440px layouts, 3D views and pointer/keyboard orbit, pause/reduced motion/cleanup, deep links, and 600k+ across main/legacy/retro.');
+        console.log('PASS: both desktop eras, generated art/icons/favicons, Personalization selection/persistence/fallback/focus/close/landscape, desktop and Start shortcuts, minimize/restore/expand, project search, 320–1440px layouts, 3D views and pointer/keyboard orbit, pause/reduced motion/cleanup, deep links, and 600k+ across main/legacy/retro.');
     }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

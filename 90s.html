@@ -1438,7 +1438,7 @@
     <link rel="stylesheet" href="css/matrix-glass.css?v=1">
     <link rel="stylesheet" href="css/hypercube.css?v=1">
     <link rel="stylesheet" href="css/windows-98.css?v=1">
-    <link rel="stylesheet" href="css/windows-2100.css?v=1">
+    <link rel="stylesheet" href="css/windows-2100.css?v=2">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1482,7 +1482,7 @@
                     <button type="button" class="theme-option" role="option" data-theme="nintendo" aria-selected="false" tabindex="-1"><img src="images/sprites/nintendo/kirby/super-star/warp_star.png" alt="" width="30" height="30"><span>Kirby<small>A trip to Dream Land</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/theme-icons/hypercube.svg" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
-                    <button type="button" class="theme-option" role="option" data-theme="win2100" aria-selected="false" tabindex="-1"><img src="images/win2100/windows-logo.svg" alt="" width="30" height="30"><span>Windows 2100<small>An imagined spatial desktop</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="win2100" aria-selected="false" tabindex="-1"><img src="images/win2100/art/windows-logo.png" alt="" width="30" height="30"><span>Windows 2100<small>An imagined spatial desktop</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1490,6 +1490,8 @@
             </button>
         </div>
         
+        <div class="future-brand future-only"><img src="images/win2100/art/windows-logo.png" alt="" width="72" height="72"><div><strong>Windows <span>2100</span></strong><small>Personal workspace</small></div><button type="button" class="future-personalize" data-open-future-art aria-haspopup="dialog">Personalize</button></div>
+
         <!-- Retro Header -->
         <div class="nineties-header">
             <div class="nineties-title-container">
@@ -1500,7 +1502,7 @@
                     <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
                 </div>
                 <div class="future-hero future-only">
-                    <div class="future-copy"><p class="future-eyebrow">WINDOWS 2100 · A SPECULATIVE DESKTOP</p><h2>Build beyond<br><em>the horizon.</em></h2><p>An imagined workspace for the next century. The curiosity behind it is already here.</p><div class="future-actions"><a href="#nineties-projects">Open my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Explore another dimension <span aria-hidden="true">↗</span></a></div><div class="future-build"><span>BUILDING TODAY</span><strong>Lune Synth</strong><span>600k+ lines of code · feedback that helps you think</span></div></div>
+                    <div class="future-copy"><p class="future-eyebrow">WINDOWS 2100 · A SPECULATIVE DESKTOP</p><h2>Build beyond<br><em>the horizon.</em></h2><p>An imagined workspace for the next century. The curiosity behind it is already here.</p><div class="future-actions"><a href="#nineties-projects">Open my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Explore another dimension <span aria-hidden="true">↗</span></a></div><div class="future-build"><span>BUILDING TODAY</span><strong>Lune Synth</strong><span>600k+ lines of code · feedback that helps you think</span></div><button type="button" class="future-wallpaper-card" data-open-future-art aria-haspopup="dialog"><img src="images/win2100/art/wallpaper-dawn.webp" alt="" width="88" height="56"><span><strong>Your desktop, reimagined.</strong><small>Choose Dawn or Dusk artwork <span aria-hidden="true">↗</span></small></span></button></div>
                     <div class="future-scene"><div class="future-scene-label"><span>SPATIAL WINDOW</span><span>Drag to orbit ↔</span></div><canvas id="future-canvas" width="640" height="520" tabindex="0" role="img" aria-label="Four floating glass panes surrounded by orbital rings" aria-describedby="future-scene-summary"></canvas><div class="future-scene-controls" role="group" aria-label="Spatial window controls"><button type="button" data-future-view="front">Front</button><button type="button" data-future-view="reverse">Reverse</button><button type="button" data-future-view="overhead">Overhead</button><button type="button" id="future-motion" aria-pressed="true">Pause motion</button></div><p id="future-scene-summary">Four glass panes form a window in space. Drag or use arrow keys to turn the camera; Home restores the front view. The rings are a visual flourish.</p></div>
                 </div>
                 <div class="hypercube-hero hypercube-only">
@@ -1552,6 +1554,13 @@
                 <div class="nineties-subtitle" data-theme-text="headerSubtitle">Building Lune Synth &amp; technology people can trust</div>
             </div>
         </div>
+
+        <nav class="future-shortcuts future-only" aria-label="Windows 2100 desktop shortcuts">
+            <a href="#nineties-about"><img src="images/win2100/art/people.webp" alt="" width="80" height="80"><span>My profile</span><small>The person behind the projects</small></a>
+            <a href="#nineties-projects"><img src="images/win2100/art/folder.webp" alt="" width="80" height="80"><span>Projects</span><small>Open something interesting</small></a>
+            <a href="#nineties-resume"><img src="images/win2100/art/documents.webp" alt="" width="80" height="80"><span>Documents</span><small>Experience &amp; education</small></a>
+            <a href="#nineties-skills"><img src="images/win2100/art/control-panel.webp" alt="" width="80" height="80"><span>Studio</span><small>Tools for what comes next</small></a>
+        </nav>
 
         <!-- Kirby Sound Toggle -->
         <div class="kirby-sfx-settings" style="position: fixed; bottom: 20px; right: 20px; background: #C0C0C0; border: 2px outset #808080; padding: 10px; z-index: 1000;">
@@ -1950,6 +1959,16 @@
         </div>
     </div>
 
+    <dialog id="future-art-dialog" aria-labelledby="future-art-title">
+        <form method="dialog" class="future-art-heading"><div><p>WINDOWS 2100 / PERSONALIZATION</p><h2 id="future-art-title">Make this space yours.</h2></div><button type="submit" aria-label="Close desktop personalization">✕</button></form>
+        <img id="future-wallpaper-preview" src="images/win2100/art/wallpaper-dawn.webp" alt="Dawn: a four-fold crystal sculpture above an opalescent horizon" width="1672" height="941">
+        <div class="future-wallpaper-choices" role="group" aria-label="Choose desktop wallpaper">
+            <button type="button" data-future-wallpaper="dawn" aria-pressed="true"><img src="images/win2100/art/wallpaper-dawn.webp" alt="" width="120" height="70"><span>Dawn<small>Pearl glass · cool daylight</small></span></button>
+            <button type="button" data-future-wallpaper="dusk" aria-pressed="false"><img src="images/win2100/art/wallpaper-dusk.webp" alt="" width="120" height="70"><span>Dusk<small>Moonlit glass · violet starlight</small></span></button>
+        </div>
+        <p class="future-art-caption">Two original wallpapers. One shared glass-and-titanium design language, from the desktop to every app icon.</p>
+    </dialog>
+
     <div class="vista-taskbar vista-only">
         <button type="button" id="vista-start" class="vista-start" aria-expanded="false" aria-controls="vista-start-menu"><img class="vista-start-orb" src="images/vista/start-orb.svg" alt="" width="48" height="48" loading="lazy" decoding="async"> Start</button>
         <a href="#nineties-about" class="vista-task"><img src="images/vista/computer.ico" alt="" width="22" height="22" loading="lazy">Griffin's desktop</a>
@@ -1969,13 +1988,13 @@
         </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js?v=5" defer></script>
+    <script src="js/vista-aero.js?v=6" defer></script>
 
-    <script src="js/theme-picker.js?v=2" defer></script>
+    <script src="js/theme-picker.js?v=3" defer></script>
     <script src="gradient-descent-worksheet/dimensions-core.js" defer></script>
     <script src="js/hypercube-core.js?v=1" defer></script>
     <script src="js/hypercube.js?v=1" defer></script>
-    <script src="js/windows-2100.js?v=1" defer></script>
+    <script src="js/windows-2100.js?v=2" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>

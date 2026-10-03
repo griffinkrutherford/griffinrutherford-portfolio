@@ -69,11 +69,11 @@
     const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img, .vista-breadcrumb img, .vista-folder-status img')].map(image => ({image, source: image.getAttribute('src')}));
     function syncDesktopResources() {
         const theme = ['xp', 'win98', 'win2100'].find(key => document.body.classList.contains(`${key}-theme`));
-        const extensions = {xp: 'ico', win98: 'png', win2100: 'svg'};
+        const extensions = {xp: 'ico', win98: 'png', win2100: 'webp'};
         desktopImages.forEach(({image, source}) => {
             const match = source.match(/images\/vista\/(computer|network|folder|people|documents|control-panel|application|pictures|mail)\.ico$/);
-            image.src = theme && match ? `images/${theme}/${match[1]}.${extensions[theme]}` : source;
-            if (image.classList.contains('vista-start-orb') && theme) image.src = `images/${theme}/windows-logo.${theme === 'win2100' ? 'svg' : 'png'}`;
+            image.src = theme && match ? `images/${theme}/${theme === 'win2100' ? 'art/' : ''}${match[1]}.${extensions[theme]}` : source;
+            if (image.classList.contains('vista-start-orb') && theme) image.src = `images/${theme}/${theme === 'win2100' ? 'art/' : ''}windows-logo.png`;
         });
         const headings = {
             xp: ['PERSONAL DESKTOP · WINDOWS XP / 2001', 'Your next adventure starts here.'],

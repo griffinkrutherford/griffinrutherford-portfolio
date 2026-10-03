@@ -90,3 +90,73 @@ body.win2100-theme .hit-counter { background: #f7fbff; border-color: #cbd8ee; co
     body.win2100-theme .vista-task { font-size: 10px; padding: 5px; }
     body.win2100-theme .vista-tray { padding-left: 6px; }
 }
+
+/* Bespoke OS artwork and desktop identity. Generated assets are delivered locally. */
+body.win2100-theme { background: #edf3fb url('../images/win2100/art/wallpaper-dawn.webp') 62% center / cover fixed no-repeat; }
+body.win2100-theme[data-future-wallpaper="dusk"] { background-image: url('../images/win2100/art/wallpaper-dusk.webp'); }
+body.win2100-theme .future-brand { position: absolute; top: 28px; left: 28px; display: flex; align-items: center; gap: 10px; padding: 5px 10px; border: 1px solid #fff8; border-radius: 17px; background: #f8fcffe0; box-shadow: 0 4px 20px #394e701c; }
+.future-brand > img { width: 60px; height: 60px; object-fit: contain; }
+.future-brand strong { color: #2f4670; font-size: 19px; font-weight: 600; letter-spacing: -.03em; }
+.future-brand strong span { font-weight: 350; }
+.future-brand small { display: block; color: #526987; font-size: 10px; margin-top: 5px; }
+body.win2100-theme .future-personalize { margin-left: 12px; min-height: 36px; padding: 7px 10px; background: #f9fcff; color: #354d7e; border: 1px solid #acbfdf; border-radius: 10px; font-size: 10px; cursor: pointer; }
+body.win2100-theme .future-wallpaper-card { display: flex; gap: 12px; align-items: center; text-align: left; margin-top: 20px; padding: 10px; width: 100%; max-width: 370px; border: 1px solid #c3d3ea; border-radius: 13px; background: #f1f6ff; color: #3b527c; cursor: pointer; }
+.future-wallpaper-card > img { width: 88px; height: 56px; border-radius: 7px; object-fit: cover; }
+.future-wallpaper-card strong { display: block; font-size: 11px; font-weight: 600; line-height: 1.6; }
+.future-wallpaper-card small { display: block; font-size: 10px; line-height: 1.7; margin-top: 3px; }
+body.win2100-theme .future-wallpaper-card:hover, body.win2100-theme .future-personalize:hover { background: #e2edfc; border-color: #90acd6; }
+body.win2100-theme .future-shortcuts { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 24px 0; }
+body.win2100-theme .future-shortcuts a { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 8px 18px; text-align: center; color: #2f4774; text-decoration: none; border: 1px solid #ffffff9c; border-radius: 17px; background: #f8fcffe6; box-shadow: 0 5px 24px #3b537b12; }
+.future-shortcuts img { width: 88px; height: 88px; object-fit: contain; transition: transform .18s ease; }
+body.win2100-theme .future-shortcuts a:hover { background: #faffff; border-color: #afc6e7; }
+body.win2100-theme .future-shortcuts a:hover img { transform: translateY(-4px); }
+.future-shortcuts span { font-size: 13px; font-weight: 600; }
+.future-shortcuts small { color: #627997; font-size: 10px; line-height: 1.5; margin-top: 3px; }
+body.win2100-theme .nineties-nav-table, body.win2100-theme .webring, body.win2100-theme .badges-section { display: none; }
+body.win2100-theme .vista-shortcut-icon { width: 50px; height: 50px; }
+body.win2100-theme .vista-window-titlebar > img { width: 24px; height: 24px; flex-basis: 24px; }
+body.win2100-theme .vista-start-menu a img { width: 48px; height: 48px; flex-basis: 48px; }
+body.win2100-theme .spinning-email::before { background-image: url('../images/win2100/art/mail.webp'); width: 56px; height: 56px; }
+body.win2100-theme .vista-taskbar { border-radius: 18px; background: #f7fbfff0; }
+body.win2100-theme .vista-start-orb { width: 42px; height: 42px; }
+#future-art-dialog { box-sizing: border-box; margin: auto; width: min(900px,calc(100vw - 32px)); max-height: calc(100dvh - 36px); padding: 20px; border: 1px solid #fff; border-radius: 20px; background: #f6faff; color: #203353; box-shadow: 0 24px 120px #0d1d5070; overflow: auto; }
+#future-art-dialog::backdrop { background: #0c224872; backdrop-filter: blur(7px); }
+.future-art-heading { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 16px; }
+.future-art-heading p { color: #617796; font-size: 9px; letter-spacing: .11em; margin: 0 0 10px; }
+body.win2100-theme .future-art-heading h2 { text-transform: none; text-align: left; color: #2c4470; font-size: 26px; line-height: 1.2; margin: 0; font-weight: 550; letter-spacing: -.02em; }
+body.win2100-theme .future-art-heading button { flex: 0 0 38px; width: 38px; height: 38px; background: #e7effb; border: 1px solid #aebfde; border-radius: 10px; color: #354d7e; cursor: pointer; }
+#future-wallpaper-preview { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #c7d6ec; border-radius: 12px; box-sizing: border-box; }
+.future-wallpaper-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+body.win2100-theme .future-wallpaper-choices button { display: flex; align-items: center; gap: 12px; text-align: left; padding: 8px; background: #edf3fc; border: 1px solid #bdcfe8; border-radius: 12px; color: #354d7e; cursor: pointer; }
+body.win2100-theme .future-wallpaper-choices button[aria-pressed="true"] { border: 2px solid #5574b2; padding: 7px; background: #dce8fc; }
+.future-wallpaper-choices img { width: 120px; height: 70px; border-radius: 7px; object-fit: cover; }
+.future-wallpaper-choices span { font-size: 14px; font-weight: 600; }
+.future-wallpaper-choices small { display: block; font-size: 10px; font-weight: 400; margin-top: 5px; line-height: 1.5; }
+.future-art-caption { color: #5c7290; font-size: 11px; line-height: 1.6; margin: 16px 0 0; }
+@media (max-width: 1000px) { body.win2100-theme .future-brand { position: static; width: fit-content; margin: 0 0 24px; } }
+@media (max-height: 500px) and (min-width: 701px) {
+    #future-art-dialog { padding: 14px; }
+    .future-art-heading { margin-bottom: 8px; }
+    .future-art-heading p { margin-bottom: 4px; }
+    body.win2100-theme .future-art-heading h2 { font-size: 21px; }
+    #future-wallpaper-preview { height: 30dvh; aspect-ratio: auto; object-fit: contain; background: #e8effb; }
+    .future-wallpaper-choices { margin-top: 8px; }
+    .future-wallpaper-choices img { width: 88px; height: 48px; }
+    .future-art-caption { margin-top: 8px; font-size: 10px; }
+}
+@media (max-width: 700px) {
+    body.win2100-theme { background-position: 72% center; }
+    body.win2100-theme .future-brand { margin: 0 auto 22px; width: 100%; box-sizing: border-box; justify-content: center; gap: 8px; padding: 4px 8px; }
+    .future-brand > img { width: 48px; height: 48px; }
+    .future-brand strong { font-size: 17px; }
+    body.win2100-theme .future-personalize { margin-left: auto; padding: 6px; font-size: 9px; }
+    body.win2100-theme .future-shortcuts { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .future-shortcuts img { width: 72px; height: 72px; }
+    .future-shortcuts small { max-width: 120px; }
+    #future-art-dialog { padding: 14px; }
+    body.win2100-theme .future-art-heading h2 { font-size: 21px; }
+    .future-wallpaper-choices { gap: 8px; }
+    body.win2100-theme .future-wallpaper-choices button { flex-direction: column; align-items: stretch; }
+    .future-wallpaper-choices img { width: 100%; height: auto; aspect-ratio: 16/9; }
+    .future-wallpaper-choices span { font-size: 12px; }
+}

@@ -1,0 +1,112 @@
+{
+  "assets": [
+    {
+      "file": "classic/computer.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/devices/computer.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/network.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/applications-internet.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/folder.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/places/folder-open.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/people.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/addressbook.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/documents.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/text-editor.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/control-panel.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/-terminal.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/application.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/applications-system.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/pictures.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/places/folder-pictures.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "classic/mail.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/kmail.png",
+      "collection": "B00merang Mac-OS-X-Lion",
+      "rights": "Historical Apple-style artwork distributed by the B00merang project; upstream does not state a separate license for these images."
+    },
+    {
+      "file": "modern/network.png",
+      "source": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/people.png",
+      "source": "/System/Applications/Contacts.app/Contents/Resources/Contacts.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/documents.png",
+      "source": "/System/Applications/TextEdit.app/Contents/Resources/AppIcon.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/control-panel.png",
+      "source": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/UtilitiesFolder.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/application.png",
+      "source": "/System/Applications/System Settings.app/Contents/Resources/SystemSettings.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/pictures.png",
+      "source": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/PicturesFolderIcon.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/mail.png",
+      "source": "/System/Applications/Mail.app/Contents/Resources/ApplicationIcon.icns",
+      "collection": "Apple macOS system/application resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/folder.png",
+      "source": "https://raw.githubusercontent.com/lgarron/folderify/main/src/resources/folders/GenericFolderIcon.empty.Tahoe.iconset/icon_128x128@2x.png",
+      "collection": "lgarron/folderify native macOS folder resources",
+      "rights": "Original folder artwork belongs to Apple. Folderify code is MIT licensed."
+    },
+    {
+      "file": "modern/computer.png",
+      "source": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/com.apple.macbookpro-14-2021-silver.icns",
+      "collection": "Apple macOS device resources",
+      "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    }
+  ]
+}

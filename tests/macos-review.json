@@ -1,0 +1,203 @@
+{
+  "date": "2026-10-04",
+  "method": "Subjective visual assessment of all 28 captured views, using overview sheets and full-resolution screenshots. Scores are design judgments, separate from automated correctness checks.",
+  "minimum_score": 92,
+  "views": [
+    {
+      "screenshot": "images/macos-review/mac2010-desktop-1440.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-desktop-320.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 92,
+      "interpretability": 94,
+      "notes": "Narrow phone: readable wrapped copy, three traffic lights, current portrait, and six Dock targets remain inside the viewport."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-desktop-390.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 94,
+      "interpretability": 95,
+      "notes": "Phone: clean hierarchy, distinct era chrome, current portrait, and a compact Dock."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-desktop-768.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-dock-hover.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Clear hover label and controlled neighboring magnification; reflective shelf distinguishes the classic era."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-landscape.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 92,
+      "interpretability": 94,
+      "notes": "Menu and Dock fit a short landscape viewport; primary controls remain reachable."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-menu-1440.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 95,
+      "interpretability": 97,
+      "notes": "Readable native-style menu, clear actions, current headshot, and no clipping."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-menu-390.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 95,
+      "interpretability": 97,
+      "notes": "Readable native-style menu, clear actions, current headshot, and no clipping."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-projects-1440.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 94,
+      "interpretability": 97,
+      "notes": "Legible Finder-style file rows, era-specific icons, search, and item count."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-projects-390.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 94,
+      "interpretability": 97,
+      "notes": "Legible Finder-style file rows, era-specific icons, search, and item count."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-resume-1440.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 94,
+      "interpretability": 96,
+      "notes": "Shared experience records are readable with contemporary cards or classic alternating list rows."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-resume-390.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 94,
+      "interpretability": 96,
+      "notes": "Shared experience records are readable with contemporary cards or classic alternating list rows."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-skills-1440.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 93,
+      "interpretability": 95,
+      "notes": "Readable skill labels, matching blue progress bars, consistent window controls, and Dock navigation."
+    },
+    {
+      "screenshot": "images/macos-review/mac2010-skills-390.jpg",
+      "theme": "Mac OS X \u00b7 2010",
+      "aesthetics": 93,
+      "interpretability": 95,
+      "notes": "Readable skill labels, matching blue progress bars, consistent window controls, and Dock navigation."
+    },
+    {
+      "screenshot": "images/macos-review/macos-desktop-1440.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+    },
+    {
+      "screenshot": "images/macos-review/macos-desktop-320.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 92,
+      "interpretability": 94,
+      "notes": "Narrow phone: readable wrapped copy, three traffic lights, current portrait, and six Dock targets remain inside the viewport."
+    },
+    {
+      "screenshot": "images/macos-review/macos-desktop-390.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 94,
+      "interpretability": 95,
+      "notes": "Phone: clean hierarchy, distinct era chrome, current portrait, and a compact Dock."
+    },
+    {
+      "screenshot": "images/macos-review/macos-desktop-768.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+    },
+    {
+      "screenshot": "images/macos-review/macos-dock-hover.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 96,
+      "interpretability": 96,
+      "notes": "Clear hover label and controlled neighboring magnification; reflective shelf distinguishes the classic era."
+    },
+    {
+      "screenshot": "images/macos-review/macos-landscape.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 92,
+      "interpretability": 94,
+      "notes": "Menu and Dock fit a short landscape viewport; primary controls remain reachable."
+    },
+    {
+      "screenshot": "images/macos-review/macos-menu-1440.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 95,
+      "interpretability": 97,
+      "notes": "Readable native-style menu, clear actions, current headshot, and no clipping."
+    },
+    {
+      "screenshot": "images/macos-review/macos-menu-390.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 95,
+      "interpretability": 97,
+      "notes": "Readable native-style menu, clear actions, current headshot, and no clipping."
+    },
+    {
+      "screenshot": "images/macos-review/macos-projects-1440.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 94,
+      "interpretability": 97,
+      "notes": "Legible Finder-style file rows, era-specific icons, search, and item count."
+    },
+    {
+      "screenshot": "images/macos-review/macos-projects-390.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 94,
+      "interpretability": 97,
+      "notes": "Legible Finder-style file rows, era-specific icons, search, and item count."
+    },
+    {
+      "screenshot": "images/macos-review/macos-resume-1440.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 94,
+      "interpretability": 96,
+      "notes": "Shared experience records are readable with contemporary cards or classic alternating list rows."
+    },
+    {
+      "screenshot": "images/macos-review/macos-resume-390.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 94,
+      "interpretability": 96,
+      "notes": "Shared experience records are readable with contemporary cards or classic alternating list rows."
+    },
+    {
+      "screenshot": "images/macos-review/macos-skills-1440.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 93,
+      "interpretability": 95,
+      "notes": "Readable skill labels, matching blue progress bars, consistent window controls, and Dock navigation."
+    },
+    {
+      "screenshot": "images/macos-review/macos-skills-390.jpg",
+      "theme": "macOS Modern",
+      "aesthetics": 93,
+      "interpretability": 95,
+      "notes": "Readable skill labels, matching blue progress bars, consistent window controls, and Dock navigation."
+    }
+  ]
+}

@@ -26,10 +26,11 @@
     const hyperIcons={computer:'experience',mail:'connect',application:'projects',network:'connect',people:'profile',documents:'observatory'};
     const kirbyIcons={computer:'sword',mail:'plasma',application:'beam',network:'mirror',people:'fighter',documents:'warp_star'};
     function sync(){
-        const theme=['vista','xp','win98','win2100','nintendo','hypercube','matrix'].find(key=>document.body.classList.contains(`${key}-theme`));
+        const theme=['vista','xp','win98','win2100','nintendo','hypercube','matrix','macos','mac2010'].find(key=>document.body.classList.contains(`${key}-theme`));
         for(const image of resume.querySelectorAll('[data-experience-icon]')){
             const key=image.dataset.experienceIcon;
-            if(theme==='hypercube')image.src=`images/hypercube/art/${hyperIcons[key]}.webp`;
+            if(theme==='macos'||theme==='mac2010')image.src=`images/macos/${theme==='macos'?'modern':'classic'}/${key}.png`;
+            else if(theme==='hypercube')image.src=`images/hypercube/art/${hyperIcons[key]}.webp`;
             else if(theme==='win2100')image.src=`images/win2100/art/${key}.webp`;
             else if(theme==='nintendo')image.src=`images/sprites/nintendo/kirby/super-star/${kirbyIcons[key]}.png`;
             else image.src=`images/${theme==='matrix'?'vista':theme||'vista'}/${key}.${theme==='win98'?'png':'ico'}`;

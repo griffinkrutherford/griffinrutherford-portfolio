@@ -1432,7 +1432,7 @@
     <link rel="stylesheet" href="css/kirby-showcase.css">
     <link rel="stylesheet" href="css/kirby-level-cards.css">
     <link rel="stylesheet" href="css/kirby-fonts.css">
-    <link rel="stylesheet" href="css/vista-aero.css?v=5">
+    <link rel="stylesheet" href="css/vista-aero.css?v=6">
     <link rel="stylesheet" href="css/windows-xp.css?v=3">
     <link rel="stylesheet" href="css/theme-picker.css">
     <link rel="stylesheet" href="css/matrix-glass.css?v=1">
@@ -1441,6 +1441,7 @@
     <link rel="stylesheet" href="css/windows-2100.css?v=3">
     <link rel="stylesheet" href="css/retro-experience.css?v=1">
     <link rel="stylesheet" href="css/hypercube-art.css?v=1">
+    <link rel="stylesheet" href="css/macos.css?v=1">
     <style>
         /* Keep the two page controls the same size in every retro theme. */
         body.nineties-mode .theme-controls > :is(.theme-toggle-btn, .nineties-toggle-btn) {
@@ -1461,6 +1462,17 @@
     </style>
 </head>
 <body class="nineties-mode vista-theme">
+    <header class="mac-menubar mac-only" aria-label="Mac desktop menu bar">
+        <button type="button" id="mac-menu-toggle" aria-label="Open desktop menu" aria-haspopup="menu" aria-expanded="false" aria-controls="mac-desktop-menu"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M16.4 3.2c-.9 1.1-2.2 1.8-3.5 1.7-.2-1.3.5-2.7 1.3-3.6C15.1.4 16.5 0 17.6 0c.1 1.3-.4 2.4-1.2 3.2ZM20.5 17.5c-.6 1.3-.9 1.8-1.7 2.9-1 1.5-2.4 3.3-4.2 3.3-1.6 0-2-1.1-4.2-1.1s-2.7 1.1-4.2 1.1c-1.8 0-3.1-1.6-4.1-3.1C-.6 16.5-.9 11 .8 8.4c1.2-1.8 3-2.8 4.8-2.8 1.8 0 3 1.1 4.5 1.1 1.4 0 2.2-1.1 4.4-1.1 1.6 0 3.3.9 4.4 2.2-3.9 2.1-3.3 7.5 1.6 9.7Z"/></svg></button>
+        <a class="mac-finder-title" href="#vista-welcome-center">Finder</a>
+        <a href="#nineties-projects">Projects</a><a class="mac-menu-experience" href="#nineties-resume">Experience</a>
+        <button type="button" data-mac-personalize>Appearance</button>
+        <span class="mac-menu-right"><span class="mac-location">Santa Fe</span><span class="mac-wifi" aria-hidden="true">◉</span><time id="mac-clock"></time></span>
+    </header>
+    <nav id="mac-desktop-menu" class="mac-desktop-menu mac-only" aria-label="Desktop menu" hidden>
+        <div class="mac-menu-profile"><span class="mac-profile-photo"><img src="images/headshot-sep-26.jpg" alt="" width="56" height="56"></span><span><strong>Griffin Rutherford</strong><small>Coherascent Labs · CTO</small></span></div>
+        <div role="menu"><a role="menuitem" href="#nineties-about">About Griffin</a><a role="menuitem" href="#nineties-resume">Experience &amp; education</a><button type="button" role="menuitem" data-mac-personalize>Change desktop appearance…</button><button type="button" role="menuitem" id="mac-restore-windows">Show all windows</button><a role="menuitem" href="index.html">Return to the modern site</a></div>
+    </nav>
     <canvas id="future-background" aria-hidden="true"></canvas>
     <canvas id="hypercube-background" aria-hidden="true"></canvas>
     <!-- Retro Content Wrapper -->
@@ -1485,6 +1497,8 @@
                     <button type="button" class="theme-option" role="option" data-theme="matrix" aria-selected="false" tabindex="-1"><img src="images/theme-icons/matrix.svg?v=2" alt="" width="30" height="30"><span>Matrix<small>Follow the green code</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="hypercube" aria-selected="false" tabindex="-1"><img src="images/hypercube/art/emblem.png" alt="" width="30" height="30"><span>Hypercube<small>Neon geometry beyond 3D</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                     <button type="button" class="theme-option" role="option" data-theme="win2100" aria-selected="false" tabindex="-1"><img src="images/win2100/art/windows-logo.png" alt="" width="30" height="30"><span>Windows 2100<small>An imagined spatial desktop</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="macos" aria-selected="false" tabindex="-1"><img src="images/macos/art/modern-finder.png" alt="" width="30" height="30"><span>macOS Modern<small>Color, clarity &amp; liquid glass</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+                    <button type="button" class="theme-option" role="option" data-theme="mac2010" aria-selected="false" tabindex="-1"><img src="images/macos/art/classic-finder.png" alt="" width="30" height="30"><span>Mac OS X · 2010<small>Aqua, starlight &amp; a glass shelf</small></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
                 </div>
             </div>
             <button onclick="window.location.href='index.html'" class="nineties-toggle-btn">
@@ -1504,6 +1518,11 @@
                 <div class="vista-hero vista-only">
                     <img class="vista-globe" src="images/vista/network.ico" alt="" width="160" height="160" loading="lazy" decoding="async">
                     <div><span class="vista-eyebrow">PERSONAL DESKTOP · EST. 1996 / REMIXED 2007</span><h2>Connected by curiosity.</h2><p>Building things that help people learn.<br>Finding inspiration beyond the screen.</p><a href="#nineties-projects" class="vista-explore">Open my projects <span aria-hidden="true">↗</span></a></div>
+                </div>
+                <div class="mac-welcome mac-only">
+                    <aside class="mac-sidebar" aria-label="Finder favorites"><small>Favorites</small><a href="#vista-welcome-center" class="mac-sidebar-home"><img data-mac-icon="finder" src="images/macos/art/modern-finder.png" alt="" width="22" height="22">Griffin's desktop</a><a href="#nineties-projects"><img data-mac-icon="folder" src="images/macos/modern/folder.png" alt="" width="22" height="22">Projects</a><a href="#nineties-resume"><img data-mac-icon="documents" src="images/macos/modern/documents.png" alt="" width="22" height="22">Experience</a><a href="#nineties-about"><img data-mac-icon="people" src="images/macos/modern/people.png" alt="" width="22" height="22">About me</a><small>Location</small><span>Santa Fe, New Mexico</span></aside>
+                    <div class="mac-welcome-content"><span class="mac-eyebrow" id="mac-era-label">A PERSONAL WORKSPACE</span><h2 id="mac-welcome-title">A desktop for<br>curious minds.</h2><p>Technology that helps people learn.<br>Adventures that keep me curious.</p><a href="#nineties-projects" class="mac-primary">Explore my projects <span aria-hidden="true">↗</span></a><div class="mac-file-preview"><img data-mac-icon="folder" src="images/macos/modern/folder.png" alt="" width="60" height="60"><span><strong>Ideas worth opening</strong><small>Lune Synth · Coherascent Labs · more</small></span></div></div>
+                    <figure class="mac-quick-look"><div class="mac-quick-look-title"><span aria-hidden="true">◉</span> Quick Look</div><img src="images/headshot-sep-26.jpg" alt="Griffin outdoors in Santa Fe" width="220" height="220" class="mac-headshot"><figcaption><strong>Griffin Rutherford</strong><span>Builder. Athlete. Always curious.</span><small>CTO · Coherascent Labs</small></figcaption></figure>
                 </div>
                 <div class="future-hero future-only">
                     <div class="future-copy"><p class="future-eyebrow">WINDOWS 2100 · A SPECULATIVE DESKTOP</p><h2>Build beyond<br><em>the horizon.</em></h2><p>An imagined workspace for the next century. The curiosity behind it is already here.</p><div class="future-actions"><a href="#nineties-projects">Open my projects <span aria-hidden="true">↗</span></a><a href="gradient-descent-worksheet/?version=dimensions">Explore another dimension <span aria-hidden="true">↗</span></a></div><div class="future-build"><span>BUILDING TODAY</span><strong>Lune Synth</strong><span>600k+ lines of code · feedback that helps you think</span></div><button type="button" class="future-wallpaper-card" data-open-future-art aria-haspopup="dialog"><img src="images/win2100/art/wallpaper-dawn.webp" alt="" width="88" height="56"><span><strong>Your desktop, reimagined.</strong><small>Choose Dawn or Dusk artwork <span aria-hidden="true">↗</span></small></span></button></div>
@@ -1803,7 +1822,7 @@
             </div>
 
             <!-- Guestbook Section -->
-            <div class="guestbook">
+            <div class="guestbook" id="nineties-guestbook">
                 <h2 class="nineties-section-title rainbow-text nintendo-world-title" data-theme-text="guestbookTitle">SIGN MY GUESTBOOK!</h2>
                 <div class="guestbook-form">
                     <form onsubmit="event.preventDefault(); alert('Thanks for signing my guestbook! Your message has been saved to my floppy disk! [SAVE]'); return false;">
@@ -1986,14 +2005,24 @@
         </div>
         <a href="index.html" class="vista-menu-home">Return to the modern site →</a>
     </nav>
-    <script src="js/vista-aero.js?v=6" defer></script>
+    <script src="js/vista-aero.js?v=7" defer></script>
+
+    <nav class="mac-dock mac-only" aria-label="Desktop Dock">
+        <a href="#vista-welcome-center" data-mac-dock="finder"><img data-mac-icon="finder" src="images/macos/art/modern-finder.png" alt="" width="64" height="64"><span>Finder</span></a>
+        <a href="#nineties-projects" data-mac-dock="projects"><img data-mac-icon="folder" src="images/macos/modern/folder.png" alt="" width="64" height="64"><span>Projects</span></a>
+        <a href="#nineties-resume" data-mac-dock="experience"><img data-mac-icon="documents" src="images/macos/modern/documents.png" alt="" width="64" height="64"><span>Experience</span></a>
+        <a href="#nineties-skills" data-mac-dock="skills"><img data-mac-icon="control-panel" src="images/macos/modern/control-panel.png" alt="" width="64" height="64"><span>Skills</span></a>
+        <a href="#nineties-guestbook" data-mac-dock="mail"><img data-mac-icon="mail" src="images/macos/modern/mail.png" alt="" width="64" height="64"><span>Mail</span></a>
+        <button type="button" data-mac-personalize><img data-mac-icon="application" src="images/macos/modern/application.png" alt="" width="64" height="64"><span>Appearance</span></button>
+    </nav>
 
     <script src="js/theme-picker.js?v=3" defer></script>
-    <script src="js/retro-experience.js?v=1" defer></script>
+    <script src="js/retro-experience.js?v=2" defer></script>
     <script src="gradient-descent-worksheet/dimensions-core.js" defer></script>
     <script src="js/hypercube-core.js?v=1" defer></script>
     <script src="js/hypercube.js?v=2" defer></script>
     <script src="js/windows-2100.js?v=2" defer></script>
+    <script src="js/macos.js?v=1" defer></script>
 
     <!-- Kirby Super Star sound effects -->
     <script src="js/kirby-sfx.js"></script>
@@ -2326,7 +2355,7 @@
     
     <script>
         // Vista is the default; an explicit theme link opens the requested version.
-        const themes = ['vista', 'xp', 'nintendo', 'matrix', 'hypercube', 'win98', 'win2100'];
+        const themes = ['vista', 'xp', 'nintendo', 'matrix', 'hypercube', 'win98', 'win2100', 'macos', 'mac2010'];
         const requestedTheme = new URLSearchParams(window.location.search).get('theme');
         let currentTheme = themes.includes(requestedTheme) ? requestedTheme : 'vista';
         
@@ -2447,6 +2476,9 @@
             peopleSkills: 'Working with people', achievement: 'Built with curiosity. Shared with you.'
         };
 
+        themeTexts.macos = { ...themeTexts.vista, headerSubtitle: 'A little curiosity goes a long way.', welcomeTitle: 'About Griffin', resumeTitle: 'Experience & education', skillsTitle: 'Tools & capabilities', projectsTitle: 'Projects', guestbookTitle: 'Mail · Say hello', achievement: 'Made with curiosity.' };
+        themeTexts.mac2010 = { ...themeTexts.macos, headerSubtitle: 'A familiar desktop. A few new adventures.' };
+
         // Function to update text content based on current theme
         function updateThemeText() {
             const themeKey = currentTheme;
@@ -2489,7 +2521,7 @@
         }
         
         function initializeTheme() {
-            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme', 'hypercube-theme', 'win98-theme', 'win2100-theme');
+            document.body.classList.remove('matrix-theme', 'nintendo-theme', 'vista-theme', 'xp-theme', 'hypercube-theme', 'win98-theme', 'win2100-theme', 'macos-theme', 'mac2010-theme');
             stopMatrixRain();
             document.body.classList.add(`${currentTheme}-theme`);
             if (currentTheme === 'matrix') initMatrixRain();

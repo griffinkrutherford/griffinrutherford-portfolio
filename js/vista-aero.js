@@ -3,7 +3,7 @@
     const start = document.getElementById('vista-start');
     const menu = document.getElementById('vista-start-menu');
     const clock = document.getElementById('vista-clock');
-    const isDesktopTheme = () => document.body.matches('.vista-theme, .xp-theme, .win98-theme, .win2100-theme');
+    const isDesktopTheme = () => document.body.matches('.vista-theme, .xp-theme, .win98-theme, .win2100-theme, .macos-theme, .mac2010-theme');
     document.getElementById('vista-personalize').addEventListener('click', event => {
         event.stopPropagation();
         window.openRetroThemePicker();
@@ -40,7 +40,7 @@
         expand.setAttribute('aria-pressed', 'false');
         function sync() {
             const classic = document.body.matches('.xp-theme, .win98-theme');
-            title.textContent = fixedTitle ? (classic ? 'My Computer — Griffin Rutherford' : document.body.classList.contains('win2100-theme') ? 'Spatial workspace — Griffin Rutherford' : fixedTitle) : heading.textContent.trim();
+            title.textContent = fixedTitle ? (document.body.matches('.macos-theme, .mac2010-theme') ? "Griffin’s desktop" : classic ? 'My Computer — Griffin Rutherford' : document.body.classList.contains('win2100-theme') ? 'Spatial workspace — Griffin Rutherford' : fixedTitle) : heading.textContent.trim();
             const minimized = panel.classList.contains('is-vista-minimized');
             collapse.setAttribute('aria-expanded', String(!minimized));
             collapse.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${title.textContent}`);
@@ -65,15 +65,17 @@
         }
         windows.forEach(({sync}) => sync());
     }
+    window.syncDesktopWindows = syncWindows;
     new MutationObserver(syncWindows).observe(document.body, {attributes: true, attributeFilter: ['class']});
     const desktopImages = [...document.querySelectorAll('.vista-window-titlebar img, .vista-shortcut-icon, .vista-file-icon, .vista-hero img, .vista-taskbar img, .vista-start-menu img, .vista-breadcrumb img, .vista-folder-status img')].map(image => ({image, source: image.getAttribute('src')}));
     function syncDesktopResources() {
-        const theme = ['xp', 'win98', 'win2100'].find(key => document.body.classList.contains(`${key}-theme`));
+        const theme = ['xp', 'win98', 'win2100', 'macos', 'mac2010'].find(key => document.body.classList.contains(`${key}-theme`));
+        const macEra = theme === 'macos' ? 'modern' : theme === 'mac2010' ? 'classic' : null;
         const extensions = {xp: 'ico', win98: 'png', win2100: 'webp'};
         desktopImages.forEach(({image, source}) => {
             const match = source.match(/images\/vista\/(computer|network|folder|people|documents|control-panel|application|pictures|mail)\.ico$/);
-            image.src = theme && match ? `images/${theme}/${theme === 'win2100' ? 'art/' : ''}${match[1]}.${extensions[theme]}` : source;
-            if (image.classList.contains('vista-start-orb') && theme) image.src = `images/${theme}/${theme === 'win2100' ? 'art/' : ''}windows-logo.png`;
+            image.src = match && macEra ? `images/macos/${macEra}/${match[1]}.png` : theme && match ? `images/${theme}/${theme === 'win2100' ? 'art/' : ''}${match[1]}.${extensions[theme]}` : source;
+            if (image.classList.contains('vista-start-orb') && theme) image.src = macEra ? `images/macos/art/${macEra}-finder.png` : `images/${theme}/${theme === 'win2100' ? 'art/' : ''}windows-logo.png`;
         });
         const headings = {
             xp: ['PERSONAL DESKTOP · WINDOWS XP / 2001', 'Your next adventure starts here.'],

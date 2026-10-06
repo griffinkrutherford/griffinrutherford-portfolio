@@ -94,7 +94,7 @@
         const era = document.body.classList.contains('mac2010-theme') ? 'classic' : 'modern';
         document.querySelectorAll('[data-mac-icon]').forEach(image => {
             const key=image.dataset.macIcon;
-            image.src=key==='finder'?`images/macos/art/${era}-finder.png`:`images/macos/${era}/${key}.png`;
+            image.src=`images/macos/${era}/${key}.png`;
         });
         document.getElementById('mac-era-label').textContent = era === 'classic' ? 'MAC OS X · THE EARLY 2010s' : 'MACOS · A CONTEMPORARY DESKTOP';
         const heading = document.getElementById('mac-welcome-title');

@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-04",
-  "method": "Subjective visual assessment of all 28 captured views, using overview sheets and full-resolution screenshots. Scores are design judgments, separate from automated correctness checks.",
+  "date": "2026-10-06",
+  "method": "Subjective visual assessment of all 28 refreshed views with authentic Apple Finder icons and wallpapers, using overview sheets and full-resolution screenshots. Scores are design judgments, separate from automated correctness and no-generated-assets checks.",
   "minimum_score": 92,
   "views": [
     {
@@ -8,7 +8,7 @@
       "theme": "Mac OS X \u00b7 2010",
       "aesthetics": 96,
       "interpretability": 96,
-      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and authentic Apple wallpaper."
     },
     {
       "screenshot": "images/macos-review/mac2010-desktop-320.jpg",
@@ -29,7 +29,7 @@
       "theme": "Mac OS X \u00b7 2010",
       "aesthetics": 96,
       "interpretability": 96,
-      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and authentic Apple wallpaper."
     },
     {
       "screenshot": "images/macos-review/mac2010-dock-hover.jpg",
@@ -106,7 +106,7 @@
       "theme": "macOS Modern",
       "aesthetics": 96,
       "interpretability": 96,
-      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and authentic Apple wallpaper."
     },
     {
       "screenshot": "images/macos-review/macos-desktop-320.jpg",
@@ -127,7 +127,7 @@
       "theme": "macOS Modern",
       "aesthetics": 96,
       "interpretability": 96,
-      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and cohesive generated wallpaper."
+      "notes": "Balanced desktop/tablet composition with Finder favorites, Quick Look portrait, and authentic Apple wallpaper."
     },
     {
       "screenshot": "images/macos-review/macos-dock-hover.jpg",

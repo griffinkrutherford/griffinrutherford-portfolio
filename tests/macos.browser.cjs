@@ -7,7 +7,7 @@ const fs=require('node:fs');
   const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   const root=process.env.PAGE_URL||'http://127.0.0.1:8796/90s.html';
   const out=process.env.SCREENSHOT_DIR||'/tmp/macos-review';fs.mkdirSync(out,{recursive:true});
-  const errors=[],failed=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(new URL(root).origin))failed.push(`${r.status()} ${r.url()}`);});
+  const errors=[],failed=[],generatedRequests=[];page.on('request',r=>{if(r.url().includes('/images/macos/art/'))generatedRequests.push(r.url());});page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(new URL(root).origin))failed.push(`${r.status()} ${r.url()}`);});
   // Screenshots should be reproducible and should not rely on external asset services.
   await page.route('**/*',r=>new URL(r.request().url()).origin===new URL(root).origin?r.continue():r.abort());
   const screenshot=async name=>{await page.waitForTimeout(180);await page.screenshot({type:'jpeg',quality:88,path:`${out}/${name}.jpg`});};
@@ -18,8 +18,8 @@ const fs=require('node:fs');
    assert(await page.locator('.mac-menubar').isVisible());assert(await page.locator('.mac-dock').isVisible());
    assert.equal(await page.locator('.vista-taskbar').isVisible(),false);
    assert.equal(await page.locator('.vista-hero').isVisible(),false);
-   assert.match(await page.locator('link[rel="icon"]').getAttribute('href'),new RegExp(`${theme==='macos'?'modern':'classic'}-finder.png`));
-   assert.match(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundImage),new RegExp(`${theme==='macos'?'modern':'classic'}-wallpaper.webp`));
+   assert.match(await page.locator('link[rel="icon"]').getAttribute('href'),new RegExp(`macos/${theme==='macos'?'modern':'classic'}/finder.png`));
+   assert.match(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundImage),new RegExp(`macos/${theme==='macos'?'modern':'classic'}/wallpaper.webp`));
    assert.equal(await page.locator('.experience-card').count(),8);
    assert.equal(await page.locator('.matrix-experience').isVisible(),false);
    await page.waitForFunction(()=>[...document.querySelectorAll('.mac-dock img,.mac-welcome img')].every(im=>im.complete&&im.naturalWidth>0));
@@ -72,7 +72,7 @@ const fs=require('node:fs');
    assert.equal(await page.locator('.mac-window-close:visible').count(),0);assert(await skills.isVisible());
    for(const other of ['matrix','nintendo','hypercube','xp','win98','win2100',theme]){await select(other);assert.equal(await page.locator('#mac-desktop-menu').isVisible(),false);}
   }
-  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-  console.log('PASS: both Mac themes, generated and sourced local assets, nine-theme selection, menu keyboard/focus/Escape, current headshot, real Dock links, minimize/expand/close/reopen, show-all, project search, reduced-motion magnification, clean theme switching, unique IDs, 320–1440px and landscape layouts.');
+  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(generatedRequests,[],'Mac themes never request generated artwork');
+  console.log('PASS: both Mac themes, authentic Apple Finder icons/wallpapers and sourced local assets, nine-theme selection, menu keyboard/focus/Escape, current headshot, real Dock links, minimize/expand/close/reopen, show-all, project search, reduced-motion magnification, clean theme switching, unique IDs, 320–1440px and landscape layouts.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

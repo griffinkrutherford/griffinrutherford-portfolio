@@ -75,7 +75,7 @@
         desktopImages.forEach(({image, source}) => {
             const match = source.match(/images\/vista\/(computer|network|folder|people|documents|control-panel|application|pictures|mail)\.ico$/);
             image.src = match && macEra ? `images/macos/${macEra}/${match[1]}.png` : theme && match ? `images/${theme}/${theme === 'win2100' ? 'art/' : ''}${match[1]}.${extensions[theme]}` : source;
-            if (image.classList.contains('vista-start-orb') && theme) image.src = macEra ? `images/macos/art/${macEra}-finder.png` : `images/${theme}/${theme === 'win2100' ? 'art/' : ''}windows-logo.png`;
+            if (image.classList.contains('vista-start-orb') && theme) image.src = macEra ? `images/macos/${macEra}/finder.png` : `images/${theme}/${theme === 'win2100' ? 'art/' : ''}windows-logo.png`;
         });
         const headings = {
             xp: ['PERSONAL DESKTOP · WINDOWS XP / 2001', 'Your next adventure starts here.'],

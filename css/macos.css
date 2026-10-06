@@ -1,7 +1,7 @@
 /* Two Mac desktops: contemporary translucent glass and 2010-era silver Aqua. */
 .mac-only { display: none; }
 .mac-only[hidden] { display: none !important; }
-body:is(.macos-theme,.mac2010-theme) { --mac-ink:#252835; --mac-muted:#656b7b; --mac-blue:#087eff; --mac-line:#00000016; background:#687fd0 url('../images/macos/art/modern-wallpaper.webp') center/cover fixed no-repeat; color:var(--mac-ink); font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif !important; cursor:default; }
+body:is(.macos-theme,.mac2010-theme) { --mac-ink:#252835; --mac-muted:#656b7b; --mac-blue:#087eff; --mac-line:#00000016; background:#687fd0 url('../images/macos/modern/wallpaper.webp') center/cover fixed no-repeat; color:var(--mac-ink); font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif !important; cursor:default; }
 body:is(.macos-theme,.mac2010-theme) :where(*) { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif !important; }
 body:is(.macos-theme,.mac2010-theme) .mac-only { display:flex; }
 body:is(.macos-theme,.mac2010-theme) :is(.vista-taskbar,.vista-start-menu,.vista-hero,.visitor-counter,.nineties-marquee,.nineties-nav-table,.nineties-subtitle,.badges-section,.webring,.mac-window-close:not(button)) { display:none !important; }
@@ -95,7 +95,7 @@ body:is(.macos-theme,.mac2010-theme) :is(.guestbook-entries,.guestbook-form) { b
 body:is(.macos-theme,.mac2010-theme) .guestbook-submit { background:#087eff; border:1px solid #076bd6; border-radius:6px; color:#fff; text-shadow:none; }
 body:is(.macos-theme,.mac2010-theme) .guestbook-submit:hover { background:#066edc; }
 body:is(.macos-theme,.mac2010-theme) .experience-collection { --exp-surface:#ffffffdd; --exp-border:#dce1ec; --exp-text:#343c4e; --exp-muted:#656e80; --exp-accent:#1267b4; --exp-chip:#eef2f8; }
-body.mac2010-theme { background:#101424 url('../images/macos/art/classic-wallpaper.webp') center/cover fixed no-repeat; --mac-ink:#343434; --mac-muted:#666; --mac-blue:#177ada; }
+body.mac2010-theme { background:#101424 url('../images/macos/classic/wallpaper.webp') center/cover fixed no-repeat; --mac-ink:#343434; --mac-muted:#666; --mac-blue:#177ada; }
 body.mac2010-theme :where(*) { font-family:'Lucida Grande','Lucida Sans Unicode',Helvetica,sans-serif !important; }
 body.mac2010-theme .mac-menubar { background:linear-gradient(#f8f8f8,#ddd 65%,#c9c9c9); border-bottom:1px solid #888; box-shadow:0 1px 5px #0004; backdrop-filter:none; }
 body.mac2010-theme :is(.nineties-header,.nineties-section,.guestbook) { background:#f5f5f5; border:1px solid #777; border-radius:6px; box-shadow:0 18px 45px #0007,0 0 0 1px #fff4; backdrop-filter:none; }

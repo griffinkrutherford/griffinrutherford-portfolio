@@ -107,6 +107,35 @@
       "source": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/com.apple.macbookpro-14-2021-silver.icns",
       "collection": "Apple macOS device resources",
       "rights": "Original artwork belongs to Apple; PNG format conversion only."
+    },
+    {
+      "file": "modern/wallpaper.webp",
+      "source": "https://media.512pixels.net/downloads/macos-wallpapers-6k/26-Tahoe-Light-6K.png",
+      "source_page": "https://512pixels.net/projects/default-mac-wallpapers-in-5k/",
+      "collection": "macOS Tahoe default light wallpaper, extracted by Stephen Hackett",
+      "rights": "Original artwork belongs to Apple. Web delivery uses resizing and WebP encoding; no generated or reconstructed imagery.",
+      "original_sha256": "29aa57a43f972ab28a0820031cde598d1a32ed5e70fe8418b0e35e37cb3827b4"
+    },
+    {
+      "file": "classic/wallpaper.webp",
+      "source": "https://media.512pixels.net/downloads/macos-wallpapers-6k/10-7-6k.jpg",
+      "source_page": "https://512pixels.net/projects/default-mac-wallpapers-in-5k/",
+      "collection": "OS X Lion default Andromeda wallpaper; 512 Pixels hand-resized archive",
+      "rights": "Original artwork belongs to Apple. Web delivery uses resizing and WebP encoding; no generated or reconstructed imagery.",
+      "original_sha256": "2bf6baed659904dc932327fc9656b7890db0ed429314227ec74e2345294def49"
+    },
+    {
+      "file": "modern/finder.png",
+      "source": "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+      "collection": "Apple macOS Finder application resources",
+      "rights": "Original Apple artwork; PNG format conversion and resizing only."
+    },
+    {
+      "file": "classic/finder.png",
+      "source": "https://raw.githubusercontent.com/B00merang-Artwork/Mac-OS-X-Lion/master/128x128/apps/nautilus.png",
+      "collection": "B00merang Mac-OS-X-Lion archive: original classic Finder artwork",
+      "rights": "Original Apple artwork distributed in the historical collection; PNG format conversion only."
     }
-  ]
+  ],
+  "asset_policy": "Both Mac themes use sourced Apple artwork. Generated Mac artwork is removed; the stylesheet and interaction code implement the interface."
 }

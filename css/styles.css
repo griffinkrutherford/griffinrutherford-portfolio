@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../fonts/fraunces/Fraunces-800-latin.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+}
+
 :root {
     --primary-red: #FF1A4D;
     --primary-purple: #6C1AFF;
@@ -223,6 +231,8 @@ html::-webkit-scrollbar-track {
     margin: 0;
     font-size: clamp(1.6rem, 5vw, 2.2rem);
     line-height: 1;
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
 }
 
 .lune-section-kicker {

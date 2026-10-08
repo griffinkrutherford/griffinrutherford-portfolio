@@ -6,10 +6,57 @@
     <title>Griffin Rutherford - Portfolio (Legacy)</title>
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/styles.css?v=3">
+    <link rel="stylesheet" href="../css/styles.css?v=4">
     <link rel="icon" href="../images/favicon.png" type="image/png">
 </head>
 <body>
+    <svg class="lune-icon-outline-defs" width="0" height="0" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="lune-app-outline" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+                <feOffset in="SourceAlpha" dx="3" dy="0" result="edge-0"/>
+                <feOffset in="SourceAlpha" dx="2.772" dy="1.148" result="edge-1"/>
+                <feOffset in="SourceAlpha" dx="2.121" dy="2.121" result="edge-2"/>
+                <feOffset in="SourceAlpha" dx="1.148" dy="2.772" result="edge-3"/>
+                <feOffset in="SourceAlpha" dx="0" dy="3" result="edge-4"/>
+                <feOffset in="SourceAlpha" dx="-1.148" dy="2.772" result="edge-5"/>
+                <feOffset in="SourceAlpha" dx="-2.121" dy="2.121" result="edge-6"/>
+                <feOffset in="SourceAlpha" dx="-2.772" dy="1.148" result="edge-7"/>
+                <feOffset in="SourceAlpha" dx="-3" dy="0" result="edge-8"/>
+                <feOffset in="SourceAlpha" dx="-2.772" dy="-1.148" result="edge-9"/>
+                <feOffset in="SourceAlpha" dx="-2.121" dy="-2.121" result="edge-10"/>
+                <feOffset in="SourceAlpha" dx="-1.148" dy="-2.772" result="edge-11"/>
+                <feOffset in="SourceAlpha" dx="0" dy="-3" result="edge-12"/>
+                <feOffset in="SourceAlpha" dx="1.148" dy="-2.772" result="edge-13"/>
+                <feOffset in="SourceAlpha" dx="2.121" dy="-2.121" result="edge-14"/>
+                <feOffset in="SourceAlpha" dx="2.772" dy="-1.148" result="edge-15"/>
+                <feMerge result="outline-alpha">
+                    <feMergeNode in="SourceAlpha"/>
+                    <feMergeNode in="edge-0"/>
+                    <feMergeNode in="edge-1"/>
+                    <feMergeNode in="edge-2"/>
+                    <feMergeNode in="edge-3"/>
+                    <feMergeNode in="edge-4"/>
+                    <feMergeNode in="edge-5"/>
+                    <feMergeNode in="edge-6"/>
+                    <feMergeNode in="edge-7"/>
+                    <feMergeNode in="edge-8"/>
+                    <feMergeNode in="edge-9"/>
+                    <feMergeNode in="edge-10"/>
+                    <feMergeNode in="edge-11"/>
+                    <feMergeNode in="edge-12"/>
+                    <feMergeNode in="edge-13"/>
+                    <feMergeNode in="edge-14"/>
+                    <feMergeNode in="edge-15"/>
+                </feMerge>
+                <feFlood style="flood-color: var(--primary-purple)" result="outline-color"/>
+                <feComposite in="outline-color" in2="outline-alpha" operator="in" result="outline"/>
+                <feMerge>
+                    <feMergeNode in="outline"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
 
 <!-- Quick Links Menu -->
 <div class="quick-links-menu">
@@ -186,7 +233,7 @@
 
                 <section class="lune-section" aria-label="Lune Synth">
                     <div class="lune-section-header">
-                        <img src="../images/lune-synth-icon-business-card.png" alt="Lune Synth icon" class="lune-section-logo">
+                        <img src="../images/lune-synth-icon-business-card.png" alt="Lune Synth icon" class="lune-section-logo" style="filter: url(#lune-app-outline)">
                         <div class="lune-section-title">
                             <h3><a class="lune-text" href="https://coherascentlabs.com/lune-synth/" target="_blank" rel="noopener noreferrer">Lune Synth&trade;</a></h3>
                             <p class="lune-section-kicker">The anti-slop study app</p>

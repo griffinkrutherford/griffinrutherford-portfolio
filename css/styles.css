@@ -217,14 +217,21 @@ html::-webkit-scrollbar-track {
     flex: 1 1 auto;
 }
 
+.lune-icon-outline-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
 .lune-section-logo {
     flex: 0 0 auto;
     width: clamp(56px, 10vw, 76px);
     height: clamp(56px, 10vw, 76px);
-    border-radius: 16px;
-    object-fit: cover;
-    border: 3px solid var(--primary-purple);
-    background: rgba(255, 255, 255, 0.06);
+    /* Reserve space for the SVG outline, which traces the image's alpha edge. */
+    padding: 3px;
+    object-fit: contain;
 }
 
 .lune-section h3 {

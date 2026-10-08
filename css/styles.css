@@ -76,8 +76,8 @@ html::-webkit-scrollbar-track {
 /* Content Section */
 .content-section {
     position: relative;
-    top: 100vh; /* Starts one full screen below video on all devices */
-    width: 100vw;
+    margin-top: 100vh; /* Reserve the video's space in the document flow. */
+    width: 100%;
     min-height: 100vh;
     background: var(--dark-bg);
     z-index: 3;
@@ -662,7 +662,6 @@ html::-webkit-scrollbar-track {
     }
 
     .content-section {
-        top: 100vh; /* Ensure content starts below full video */
         padding: 1rem;
     }
 

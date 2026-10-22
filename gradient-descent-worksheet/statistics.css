@@ -174,7 +174,7 @@
     align-items: center;
     gap: 12px;
     margin-top: 8px;
-    max-width: 420px;
+    max-width: 560px;
 }
 
 .stats-answer-row input {
@@ -190,6 +190,7 @@
     border-color: #64f4ac;
     border-radius: 7px;
     background: #215737;
+    color: #ffffff;
     box-shadow: none;
     font-size: 0.9em;
 }

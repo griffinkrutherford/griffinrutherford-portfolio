@@ -88,3 +88,21 @@ input[type="range"]:focus-visible {
         transition: none;
     }
 }
+
+/* Reveal-answer buttons sit beside each Check button and open the matching explanation. */
+#original-worksheet .reveal-answer {
+    margin-top: 12px;
+    margin-left: 10px;
+}
+
+.model-question > .reveal-answer {
+    margin-left: 8px;
+}
+
+.stats-answer-row {
+    flex-wrap: wrap;
+}
+
+@media print {
+    .reveal-answer { display: none !important; }
+}

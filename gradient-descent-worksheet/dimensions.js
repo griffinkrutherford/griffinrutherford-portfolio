@@ -46,7 +46,7 @@
         const feedback = document.createElement('p'); feedback.id = `dim-${kind}-prediction-feedback`; feedback.className = 'dim-prediction-feedback'; feedback.setAttribute('aria-live', 'polite');
         story.quiz[1].forEach((answer, index) => {
             const button = document.createElement('button'); button.type = 'button'; button.textContent = answer;
-            button.addEventListener('click', () => { prediction.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false')); button.setAttribute('aria-pressed', 'true'); feedback.textContent = (index === story.quiz[2] ? 'That follows from the geometry. ' : 'Compare that prediction with the experiment. ') + story.quiz[3]; });
+            button.addEventListener('click', () => { prediction.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false')); button.setAttribute('aria-pressed', 'true'); feedback.textContent = (index === story.quiz[2] ? 'Yes! That’s exactly what the geometry says. ' : 'Not quite. Try the experiment and see. ') + story.quiz[3]; });
             button.setAttribute('aria-pressed', 'false'); prediction.append(button);
         });
         prediction.append(feedback); section.querySelector('.dim-controls').before(prediction);

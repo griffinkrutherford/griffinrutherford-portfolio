@@ -209,8 +209,8 @@
     }
 
     const skyline = lab('statistics', 'skyline', 'Walk through the arcade score skyline',
-        'Each glowing tower is one player’s score. The floating platform is your candidate average. Move it: the colored vertical gaps are residuals. Which height makes the total squared gaps smallest?',
-        'Player locations on the floor are decorative; tower height is measured in arcade points (baseline 40). Gold caps are observed scores, and the green platform is the current estimate. On phones, tower numbers follow the data-table order; choose a player to inspect its residual.', $('stats-dot-plot'), true);
+        'Each glowing tower is one player’s score, and the floating platform is Byte’s guess. Slide the platform up and down. The colored gaps between the platform and each tower are the misses (residuals). Can you find the height that makes all those squared gaps add up to the smallest total?',
+        'Where the towers sit on the floor is just for looks. Only their height matters, measured in arcade points (starting at 40). Gold caps are the real scores; the green platform is Byte’s current guess. On a phone, the towers are numbered in the same order as the table, so pick a player to check their miss.', $('stats-dot-plot'), true);
     slider(skyline, 'estimate', 'Candidate average (points)', 45, 100, .1, 60);
     skyline.state.player = 0;
     const playerLabel = document.createElement('label'), playerSelect = document.createElement('select');
@@ -222,20 +222,20 @@
     button(skyline, 'Reset to 60', () => { skyline.state.estimate = 60; syncSliders(skyline, ['estimate']); }, true);
 
     const statsFit = lab('statistics', 'fit', 'Orbit the real prediction-error bowl',
-        'This bowl is calculated from all 12 player scorecards. A bright marble is the line in the controls below. Step the fit and watch its actual path across the fixed surface.',
-        'Floor axes: predicted score at 5.5 practice rounds, and slope in points per round. Vertical height: full-data average squared error, scaled for display. The gold ring marks the reference fit. This is a separate, convex surface from the illustrative multi-dent bowl later.', $('stats-intercept').closest('.stats-control-grid'), true);
+        'This bowl is real math, built from all 12 scorecards. Every spot in it is a different possible line, and the bright marble is the line you’re using below. Take a fitting step and watch the marble roll across the bowl. Its path is the actual one Byte calculated.',
+        'On the floor: the line’s predicted score at 5.5 practice rounds, and its slope (points per round). Height: the average squared miss across all 12 players, squished to fit the screen. The gold ring is the best possible line. Heads-up: this bowl has just one bottom, unlike the bumpy pretend bowl you’ll see later.', $('stats-intercept').closest('.stats-control-grid'), true);
     button(statsFit, 'Take the selected-batch step', () => $('stats-line-step').click()).dataset.labAction = 'step';
     button(statsFit, 'Reset fit', () => $('stats-line-reset').click(), true);
 
     const market = lab('modeling', 'market', 'Fly over the café profit landscape',
-        'Play before calculating: move price and serving capacity. The height is predicted hourly profit. A higher point can earn more, but affordable access and waste still matter. The gold ridge shows the best 25¢-grid price at each capacity.',
-        'This is the actual Q6 decision model, using the current demand fit and costs. Axes: price ($/cup), capacity (cups/hour), profit ($/hour). Profit has a display offset and scale; read the exact dollars below. These controls stay linked to the planner.', $('modeling-worksheet').querySelector('.model-intro'));
+        'Play around before doing any math: slide the price and how many cups you can serve. The higher the landscape, the more profit you’d expect per hour. Higher means more money, but remember that keeping coffee affordable and not wasting cups matter too. The gold ridge shows the best price (in 25¢ steps) for each capacity.',
+        'This is the real planner from Question 6, using your current demand line and costs. Axes: price ($/cup), capacity (cups/hour), and profit ($/hour). The height is shifted and squished to fit the screen, so read the exact dollars below. Moving these sliders moves the planner sliders too.', $('modeling-worksheet').querySelector('.model-intro'));
     slider(market, 'price', 'Price ($/cup)', 3, 6, .25, 5, value => { $('model-price').value = value; $('model-price').dispatchEvent(new Event('input')); });
     slider(market, 'capacity', 'Capacity (cups/hour)', 20, 80, 5, 40, value => { $('model-capacity').value = value; $('model-capacity').dispatchEvent(new Event('input')); });
     button(market, 'Use the best-fit demand line', () => $('model-use-reference').click());
     const modelFit = lab('modeling', 'fit', 'See Byte’s actual fitting bowl',
-        'The surface measures prediction error on the seven café pilots. Step the line, and the marble follows its computed coefficient updates. Predict whether a random-batch move must always go downhill on the full-data bowl.',
-        'Floor axes: predicted cups/hour at $4.50, and demand slope. Vertical height: average squared error, scaled for display. Gold marks the best-fit reference. The surface stays fixed while the candidate line moves.', $('model-intercept').closest('.stats-control-grid'), true);
+        'The height of this surface shows how badly each possible line misses the seven café pilots. Take a step, and the marble follows Byte’s actual calculated update. Before you try it, make a guess: does a step based on a random batch always have to go downhill on this bowl?',
+        'On the floor: the line’s predicted cups/hour at $4.50, and its slope. Height: the average squared miss, squished to fit the screen. Gold marks the best-fit line. The bowl itself never changes; only the marble (your line) moves.', $('model-intercept').closest('.stats-control-grid'), true);
     button(modelFit, 'Take the selected-pilot step', () => $('model-step').click()).dataset.labAction = 'step';
     button(modelFit, 'Reset fit', () => $('model-reset').click(), true);
 

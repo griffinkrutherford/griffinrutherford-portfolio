@@ -1192,10 +1192,10 @@
                 <div>
                     <p class="stats-arcade-kicker">Fictional arcade. Real statistics.</p>
                     <h2 id="statistics-title">Welcome to Meteor Munch</h2>
-                    <p>Scoop up space snacks, dodge asteroids, and rack up points! Twelve players have tried our fictional arcade game. Each recorded their number of warm-up rounds and a score from one challenge round. Their scorecards are below.</p>
-                    <p>The arcade’s little robot, <strong>Byte</strong>, wants to guess a typical score. Its first guess? <strong>60 points.</strong> Your mission: teach it to use the scorecards, improve its guesses, and eventually predict scores using practice rounds.</p>
+                    <p>Scoop up space snacks, dodge asteroids, and rack up points! Twelve players tried our (totally made-up) arcade game. Each one told us how many warm-up rounds they played and what they scored in one challenge round. Their scorecards are right below.</p>
+                    <p>Meet <strong>Byte</strong>, the arcade’s little robot. Byte wants to guess a typical score, and its first guess is… <strong>60 points.</strong> Hmm. Your mission is to teach Byte to learn from the scorecards, make better and better guesses, and eventually predict a score from how much someone practiced.</p>
                     <p class="stats-arcade-mission">Read a few scorecards → update the guess → try again</p>
-                    <p>You need averages, plots, and simple algebra. Our invented scores show an association with practice; they do <strong>not</strong> prove that practice caused the difference. Previous gaming experience could matter too.</p>
+                    <p>All you need is averages, plots, and a little algebra. One heads-up before we start: in our data, more practice goes along with higher scores, but that does <strong>not</strong> prove practice caused it. Maybe the people who practiced more had also played a ton of games before!</p>
                 </div>
             </div>
 
@@ -1222,42 +1222,42 @@
 
             <div class="question stats-question">
                 <div class="question-number">1. Set a score to beat</div>
-                <p class="question-text">Byte needs a sensible score target. Ignore practice rounds for a moment: what is the <strong>sample mean</strong> of the 12 arcade scores? The three number checks accept answers within 0.05 point.</p>
+                <p class="question-text">Byte needs a fair score to aim for. Forget about practice rounds for a second. If you average all 12 arcade scores, what do you get? Statisticians call this the <strong>sample mean</strong>. (Close counts: the number checks on this page accept anything within 0.05 points.)</p>
                 <canvas id="stats-dot-plot" width="760" height="200" role="img" aria-label="Dot plot of the twelve arcade scores, from 60 to 92 points"></canvas>
                 <label for="stats-answer-mean">Sample mean (arcade points)</label>
                 <div class="stats-answer-row"><input id="stats-answer-mean" type="number" inputmode="decimal" step="any"><button type="button" class="stats-check" data-stats-check="mean">Check</button></div>
                 <p id="stats-feedback-mean" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The scores add to 912. Divide by 12 players to get a sample mean of <strong>76 points</strong>. A different group of players might have a different sample mean.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Add up all the scores and you get 912. Split that across 12 players: 912 ÷ 12 = <strong>76 points</strong>. If a different group of 12 people walked in, their average could come out a little different.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">2. Byte missed! By how much?</div>
-                <p class="question-text">Byte predicts everyone will score <strong>70</strong>. Iggy scored <strong>82</strong>. What is that player's residual, observed score minus predicted score?</p>
+                <p class="question-text">Byte guesses that everyone will score <strong>70</strong>. Then Iggy walks up and scores <strong>82</strong>. Oops! How far off was Byte? Take the real score minus Byte’s guess. That gap has a name: the <strong>residual</strong>.</p>
                 <label for="stats-answer-residual">Residual (arcade points)</label>
                 <div class="stats-answer-row"><input id="stats-answer-residual" type="number" inputmode="decimal" step="any"><button type="button" class="stats-check" data-stats-check="residual">Check</button></div>
                 <p id="stats-feedback-residual" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The residual is <strong>82 − 70 = 12 points</strong>. Squaring a residual makes misses on either side count as positive error. The computer will try to make the average squared residual smaller.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>82 − 70 = 12 points</strong>, so Byte guessed 12 points too low. Here’s a handy trick: if you square every miss, guessing too high and guessing too low both count as positive error, so they can’t cancel each other out. Byte’s whole goal is to make the average of those squared misses as small as possible.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">3. Give Byte a small nudge</div>
-                <p class="question-text">Byte starts with a guess of <strong>60</strong> points and picks Jinx’s scorecard: <strong>80</strong> points. Move one quarter of the way from 60 toward 80. What is the new estimate?</p>
+                <p class="question-text">Byte starts at <strong>60</strong> points and peeks at Jinx’s scorecard: <strong>80</strong> points. Byte shouldn’t leap all the way to 80 just because of one person, so it moves only one quarter of the way from 60 toward 80. Where does Byte’s new guess land?</p>
                 <p class="stats-formula">new estimate = old estimate + step fraction × (selected score − old estimate)</p>
                 <label for="stats-answer-step">New estimate (arcade points)</label>
                 <div class="stats-answer-row"><input id="stats-answer-step" type="number" inputmode="decimal" step="any"><button type="button" class="stats-check" data-stats-check="step">Check</button></div>
                 <p id="stats-feedback-step" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>60 + 0.25 × (80 − 60) = 65.</strong> The 25% step fraction is called a <em>learning rate</em>. It controls how far the estimate moves on each update.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>60 + 0.25 × (80 − 60) = 65.</strong> That 25% decides how big of a step Byte takes, and in AI it’s called the <em>learning rate</em>. A bigger learning rate means bigger jumps each time Byte updates its guess.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">4. Pick a random scorecard</div>
-                <p class="question-text">A step based on all 12 scores points toward their average of 76. A step based on one randomly selected score points toward that score instead. Why might two single-score steps point in different directions?</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Astro, Iggy, and Jinx earned different scores. The data stay fixed, but the row chosen for an update can change. That random choice is the <em>stochastic</em> part of stochastic gradient descent (SGD). We are not adding arbitrary shaking to the graph.</p></details>
+                <p class="question-text">If Byte looks at all 12 scores at once, it always gets pulled toward the same spot: their average, 76. But what if Byte only grabs <em>one random scorecard</em> each time? Why might two of those one-card steps point in different directions?</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Because people scored differently! Astro got 62, Iggy got 82, and Jinx got 80. The table never changes, but which card Byte happens to grab does. That random grab is the <em>stochastic</em> part of stochastic gradient descent (SGD). “Stochastic” is just a fancy word for random. Notice we aren’t shaking the graph around; we’re only picking random rows.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">5. Train the arcade score bot</div>
-                <p class="question-text">Predict which will look smoother: using 1 score per step or all 12. Then try both. Each step selects real rows from the table above and updates the estimate toward their average.</p>
+                <p class="question-text">Make a guess first: will Byte’s path look smoother if it uses 1 scorecard per step, or all 12? Now try both and see if you were right. Every step really grabs rows from the table above and nudges Byte toward their average.</p>
                 <div class="stats-control-grid">
                     <label for="stats-batch-size">How many scores per step? <small>(batch size)</small>
                         <select id="stats-batch-size"><option value="1">1 score</option><option value="4" selected>4 scores</option><option value="12">All 12 scores</option></select>
@@ -1275,13 +1275,13 @@
                 <p id="stats-selected" class="stats-state" aria-live="polite">Take a step to see which players were selected.</p>
                 <p id="stats-mean-summary" class="stats-state">Starting estimate: 60 points. The full-sample mean is 76.</p>
                 <canvas id="stats-loss-chart" width="760" height="330" role="img" aria-label="Average squared error by candidate estimate, showing the current estimate and the full-sample mean"></canvas>
-                <p class="stats-chart-note">The curve shows <strong>average squared error across all 12 scores</strong>. A random mini-batch step can sometimes make that full-data error rise before later steps bring it down.</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>All 12 scores produce the same direction every time, so their path is smoother. Smaller random groups are cheaper to inspect per step, but their estimates bounce around because the selected scores vary. More randomness does not guarantee a better answer.</p></details>
+                <p class="stats-chart-note">The curve shows <strong>Byte’s average squared miss across all 12 players</strong> for every possible guess. Watch closely: a step based on a few random cards (a <em>mini-batch</em>) can sometimes push that error <em>up</em> for a moment before later steps bring it back down.</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all 12 cards gives the exact same direction every time, so the path is smooth. Using just a few cards is quicker per step, but the path wobbles because each random group points somewhere a little different. And more wobble doesn’t mean a better answer, just a bumpier ride.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">6. Does practice help predict the score?</div>
-                <p class="question-text">Did a few warm-up rounds help players get the hang of Meteor Munch? Use the practice-round column and move the line until its predictions seem close to the points. Each vertical segment is a <strong>residual</strong>: actual score minus predicted score. What do the line's starting height and slope tell you?</p>
+                <p class="question-text">Did a few warm-up rounds help people get the hang of Meteor Munch? Now Byte gets to use the practice column too. Drag the sliders until the line passes close to the dots. Each little vertical segment is a <strong>residual</strong>: the gap between a player’s real score and the line’s prediction. Once it looks good, what do the line’s starting height and slope actually tell you?</p>
                 <div class="stats-control-grid">
                     <label for="stats-intercept">Line's starting height: <output id="stats-intercept-value">55</output> points
                         <input id="stats-intercept" type="range" min="30" max="90" value="55" step="1">
@@ -1301,13 +1301,13 @@
                 </div>
                 <p id="stats-line-summary" class="stats-state" aria-live="polite"></p>
                 <canvas id="stats-regression-chart" width="760" height="370" role="img" aria-label="Scatterplot of practice rounds and arcade scores with a fitted line and residuals"></canvas>
-                <p class="stats-chart-note">The computer adjusts the line's height and tilt using the selected players' prediction errors. You do not need to calculate those two adjustments by hand. The dashed reference line, when shown, is the best-fitting line for these 12 players.</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The starting height predicts the score at zero practice rounds. The slope says how many points the line predicts for one additional practice round. It describes an association in this sample, not proof that extra practice rounds caused the score difference.</p></details>
+                <p class="stats-chart-note">When you press Fit, Byte adjusts the line’s height and tilt using the misses of the players it picked. Don’t worry, you don’t have to calculate those adjustments by hand. That’s the computer’s job! The dashed line (when you turn it on) is the best possible line for these 12 players.</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The starting height is the score the line predicts for someone with zero practice rounds. The slope is how many extra points the line predicts for each additional practice round. Remember, though: this shows that practice and scores go together in our sample. It doesn’t prove practice is what caused the higher scores.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">7. New training run or new arcade crowd?</div>
-                <p class="question-text">First, repeat a short run with the <strong>same 12 scores</strong> but different randomly chosen rows. Then draw new groups of 12 from a fictional larger arcade crowd. Which result changes because the computer's steps changed, and which changes because the data changed?</p>
+                <p class="question-text">There are two kinds of “random” hiding here, and they’re easy to mix up. First, rerun a short training with the <strong>same 12 scores</strong> but different random cards. Then invite brand-new groups of 12 from a bigger (made-up) arcade crowd. Which results change because Byte’s steps changed, and which change because the data changed?</p>
                 <div class="stats-buttons">
                     <button type="button" id="stats-repeat-optimizer">Same data, new random steps</button>
                     <button type="button" id="stats-new-sample">Invite a new arcade crowd</button>
@@ -1316,15 +1316,15 @@
                     <div><h3>Same data (mean = 76)</h3><ol id="stats-optimizer-results" aria-live="polite"></ol></div>
                     <div><h3>New crowd of 12</h3><ol id="stats-sample-results" aria-live="polite"></ol></div>
                 </div>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With the same data, short runs can end at different estimates because the computer chooses different rows. With a new group of players, the sample mean itself may change. Optimizer variation is not a confidence interval or a measure of uncertainty about the whole population.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Same data, different random cards: short runs can stop at slightly different spots just because Byte grabbed different rows. New crowd: the average itself can change, because these are different people. Don’t mix the two up! The wobble from Byte’s random steps doesn’t tell you how sure you can be about <em>everyone</em> at the arcade. (So it isn’t a confidence interval.)</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">8. Ready for opening night?</div>
-                <p class="question-text">Byte’s predictions have settled down. Is it ready to predict scores for everyone at the arcade? Explain where SGD’s randomness came from and what you would check before trusting the bot.</p>
+                <p class="question-text">Byte’s guesses have finally calmed down. So is it ready to predict scores for every player on opening night? Explain where SGD’s randomness came from, and what you’d want to check before you trust Byte.</p>
                 <label for="stats-final-response">Your explanation</label>
                 <textarea id="stats-final-response" placeholder="Think about which rows were chosen, the scatterplot, and the players we did not observe."></textarea>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>SGD chose different players' rows to estimate a direction for each step. A stable fit only tells us the calculation has settled for this data. We still need to ask whether a line fits the pattern, whether the sample represents the larger group, and whether another explanation could account for the association.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>SGD’s randomness came from picking different players’ scorecards to decide each step. A settled answer only means the math has calmed down for <em>this</em> data. Before trusting Byte, I’d ask: Does a straight line actually fit the pattern? Do these 12 players look like everyone else at the arcade? Could something else, like gaming experience, explain the pattern?</p></details>
             </div>
 
             <div class="stats-intro stats-finale-intro">
@@ -1392,49 +1392,49 @@
             <div class="model-intro">
                 <div class="model-kicker">Grades 11–12 · Integrated III → real decisions</div>
                 <h2 id="modeling-title">The Pop-Up Café Challenge ☕</h2>
-                <p>Arts night is coming. Your team gets one hour to run a pop-up café. Byte, your enthusiastic robot intern, suggests: “Charge $100 a cup. Problem solved.” You suspect Byte needs a better model.</p>
-                <p><strong>Your mission:</strong> choose a price that earns money for the event, keeps the café welcoming, and avoids a mountain of leftovers. Build a model, test its predictions, then pitch your plan.</p>
-                <p class="model-mission">Work in pairs: one person is the model builder, the other is the skeptical event organizer. Swap jobs halfway through. All events, prices, and data below are fictional—not school records.</p>
-                <p>A model is a useful simplification. Our cycle: <strong>ask → assume → build → test → revise → decide.</strong> No calculus needed. Allow about 50–60 minutes; save the bonus missions for later.</p>
+                <p>Arts night is coming, and your team gets one hour to run a pop-up café. Byte, your very enthusiastic robot intern, has a plan: “Charge $100 a cup. Problem solved!” Yeah… I think Byte needs a better model.</p>
+                <p><strong>Your mission:</strong> pick a price that makes money for the event, keeps the café friendly and affordable, and doesn’t leave you with a mountain of leftover cups. You’ll build a model, test whether it actually predicts well, then pitch your plan.</p>
+                <p class="model-mission">Grab a partner. One of you is the model builder; the other is the skeptical event organizer who pokes holes in everything. Swap jobs halfway through. Everything below (the events, prices, and data) is made up, not real school records.</p>
+                <p>A model is a simplified version of the real world that’s still useful. Here’s the loop we’ll run: <strong>ask → assume → build → test → revise → decide.</strong> No calculus needed! Plan on about 50–60 minutes, and save the bonus missions for later.</p>
                 <button type="button" id="model-print">Print this lesson</button>
                 <span id="model-save-status" class="model-save-status">Your written responses stay in this browser when storage is available.</span>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">1. Give Byte a better question</div>
-                <p class="question-text">“Make the most money” leaves a lot out. What decision must your team make? Name one success measure and one assumption you would need to check.</p>
+                <p class="question-text">“Make the most money” sounds like a goal, but it leaves a lot out. What is the one thing your team actually has to decide? Then name one way you’d measure success, and one thing you’re assuming that you’d need to double-check.</p>
                 <label for="model-response-frame">Your mission brief</label>
                 <textarea id="model-response-frame" data-model-draft placeholder="We will choose… Success means… We are assuming…"></textarea>
                 <button type="button" data-model-writing="frame">Get feedback on my explanation</button>
                 <p id="model-feedback-frame" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Choose a price per cup. Profit per hour is one success measure; affordable prices, manageable queues, and little waste also matter. Assume comparable attendance, cup sizes, service time, and weather. Those assumptions need evidence. The mathematically highest profit may not be your team's best decision.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The decision is the price per cup. Profit per hour is one way to measure success, but affordable prices, short lines, and less waste matter too. You’re probably assuming that attendance, cup sizes, serving speed, and weather will be about the same as when you collected data. Those are assumptions, so they need evidence. And here’s the thing: the price with the highest profit on paper might not be your team’s best choice.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">2. Turn a hunch into a model</div>
-                <p>Start with two hypothetical planning estimates: at <strong>$3 per cup, 64 cups/hour</strong>; at <strong>$6 per cup, 28 cups/hour</strong>. Let <strong>p</strong> be price in dollars per cup and <strong>q</strong> be expected demand in cups per hour. Try a line: <strong>q = a + bp</strong>.</p>
+                <p>Your team makes two quick guesses: at <strong>$3 a cup, you’d sell about 64 cups an hour</strong>; at <strong>$6 a cup, about 28 cups an hour</strong>. Let’s call the price <strong>p</strong> (dollars per cup) and the number of cups people want <strong>q</strong> (cups per hour). The simplest model to try is a line: <strong>q = a + bp</strong>.</p>
                 <p class="stats-formula">64 = a + 3b &nbsp; and &nbsp; 28 = a + 6b</p>
-                <p class="question-text">Subtract the equations. What is b? Explain what its sign means before checking.</p>
+                <p class="question-text">Subtract one equation from the other to get rid of a. What is b? Before you check, think about it: what does it mean that b is positive or negative?</p>
                 <label for="model-answer-slope">Slope (change in cups/hour for a $1 increase in price)</label>
                 <div class="stats-answer-row"><input id="model-answer-slope" data-model-draft type="number" step="any"><button type="button" data-model-check="slope">Check</button></div>
                 <p id="model-feedback-slope" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>28 − 64 = (6 − 3)b, so <strong>b = −12</strong>. Then 64 = a − 36 gives <strong>a = 100</strong>. Our first model is <strong>q = 100 − 12p</strong>: each extra dollar predicts 12 fewer cups per hour. “100 cups at a $0 price” is an extrapolation, not a fact we measured. Use this model only in the $3–$6 range until you have more evidence.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>28 − 64 = (6 − 3)b, so <strong>b = −12</strong>. Plug that back in: 64 = a − 36, so <strong>a = 100</strong>. Our first model is <strong>q = 100 − 12p</strong>. The negative sign makes sense: every extra dollar means about 12 fewer cups sold per hour. Careful, though. The model says “100 cups if coffee is free,” but we never tested a $0 price. That’s an <em>extrapolation</em>, a guess outside our data. Stick to the $3–$6 range until you have more evidence.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">3. The pilots don't land perfectly on a line</div>
-                <p>The team now runs seven fictional one-hour pilots. These are the observations we will fit. They differ from the two planning estimates. Each pilot uses the same cup size; for this exercise assume the pilots could serve every interested buyer.</p>
+                <p>Guesses are nice, but real data is better. So the team runs seven one-hour test cafés, called <em>pilots</em> (still made-up data). These are the points we’ll fit our line to, and as you’ll see, they don’t match the two guesses exactly. Every pilot used the same cup size, and let’s assume each one could serve everybody who wanted a drink.</p>
                 <div class="model-table-wrap"><table id="model-pilots"><caption>Fictional café pilots · one hour each</caption><thead><tr><th scope="col">Pilot</th><th scope="col">Price ($/cup)</th><th scope="col">Sold (cups/hour)</th><th scope="col">Used in last step?</th></tr></thead><tbody></tbody></table></div>
-                <p class="question-text">At $4.50, our first model predicts 46 cups/hour; the pilot sold 48. What is the <strong>residual</strong> (observed − predicted)?</p>
+                <p class="question-text">At $4.50, our first model predicts 46 cups an hour, but the pilot actually sold 48. How far off was the model? Find the <strong>residual</strong>: what really happened minus what the model predicted.</p>
                 <label for="model-answer-residual">Residual (cups/hour)</label>
                 <div class="stats-answer-row"><input id="model-answer-residual" data-model-draft type="number" step="any"><button type="button" data-model-check="residual">Check</button></div>
                 <p id="model-feedback-residual" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>48 − 46 = +2 cups/hour.</strong> The model underpredicted. We compare candidate lines using the average of the squared residuals across all seven pilots. Squaring stops positive and negative misses from canceling. A small error on these pilots still does not establish that price caused the sales difference.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>48 − 46 = +2 cups/hour.</strong> Positive means the model guessed too low. To decide which line is best overall, we square each pilot’s miss and average them. Squaring makes sure misses that are too high and too low can’t cancel out. One reminder: even a line with tiny errors doesn’t prove that price is what <em>caused</em> the sales to change.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">4. Teach Byte to fit the line</div>
-                <p class="question-text">Move the line by hand first. Then predict: will steps using one pilot look smoother or noisier than steps using all seven? Run both. Every update below is calculated from the highlighted pilots.</p>
+                <p class="question-text">Try moving the line by hand first. Kind of tricky, right? Now let Byte do it. Before you press anything, make a prediction: will Byte’s path look smoother using one pilot per step, or all seven? Run both and find out. Every step really is calculated from the highlighted pilots.</p>
                 <div class="stats-control-grid">
                     <label for="model-intercept">Starting height a: <output id="model-intercept-value">80</output><input id="model-intercept" type="range" min="30" max="150" step="0.1" value="80"></label>
                     <label for="model-slope">Slope b: <output id="model-slope-value">−8</output><input id="model-slope" type="range" min="-25" max="0" step="0.1" value="-8"></label>
@@ -1446,24 +1446,24 @@
                 <canvas id="model-fit-chart" width="760" height="350" role="img" aria-label="Café pilots and demand line. Horizontal axis: price in dollars per cup. Vertical axis: cups per hour."></canvas>
                 <canvas id="model-error-chart" width="760" height="240" role="img" aria-label="Full-data average squared error against number of updates."></canvas>
                 <p id="model-fit-summary" class="stats-state"></p>
-                <p class="stats-chart-note">A batch is a fresh random group of distinct pilots. Different groups can suggest different steps; a step can increase the error across all seven pilots. A constant step fraction can keep a small-batch fit fluctuating. This page scales price internally so height and tilt can use sensible step fractions.</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>All seven pilots give the same full-data direction for a given line. Smaller groups use fewer observations per update but introduce variation. The least-squares reference is <strong>q = 100 − 12p</strong>, with average squared error about <strong>3.14 (cups/hour)²</strong>. It can also be found directly; this example makes iterative fitting visible. SGD means <em>stochastic gradient descent</em>: random groups supply estimates of the downhill direction. Arbitrary shaking is not its update rule.</p></details>
+                <p class="stats-chart-note">Each step, Byte grabs a fresh random group of pilots, called a <em>batch</em>. Different groups can point Byte in slightly different directions, so a single step can sometimes make the overall error go up. With small batches, the line may keep jiggling around instead of settling perfectly. (Behind the scenes, the page rescales price so both sliders can use reasonable step sizes.)</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all seven pilots gives the same direction every time, so the path is smooth. Smaller groups look at less data per step, so the path wobbles more. The best-fit line turns out to be <strong>q = 100 − 12p</strong>, with an average squared error of about <strong>3.14 (cups/hour)²</strong>. Fun fact: for a simple line, there’s a formula that finds this directly, but watching Byte take steps shows you how AI learns. That’s <em>stochastic gradient descent</em> (SGD): each random group gives Byte a best guess for which way is downhill. It’s random <em>data</em>, not random shaking.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">5. Sales aren't profit</div>
-                <p>For this calculation, use <strong>q = 100 − 12p</strong>. At $5, expect 40 cups/hour. Each cup costs $1.25 to supply, and the event has $30 in fixed costs per hour.</p>
+                <p>Selling a lot of cups is great, but cups aren’t free! Use <strong>q = 100 − 12p</strong>. At $5 a cup, you’d expect to sell 40 cups an hour. Each cup costs you $1.25 in supplies, and there’s also $30 an hour in fixed costs (stuff you pay no matter what, like renting the table).</p>
                 <p class="stats-formula">revenue = price × cups sold<br>cost = fixed cost + cost per cup × cups sold<br>profit = revenue − cost</p>
-                <p class="question-text">What is the expected profit for this hour? Byte counted the entire revenue as profit. Show where Byte went wrong.</p>
+                <p class="question-text">How much profit should you expect for the hour? Byte, of course, counted every dollar that came in as profit. Show Byte where it went wrong.</p>
                 <label for="model-answer-profit">Expected profit ($ for the one-hour event)</label>
                 <div class="stats-answer-row"><input id="model-answer-profit" data-model-draft type="number" step="any"><button type="button" data-model-check="profit">Check</button></div>
                 <p id="model-feedback-profit" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Revenue is 5 × 40 = $200. Cost is 30 + 1.25 × 40 = $80. <strong>Profit is $120.</strong> Expected demand can be fractional because it is a prediction of an average rate, not a claim that we can sell part of a cup.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Money coming in (revenue): 5 × 40 = $200. Money going out (cost): 30 + 1.25 × 40 = $80. So <strong>profit is $120</strong>, not $200, Byte. Also, if your model ever predicts something like 41.7 cups, that’s fine! It’s an average rate, not a claim that you’ll sell 0.7 of a cup.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">6. The queue changes your answer</div>
-                <p class="question-text">Your team can serve only 40 cups/hour. What happens if demand is higher? This planner uses <strong>your current fitted line from Question 4</strong>. Try doubling capacity, changing costs, and moving the price. Does “sell more” always mean “earn more”?</p>
+                <p class="question-text">Here’s a real-world wrinkle: your team can only make 40 cups an hour. What happens if more people than that want coffee? This planner uses <strong>whatever line you ended with in Question 4</strong>. Play around: double the capacity, change the costs, and slide the price. Does “sell more” always mean “earn more”?</p>
                 <div class="stats-buttons"><button type="button" id="model-use-reference">Use the best-fit line in the planner</button></div>
                 <div class="stats-control-grid">
                     <label for="model-price">Price: <output id="model-price-value">$5.00</output> / cup<input id="model-price" type="range" min="3" max="6" step="0.25" value="5"></label>
@@ -1475,25 +1475,25 @@
                 <canvas id="model-profit-chart" width="760" height="320" role="img" aria-label="Expected hourly profit against price, with service capacity and costs included."></canvas>
                 <p id="model-plan-summary" class="stats-state"></p>
                 <p class="stats-formula">cups sold = smaller of expected demand and capacity<br>π = (p − cost per cup) × cups sold − fixed cost</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With q = 100 − 12p and 40-cup capacity, solve <strong>100 − 12p = 40</strong> to find <strong>p = $5</strong>. Lower prices fill capacity but earn less per cup; higher prices lose enough sales to reduce profit here. The best price on our 25¢ grid is $5 with $120 expected profit. Without a capacity limit, multiplying price and linear demand gives a quadratic profit model with a vertex near $4.79. Constraints can change the answer. These recommendations depend on our chosen goal and assumptions.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With q = 100 − 12p and room for only 40 cups, solve <strong>100 − 12p = 40</strong> to get <strong>p = $5</strong>. Go cheaper and the line gets longer than you can serve, so you just earn less per cup. Go pricier and you lose enough customers that profit drops. The best price on our 25¢ slider is $5, for $120 expected profit. Here’s the cool part: without the 40-cup limit, profit would be a parabola with its vertex near $4.79. Your Algebra II vertex skills show up in business! A real-world limit can change the answer. And remember, “best” depends on what goal you chose.</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">7. Plot twist: arts night gets rainy</div>
-                <p class="question-text">A smooth fitted line is not the finish line. These three new observations were held out of fitting. Predict how a rainy-day crowd could affect the model, then reveal the checks. Should Byte keep fitting the old pilots, or collect new evidence?</p>
+                <p class="question-text">A nice-looking line isn’t the finish line. The real test is whether it predicts days it has never seen. We kept three new observations hidden from Byte the whole time. First, predict: what might a rainy-day crowd do to the model? Then reveal the checks. Should Byte keep fitting the old pilots, or go collect new evidence?</p>
                 <label for="model-validation-day">Test context<select id="model-validation-day"><option value="similar">Another similar school day</option><option value="rainy">Rainy-day turnout</option></select></label>
                 <div class="stats-buttons"><button type="button" id="model-validate">Reveal new-day checks</button></div>
                 <div id="model-validation-results" hidden><div class="model-table-wrap"><table id="model-validation-table"><caption>New-day checks · never used to update the fit</caption><thead><tr><th scope="col">Price ($/cup)</th><th scope="col">Observed (cups/hour)</th><th scope="col">Predicted (cups/hour)</th><th scope="col">Residual (cups/hour)</th></tr></thead><tbody></tbody></table></div><p id="model-validation-summary" class="stats-state" aria-live="polite"></p></div>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The reference line's average squared error is <strong>2</strong> on the similar day but about <strong>262.33 (cups/hour)²</strong> on the rainy day. Repeating SGD on the same old pilots will not fix a missing crowd or weather assumption. Collect relevant data and consider a revised model. Pilot sales below serving capacity would hide unmet demand; we assumed that did not happen in our training data.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>On a similar day, the best-fit line’s average squared error is just <strong>2</strong>. On the rainy day? About <strong>262.33 (cups/hour)²</strong>. Yikes! Running SGD on the old pilots again and again won’t help, because those pilots never included rain. Byte needs new data, and maybe a new model that knows about weather. (One more sneaky issue: if a pilot ever ran out of cups, we’d never know how many people wanted one. We assumed that didn’t happen.)</p></details>
             </div>
 
             <div class="question stats-question model-question">
                 <div class="question-number">8. Pitch your plan to the event organizer</div>
-                <p class="question-text">Write a four-sentence recommendation: your price; predicted profit with units and capacity; a tradeoff or assumption; and what you would check next. Your partner should challenge one claim. Would a reusable-cup option or a lower price change your goal?</p>
+                <p class="question-text">Time to pitch! Write four sentences: (1) your price, (2) the profit you predict, with units and your serving limit, (3) one tradeoff or assumption, and (4) what you’d check next. Then your partner, the skeptical organizer, gets to challenge one of your claims. Bonus thought: would offering reusable cups or a lower price change what “best” means to you?</p>
                 <label for="model-response-pitch">Your café pitch</label>
                 <textarea id="model-response-pitch" data-model-draft placeholder="We recommend… Our model predicts… A tradeoff is… Before committing, we will check…"></textarea>
                 <button type="button" data-model-writing="pitch">Get feedback on my explanation</button><p id="model-feedback-pitch" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With the reference fit and default costs, recommend $5 per cup for about $120 profit over one hour, assuming 40-cup serving capacity and demand like the pilots. A lower price might be more welcoming; reusable cups could change costs and waste. Check attendance, staffing, and weather before buying supplies. A recommendation can reasonably prioritize access or sustainability over maximum profit.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Here’s one example: “We recommend $5 per cup, which our best-fit model predicts will earn about $120 in one hour if we can serve 40 cups. That assumes the crowd looks like our pilot days. A lower price might feel more welcoming, and reusable cups could change our costs and our waste. Before buying supplies, we’ll check expected attendance, how many people can staff the table, and the weather forecast.” It’s also totally reasonable to choose affordability or less waste over the highest possible profit.</p></details>
             </div>
 
             <div class="question stats-question model-question">
@@ -1521,12 +1521,12 @@
 
             <div class="question stats-question model-question model-bonus">
                 <div class="question-number">Bonus missions · digital world &amp; the arts</div>
-                <p><strong>Promotion:</strong> a fictional post starts with 30 views and gains 25% per hour. Model views as V(t) = 30(1.25)<sup>t</sup>. How many views does it predict after three hours? What makes this growth assumption fail eventually? Views are not buyers.</p>
+                <p><strong>Going viral (sort of):</strong> you post about the café and it gets 30 views. Every hour, views grow by 25%. We can model that as V(t) = 30(1.25)<sup>t</sup>. How many views does the model predict after three hours? And why can’t this growth go on forever? (Also, a view isn’t the same as someone buying coffee!)</p>
                 <label for="model-answer-growth">Predicted views after three hours (round to 0.1)</label><div class="stats-answer-row"><input id="model-answer-growth" data-model-draft type="number" step="any"><button type="button" data-model-check="growth">Check</button></div><p id="model-feedback-growth" class="stats-feedback" aria-live="polite"></p>
-                <p><strong>Poster photo:</strong> the top of a café banner is 2.4 m above a camera, and the camera is 1.8 m horizontally from it. What angle of elevation frames the top? Sketch the right triangle and use degree mode.</p>
+                <p><strong>Poster photo:</strong> you want a photo of the café banner. The top of the banner is 2.4 m above your camera, and you’re standing 1.8 m away from it. How far up do you need to tilt the camera to aim at the top? That tilt is the angle of elevation. Sketch the right triangle, and make sure your calculator is in degree mode.</p>
                 <svg class="model-triangle" viewBox="0 0 400 230" role="img" aria-label="Right triangle: horizontal leg 1.8 meters, vertical leg 2.4 meters, angle of elevation at the camera."><path d="M50 180 L310 180 L310 30 Z" fill="#10253a" stroke="#61c7ff" stroke-width="3"/><path d="M295 180 V165 H310" fill="none" stroke="white"/><text x="130" y="208">1.8 m</text><text x="325" y="110">2.4 m</text><text x="77" y="168">θ</text><text x="20" y="225">camera</text><text x="240" y="20">banner top</text></svg>
                 <label for="model-answer-angle">Angle of elevation (degrees, round to 0.1)</label><div class="stats-answer-row"><input id="model-answer-angle" data-model-draft type="number" step="any"><button type="button" data-model-check="angle">Check</button></div><p id="model-feedback-angle" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>V(3) = 30(1.25)³ = <strong>58.59375 ≈ 58.6 views</strong>. A limited audience and slowing shares make indefinite exponential growth unrealistic. For the photo, tan θ = 2.4/1.8, so θ = tan⁻¹(2.4/1.8) ≈ <strong>53.1°</strong>. The straight-line distance is 3 m. Measurements and the right-angle assumption affect accuracy.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>V(3) = 30(1.25)³ = <strong>58.59375 ≈ 58.6 views</strong>. It can’t grow forever because there are only so many people around to see it, and people stop sharing after a while. For the photo, tan θ = opposite/adjacent = 2.4/1.8, so θ = tan⁻¹(2.4/1.8) ≈ <strong>53.1°</strong>. Bonus: the straight-line distance to the top is exactly 3 m (it’s a 3-4-5 triangle in disguise!). Your answer is only as good as your measurements, and the wall needs to really be straight up.</p></details>
             </div>
 
             <details class="stats-explanation model-instructor"><summary>Instructor notes · pacing, answers, and discussion</summary>
@@ -1544,9 +1544,9 @@
             <div class="dim-hero">
                 <div class="dim-kicker">Bonus expedition · no homework · just curiosity</div>
                 <h2 id="dimensions-title">One more direction.<span>A whole new world.</span></h2>
-                <p>We live in three spatial dimensions. Mathematics can go further. Start with a bead that gains one freedom. Follow what a slice reveals, what a projection hides, and what a rotation must preserve. Then use the same reasoning to understand many-coordinate models.</p>
-                <p class="dim-note">Eight visual arguments. Make a prediction, try a revealing experiment, and open the reasoning when you want the next layer. These are mathematical spaces and projections—not a claim that we can travel through extra physical dimensions.</p>
-                <p class="dim-note">Write your reasoning in the response fields after each experiment. Drafts stay in this browser when storage is available.</p>
+                <p>You live in three dimensions: left–right, forward–back, and up–down. But math doesn’t have to stop at three! I want to show you how we can reason about a 4th dimension (and way more) even though none of us can picture it. We’ll start with a tiny bead on a wire, see what a slice shows, what a shadow hides, and what a rotation can’t change. Then we’ll use those same tricks to understand AI models with tons of numbers.</p>
+                <p class="dim-note">Eight stops. At each one, make a guess, try the experiment, and open “Follow the reasoning” whenever you want to go deeper. Quick disclaimer: these are math spaces and drawings, not a portal to another dimension. (Sorry!)</p>
+                <p class="dim-note">Jot down your thinking in the box after each experiment. Your notes stay saved in this browser when it allows storage.</p>
                 <nav class="dim-chips" aria-label="Beyond 3D stops">
                     <a href="#dim-ladder">01 · Build a dimension</a><a href="#dim-slice">02 · Flatland</a><a href="#dim-shadow">03 · Shadows</a><a href="#dim-tesseract">04 · The tesseract</a>
                     <a href="#dim-net">05 · Unfold it</a><a href="#dim-hypersphere">06 · A 4D visitor</a><a href="#dim-features">07 · Six coordinates</a><a href="#dim-escape">08 · The extra-direction trick</a>
@@ -1556,19 +1556,19 @@
             <section id="dim-volume" class="dim-volume" aria-labelledby="dim-volume-title">
                 <div class="dim-kicker">One surprise to take with you</div>
                 <h3 id="dim-volume-title">A thin shell can hold almost all the room.</h3>
-                <p>Keep a ball’s radius at 1. Mark the inner ball with radius 0.9. In a line, that inner region takes 90% of the length. In a disk, it takes 0.9² = 81% of the area. In a 3D ball, it takes 0.9³ = 72.9% of the volume. What should happen if there are more independent directions?</p>
+                <p>Here’s one of my favorite weird facts. Picture a ball with radius 1, and a smaller ball inside it with radius 0.9, like a peach with a thin skin. On a line, the inside part takes up 90% of the length. In a flat disk, it takes up 0.9² = 81% of the area. In a 3D ball, it’s 0.9³ = 72.9% of the volume. See the pattern? So what happens as we keep adding directions?</p>
                 <label for="dim-volume-dimension">Number of dimensions: <output id="dim-volume-dimension-value">3</output><input id="dim-volume-dimension" type="range" min="1" max="100" step="1" value="3"></label>
                 <div class="dim-volume-bar" role="img" aria-label="Share of ball volume in the radius-0.9 inner ball versus the outer shell"><span id="dim-volume-inner"></span><span id="dim-volume-shell"></span></div>
                 <div class="dim-legend"><span style="--swatch:#79d9c3">Inner ball: radius 0.9</span><span style="--swatch:#edb16b">Outer shell: final 10% of the radius</span></div>
                 <p id="dim-volume-summary" class="dim-summary" aria-live="polite"></p>
-                <p class="dim-prompt">Predict the inner volume fraction in 10 and 100 dimensions. Explain why the outer shell contains more of the volume as the dimension increases.</p>
-                <details class="dim-reasoning"><summary>Why this scales as 0.9ⁿ</summary><p>Shrink each of n coordinates by the same factor r. An n-dimensional volume scales by r once for each independent coordinate: r × r × ⋯ × r = rⁿ. We compare two balls of the same dimension, so their shared volume constant cancels. No formula for the absolute volume is needed.</p><p>In 100 dimensions the inner 90% of the radius contains only about 0.0027% of the ball’s volume. Most of the volume is in the outer 10% of the radius. This is a statement about volume in Euclidean balls. It does not say every dataset is uniform in a ball, or that points lie exactly on its boundary.</p></details>
+                <p class="dim-prompt">Make a guess first: how much of the ball is “inside” in 10 dimensions? In 100? Then slide and check. Why does the thin outer skin end up holding more and more of the ball?</p>
+                <details class="dim-reasoning"><summary>Why this scales as 0.9ⁿ</summary><p>Shrinking a ball by 0.9 shrinks it in <em>every</em> direction. With n directions, you multiply by 0.9 once for each one: 0.9 × 0.9 × ⋯ × 0.9 = 0.9ⁿ. We’re comparing two balls of the same dimension, so we don’t even need the full volume formula. Everything else cancels!</p><p>In 100 dimensions, the inner 90% of the radius holds only about 0.0027% of the volume. Basically all of the ball is in the skin! Just to be clear, this is a fact about the volume of balls. It doesn’t mean every dataset is spread evenly in a ball or sits right on its edge.</p></details>
             </section>
             <div class="dim-outro" id="dim-exit">
                 <h3>You do not have to picture everything to understand it.</h3>
-                <p>A slice reveals a section. A shadow forgets information. A net opens a boundary. Coordinates keep track of the whole object—even when a drawing cannot.</p>
-                <p>That is useful in AI, too: a model can work with hundreds of features without drawing a hundred-dimensional room. The six-knob experiment already showed how error can improve in directions a 2D map hides. Geometry follows the coordinates; our pictures are carefully chosen windows.</p>
-                <p class="dim-prompt">Choose one experiment. Explain what its picture reveals, what it hides, and how the coordinates help you check your reasoning.</p>
+                <p>A slice shows you one piece. A shadow throws information away. A net unfolds the outside. But the coordinates always remember the whole object, even when no drawing can.</p>
+                <p>That’s exactly how AI gets away with it, too. A model can juggle hundreds of features without anyone drawing a hundred-dimensional room. Remember the six-knob smoothie? The error kept improving in directions our 2D map couldn’t even show. The numbers are the real thing; our pictures are just windows we picked.</p>
+                <p class="dim-prompt">Pick one experiment. What did its picture show you, what did it hide, and how did the numbers help you check your thinking?</p>
                 <p class="dim-note">Want to keep exploring? <a href="https://mathworld.wolfram.com/Tesseract.html">Tesseracts</a> · <a href="https://mathworld.wolfram.com/Hypersphere.html">Hyperspheres</a> · <a href="https://mathworld.wolfram.com/Hypercube.html">Hypercube counts</a> from Wolfram MathWorld.</p>
             </div>
         </section>
@@ -1578,21 +1578,21 @@
                 <div class="att-kicker">Bonus lecture · from ChatGPT to your next swipe</div>
                 <h2 id="attention-title">The feed that ate<br>your lunch break.</h2>
                 <p>You opened a clip about a goat. Somehow it is twenty minutes later, the goat has a sequel, and strangers are arguing about hiking socks. How did “one more” become a whole afternoon?</p>
-                <p>Start with the same loss-bowl idea that helps explain AI training. Then separate three things: what catches attention, what people learn from feedback, and what a feed chooses to amplify. Rage bait tries to provoke a reaction. “Brain rot” is slang here, not a diagnosis; silly content can be fun without being harmful.</p>
-                <p class="att-principle">Lower error means better at the chosen task. It does not automatically mean better for the person.</p>
-                <p class="att-note">Eight interactive studios · about 45–55 minutes · high school algebra and probability. All simulation data, rewards, and behavior coefficients are fictional. Research findings have nearby links; the explanations identify where an analogy or hypothesis takes over.</p>
-                <p class="att-note">Write your reasoning in the response fields after each experiment. Drafts stay in this browser when storage is available.</p>
+                <p>I want to start with the same bowl idea that explains how AI like ChatGPT learns. Then we’ll untangle three different things: what grabs your attention, what people learn from likes and comments, and what the feed decides to show more of. Rage bait is content designed to make you mad enough to react. And “brain rot” is just slang here, not a medical thing. Silly videos can be fun without being bad for you!</p>
+                <p class="att-principle">Lower error means the model got better at the job it was given. That doesn’t automatically mean it got better for <em>you</em>.</p>
+                <p class="att-note">Eight interactive studios · about 45–55 minutes · just algebra and probability. Every number in the simulations is made up. When I mention real research, there’s a link right there, and I’ll tell you when I’m switching from research to my own analogy.</p>
+                <p class="att-note">Jot down your thinking in the box after each experiment. Your notes stay saved in this browser when it allows storage.</p>
                 <nav class="att-chips" aria-label="Attention lecture studios"><a href="#att-language">01 · ChatGPT foundation</a><a href="#att-objective">02 · Whose goal?</a><a href="#att-ranking">03 · The ranking gate</a><a href="#att-outrage">04 · The outrage loop</a><a href="#att-surprise">05 · Maybe the next one</a><a href="#att-stopping">06 · A missing finish line</a><a href="#att-exposure">07 · Missing evidence</a><a href="#att-redesign">08 · Redesign the feed</a></nav>
             </div>
             <div id="attention-labs"></div>
             <div class="att-ending">
                 <div class="att-kicker">Your exit ticket · explain the mechanism</div>
                 <h3>A useful question before “one more.”</h3>
-                <p>Am I choosing this next item, or repeating a choice I already meant to stop? Sometimes the answer is “I’m having fun,” and that counts. The aim is to understand the system well enough to choose deliberately.</p>
-                <label for="att-exit-response">Explain how a low-loss model can still recommend something you regret. Include one human feedback loop, one limitation of the bowl analogy, and a design change you would test.</label>
+                <p>Next time you’re about to watch “just one more,” ask yourself: am I actually choosing this, or am I just repeating a choice I already meant to stop making? Sometimes the honest answer is “I’m having fun,” and that totally counts! The goal isn’t to never scroll. It’s to understand the system well enough that <em>you’re</em> the one deciding.</p>
+                <label for="att-exit-response">How can a model that’s really good at its job (low loss) still recommend something you end up regretting? Include one feedback loop that involves people, one way the bowl analogy breaks down, and one change to the feed you’d want to test.</label>
                 <textarea id="att-exit-response" placeholder="Connect the objective, the observed signal, and the person’s intention…"></textarea>
-                <p class="att-note">Your response stays in this browser when storage is available. Nothing is submitted or automatically graded.</p>
-                <details class="att-reasoning"><summary>Compare with an explanation</summary><p>A model can accurately predict comments without knowing whether they came from enjoyment or disagreement. A creator may learn that outrage earns approval; a ranker may then expose more people to it. That describes interacting feedback processes, not a brain rolling down a neural-network loss surface. I would test a reflective feedback question and optional stopping checkpoints, measuring satisfaction and whether people finish when they intend to, alongside engagement. The toy results alone do not establish the effect on real people.</p></details>
+                <p class="att-note">Your response stays in this browser when it allows storage. Nothing gets submitted or graded. This is just for you.</p>
+                <details class="att-reasoning"><summary>Compare with an explanation</summary><p>A model can be great at predicting comments without having any idea whether people commented because they loved something or because they were furious. A creator might notice that angry posts get more likes and make more of them, and then the feed shows them to even more people. That’s a bunch of feedback loops feeding each other. It’s <em>not</em> your brain literally rolling down a loss bowl. If I were redesigning the feed, I’d test asking people “Was this worth your time?” and adding optional stopping points, then measure whether people feel satisfied and stop when they meant to, not just how long they watch. Our toy numbers can’t prove what would happen with real people, though. You’d have to test it.</p></details>
                 <div class="att-actions"><button type="button" onclick="window.print()">Print lecture handout</button></div>
                 <details id="att-instructor" class="att-reasoning"><summary>Instructor notes · timing, answers, and misconceptions</summary>
                     <p>Allow 5 minutes for the opening, 10 minutes for each pair of studios (1–2, 3–4, 5–6, and 7–8), and 5 minutes for the exit discussion. This makes a 50-minute lesson; add 5 minutes for open exploration if time permits. Students need weighted averages, probability, and simple algebra. Softmax, cross-entropy, and sigmoid can remain named computer calculations; the optional explanations provide deeper mathematics.</p>

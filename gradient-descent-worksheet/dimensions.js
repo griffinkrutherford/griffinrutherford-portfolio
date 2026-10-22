@@ -44,12 +44,14 @@
         const prediction = document.createElement('fieldset'); prediction.className = 'dim-prediction';
         const question = document.createElement('legend'); question.textContent = 'Pause and predict · ' + story.quiz[0]; prediction.append(question);
         const feedback = document.createElement('p'); feedback.id = `dim-${kind}-prediction-feedback`; feedback.className = 'dim-prediction-feedback'; feedback.setAttribute('aria-live', 'polite');
-        story.quiz[1].forEach((answer, index) => {
+        const options = story.quiz[1].map((answer, index) => {
             const button = document.createElement('button'); button.type = 'button'; button.textContent = answer;
-            button.addEventListener('click', () => { prediction.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false')); button.setAttribute('aria-pressed', 'true'); feedback.textContent = (index === story.quiz[2] ? 'Yes! That’s exactly what the geometry says. ' : 'Not quite. Try the experiment and see. ') + story.quiz[3]; });
-            button.setAttribute('aria-pressed', 'false'); prediction.append(button);
+            button.addEventListener('click', () => { options.forEach(b => b.setAttribute('aria-pressed', String(b === button))); feedback.textContent = index === story.quiz[2] ? 'Yes! That’s exactly what the geometry says. ' + story.quiz[3] : 'Not quite. Try the experiment below, then pick again, or choose Reveal answer.'; });
+            button.setAttribute('aria-pressed', 'false'); prediction.append(button); return button;
         });
-        prediction.append(feedback); section.querySelector('.dim-controls').before(prediction);
+        const reveal = document.createElement('button'); reveal.type = 'button'; reveal.className = 'reset reveal-answer'; reveal.textContent = 'Reveal answer';
+        reveal.addEventListener('click', () => { options.forEach((b, i) => b.setAttribute('aria-pressed', String(i === story.quiz[2]))); feedback.textContent = `Answer: ${story.quiz[1][story.quiz[2]]}. ${story.quiz[3]}`; });
+        prediction.append(reveal, feedback); section.querySelector('.dim-controls').before(prediction);
         scenes.push(s);return s;
     }
     function slider(s,key,label,min,max,step,value) {

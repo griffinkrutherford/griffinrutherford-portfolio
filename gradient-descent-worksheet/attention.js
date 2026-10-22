@@ -14,10 +14,13 @@
         const legend=document.createElement('legend');legend.textContent='Pause and predict · '+story.prediction[0];prediction.append(legend);
         const choices=document.createElement('div');choices.className='att-actions';prediction.append(choices);
         const feedback=document.createElement('p');feedback.className='att-feedback att-note';feedback.setAttribute('aria-live','polite');
-        story.prediction[1].forEach((text,i)=>{
+        const options=story.prediction[1].map((text,i)=>{
             const button=document.createElement('button');button.type='button';button.textContent=text;button.setAttribute('aria-pressed','false');
-            button.addEventListener('click',()=>{choices.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));feedback.textContent=(i===story.prediction[2]?'That follows from the model. ':'Compare that prediction with the explanation. ')+story.prediction[3];});choices.append(button);
-        });prediction.append(feedback);s.controls.before(prediction);
+            button.addEventListener('click',()=>{options.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));feedback.textContent=i===story.prediction[2]?'That follows from the model. '+story.prediction[3]:'Not quite. Try the controls below, then pick again, or choose Reveal answer.';});choices.append(button);return button;
+        });
+        const reveal=document.createElement('button');reveal.type='button';reveal.className='reset reveal-answer';reveal.textContent='Reveal answer';
+        reveal.addEventListener('click',()=>{options.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===story.prediction[2])));feedback.textContent=`Answer: ${story.prediction[1][story.prediction[2]]}. ${story.prediction[3]}`;});
+        choices.append(reveal);prediction.append(feedback);s.controls.before(prediction);
         story.legend.forEach(([text,color])=>{const span=document.createElement('span');span.textContent=text;span.style.setProperty('--swatch',color);section.querySelector('.att-legend').append(span);});
         const camera=section.querySelector('.att-camera');
         const orbit=button(s,'orbit','Turntable on',()=>{s.orbit=!s.orbit;orbit.textContent=s.orbit?'Turntable on':'Turntable off';orbit.setAttribute('aria-pressed',String(s.orbit));},camera);orbit.setAttribute('aria-pressed','true');

@@ -61,3 +61,17 @@
     }
     .bonus-response label { color: black; }
 }
+
+/* Reveal answer sits after the prediction choices; dashed and transparent so it is not mistaken for a choice. */
+.dim-prediction .reveal-answer,
+.att-prediction .reveal-answer {
+    margin-left: 14px;
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+}
+
+@media print {
+    .dim-prediction .reveal-answer,
+    .att-prediction .reveal-answer { display: none !important; }
+}

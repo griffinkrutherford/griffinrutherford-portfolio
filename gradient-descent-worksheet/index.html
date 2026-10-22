@@ -1195,7 +1195,7 @@
                     <p>Scoop up space snacks, dodge asteroids, and rack up points! Twelve players tried our (totally made-up) arcade game. Each one told us how many warm-up rounds they played and what they scored in one challenge round. Their scorecards are right below.</p>
                     <p>Meet <strong>Byte</strong>, the arcade’s little robot. Byte wants to guess a typical score, and its first guess is… <strong>60 points.</strong> Hmm. Your mission is to teach Byte to learn from the scorecards, make better and better guesses, and eventually predict a score from how much someone practiced.</p>
                     <p class="stats-arcade-mission">Read a few scorecards → update the guess → try again</p>
-                    <p>All you need is averages, plots, and a little algebra. One heads-up before we start: in our data, more practice goes along with higher scores, but that does <strong>not</strong> prove practice caused it. Maybe the people who practiced more had also played a ton of games before!</p>
+                    <p>If you’ve seen the mean, scatterplots, and residuals in class, you already have everything you need. One heads-up before we start: in our data, more practice goes along with higher scores, but that does <strong>not</strong> prove practice caused it. Maybe the people who practiced more had also played a ton of games before!</p>
                 </div>
             </div>
 
@@ -1222,7 +1222,7 @@
 
             <div class="question stats-question">
                 <div class="question-number">1. Set a score to beat</div>
-                <p class="question-text">Byte needs a fair score to aim for. Forget about practice rounds for a second. If you average all 12 arcade scores, what do you get? Statisticians call this the <strong>sample mean</strong>. (Close counts: the number checks on this page accept anything within 0.05 points.)</p>
+                <p class="question-text">Byte needs a fair score to aim for. Forget about practice rounds for a second. If you average all 12 arcade scores, what do you get? That’s the <strong>sample mean</strong>, x̄, from class. (Close counts: the number checks on this page accept anything within 0.05 points.)</p>
                 <canvas id="stats-dot-plot" width="760" height="200" role="img" aria-label="Dot plot of the twelve arcade scores, from 60 to 92 points"></canvas>
                 <label for="stats-answer-mean">Sample mean (arcade points)</label>
                 <div class="stats-answer-row"><input id="stats-answer-mean" type="number" inputmode="decimal" step="any"><button type="button" class="stats-check" data-stats-check="mean">Check</button></div>
@@ -1232,11 +1232,11 @@
 
             <div class="question stats-question">
                 <div class="question-number">2. Byte missed! By how much?</div>
-                <p class="question-text">Byte guesses that everyone will score <strong>70</strong>. Then Iggy walks up and scores <strong>82</strong>. Oops! How far off was Byte? Take the real score minus Byte’s guess. That gap has a name: the <strong>residual</strong>.</p>
+                <p class="question-text">Byte guesses that everyone will score <strong>70</strong>. Then Iggy walks up and scores <strong>82</strong>. Oops! How far off was Byte? Take the real score minus Byte’s guess. You know that gap: it’s the <strong>residual</strong>, actual − predicted (or y − ŷ).</p>
                 <label for="stats-answer-residual">Residual (arcade points)</label>
                 <div class="stats-answer-row"><input id="stats-answer-residual" type="number" inputmode="decimal" step="any"><button type="button" class="stats-check" data-stats-check="residual">Check</button></div>
                 <p id="stats-feedback-residual" class="stats-feedback" aria-live="polite"></p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>82 − 70 = 12 points</strong>, so Byte guessed 12 points too low. Here’s a handy trick: if you square every miss, guessing too high and guessing too low both count as positive error, so they can’t cancel each other out. Byte’s whole goal is to make the average of those squared misses as small as possible.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p><strong>82 − 70 = 12 points</strong>. A positive residual means the prediction was too low, just like in class, so Byte underestimated Iggy by 12 points. Here’s a handy trick: if you square every miss, guessing too high and guessing too low both count as positive error, so they can’t cancel each other out. Byte’s whole goal is to make the average of those squared misses as small as possible.</p></details>
             </div>
 
             <div class="question stats-question">
@@ -1276,17 +1276,17 @@
                 <p id="stats-mean-summary" class="stats-state">Starting estimate: 60 points. The full-sample mean is 76.</p>
                 <canvas id="stats-loss-chart" width="760" height="330" role="img" aria-label="Average squared error by candidate estimate, showing the current estimate and the full-sample mean"></canvas>
                 <p class="stats-chart-note">The curve shows <strong>Byte’s average squared miss across all 12 players</strong> for every possible guess. Watch closely: a step based on a few random cards (a <em>mini-batch</em>) can sometimes push that error <em>up</em> for a moment before later steps bring it back down.</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all 12 cards gives the exact same direction every time, so the path is smooth. Using just a few cards is quicker per step, but the path wobbles because each random group points somewhere a little different. And more wobble doesn’t mean a better answer, just a bumpier ride.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all 12 cards gives the exact same direction every time, so the path is smooth. Using just a few cards is quicker per step, but the path wobbles because each random group points somewhere a little different. And more wobble doesn’t mean a better answer, just a bumpier ride.</p><p>Here’s a cool connection: the bottom of this curve sits exactly at the mean, 76. That’s no accident. The mean is the one number that makes the squared deviations as small as possible. The height at the bottom (about 95.3) is the average squared deviation, and its square root, about 9.76, is the σx your calculator shows in 1-Var Stats. Byte is basically rediscovering the mean and standard deviation by trial and error!</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">6. Does practice help predict the score?</div>
-                <p class="question-text">Did a few warm-up rounds help people get the hang of Meteor Munch? Now Byte gets to use the practice column too. Drag the sliders until the line passes close to the dots. Each little vertical segment is a <strong>residual</strong>: the gap between a player’s real score and the line’s prediction. Once it looks good, what do the line’s starting height and slope actually tell you?</p>
+                <p class="question-text">Did a few warm-up rounds help people get the hang of Meteor Munch? Time for a scatterplot like the ones from class, with x = practice rounds and y = score. Byte’s prediction line is ŷ = a + bx. Drag the sliders until the line passes close to the dots. Each little vertical segment is a <strong>residual</strong>: the gap between a player’s real score and the line’s prediction. Once it looks good, interpret the y-intercept and slope in context, the way you would on a test.</p>
                 <div class="stats-control-grid">
-                    <label for="stats-intercept">Line's starting height: <output id="stats-intercept-value">55</output> points
+                    <label for="stats-intercept">y-intercept a: <output id="stats-intercept-value">55</output> points at 0 practice rounds
                         <input id="stats-intercept" type="range" min="30" max="90" value="55" step="1">
                     </label>
-                    <label for="stats-slope">Change per practice round: <output id="stats-slope-value">2.0</output> points
+                    <label for="stats-slope">Slope b: <output id="stats-slope-value">2.0</output> points per practice round
                         <input id="stats-slope" type="range" min="-2" max="8" value="2" step="0.1">
                     </label>
                 </div>
@@ -1301,13 +1301,13 @@
                 </div>
                 <p id="stats-line-summary" class="stats-state" aria-live="polite"></p>
                 <canvas id="stats-regression-chart" width="760" height="370" role="img" aria-label="Scatterplot of practice rounds and arcade scores with a fitted line and residuals"></canvas>
-                <p class="stats-chart-note">When you press Fit, Byte adjusts the line’s height and tilt using the misses of the players it picked. Don’t worry, you don’t have to calculate those adjustments by hand. That’s the computer’s job! The dashed line (when you turn it on) is the best possible line for these 12 players.</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The starting height is the score the line predicts for someone with zero practice rounds. The slope is how many extra points the line predicts for each additional practice round. Remember, though: this shows that practice and scores go together in our sample. It doesn’t prove practice is what caused the higher scores.</p></details>
+                <p class="stats-chart-note">When you press Fit, Byte adjusts the line’s height and tilt using the misses of the players it picked. Don’t worry, you don’t have to calculate those adjustments by hand. That’s the computer’s job! The dashed line (when you turn it on) is the <strong>least-squares regression line (LSRL)</strong>, the same line LinReg(a+bx) gives you on a graphing calculator. Byte finds it by taking small steps instead of using the formula.</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The LSRL is about <strong>ŷ = 61.46 + 2.64x</strong> (r ≈ 0.93, a strong, positive, linear association). In context: <em>for each additional practice round, the predicted score increases by about 2.64 points</em>, and <em>a player with 0 practice rounds has a predicted score of about 61.5 points</em>. Remember, though: this shows that practice and scores go together in our sample. It doesn’t prove practice is what caused the higher scores.</p></details>
             </div>
 
             <div class="question stats-question">
                 <div class="question-number">7. New training run or new arcade crowd?</div>
-                <p class="question-text">There are two kinds of “random” hiding here, and they’re easy to mix up. First, rerun a short training with the <strong>same 12 scores</strong> but different random cards. Then invite brand-new groups of 12 from a bigger (made-up) arcade crowd. Which results change because Byte’s steps changed, and which change because the data changed?</p>
+                <p class="question-text">There are two kinds of “random” hiding here, and they’re easy to mix up. First, rerun a short training with the <strong>same 12 scores</strong> but different random cards. Then invite brand-new groups of 12 from a bigger (made-up) arcade crowd. Which results change because Byte’s steps changed, and which change because the data changed? (Hint: one of these is the sampling variability you studied with sampling distributions.)</p>
                 <div class="stats-buttons">
                     <button type="button" id="stats-repeat-optimizer">Same data, new random steps</button>
                     <button type="button" id="stats-new-sample">Invite a new arcade crowd</button>
@@ -1316,7 +1316,7 @@
                     <div><h3>Same data (mean = 76)</h3><ol id="stats-optimizer-results" aria-live="polite"></ol></div>
                     <div><h3>New crowd of 12</h3><ol id="stats-sample-results" aria-live="polite"></ol></div>
                 </div>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Same data, different random cards: short runs can stop at slightly different spots just because Byte grabbed different rows. New crowd: the average itself can change, because these are different people. Don’t mix the two up! The wobble from Byte’s random steps doesn’t tell you how sure you can be about <em>everyone</em> at the arcade. (So it isn’t a confidence interval.)</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Same data, different random cards: short runs can stop at slightly different spots just because Byte grabbed different rows. New crowd: x̄ itself changes, because these are different people. That’s <em>sampling variability</em>, the same idea behind a sampling distribution. Don’t mix the two up! The wobble from Byte’s random steps doesn’t tell you how sure you can be about <em>everyone</em> at the arcade. (So it isn’t a confidence interval.)</p></details>
             </div>
 
             <div class="question stats-question">
@@ -1324,7 +1324,7 @@
                 <p class="question-text">Byte’s guesses have finally calmed down. So is it ready to predict scores for every player on opening night? Explain where SGD’s randomness came from, and what you’d want to check before you trust Byte.</p>
                 <label for="stats-final-response">Your explanation</label>
                 <textarea id="stats-final-response" placeholder="Think about which rows were chosen, the scatterplot, and the players we did not observe."></textarea>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>SGD’s randomness came from picking different players’ scorecards to decide each step. A settled answer only means the math has calmed down for <em>this</em> data. Before trusting Byte, I’d ask: Does a straight line actually fit the pattern? Do these 12 players look like everyone else at the arcade? Could something else, like gaming experience, explain the pattern?</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>SGD’s randomness came from picking different players’ scorecards to decide each step. A settled answer only means the math has calmed down for <em>this</em> data. Before trusting Byte, I’d ask the same questions you ask in class: Does a residual plot show a pattern, meaning a line isn’t the right shape? Were these 12 players a random sample, or just whoever showed up? Am I extrapolating, say to someone with 30 practice rounds? And could a lurking variable, like gaming experience, explain the pattern?</p></details>
             </div>
 
             <div class="stats-intro stats-finale-intro">
@@ -1383,8 +1383,8 @@
 
             <div class="question stats-question stats-challenge">
                 <div class="question-number">Optional challenge</div>
-                <p>Surprise guest Nova hits a jackpot score of 100 points. Would the sample mean rise or fall? How might an unusually high score affect the fitted line? Then try a 125% step in Question 5. Does every step reduce the full-data error?</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>The mean rises from 76 to about 77.85 because 100 is above the current mean. A high score can pull a fitted line, especially if that player’s number of practice rounds is far from the others. A 125% step can overshoot the selected-group average; it does not guarantee a smaller error across all 12 scores.</p></details>
+                <p>Surprise guest Nova shows up and hits a jackpot score of 100 points! What happens to x̄? Could Nova be an outlier, or even an influential point that drags the regression line? Then go back to Question 5 and try a 125% step. Does every step make the full-data error smaller?</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>x̄ goes up from 76 to about 77.85, because 100 is above the old mean. (The mean isn’t resistant, remember? The median would barely move.) A high score can pull the LSRL toward it, especially if Nova’s practice rounds are far from everyone else’s. That’s what makes a point influential. And a 125% step jumps <em>past</em> the target, so the error doesn’t always go down. Byte can overshoot!</p></details>
             </div>
         </section>
 
@@ -1412,7 +1412,7 @@
 
             <div class="question stats-question model-question">
                 <div class="question-number">2. Turn a hunch into a model</div>
-                <p>Your team makes two quick guesses: at <strong>$3 a cup, you’d sell about 64 cups an hour</strong>; at <strong>$6 a cup, about 28 cups an hour</strong>. Let’s call the price <strong>p</strong> (dollars per cup) and the number of cups people want <strong>q</strong> (cups per hour). The simplest model to try is a line: <strong>q = a + bp</strong>.</p>
+                <p>Your team makes two quick guesses: at <strong>$3 a cup, you’d sell about 64 cups an hour</strong>; at <strong>$6 a cup, about 28 cups an hour</strong>. Let’s call the price <strong>p</strong> (dollars per cup) and the number of cups people want <strong>q</strong> (cups per hour). The simplest model to try is a line: <strong>q = a + bp</strong>. That’s just slope-intercept form (y = mx + b) with letters that match the story: q plays the role of y, p plays the role of x, b is the slope, and a is the intercept.</p>
                 <p class="stats-formula">64 = a + 3b &nbsp; and &nbsp; 28 = a + 6b</p>
                 <p class="question-text">Subtract one equation from the other to get rid of a. What is b? Before you check, think about it: what does it mean that b is positive or negative?</p>
                 <label for="model-answer-slope">Slope (change in cups/hour for a $1 increase in price)</label>
@@ -1436,7 +1436,7 @@
                 <div class="question-number">4. Teach Byte to fit the line</div>
                 <p class="question-text">Try moving the line by hand first. Kind of tricky, right? Now let Byte do it. Before you press anything, make a prediction: will Byte’s path look smoother using one pilot per step, or all seven? Run both and find out. Every step really is calculated from the highlighted pilots.</p>
                 <div class="stats-control-grid">
-                    <label for="model-intercept">Starting height a: <output id="model-intercept-value">80</output><input id="model-intercept" type="range" min="30" max="150" step="0.1" value="80"></label>
+                    <label for="model-intercept">Intercept a: <output id="model-intercept-value">80</output><input id="model-intercept" type="range" min="30" max="150" step="0.1" value="80"></label>
                     <label for="model-slope">Slope b: <output id="model-slope-value">−8</output><input id="model-slope" type="range" min="-25" max="0" step="0.1" value="-8"></label>
                     <label for="model-batch">Pilots per step (batch size)<select id="model-batch"><option value="1">1 pilot</option><option value="3" selected>3 pilots</option><option value="7">All 7 pilots</option></select></label>
                     <label for="model-rate">Step fraction (learning rate)<select id="model-rate"><option value="0.1">10%</option><option value="0.3" selected>30%</option><option value="0.6">60%</option><option value="1.25">125% · overshoot challenge</option></select></label>
@@ -1447,7 +1447,7 @@
                 <canvas id="model-error-chart" width="760" height="240" role="img" aria-label="Full-data average squared error against number of updates."></canvas>
                 <p id="model-fit-summary" class="stats-state"></p>
                 <p class="stats-chart-note">Each step, Byte grabs a fresh random group of pilots, called a <em>batch</em>. Different groups can point Byte in slightly different directions, so a single step can sometimes make the overall error go up. With small batches, the line may keep jiggling around instead of settling perfectly. (Behind the scenes, the page rescales price so both sliders can use reasonable step sizes.)</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all seven pilots gives the same direction every time, so the path is smooth. Smaller groups look at less data per step, so the path wobbles more. The best-fit line turns out to be <strong>q = 100 − 12p</strong>, with an average squared error of about <strong>3.14 (cups/hour)²</strong>. Fun fact: for a simple line, there’s a formula that finds this directly, but watching Byte take steps shows you how AI learns. That’s <em>stochastic gradient descent</em> (SGD): each random group gives Byte a best guess for which way is downhill. It’s random <em>data</em>, not random shaking.</p></details>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>Using all seven pilots gives the same direction every time, so the path is smooth. Smaller groups look at less data per step, so the path wobbles more. The best-fit line turns out to be <strong>q = 100 − 12p</strong>, with an average squared error of about <strong>3.14 (cups/hour)²</strong>. Fun fact: it’s the same line you’d get by typing the seven pilots into your calculator and running linear regression (LinReg). Byte just gets there one step at a time, which is how AI learns. That’s <em>stochastic gradient descent</em> (SGD): each random group gives Byte a best guess for which way is downhill. It’s random <em>data</em>, not random shaking.</p></details>
             </div>
 
             <div class="question stats-question model-question">
@@ -1474,8 +1474,8 @@
                 <div id="model-budget" class="model-budget" aria-live="polite"></div>
                 <canvas id="model-profit-chart" width="760" height="320" role="img" aria-label="Expected hourly profit against price, with service capacity and costs included."></canvas>
                 <p id="model-plan-summary" class="stats-state"></p>
-                <p class="stats-formula">cups sold = smaller of expected demand and capacity<br>π = (p − cost per cup) × cups sold − fixed cost</p>
-                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With q = 100 − 12p and room for only 40 cups, solve <strong>100 − 12p = 40</strong> to get <strong>p = $5</strong>. Go cheaper and the line gets longer than you can serve, so you just earn less per cup. Go pricier and you lose enough customers that profit drops. The best price on our 25¢ slider is $5, for $120 expected profit. Here’s the cool part: without the 40-cup limit, profit would be a parabola with its vertex near $4.79. Your Algebra II vertex skills show up in business! A real-world limit can change the answer. And remember, “best” depends on what goal you chose.</p></details>
+                <p class="stats-formula">cups sold = the smaller of expected demand and capacity (a piecewise function!)<br>profit = (p − cost per cup) × cups sold − fixed cost</p>
+                <details class="stats-explanation"><summary>Compare with an explanation</summary><p>With q = 100 − 12p and room for only 40 cups, solve <strong>100 − 12p = 40</strong> to get <strong>p = $5</strong>. Go cheaper and the line gets longer than you can serve, so you just earn less per cup. Go pricier and you lose enough customers that profit drops. The best price on our 25¢ slider is $5, for $120 expected profit. Here’s the cool part: without the 40-cup limit, profit = (p − 1.25)(100 − 12p) − 30 = −12p² + 115p − 155, a downward parabola. Its vertex is at p = −b/(2a) = 115/24 ≈ <strong>$4.79</strong>. Your Algebra II vertex formula shows up in business! But at $4.79, people would want 42.5 cups an hour, and you can only make 40. Once capacity kicks in, $5 wins. A real-world limit can change the answer. And remember, “best” depends on what goal you chose.</p></details>
             </div>
 
             <div class="question stats-question model-question">
@@ -1521,7 +1521,7 @@
 
             <div class="question stats-question model-question model-bonus">
                 <div class="question-number">Bonus missions · digital world &amp; the arts</div>
-                <p><strong>Going viral (sort of):</strong> you post about the café and it gets 30 views. Every hour, views grow by 25%. We can model that as V(t) = 30(1.25)<sup>t</sup>. How many views does the model predict after three hours? And why can’t this growth go on forever? (Also, a view isn’t the same as someone buying coffee!)</p>
+                <p><strong>Going viral (sort of):</strong> you post about the café and it gets 30 views. Every hour, views grow by 25%. Growing by 25% means multiplying by 1 + 0.25 = 1.25 each hour, so the model is V(t) = 30(1.25)<sup>t</sup>. How many views does the model predict after three hours? And why can’t this growth go on forever? (Also, a view isn’t the same as someone buying coffee!)</p>
                 <label for="model-answer-growth">Predicted views after three hours (round to 0.1)</label><div class="stats-answer-row"><input id="model-answer-growth" data-model-draft type="number" step="any"><button type="button" data-model-check="growth">Check</button></div><p id="model-feedback-growth" class="stats-feedback" aria-live="polite"></p>
                 <p><strong>Poster photo:</strong> you want a photo of the café banner. The top of the banner is 2.4 m above your camera, and you’re standing 1.8 m away from it. How far up do you need to tilt the camera to aim at the top? That tilt is the angle of elevation. Sketch the right triangle, and make sure your calculator is in degree mode.</p>
                 <svg class="model-triangle" viewBox="0 0 400 230" role="img" aria-label="Right triangle: horizontal leg 1.8 meters, vertical leg 2.4 meters, angle of elevation at the camera."><path d="M50 180 L310 180 L310 30 Z" fill="#10253a" stroke="#61c7ff" stroke-width="3"/><path d="M295 180 V165 H310" fill="none" stroke="white"/><text x="130" y="208">1.8 m</text><text x="325" y="110">2.4 m</text><text x="77" y="168">θ</text><text x="20" y="225">camera</text><text x="240" y="20">banner top</text></svg>

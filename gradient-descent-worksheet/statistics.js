@@ -311,7 +311,12 @@
     const checks = {
         mean: { answer: sampleMean, hint: 'Add the 12 scores, then divide by 12.' },
         residual: { answer: 12, hint: 'Subtract the prediction of 70 from the observed score of 82.' },
-        step: { answer: 65, hint: 'Find one quarter of the gap between 60 and 80.' }
+        step: { answer: 65, hint: 'Find one quarter of the gap between 60 and 80.' },
+        median: { answer: 76, hint: 'Sort the 12 scores, then average the 6th and 7th values.' },
+        predict: { answer: 77.3, tolerance: 0.1, hint: 'Plug x = 6 into ŷ = 61.46 + 2.64x.' },
+        gizmo: { answer: -3.3, tolerance: 0.1, hint: 'Residual = actual − predicted: 74 minus your prediction for 6 rounds.' },
+        rsq: { answer: 0.874, tolerance: 0.01, hint: 'Square r = 0.935. Enter a decimal, like 0.50.' },
+        extrap: { answer: 140.7, tolerance: 0.2, hint: 'Plug x = 30 into ŷ = 61.46 + 2.64x.' }
     };
 
     function checkAnswer(name) {
@@ -321,7 +326,7 @@
         if (input.value.trim() === '' || !Number.isFinite(value)) {
             feedback.textContent = 'Enter a number first.';
             feedback.dataset.result = 'incorrect';
-        } else if (Math.abs(value - checks[name].answer) <= 0.05) {
+        } else if (Math.abs(value - checks[name].answer) <= (checks[name].tolerance ?? 0.05) + 1e-9) {
             feedback.textContent = 'That’s right. Open the explanation to see why.';
             feedback.dataset.result = 'correct';
         } else {

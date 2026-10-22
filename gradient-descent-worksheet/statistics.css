@@ -451,3 +451,27 @@
         transition: none;
     }
 }
+
+/* Final-exam review tags and intro note (shared by Statistics and Modeling). */
+.exam-tag {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 3px 9px;
+    border: 1px solid #64f4ac;
+    border-radius: 999px;
+    color: #64f4ac;
+    font: 700 0.72em/1.4 system-ui, sans-serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    vertical-align: 0.15em;
+}
+
+.exam-note {
+    padding: 10px 14px;
+    border-left: 3px solid #64f4ac;
+    border-radius: 6px;
+    background: rgba(100, 244, 172, 0.08);
+}
+
+.model-question .exam-tag, .model-intro .exam-tag { border-color: #61c7ff; color: #61c7ff; }
+.model-intro .exam-note { border-left-color: #61c7ff; background: rgba(97, 199, 255, 0.08); }

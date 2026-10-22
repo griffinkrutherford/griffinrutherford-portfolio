@@ -171,11 +171,16 @@
     get('print').addEventListener('click', () => window.print());
 
     const answers = {
-        slope: { value: -12, tolerance: .01, explanation: '(28 − 64)/(6 − 3) = −12 cups/hour per $1 increase.' },
-        residual: { value: 2, tolerance: .01, explanation: '48 − 46 = +2 cups/hour; the model underpredicted.' },
-        profit: { value: 120, tolerance: .01, explanation: '5 × 40 − (30 + 1.25 × 40) = $120.' },
-        growth: { value: 58.59375, tolerance: .1, explanation: '30 × 1.25³ = 58.59375, or 58.6 predicted views.' },
-        angle: { value: 53.130102, tolerance: .1, explanation: 'tan⁻¹(2.4/1.8) ≈ 53.1°; use degree mode.' }
+        slope: { value: -12, tolerance: .01, hint: 'Subtract the equations: 28 − 64 = (6 − 3)b.', explanation: '(28 − 64)/(6 − 3) = −12 cups/hour per $1 increase.' },
+        residual: { value: 2, tolerance: .01, hint: 'Residual = observed − predicted.', explanation: '48 − 46 = +2 cups/hour; the model underpredicted.' },
+        profit: { value: 120, tolerance: .01, hint: 'Find revenue (price × cups) and cost (fixed + per-cup × cups), then subtract.', explanation: '5 × 40 − (30 + 1.25 × 40) = $120.' },
+        growth: { value: 58.59375, tolerance: .1, hint: 'Plug t = 3 into V(t) = 30(1.25)ᵗ.', explanation: '30 × 1.25³ = 58.59375, or 58.6 predicted views.' },
+        angle: { value: 53.130102, tolerance: .1, hint: 'tan θ = opposite/adjacent. Check that your calculator is in degree mode.', explanation: 'tan⁻¹(2.4/1.8) ≈ 53.1°; use degree mode.' },
+        intercept: { value: 100, tolerance: .01, hint: 'Substitute b = −12 into 64 = a + 3b and solve for a.', explanation: '64 = a + 3(−12), so a = 64 + 36 = 100.' },
+        breakeven: { value: 8, tolerance: .01, hint: 'Set revenue equal to cost: 5c = 30 + 1.25c.', explanation: '5c = 30 + 1.25c → 3.75c = 30 → c = 8 cups/hour.' },
+        vertex: { value: 115 / 24, tolerance: .01, hint: 'Use the vertex formula p = −b/(2a) with a = −12 and b = 115.', explanation: 'p = −115/(2 × −12) = 115/24 ≈ $4.79.' },
+        rainy: { value: -21, tolerance: .01, hint: 'Predict with q = 100 − 12(3.75), then compute actual − predicted.', explanation: '34 − (100 − 45) = 34 − 55 = −21 cups/hour: a big overprediction.' },
+        logtime: { value: Math.log(10 / 3) / Math.log(1.25), tolerance: .1, hint: 'Divide by 30, then t = log(100/30) ÷ log(1.25).', explanation: 't = log(10/3) ÷ log(1.25) ≈ 5.4 hours.' }
     };
     panel.querySelectorAll('[data-model-check]').forEach(button => {
         const key = button.dataset.modelCheck;
@@ -187,7 +192,7 @@
             }
             const correct = Math.abs(value - answer.value) <= answer.tolerance + 1e-9;
             feedback.dataset.result = correct ? 'correct' : 'incorrect';
-            feedback.textContent = `${correct ? 'Correct within' : 'Try again; the answer is checked within'} ±${answer.tolerance}. ${answer.explanation}`;
+            feedback.textContent = correct ? `Correct! ${answer.explanation}` : `Not quite. ${answer.hint}`;
         }
         button.addEventListener('click', check);
         get(`answer-${key}`).addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); check(); } });

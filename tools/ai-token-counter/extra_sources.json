@@ -1,0 +1,7 @@
+{
+  "_note": "Fixed totals for accounts whose usage isn't on this Mac (dashboard figures, incl. cached context). Update by hand.",
+  "sources": [
+    { "name": "Claude (second account)", "total": 11000000000, "asOf": "2026-10-26" },
+    { "name": "ChatGPT / Codex", "total": 10500000000, "asOf": "2026-10-26" }
+  ]
+}

@@ -6,7 +6,7 @@
     <title>Griffin Rutherford - Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css?v=4">
+    <link rel="stylesheet" href="css/styles.css?v=5">
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
@@ -219,6 +219,12 @@
                     </div>
                     <h2>Chief Technology Officer @ Coherascent Labs</h2>
                     <p class="profile-subheading">Building Lune Synth and rigorous technology that connects people to solutions that actually work</p>
+                    <p class="ai-token-counter" id="ai-token-counter" hidden>
+                        <span class="ai-token-counter-value" id="ai-token-counter-value" aria-hidden="true"></span>
+                        <span class="ai-token-counter-label" aria-hidden="true">AI tokens spent building, and counting</span>
+                        <span class="ai-token-counter-note" aria-hidden="true">Claude &amp; ChatGPT, all accounts, incl. cached context</span>
+                        <span class="visually-hidden" id="ai-token-counter-sr"></span>
+                    </p>
                 </div>
 
                 <div class="about-section">
@@ -1150,5 +1156,6 @@
     </svg>
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script src="js/script.js"></script>
+    <script src="js/ai-token-counter.js" defer></script>
 </body>
 </html>

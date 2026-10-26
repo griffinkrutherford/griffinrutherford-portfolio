@@ -1,13 +1,13 @@
 {
-  "total": 111099783880,
-  "asOf": "2026-10-26T22:05:00Z",
+  "total": 111108294973,
+  "asOf": "2026-10-26T23:05:03Z",
   "ratePerSec": 58046.5,
   "firstSession": "2026-07-25",
   "counting": "dashboard totals, incl. cached context",
   "sources": [
     {
       "name": "Claude Code (this Mac)",
-      "total": 89599783880,
+      "total": 89608294973,
       "live": true
     },
     {

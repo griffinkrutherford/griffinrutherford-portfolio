@@ -41,10 +41,10 @@ PROJECTS = os.path.join(HOME, ".claude", "projects")
 STATS_CACHE = os.path.join(HOME, ".claude", "stats-cache.json")
 APP_DIR = os.path.join(HOME, "Library", "Application Support", "ai-token-counter")
 STATE_PATH = os.path.join(APP_DIR, "state.json")
-PUBLISH_DIR = os.path.join(APP_DIR, "publish")
+PUBLISH_DIR = os.path.join(APP_DIR, "publish-clone")  # standalone clone: launchd jobs can't read ~/Documents
 PUBLISH_FILE = "token-stats.json"
 PUBLISH_BRANCH = "token-stats"
-REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REPO_URL = "https://github.com/griffinkrutherford/griffinrutherford-portfolio.git"
 
 USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")
 STATS_KEYS = ("inputTokens", "outputTokens", "cacheReadInputTokens", "cacheCreationInputTokens")
@@ -191,7 +191,8 @@ def git(*args, cwd=PUBLISH_DIR, check=True):
 def publish(payload):
     """Append a commit with the new numbers to the data branch (fast-forward only, never forced)."""
     if not os.path.isdir(PUBLISH_DIR):
-        git("worktree", "add", "--orphan", "-b", PUBLISH_BRANCH, PUBLISH_DIR, cwd=REPO)
+        git("clone", "-q", "--single-branch", "--branch", PUBLISH_BRANCH, "--depth", "1", REPO_URL, PUBLISH_DIR, cwd=APP_DIR)
+    git("pull", "-q", "--ff-only", "origin", PUBLISH_BRANCH)
     with open(os.path.join(PUBLISH_DIR, PUBLISH_FILE), "w") as f:
         json.dump(payload, f, indent=2)
         f.write("\n")

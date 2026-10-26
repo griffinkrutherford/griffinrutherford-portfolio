@@ -10,7 +10,7 @@ The ticking number under the headline on `index.html`.
    - **Dashboard counting:** tokens are counted the way `/stats` counts them, so all sources are on the same basis: every logged usage line, with input, output, cache-read and cache-write tokens. Claude Code logs one response as several lines, so this overstates unique usage by about 1.8×. The state file also keeps a de-duplicated count per day for reference.
 2. **Publishing:** with `--publish`, it appends a commit updating `token-stats.json` on the `token-stats` branch of this repo (normal pushes, never forced; the history grows on that branch only), which holds only the total, `asOf`, `ratePerSec`, `firstSession` and per-source totals. No prompts, project names or paths are published.
 3. **`js/ai-token-counter.js`** fetches that file from `raw.githubusercontent.com`. It counts up at the recent average rate, and stops extrapolating 6 hours after the last update. It shows nothing if the data can't be loaded, and shows a static number when reduced motion is on.
-4. **`install.sh`** installs a launchd job that publishes every hour. The log is at `~/Library/Logs/ai-token-counter.log`.
+4. **`install.sh`** copies the exporter and `extra_sources.json` to `~/Library/Application Support/ai-token-counter/` (macOS doesn't let launchd jobs read `~/Documents`) and installs a launchd job that publishes every hour from there. Re-run it after editing either file. The log is at `~/Library/Logs/ai-token-counter.log`.
 
 ## Counted
 

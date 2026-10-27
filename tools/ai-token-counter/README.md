@@ -4,8 +4,11 @@ The number under the headline on `index.html`, published hourly from this Mac.
 
 ## Update Log
 
+- 2026-10-26: Recorded successful installed-job and live frontend/feed verification, including two measured post-cutover increments and unchanged first-publication Claude values.
 - 2026-10-26: Switched the widget to the canonical raw `refs/heads/token-stats` URL after the shorthand URL continued serving an older cached fixed-source snapshot; accounting and display rate are unchanged.
 - 2026-10-26: Connected local Codex usage through a preserved 10.5 billion baseline and an explicit numeric-cursor cutover. Added fork/replay/restart protection, private state and a single-writer lock. Claude totals and its existing display-rate calculation are unchanged.
+
+Verified connection evidence and source/data commit receipts are recorded in [VERIFICATION.md](VERIFICATION.md).
 
 ## Sources and accounting
 

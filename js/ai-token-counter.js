@@ -3,7 +3,7 @@
 // Extrapolation stops a few hours after the last update, so a sleeping Mac
 // never produces made-up numbers; if the data can't be loaded, nothing shows.
 (function () {
-    var DATA_URL = 'https://raw.githubusercontent.com/griffinkrutherford/griffinrutherford-portfolio/token-stats/token-stats.json';
+    var DATA_URL = 'https://raw.githubusercontent.com/griffinkrutherford/griffinrutherford-portfolio/refs/heads/token-stats/token-stats.json';
     var MAX_EXTRAPOLATE_MS = 6 * 60 * 60 * 1000;
     var root = document.getElementById('ai-token-counter');
     var valueEl = document.getElementById('ai-token-counter-value');

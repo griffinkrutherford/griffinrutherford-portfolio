@@ -4,6 +4,7 @@ The number under the headline on `index.html`, published hourly from this Mac.
 
 ## Update Log
 
+- 2026-10-26: Switched the widget to the canonical raw `refs/heads/token-stats` URL after the shorthand URL continued serving an older cached fixed-source snapshot; accounting and display rate are unchanged.
 - 2026-10-26: Connected local Codex usage through a preserved 10.5 billion baseline and an explicit numeric-cursor cutover. Added fork/replay/restart protection, private state and a single-writer lock. Claude totals and its existing display-rate calculation are unchanged.
 
 ## Sources and accounting

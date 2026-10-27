@@ -9,8 +9,9 @@ Sources
   * Claude Code on this Mac: live, from the session logs
     (~/.claude/projects/**/*.jsonl), with older days from
     ~/.claude/stats-cache.json.
-  * Fixed sources (other accounts, Codex for now): totals in
-    extra_sources.json next to this script, updated by hand.
+  * Codex on this Mac: measured cumulative token_count deltas after an explicit
+    cutover, added to its unchanged 10.5B historical baseline.
+  * Other fixed sources: totals in extra_sources.json, updated by hand.
 
 How tokens are counted ("dashboard" mode, the default)
   * Counted the way Claude Code's /stats counts: every logged usage line, and
@@ -29,6 +30,7 @@ Usage
 """
 
 import datetime
+import fcntl
 import glob
 import json
 import os
@@ -36,11 +38,16 @@ import subprocess
 import sys
 import time
 
+import codex_usage
+
 HOME = os.path.expanduser("~")
 PROJECTS = os.path.join(HOME, ".claude", "projects")
 STATS_CACHE = os.path.join(HOME, ".claude", "stats-cache.json")
 APP_DIR = os.path.join(HOME, "Library", "Application Support", "ai-token-counter")
 STATE_PATH = os.path.join(APP_DIR, "state.json")
+CODEX_STATE_PATH = os.path.join(APP_DIR, "codex-state.json")
+CODEX_SESSIONS = os.path.join(HOME, ".codex", "sessions")
+LOCK_PATH = os.path.join(APP_DIR, "reporter.lock")
 PUBLISH_DIR = os.path.join(APP_DIR, "publish-clone")  # standalone clone: launchd jobs can't read ~/Documents
 PUBLISH_FILE = "token-stats.json"
 PUBLISH_BRANCH = "token-stats"
@@ -50,6 +57,11 @@ USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache
 STATS_KEYS = ("inputTokens", "outputTokens", "cacheReadInputTokens", "cacheCreationInputTokens")
 RATE_DAYS = 3  # complete UTC days averaged for the live tick rate
 EXTRA_SOURCES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "extra_sources.json")
+
+
+def read_json(path):
+    with open(path, encoding="utf-8") as stream:
+        return json.load(stream)
 
 
 def usage_lines(path, offset=0):
@@ -102,7 +114,7 @@ def bootstrap():
             last = key
         files[path] = {"offset": end, "lastKey": last}
 
-    stats = json.load(open(STATS_CACHE))
+    stats = read_json(STATS_CACHE)
     daily = {r["date"]: sum(r["tokensByModel"].values()) for r in stats.get("dailyModelTokens", [])}
     stats_total = sum(int(u.get(k) or 0) for u in stats.get("modelUsage", {}).values() for k in STATS_KEYS)
 
@@ -157,21 +169,27 @@ def today():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
 
 
-def summary(state):
+def summary(state, codex=None):
     local = state["rawBefore"] + sum(state["days"].values())
     now = datetime.datetime.now(datetime.timezone.utc)
     recent = [(now - datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(1, RATE_DAYS + 1)]
     rate = sum(state["days"].get(d, 0) for d in recent) / (RATE_DAYS * 86400)
     sources = [{"name": "Claude Code (this Mac)", "total": int(local), "live": True}]
     if os.path.exists(EXTRA_SOURCES):
-        for entry in json.load(open(EXTRA_SOURCES)).get("sources", []):
-            sources.append({"name": entry["name"], "total": int(entry["total"]), "live": False})
+        for entry in read_json(EXTRA_SOURCES).get("sources", []):
+            if entry.get("mode") == "codex-local-since-cutover" and codex is not None:
+                if entry["name"] != "ChatGPT / Codex" or int(entry["total"]) != codex_usage.BASELINE:
+                    raise ValueError("The historical Codex baseline must remain 10.5B")
+                sources.append(codex)
+            else:
+                sources.append({"name": entry["name"], "total": int(entry["total"]), "live": False})
     return {
         "total": sum(s["total"] for s in sources),
         "asOf": now.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "ratePerSec": round(rate, 1),
         "firstSession": state.get("firstSession"),
-        "counting": "dashboard totals, incl. cached context",
+        "counting": "Historical dashboard baselines; Claude dashboard totals; measured Codex input+output deltas, including cached input and reasoning output once",
+        "rateSource": "Claude Code (this Mac) historical average only; no Codex extrapolation",
         "sources": sources,
     }
 
@@ -188,10 +206,39 @@ def git(*args, cwd=PUBLISH_DIR, check=True):
     return subprocess.run(["git", *args], cwd=cwd, check=check, capture_output=True, text=True)
 
 
+PUBLIC_FIELDS = {"total", "asOf", "ratePerSec", "firstSession", "counting", "rateSource", "sources"}
+SOURCE_FIELDS = {"name", "total", "live", "baselineTotal", "observedSince", "observedTokens",
+                 "inputTokens", "outputTokens", "cachedInputTokens", "cacheWriteInputTokens",
+                 "reasoningOutputTokens", "lastObservedAt", "newSessionAnchors", "counterResets", "coverage"}
+
+
+def validate_public_payload(payload):
+    if set(payload) - PUBLIC_FIELDS:
+        raise ValueError("Private/unknown fields must never enter the public counter")
+    sources = payload.get("sources", [])
+    if any(set(source) - SOURCE_FIELDS for source in sources):
+        raise ValueError("Private/unknown source fields must never be published")
+    if any(type(source.get("total")) is not int or source["total"] < 0 for source in sources):
+        raise ValueError("Public totals must be nonnegative measured/baseline integers")
+    if payload.get("total") != sum(source["total"] for source in sources):
+        raise ValueError("Public total must equal its source totals")
+
+
+def verify_data_checkout():
+    if git("branch", "--show-current").stdout.strip() != PUBLISH_BRANCH:
+        raise ValueError("Counter publication requires the established data branch")
+    if git("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}").stdout.strip() != "origin/" + PUBLISH_BRANCH:
+        raise ValueError("Unexpected counter data upstream")
+    if git("remote", "get-url", "origin").stdout.strip() != REPO_URL:
+        raise ValueError("Unexpected counter repository destination")
+
+
 def publish(payload):
     """Append a commit with the new numbers to the data branch (fast-forward only, never forced)."""
+    validate_public_payload(payload)
     if not os.path.isdir(PUBLISH_DIR):
         git("clone", "-q", "--single-branch", "--branch", PUBLISH_BRANCH, "--depth", "1", REPO_URL, PUBLISH_DIR, cwd=APP_DIR)
+    verify_data_checkout()
     git("pull", "-q", "--ff-only", "origin", PUBLISH_BRANCH)
     with open(os.path.join(PUBLISH_DIR, PUBLISH_FILE), "w") as f:
         json.dump(payload, f, indent=2)
@@ -201,21 +248,57 @@ def publish(payload):
     if has_commit and git("diff", "--cached", "--quiet", check=False).returncode == 0:
         return "unchanged"
     git("commit", "-q", "-m", "Update AI token stats")
+    verify_data_checkout()
     git("push", "-q", "origin", f"HEAD:refs/heads/{PUBLISH_BRANCH}")
     return "published"
 
 
-def main():
-    state = json.load(open(STATE_PATH)) if os.path.exists(STATE_PATH) else None
-    if state and state.get("version") == 2:
-        state = update(state)
+def update_codex():
+    """Keep private numeric cursors separate from unchanged Claude state."""
+    if not os.path.exists(EXTRA_SOURCES):
+        return None
+    entries = read_json(EXTRA_SOURCES).get("sources", [])
+    enabled = [entry for entry in entries if entry.get("mode") == "codex-local-since-cutover"]
+    if not enabled:
+        return None
+    if len(enabled) != 1 or sum(entry.get("name") == "ChatGPT / Codex" for entry in entries) != 1 or enabled[0]["name"] != "ChatGPT / Codex" or int(enabled[0]["total"]) != codex_usage.BASELINE:
+        raise ValueError("Unexpected Codex identity/baseline; refusing to replace published history")
+    if os.path.exists(CODEX_STATE_PATH):
+        state = read_json(CODEX_STATE_PATH)
     else:
-        state = bootstrap()
-    save_state(state)
-    payload = summary(state)
-    print(json.dumps(payload))
-    if "--publish" in sys.argv:
-        print(publish(payload), file=sys.stderr)
+        state = codex_usage.bootstrap(CODEX_SESSIONS)
+        codex_usage.save(state, CODEX_STATE_PATH, create_only=True)
+    state = codex_usage.update(state, CODEX_SESSIONS)
+    codex_usage.save(state, CODEX_STATE_PATH)
+    result = codex_usage.source(state)
+    result["live"] = bool(codex_usage.session_files(CODEX_SESSIONS))
+    return result
+
+
+def main():
+    os.makedirs(APP_DIR, exist_ok=True)
+    # One publisher owns both numeric states and the existing data clone.
+    # A retry/restart cannot add the same interval or race an hourly run.
+    with open(LOCK_PATH, "a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print("reporter already running", file=sys.stderr)
+            return
+        state = read_json(STATE_PATH) if os.path.exists(STATE_PATH) else None
+        if "--codex-only" in sys.argv:
+            if not state or state.get("version") != 2:
+                raise ValueError("Codex-only connection requires existing Claude state")
+        elif state and state.get("version") == 2:
+            state = update(state)
+            save_state(state)
+        else:
+            state = bootstrap()
+            save_state(state)
+        payload = summary(state, update_codex())
+        print(json.dumps(payload))
+        if "--publish" in sys.argv:
+            print(publish(payload), file=sys.stderr)
 
 
 if __name__ == "__main__":

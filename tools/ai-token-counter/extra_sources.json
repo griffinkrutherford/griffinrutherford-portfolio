@@ -1,7 +1,16 @@
 {
-  "_note": "Fixed totals for accounts whose usage isn't on this Mac (dashboard figures, incl. cached context). Update by hand.",
+  "_note": "Historical fixed baselines include cached context. Codex adds only measured local deltas after its explicit cutover; do not replace its 10.5B baseline.",
   "sources": [
-    { "name": "Claude (second account)", "total": 11000000000, "asOf": "2026-10-26" },
-    { "name": "ChatGPT / Codex", "total": 10500000000, "asOf": "2026-10-26" }
+    {
+      "name": "Claude (second account)",
+      "total": 11000000000,
+      "asOf": "2026-10-26"
+    },
+    {
+      "name": "ChatGPT / Codex",
+      "total": 10500000000,
+      "asOf": "2026-10-26",
+      "mode": "codex-local-since-cutover"
+    }
   ]
 }

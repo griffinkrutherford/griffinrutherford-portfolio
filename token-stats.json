@@ -1,7 +1,7 @@
 {
   "total": 115151020283,
-  "asOf": "2026-10-29T23:46:11Z",
-  "ratePerSec": 25001.1,
+  "asOf": "2026-10-30T00:46:14Z",
+  "ratePerSec": 3616.0,
   "firstSession": "2026-07-25",
   "counting": "Historical dashboard baselines; Claude dashboard totals; measured Codex input+output deltas, including cached input and reasoning output once",
   "rateSource": "Claude Code (this Mac) historical average only; no Codex extrapolation",

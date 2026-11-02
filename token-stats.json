@@ -1,6 +1,6 @@
 {
-  "total": 123871689079,
-  "asOf": "2026-11-02T19:50:46Z",
+  "total": 124115202194,
+  "asOf": "2026-11-02T20:50:49Z",
   "ratePerSec": 27992.9,
   "firstSession": "2026-07-25",
   "counting": "Historical dashboard baselines; Claude dashboard totals; measured Codex input+output deltas, including cached input and reasoning output once",
@@ -8,7 +8,7 @@
   "sources": [
     {
       "name": "Claude Code (this Mac)",
-      "total": 98959008297,
+      "total": 99186370947,
       "live": true
     },
     {
@@ -18,17 +18,17 @@
     },
     {
       "name": "ChatGPT / Codex",
-      "total": 13912680782,
+      "total": 13928831247,
       "live": true,
       "baselineTotal": 10500000000,
       "observedSince": "2026-10-27T04:31:31.499945+00:00",
-      "observedTokens": 3412680782,
-      "inputTokens": 3403723926,
-      "outputTokens": 8956856,
-      "cachedInputTokens": 3347744896,
+      "observedTokens": 3428831247,
+      "inputTokens": 3419786790,
+      "outputTokens": 9044457,
+      "cachedInputTokens": 3363379072,
       "cacheWriteInputTokens": 0,
-      "reasoningOutputTokens": 4896919,
-      "lastObservedAt": "2026-11-02T19:49:24.406000+00:00",
+      "reasoningOutputTokens": 4940698,
+      "lastObservedAt": "2026-11-02T20:49:59.690000+00:00",
       "newSessionAnchors": 16,
       "counterResets": 0,
       "coverage": "Local Codex cumulative deltas only; first snapshots of new/restored sessions anchor without backfill"

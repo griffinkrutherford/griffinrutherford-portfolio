@@ -2478,3 +2478,15 @@ body.liquid-glass-mode .social-links a {
     font-size: clamp(0.7rem, 1.6vw, 0.8rem);
     color: rgba(255, 255, 255, 0.5);
 }
+
+/* Lune Synth line-count breakdown (About section dropdown). */
+.loc-breakdown { margin: 0.75rem 0 0; font-size: 0.95rem; }
+.loc-breakdown summary { cursor: pointer; font-weight: 600; }
+.loc-breakdown summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+.loc-breakdown-date { font-weight: 400; opacity: 0.75; }
+.loc-breakdown table { width: 100%; max-width: 36rem; margin-top: 0.6rem; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.loc-breakdown th, .loc-breakdown td { padding: 0.35rem 0.5rem; text-align: right; border-bottom: 1px solid rgba(127, 127, 127, 0.25); }
+.loc-breakdown th[scope="row"], .loc-breakdown thead th:first-child { text-align: left; font-weight: 500; }
+.loc-breakdown tfoot th, .loc-breakdown tfoot td { font-weight: 700; border-bottom: none; }
+.loc-breakdown-note { margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8; }
+@media (max-width: 480px) { .loc-breakdown th, .loc-breakdown td { padding: 0.3rem 0.25rem; font-size: 0.85rem; } }

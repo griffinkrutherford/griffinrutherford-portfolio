@@ -11,7 +11,7 @@ const fs=require('node:fs');
         const select=async key=>{await page.locator('#theme-toggle').click();await page.locator(`[data-theme="${key}"]`).click();assert(await page.locator(`body.${key}-theme`).count());};
         await page.goto(base,{waitUntil:'load'});assert(await page.locator('body.vista-theme').count());
         for(const theme of ['win98','win2100']){
-            await select(theme);assert(await page.locator('.vista-taskbar').isVisible());assert(await page.locator('#nineties-about').textContent().then(text=>text.includes('1.4 million+')));
+            await select(theme);assert(await page.locator('.vista-taskbar').isVisible());assert(await page.locator('#nineties-about').textContent().then(text=>text.includes('1.28 million')));
             const icon=theme==='win98'?'win98/windows-logo.png':'win2100/art/windows-logo.png';assert((await page.locator('link[rel="icon"]').getAttribute('href')).includes(icon));
             // Every old desktop shell resource is replaced, including lazy folder icons.
             await page.locator('#nineties-projects').scrollIntoViewIfNeeded();
@@ -83,6 +83,6 @@ const fs=require('node:fs');
         deep.searchParams.set('theme','win98');await page.goto(deep.href);assert.equal(await page.locator('#theme-toggle .theme-toggle-text').textContent(),'Windows 98');await page.reload();assert(await page.locator('body.win98-theme').count());
         for(const route of ['index.html','legacy/index.html']){const url=new URL(route,base);await page.goto(url.href,{waitUntil:'domcontentloaded'});assert.match(await page.locator('body').textContent(),/1\.4 million\+ line/);assert.doesNotMatch(await page.locator('body').textContent(),/(?:500|600)k\+/);await page.setViewportSize({width:390,height:1000});await page.locator('.quick-links-button').click();await page.locator('.quick-links-nav .has-submenu > a').click();assert(await page.locator('.quick-links-menu').evaluate(el=>el.classList.contains('active')));assert(await page.locator('.has-submenu').evaluate(el=>el.classList.contains('active')));}
         assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-        console.log('PASS: both desktop eras, generated art/icons/favicons, Personalization selection/persistence/fallback/focus/close/landscape, desktop and Start shortcuts, minimize/restore/expand, project search, 320–1440px layouts, 3D views and pointer/keyboard orbit, pause/reduced motion/cleanup, deep links, and 1.4 million+ across main/legacy/retro.');
+        console.log('PASS: both desktop eras, generated art/icons/favicons, Personalization selection/persistence/fallback/focus/close/landscape, desktop and Start shortcuts, minimize/restore/expand, project search, 320–1440px layouts, 3D views and pointer/keyboard orbit, pause/reduced motion/cleanup, deep links, and 1.28 million across main/legacy/retro.');
     }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

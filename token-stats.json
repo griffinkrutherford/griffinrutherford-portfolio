@@ -1,6 +1,6 @@
 {
   "total": 143003765738,
-  "asOf": "2026-11-09T11:17:09Z",
+  "asOf": "2026-11-09T12:17:14Z",
   "ratePerSec": 39752.7,
   "firstSession": "2026-07-25",
   "counting": "Historical dashboard baselines; Claude dashboard totals; measured Codex input+output deltas, including cached input and reasoning output once",

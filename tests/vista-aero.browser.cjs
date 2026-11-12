@@ -21,7 +21,7 @@ const fs = require('node:fs');
         assert.equal(await page.locator('.kirby-showcase:visible').count(), 0);
         assert.equal(await page.locator('.kirby-sfx-settings:visible').count(), 0);
         assert.equal(await page.locator('#matrix-canvas:visible').count(), 0);
-        assert.match(await page.locator('.ascii-border').innerText(), /CTO of Coherascent Labs/);
+        assert.match(await page.locator('.ascii-border').innerText(), /Founder & CEO of Lune Synth and Coherascent Labs/);
         assert.match(await page.locator('#vista-clock').textContent(), /\d+:\d\d\s[AP]M/);
         assert.match(await page.locator('.vista-globe').evaluate(el => getComputedStyle(el).animationName), /none/);
         assert.match(await page.locator('.vista-hero').evaluate(el => getComputedStyle(el).fontFamily), /Segoe UI/);

@@ -2440,6 +2440,11 @@ body.liquid-glass-mode .social-links a {
     text-align: center;
 }
 
+/* Sits under the Retro Mode button at the bottom of the page. */
+.nineties-button-container + .ai-token-counter {
+    margin: 1.6rem auto 0.5rem;
+}
+
 .ai-token-counter[hidden] {
     display: none;
 }

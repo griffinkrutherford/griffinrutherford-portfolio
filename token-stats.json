@@ -1,6 +1,6 @@
 {
-  "total": 166733109828,
-  "asOf": "2026-11-20T01:52:14Z",
+  "total": 166738605063,
+  "asOf": "2026-11-20T02:52:17Z",
   "ratePerSec": 6371.2,
   "firstSession": "2026-07-25",
   "counting": "Historical dashboard baselines; Claude dashboard totals; measured Codex input+output deltas, including cached input and reasoning output once",
@@ -8,7 +8,7 @@
   "sources": [
     {
       "name": "Claude Code (this Mac)",
-      "total": 132438471135,
+      "total": 132443966370,
       "live": true
     },
     {
